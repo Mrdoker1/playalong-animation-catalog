@@ -54,7 +54,7 @@ export const Strikes: AnimationModule = {
     'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',
   defaults: { duration: 550, easingId: 'back-out' },
   frames: [
-    { label: 'Start',     sublabel: '0% · scale 0 · rotate −30°',   render: (s) => frameStrike(s, 0,    -30, 0) },
+    { label: 'Start',     sublabel: 'idle · faint X · opacity .2',  render: (s) => frameStrike(s, 0.9, 0, 0.2) },
     { label: 'Overshoot', sublabel: '60% · scale 1.3 · rotate +8°', render: (s) => frameStrike(s, 1.3,  8,   1) },
     { label: 'Settled',   sublabel: '100% · scale 1 · rotate 0',    render: (s) => frameStrike(s, 1,    0,   1) },
   ],

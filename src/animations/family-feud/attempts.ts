@@ -65,7 +65,7 @@ export const Attempts: AnimationModule = {
     {
       label: 'Start',
       sublabel: '0% · translateY −18 · opacity 0',
-      render: (s) => frameAttempt(s, -18, 0, '#c33', true, 'pizza'),
+      render: (s) => { s.innerHTML = '<div class="frame-ghost">hidden</div>'; },
     },
     {
       label: 'Mid',

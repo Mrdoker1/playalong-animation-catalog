@@ -65,7 +65,7 @@ function frameBanner(slot: HTMLElement, translateY: number, scale: number, opaci
       transform:translateY(${translateY}px) scale(${scale});
       opacity:${opacity};
     ">
-      <span style="background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);padding:4px 24px;">Round Complete!</span>
+      <span style="display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 24px;background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);">Round Complete!</span>
       ${sweepPos !== null ? `<div style="position:absolute;top:0;bottom:0;width:45%;left:${sweepPos}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>` : ''}
     </div>
   `;
@@ -77,9 +77,9 @@ export const Feedback: AnimationModule = {
   game: 'Family Feud',
   description:
     'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',
-  defaults: { duration: 620, easingId: 'back-out' },
+  defaults: { duration: 620, easingId: 'ease-out' },
   frames: [
-    { label: 'Start',   sublabel: 'drop · translateY −40 · scale .94', render: (s) => frameBanner(s, -40, 0.94, 0,   null) },
+    { label: 'Start',   sublabel: 'drop · translateY −40 · scale .94', render: (s) => { s.innerHTML = '<div class="frame-ghost">hidden</div>'; } },
     { label: 'Settled', sublabel: 'drop done · translateY 0 · scale 1', render: (s) => frameBanner(s, 0,   1,    1,   null) },
     { label: 'Sweep',   sublabel: 'light band mid-traversal',           render: (s) => frameBanner(s, 0,   1,    1,   30) },
     { label: 'Idle',    sublabel: 'brightness pulse loop',              render: (s) => frameBanner(s, 0,   1,    1,   null) },

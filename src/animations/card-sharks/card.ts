@@ -64,7 +64,7 @@ export const Card: AnimationModule = {
     'When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.',
   defaults: { duration: 620, easingId: 'back-out' },
   frames: [
-    { label: 'Start',     sublabel: '0% · translate −60,−30 · rot −26° · scale .42',  render: (s) => frameCard(s, -60, -30, -26, 0.42, 0) },
+    { label: 'Start',     sublabel: '0% · translate −60,−30 · rot −26° · scale .42',  render: (s) => { s.innerHTML = '<div class="frame-ghost">hidden · off-screen</div>'; } },
     { label: 'Mid',       sublabel: '55% · in motion · opacity reaches 1',             render: (s) => frameCard(s, -25, -10, -12, 0.7,  1) },
     { label: 'Overshoot', sublabel: '78% · translate 0,+8 · rot +3° · scale 1.04',     render: (s) => frameCard(s, 0,   8,   3,   1.04, 1) },
     { label: 'Settled',   sublabel: '100% · translate 0,0 · rot 0 · scale 1',          render: (s) => frameCard(s, 0,   0,   0,   1,    1) },

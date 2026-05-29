@@ -80,12 +80,17 @@ export const AnswerBoard: AnimationModule = {
   defaults: { duration: 700, easingId: 'back-out' },
   frames: [
     {
-      label: 'Start',
-      sublabel: '0% · rotateX 90° · scale .85',
+      label: 'Hidden',
+      sublabel: 'idle · blue · slot number only',
       render: (slot) => {
         injectStyle('css-ff-frame-row', FRAME_ROW_CSS);
-        renderFrameRow(slot, { state: 'hidden', rotateX: 90, scale: 0.85, textOpacity: 0 });
+        renderFrameRow(slot, { state: 'hidden', rotateX: 0, scale: 1, textOpacity: 0 });
       },
+    },
+    {
+      label: 'Start',
+      sublabel: '0% · rotateX 90° · scale .85',
+      render: (slot) => { slot.innerHTML = '<div class="frame-ghost">edge · row on its side</div>'; },
     },
     {
       label: 'Overshoot',
@@ -146,6 +151,20 @@ export const AnswerBoard: AnimationModule = {
     const fadeRule = `ff-text-fade-up ${TEXT_FADE_DURATION}ms ease-out ${scaledDelay}ms both`;
     nameEl.style.animation = fadeRule;
     pointsEl.style.animation = fadeRule;
+
+    // After the row settles (+ a short hold so the viewer can read the
+    // answer) return to the blue / hidden idle state so the demo loops
+    // visually and stays ready for the next Replay.
+    const HOLD_AFTER_SETTLE = 1200;
+    setTimeout(() => {
+      if (!row || !nameEl || !pointsEl) return;
+      row.style.animation = 'none';
+      nameEl.style.animation = 'none';
+      pointsEl.style.animation = 'none';
+      nameEl.style.opacity = '0';
+      pointsEl.style.opacity = '0';
+      row.classList.remove('is-revealed');
+    }, duration + HOLD_AFTER_SETTLE);
   },
 
   snippets({ duration, easing }): PlatformSnippets {

@@ -69,7 +69,7 @@ export const InfoNote: AnimationModule = {
     'Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.',
   defaults: { duration: 420, easingId: 'back-out' },
   frames: [
-    { label: 'Start',   sublabel: '0% · translate −30,−16 · scale .96', render: (s) => frameNote(s, -30, -16, 0.96, 0) },
+    { label: 'Start',   sublabel: '0% · translate −30,−16 · scale .96', render: (s) => { s.innerHTML = '<div class="frame-ghost">hidden · off-position</div>'; } },
     { label: 'Mid',     sublabel: '50% · translate −15,−8 · scale .98', render: (s) => frameNote(s, -15, -8,  0.98, 0.5) },
     { label: 'Settled', sublabel: '100% · translate 0,0 · scale 1',     render: (s) => frameNote(s, 0,   0,   1,    1) },
   ],
