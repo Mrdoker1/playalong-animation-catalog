@@ -1,4 +1,4 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&r(s)}).observe(document,{childList:!0,subtree:!0});function a(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(i){if(i.ep)return;i.ep=!0;const o=a(i);fetch(i.href,o)}})();const _=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const P=450,H=350,he=`
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&r(s)}).observe(document,{childList:!0,subtree:!0});function a(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(i){if(i.ep)return;i.ep=!0;const o=a(i);fetch(i.href,o)}})();const $=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const G=450,V=350,he=`
 .preview-ff-board { display: flex; flex-direction: column; gap: 12px; width: 540px; perspective: 1000px; }
 .preview-ff-row {
   display: flex; align-items: center; gap: 20px;
@@ -27,7 +27,7 @@
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-`;let h=null,S=null,$=null;function A(e,t){e.innerHTML=`
+`;let f=null,g=null,v=null;function E(e,t){e.innerHTML=`
     <div class="frame-ff-row" style="
       transform: rotateX(${t.rotateX}deg) scale(${t.scale});
       ${t.state==="hidden"?"background:linear-gradient(180deg,#1d4ed8 0%,#0a1f5a 100%); border:1.5px solid rgba(56,138,255,0.5);":"background:linear-gradient(180deg,#008e11 0%,#053800 100%); border:1.5px solid rgba(0,255,85,0.55);"}
@@ -37,7 +37,7 @@
       <span style="flex:1;font-size:13px;font-weight:600;letter-spacing:0.3px;opacity:${t.textOpacity};">FAST FOOD</span>
       <span style="font-size:18px;font-weight:600;opacity:${t.textOpacity};">28</span>
     </div>
-  `}const I=`
+  `}const H=`
 .frame-ff-row {
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
@@ -45,7 +45,7 @@
   font-family:Arial,Helvetica,sans-serif;
   transform-origin:center center;
 }
-`,ge={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · slot number only",render:e=>{c("css-ff-frame-row",I),A(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{c("css-ff-frame-row",I),A(e,{state:"hidden",rotateX:90,scale:.85,textOpacity:0})}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",he),e.innerHTML=`
+`,ge={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{c("css-ff-frame-row",H),E(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",he),e.innerHTML=`
       <div class="preview-ff-board">
         <div class="preview-ff-row">
           <span class="preview-ff-row__num">1</span>
@@ -54,7 +54,7 @@
           <span class="preview-ff-row__pts">28</span>
         </div>
       </div>
-    `,h=e.querySelector(".preview-ff-row"),S=e.querySelector(".preview-ff-row__name"),$=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",h=null,S=null,$=null}},play({duration:e,easing:t}){if(!h||!S||!$)return;h.classList.remove("is-revealed"),h.style.animation="none",S.style.animation="none",$.style.animation="none",S.style.opacity="0",$.style.opacity="0",h.offsetWidth,h.classList.add("is-revealed"),h.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(H/700*e),r=`ff-text-fade-up ${P}ms ease-out ${a}ms both`;S.style.animation=r,$.style.animation=r},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
+    `,f=e.querySelector(".preview-ff-row"),g=e.querySelector(".preview-ff-row__name"),v=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",f=null,g=null,v=null}},play({duration:e,easing:t}){if(!f||!g||!v)return;f.classList.remove("is-revealed"),f.style.animation="none",g.style.animation="none",v.style.animation="none",g.style.opacity="0",v.style.opacity="0",f.offsetWidth,f.classList.add("is-revealed"),f.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(V/700*e),r=`ff-text-fade-up ${G}ms ease-out ${a}ms both`;g.style.animation=r,v.style.animation=r,setTimeout(()=>{!f||!g||!v||(f.style.animation="none",g.style.animation="none",v.style.animation="none",g.style.opacity="0",v.style.opacity="0",f.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
 @keyframes ff-row-flip {
   0%   { transform: rotateX(90deg) scale(0.85); }
   60%  { transform: rotateX(-15deg) scale(1.04); }
@@ -76,7 +76,7 @@
 
 .ff-board__row--revealed .ff-board__name,
 .ff-board__row--revealed .ff-board__points {
-  animation: ff-text-fade-up ${P}ms ease-out ${H}ms both;
+  animation: ff-text-fade-up ${G}ms ease-out ${V}ms both;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
@@ -116,10 +116,10 @@ fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
     ) { /* slot number / name / points */ }
 }
 
-// Text fade-up — separate animation, delayed ${H} ms.
+// Text fade-up — separate animation, delayed ${V} ms.
 val textAlpha by animateFloatAsState(
     targetValue = if (revealed) 1f else 0f,
-    animationSpec = tween(${P}, delayMillis = ${H})
+    animationSpec = tween(${G}, delayMillis = ${V})
 )`,ios:`// SwiftUI — tvOS
 import SwiftUI
 
@@ -228,7 +228,7 @@ Acceptance criteria:
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
 }
-`;let M=null,C=0;const oe=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function W(e,t,a,r,i,o){e.innerHTML=`
+`;let M=null,C=0;const ie=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function ne(e,t,a,r,i,o){e.innerHTML=`
     <div style="
       font-family:Arial,Helvetica,sans-serif;
       font-size:18px;font-weight:600;
@@ -237,14 +237,14 @@ Acceptance criteria:
       transform:translateY(${t}px);
       text-decoration:line-through;
     ">${o}</div>
-  `}const ye={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>W(e,-18,0,"#c33",!0,"pizza")},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>W(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>W(e,0,1,"#c33",!0,"pizza")}],render(e){return c("css-ff-attempts",ve),e.innerHTML=`
+  `}const ye={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>ne(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>ne(e,0,1,"#c33",!0,"pizza")}],render(e){return c("css-ff-attempts",ve),e.innerHTML=`
       <div class="preview-ff-attempts">
         <div class="preview-ff-attempts__title">Attempts</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
       </div>
-    `,M=e.querySelector(".preview-ff-attempts"),C=0,()=>{e.innerHTML="",M=null}},play({duration:e,easing:t}){if(!M)return;const a=oe[C%oe.length],r=M.querySelectorAll(".preview-ff-attempts__row"),i=r[C%r.length];C++,i.textContent=a.text,i.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),i.classList.add(`preview-ff-attempts__row--${a.kind}`),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-attempt-slide-in ${e}ms ${d(t.bezier)}`,C%r.length===0&&setTimeout(()=>{r.forEach((o,s)=>{s!==(C-1)%r.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,M=e.querySelector(".preview-ff-attempts"),C=0,()=>{e.innerHTML="",M=null}},play({duration:e,easing:t}){if(!M)return;const a=ie[C%ie.length],r=M.querySelectorAll(".preview-ff-attempts__row"),i=r[C%r.length];C++,i.textContent=a.text,i.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),i.classList.add(`preview-ff-attempts__row--${a.kind}`),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-attempt-slide-in ${e}ms ${d(t.bezier)}`,C%r.length===0&&setTimeout(()=>{r.forEach((o,s)=>{s!==(C-1)%r.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-attempt-slide-in {
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
@@ -357,7 +357,7 @@ Acceptance criteria:
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
   100% { transform: scale(1) rotate(0);       opacity: 1; }
 }
-`;let w=[],L=0;function Y(e,t,a,r){e.innerHTML=`
+`;let k=[],A=0;function X(e,t,a,r){e.innerHTML=`
     <div style="
       width:44px;height:44px;
       display:flex;align-items:center;justify-content:center;
@@ -367,13 +367,13 @@ Acceptance criteria:
       transform:scale(${t}) rotate(${a}deg);
       opacity:${r};
     ">✕</div>
-  `}const xe={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 0 · rotate −30°",render:e=>Y(e,0,-30,0)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>Y(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>Y(e,1,0,1)}],render(e){return c("css-ff-strikes",we),e.innerHTML=`
+  `}const xe={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>X(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>X(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>X(e,1,0,1)}],render(e){return c("css-ff-strikes",we),e.innerHTML=`
       <div class="preview-ff-strikes">
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
       </div>
-    `,w=Array.from(e.querySelectorAll(".preview-ff-strike")),L=0,()=>{e.innerHTML="",w=[]}},play({duration:e,easing:t}){if(w.length===0)return;L>=w.length&&(w.forEach(r=>r.classList.remove("is-used")),L=0,w[0].offsetWidth);const a=w[L];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,L++},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,k=Array.from(e.querySelectorAll(".preview-ff-strike")),A=0,()=>{e.innerHTML="",k=[]}},play({duration:e,easing:t}){if(k.length===0)return;A>=k.length&&(k.forEach(r=>r.classList.remove("is-used")),A=0,k[0].offsetWidth);const a=k[A];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,A++},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-strike-pop {
   0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
@@ -528,7 +528,7 @@ Acceptance criteria:
   from { left: -45%; }
   to   { left: 100%; }
 }
-`;let x=null;function O(e,t,a,r,i){e.innerHTML=`
+`;let _=null;function P(e,t,a,r,i){e.innerHTML=`
     <div style="
       position:relative;
       width:100%;height:42px;border-radius:6px;
@@ -539,10 +539,10 @@ Acceptance criteria:
       transform:translateY(${t}px) scale(${a});
       opacity:${r};
     ">
-      <span style="background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);padding:4px 24px;">Round Complete!</span>
+      <span style="display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 24px;background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);">Round Complete!</span>
       ${i!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${i}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
     </div>
-  `}const _e={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>O(e,-40,.94,0,null)},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>O(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>O(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>O(e,0,1,1,null)}],render(e){return c("css-ff-feedback",ke),e.innerHTML=`
+  `}const _e={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>P(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>P(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>P(e,0,1,1,null)}],render(e){return c("css-ff-feedback",ke),e.innerHTML=`
       <div class="preview-ff-feedback-wrap">
         <div class="preview-ff-banner">
           <div class="preview-ff-banner__corner preview-ff-banner__corner--left">
@@ -557,7 +557,7 @@ Acceptance criteria:
           <div class="preview-ff-banner__sweep"></div>
         </div>
       </div>
-    `,x=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",x=null}},play({duration:e,easing:t}){if(!x)return;x.style.animation="none",x.offsetWidth,x.style.animation=`ff-banner-in ${e}ms ${d(t.bezier)} backwards`;const a=x.querySelector(".preview-ff-banner__sweep");if(a){const r=a.cloneNode(!0);a.replaceWith(r)}},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,_=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",_=null}},play({duration:e,easing:t}){if(!_)return;_.style.animation="none",_.offsetWidth,_.style.animation=`ff-banner-in ${e}ms ${d(t.bezier)} backwards`;const a=_.querySelector(".preview-ff-banner__sweep");if(a){const r=a.cloneNode(!0);a.replaceWith(r)}},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-banner-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -728,18 +728,18 @@ Acceptance criteria:
   35%  { transform: scale(1.45); color: #6dd97a; }
   100% { transform: scale(1);    color: #caa512; }
 }
-`;let g=null,B=86;function j(e,t,a,r){e.innerHTML=`
+`;let y=null,O=86;function W(e,t,a,r){e.innerHTML=`
     <div style="
       font-family:Arial,Helvetica,sans-serif;
       font-size:32px;font-weight:800;color:${a};
       transform:scale(${t});transform-origin:center;
     ">${r}</div>
-  `}const $e={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>j(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>j(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>j(e,1,"#caa512","102")}],render(e){return c("css-common-score",Se),B=86,e.innerHTML=`
+  `}const $e={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>W(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>W(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>W(e,1,"#caa512","102")}],render(e){return c("css-common-score",Se),O=86,e.innerHTML=`
       <div class="preview-score">
         <div class="preview-score__label">Score</div>
-        <div class="preview-score__value">${B}</div>
+        <div class="preview-score__value">${O}</div>
       </div>
-    `,g=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",g=null}},play({duration:e,easing:t}){g&&(B+=Math.floor(Math.random()*25)+5,g.textContent=String(B),g.classList.remove("is-bumping"),g.style.animation="none",g.offsetWidth,g.style.animation=`game-timer-box-score-bump ${e}ms ${d(t.bezier)}`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
+    `,y=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",y=null}},play({duration:e,easing:t}){y&&(O+=Math.floor(Math.random()*25)+5,y.textContent=String(O),y.classList.remove("is-bumping"),y.style.animation="none",y.offsetWidth,y.style.animation=`game-timer-box-score-bump ${e}ms ${d(t.bezier)}`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
 @keyframes game-timer-box-score-bump {
   0%   { transform: scale(1);    color: #caa512; }
   35%  { transform: scale(1.45); color: #6dd97a; }
@@ -895,7 +895,7 @@ Acceptance criteria:
   from { width: 100%; }
   to   { width: 0%; }
 }
-`;let f=null,F=null,m=null,v;function R(e,t){if(t.timeUp){e.innerHTML=`
+`;let m=null,F=null,u=null,w;function R(e,t){if(t.timeUp){e.innerHTML=`
       <div style="
         width:100%;height:40px;
         background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
@@ -925,7 +925,7 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,f=e.querySelector(".preview-cs-timer__bar-fill"),F=e.querySelector(".preview-cs-timer__bar"),m=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",f=null,F=null,m=null,v!==void 0&&clearInterval(v)}},play({duration:e}){if(!f||!m||!F)return;v!==void 0&&clearInterval(v),f.classList.remove("is-critical"),F.classList.remove("is-hidden"),m.classList.remove("is-time-up"),f.style.animation="none",f.offsetWidth,f.style.animationDuration=`${e}ms`,f.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);m.textContent=`${t}s`;const a=performance.now();v=window.setInterval(()=>{const r=Math.max(0,e-(performance.now()-a));if(r<=0){m&&(m.textContent="Time's Up!",m.classList.add("is-time-up")),F&&F.classList.add("is-hidden"),v!==void 0&&(clearInterval(v),v=void 0);return}m&&(m.textContent=`${Math.ceil(r/1e3)}s`),f&&r<e*.25&&f.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
+    `,m=e.querySelector(".preview-cs-timer__bar-fill"),F=e.querySelector(".preview-cs-timer__bar"),u=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",m=null,F=null,u=null,w!==void 0&&clearInterval(w)}},play({duration:e}){if(!m||!u||!F)return;w!==void 0&&clearInterval(w),m.classList.remove("is-critical"),F.classList.remove("is-hidden"),u.classList.remove("is-time-up"),m.style.animation="none",m.offsetWidth,m.style.animationDuration=`${e}ms`,m.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);u.textContent=`${t}s`;const a=performance.now();w=window.setInterval(()=>{const r=Math.max(0,e-(performance.now()-a));if(r<=0){u&&(u.textContent="Time's Up!",u.classList.add("is-time-up")),F&&F.classList.add("is-hidden"),w!==void 0&&(clearInterval(w),w=void 0);return}u&&(u.textContent=`${Math.ceil(r/1e3)}s`),m&&r<e*.25&&m.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
 @keyframes game-timer-box-deplete {
   from { width: 100%; }
   to   { width: 0%; }
@@ -1094,7 +1094,7 @@ Acceptance criteria:
   font-size: 32px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 1px; white-space: nowrap;
 }
-`;let z=null,V=null,E=null,Q=0;const se=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function le(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const r=e.querySelector(".preview-hl-btn__label");r&&(a==="correct"?r.textContent="Correct!":a==="wrong"?r.textContent="Incorrect!":r.textContent=t==="up"?"Higher":"Lower")}function ce(e,t,a){return`
+`;let I=null,L=null,z=null,Y=0;const oe=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function se(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const r=e.querySelector(".preview-hl-btn__label");r&&(a==="correct"?r.textContent="Correct!":a==="wrong"?r.textContent="Incorrect!":r.textContent=t==="up"?"Higher":"Lower")}function le(e,t,a){return`
     <div style="
       width:100%;height:30px;
       background:${{idle:"#202228",locked:"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)",correct:"linear-gradient(180deg,#008e11 0%,#053800 100%)",wrong:"linear-gradient(180deg,#8e0000 0%,#380000 100%)"}[t]};
@@ -1105,14 +1105,14 @@ Acceptance criteria:
       text-transform:uppercase;letter-spacing:0.5px;
       opacity:${a?.35:1};
     ">${e}</div>
-  `}function N(e,t,a){e.innerHTML=`
+  `}function B(e,t,a){e.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:6px;width:100%;
                 background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);
                 border-radius:6px;padding:8px;box-sizing:border-box;">
-      ${ce(t.label,t.state,t.dim)}
-      ${ce(a.label,a.state,a.dim)}
+      ${le(t.label,t.state,t.dim)}
+      ${le(a.label,a.state,a.dim)}
     </div>
-  `}const Ae={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>N(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>N(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>N(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>N(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return c("css-cs-controller",Te),Q=0,e.innerHTML=`
+  `}const Ae={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>B(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>B(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>B(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>B(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return c("css-cs-controller",Te),Y=0,e.innerHTML=`
       <div class="preview-hl">
         <button class="preview-hl-btn preview-hl-btn--higher preview-hl-btn--idle">
           <span class="preview-hl-key"><span class="preview-hl-key__arrow"></span></span>
@@ -1123,7 +1123,7 @@ Acceptance criteria:
           <span class="preview-hl-btn__label">Lower</span>
         </button>
       </div>
-    `,z=e.querySelector(".preview-hl"),[V,E]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",z=V=E=null}},play({duration:e}){if(!z)return;const t=se[Q%se.length];Q++,z.style.setProperty("--hl-duration",`${e}ms`),z.classList.toggle("is-resolved",t.resolved),V&&(V.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),E&&(E.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),le(V,"up",t.higher),le(E,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
+    `,I=e.querySelector(".preview-hl"),[L,z]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",I=L=z=null}},play({duration:e}){if(!I)return;const t=oe[Y%oe.length];Y++,I.style.setProperty("--hl-duration",`${e}ms`),I.classList.toggle("is-resolved",t.resolved),L&&(L.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),z&&(z.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),se(L,"up",t.higher),se(z,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
 .hl-btn {
   background: #202228;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1351,7 +1351,7 @@ Acceptance criteria:
   0%   { opacity: 0; transform: translate(-30px, -16px) scale(0.96); }
   100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
-`;let y=null;function J(e,t,a,r,i){e.innerHTML=`
+`;let x=null;function ce(e,t,a,r,i){e.innerHTML=`
     <div style="
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       border-radius:6px;padding:8px 10px;
@@ -1360,7 +1360,7 @@ Acceptance criteria:
       opacity:${i};
       max-width:140px;
     ">Use ▲ / ▼ to make your selections.</div>
-  `}const Le={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>J(e,-30,-16,.96,0)},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>J(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>J(e,0,0,1,1)}],render(e){return c("css-cs-info-note",Ie),e.innerHTML=`
+  `}const Le={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>ce(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>ce(e,0,0,1,1)}],render(e){return c("css-cs-info-note",Ie),e.innerHTML=`
       <div class="preview-hl-note">
         <div class="preview-hl-note__line">
           <span>Use the</span>
@@ -1373,7 +1373,7 @@ Acceptance criteria:
           <span>your TV remote to make your selections.</span>
         </div>
       </div>
-    `,y=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",y=null}},play({duration:e,easing:t}){y&&(y.classList.remove("is-shown"),y.style.animation="none",y.style.opacity="0",y.offsetWidth,y.style.animation=`cs-stage-in ${e}ms ${d(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
+    `,x=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",x=null}},play({duration:e,easing:t}){x&&(x.classList.remove("is-shown"),x.style.animation="none",x.style.opacity="0",x.offsetWidth,x.style.animation=`cs-stage-in ${e}ms ${d(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
 .hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 40px;
@@ -1554,7 +1554,7 @@ Acceptance criteria:
   78%  { transform: translate(0, 8px)         rotate(3deg)   scale(1.04); }
   100% { transform: translate(0, 0)           rotate(0deg)   scale(1);    opacity: 1; }
 }
-`,D=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let u=null,q=0;function U(e,t,a,r,i,o){e.innerHTML=`
+`,N=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let b=null,D=0;function j(e,t,a,r,i,o){e.innerHTML=`
     <div style="
       width:50px;height:72px;border-radius:6px;border:2px solid #fff;
       background:linear-gradient(135deg,#f5f5f5 0%,#e0e0e0 100%);
@@ -1567,14 +1567,14 @@ Acceptance criteria:
       <div style="font-size:24px;line-height:1;">Q</div>
       <div style="font-size:18px;line-height:1;margin-top:2px;">♦</div>
     </div>
-  `}const Ve={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>U(e,-60,-30,-26,.42,0)},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>U(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>U(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>U(e,0,0,0,1,1)}],render(e){return c("css-cs-card",ze),q=0,e.innerHTML=`
+  `}const Ve={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>j(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>j(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>j(e,0,0,0,1,1)}],render(e){return c("css-cs-card",ze),D=0,e.innerHTML=`
       <div class="preview-cs-card-stage">
         <div class="preview-cs-card">
-          <div class="preview-cs-card__rank">${D[0][2]}</div>
-          <div class="preview-cs-card__suit">${D[0][0]}</div>
+          <div class="preview-cs-card__rank">${N[0][2]}</div>
+          <div class="preview-cs-card__suit">${N[0][0]}</div>
         </div>
       </div>
-    `,u=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",u=null}},play({duration:e}){if(!u)return;q=(q+1)%D.length;const t=D[q],a=u.querySelector(".preview-cs-card__rank"),r=u.querySelector(".preview-cs-card__suit");a&&(a.textContent=t[2]),r&&(r.textContent=t[0]),u.classList.remove("is-flying"),u.style.animation="none",u.offsetWidth,u.classList.add("is-flying"),u.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+    `,b=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",b=null}},play({duration:e}){if(!b)return;D=(D+1)%N.length;const t=N[D],a=b.querySelector(".preview-cs-card__rank"),r=b.querySelector(".preview-cs-card__suit");a&&(a.textContent=t[2]),r&&(r.textContent=t[0]),b.classList.remove("is-flying"),b.style.animation="none",b.offsetWidth,b.classList.add("is-flying"),b.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-card-fly-in {
   0%   { transform: translate(-380px, -160px) rotate(-26deg) scale(0.42); opacity: 0; }
   55%  {                                                                   opacity: 1; }
@@ -1710,15 +1710,15 @@ Timings:
 Acceptance criteria:
   · Re-fires cleanly when questionNumber changes — no stale frames from the previous card.
   · The card box itself never animates separately; this is purely the card-face element flying into it.
-  · No idle motion after the animation completes.`}},K=[ge,ye,xe,_e,$e,Fe,Ae,Le,Ve];function Ee(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
+  · No idle motion after the animation completes.`}},Q=[ge,ye,xe,_e,$e,Fe,Ae,Le,Ve];function Ee(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
     <div class="sidebar__brand">
       <p class="sidebar__title">PlayAlong TV</p>
       <p class="sidebar__subtitle">Animation Catalog</p>
     </div>
-  `;const a=["Family Feud","Card Sharks","Common"];for(const i of a){const o=K.filter(p=>p.game===i);if(o.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`<div class="sidebar__group-title">${i}</div>`;for(const p of o){const b=document.createElement("div");b.className="sidebar__item",b.dataset.id=p.id,b.innerHTML=`
+  `;const a=["Family Feud","Card Sharks","Common"];for(const i of a){const o=Q.filter(p=>p.game===i);if(o.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`<div class="sidebar__group-title">${i}</div>`;for(const p of o){const h=document.createElement("div");h.className="sidebar__item",h.dataset.id=p.id,h.innerHTML=`
         <span>${p.title}</span>
         ${p.tbd?'<span class="sidebar__badge is-tbd">TBD</span>':'<span class="sidebar__badge">Ready</span>'}
-      `,b.addEventListener("click",()=>e(p.id)),s.appendChild(b)}t.appendChild(s)}function r(i){t.querySelectorAll(".sidebar__item").forEach(o=>{o.classList.toggle("is-active",o.dataset.id===i)})}return{root:t,setActive:r}}async function de(e,t,a){try{await navigator.clipboard.writeText(e)}catch{const r=document.createElement("textarea");r.value=e,r.style.position="fixed",r.style.opacity="0",document.body.appendChild(r),r.select(),document.execCommand("copy"),document.body.removeChild(r)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=a},1400)}const He=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function Me(e){const t=_.find(n=>n.id===e.defaults.easingId)??_[0],a={duration:e.defaults.duration,easing:t};let r="web";const i=document.createElement("div");i.innerHTML=`
+      `,h.addEventListener("click",()=>e(p.id)),s.appendChild(h)}t.appendChild(s)}function r(i){t.querySelectorAll(".sidebar__item").forEach(o=>{o.classList.toggle("is-active",o.dataset.id===i)})}return{root:t,setActive:r}}async function de(e,t,a){try{await navigator.clipboard.writeText(e)}catch{const r=document.createElement("textarea");r.value=e,r.style.position="fixed",r.style.opacity="0",document.body.appendChild(r),r.select(),document.execCommand("copy"),document.body.removeChild(r)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=a},1400)}const He=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function Me(e){const t=$.find(n=>n.id===e.defaults.easingId)??$[0],a={duration:e.defaults.duration,easing:t};let r="web";const i=document.createElement("div");i.innerHTML=`
     <header class="page-header">
       <div class="page-header__eyebrow">${e.game}</div>
       <h1 class="page-header__title">${e.title}</h1>
@@ -1768,7 +1768,7 @@ Acceptance criteria:
             <div class="control">
               <div class="control__label">Easing preset</div>
               <select data-role="easing-preset" style="width:100%">
-                ${_.map(n=>`<option value="${n.id}" ${n.id===a.easing.id?"selected":""}>${n.label}</option>`).join("")}
+                ${$.map(n=>`<option value="${n.id}" ${n.id===a.easing.id?"selected":""}>${n.label}</option>`).join("")}
               </select>
             </div>
 
@@ -1791,4 +1791,4 @@ Acceptance criteria:
 
       <div class="code-block" data-role="snippet-output"></div>
     </div>
-  `;const o=i.querySelector("[data-role=stage]"),s=i.querySelector("[data-role=play]"),p=i.querySelector("[data-role=slow]"),b=i.querySelector("[data-role=reset]"),Z=i.querySelector("[data-role=copy-snippet]"),ee=i.querySelector("[data-role=copy-pm]"),G=i.querySelector("[data-role=duration]"),te=i.querySelector("[data-role=duration-value]"),k=i.querySelector("[data-role=easing-preset]"),ae=i.querySelector("[data-role=easing-desc]"),X=[0,1,2,3].map(n=>i.querySelector(`[data-role=bezier-${n}]`)),pe=i.querySelector("[data-role=snippet-output]"),fe=i.querySelector("[data-role=pm-output]"),re=Array.from(i.querySelectorAll(".tab")),me=e.render(o);function ue(){a.easing.bezier.forEach((n,l)=>{X[l].value=String(n)})}function T(){const n=e.snippets(a);pe.textContent=n[r],fe.textContent=e.pmTicket(),re.forEach(l=>{l.classList.toggle("is-active",l.dataset.platform===r)})}function ie(n){a.easing={...n},ae.textContent=n.description,ue(),T(),e.tbd||e.play(a)}function be(){const n=X.map(l=>Number(l.value));if(!n.some(l=>Number.isNaN(l))){if(a.easing={id:"custom",label:`Custom (${n.join(", ")})`,bezier:n,description:`cubic-bezier(${n.join(", ")})`},!k.querySelector('option[value="custom"]')){const l=document.createElement("option");l.value="custom",l.textContent="Custom…",k.appendChild(l)}k.value="custom",ae.textContent=`cubic-bezier(${n.join(", ")}) — ${d(n)}`,T(),e.tbd||e.play(a)}}return e.frames&&e.frames.length>0&&e.frames.forEach((n,l)=>{const ne=i.querySelector(`[data-frame-idx="${l}"]`);ne&&n.render(ne)}),s.addEventListener("click",()=>{e.tbd||e.play(a)}),p.addEventListener("click",()=>{if(e.tbd)return;const n=e.slowFactor??4,l={...a,duration:a.duration*n};e.play(l)}),b.addEventListener("click",()=>{const n=_.find(l=>l.id===e.defaults.easingId)??_[0];a.duration=e.defaults.duration,G.value=String(a.duration),te.textContent=`${a.duration} ms`,k.value=n.id,ie(n)}),G.addEventListener("input",()=>{a.duration=Number(G.value),te.textContent=`${a.duration} ms`,T(),e.tbd||e.play(a)}),k.addEventListener("change",()=>{const n=_.find(l=>l.id===k.value);n&&ie(n)}),X.forEach(n=>n.addEventListener("change",be)),re.forEach(n=>{n.addEventListener("click",()=>{r=n.dataset.platform,T()})}),Z.addEventListener("click",()=>{const n=e.snippets(a)[r];de(n,Z,"Copy current snippet")}),ee.addEventListener("click",()=>{de(e.pmTicket(),ee,"Copy description")}),T(),e.tbd||requestAnimationFrame(()=>e.play(a)),i.__destroy=()=>{me()},i}function Oe(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let a=null;function r(s){const p=K.find(b=>b.id===s);p&&(a!=null&&a.__destroy&&a.__destroy(),t.innerHTML="",a=Me(p),t.appendChild(a),i.setActive(s),location.hash=s)}const i=Ee(r);e.appendChild(i.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||K[0].id;r(o),window.addEventListener("hashchange",()=>{const s=location.hash.replace(/^#/,"");s&&r(s)})}Oe();
+  `;const o=i.querySelector("[data-role=stage]"),s=i.querySelector("[data-role=play]"),p=i.querySelector("[data-role=slow]"),h=i.querySelector("[data-role=reset]"),J=i.querySelector("[data-role=copy-snippet]"),K=i.querySelector("[data-role=copy-pm]"),q=i.querySelector("[data-role=duration]"),Z=i.querySelector("[data-role=duration-value]"),S=i.querySelector("[data-role=easing-preset]"),ee=i.querySelector("[data-role=easing-desc]"),U=[0,1,2,3].map(n=>i.querySelector(`[data-role=bezier-${n}]`)),pe=i.querySelector("[data-role=snippet-output]"),fe=i.querySelector("[data-role=pm-output]"),te=Array.from(i.querySelectorAll(".tab")),me=e.render(o);function ue(){a.easing.bezier.forEach((n,l)=>{U[l].value=String(n)})}function T(){const n=e.snippets(a);pe.textContent=n[r],fe.textContent=e.pmTicket(),te.forEach(l=>{l.classList.toggle("is-active",l.dataset.platform===r)})}function ae(n){a.easing={...n},ee.textContent=n.description,ue(),T(),e.tbd||e.play(a)}function be(){const n=U.map(l=>Number(l.value));if(!n.some(l=>Number.isNaN(l))){if(a.easing={id:"custom",label:`Custom (${n.join(", ")})`,bezier:n,description:`cubic-bezier(${n.join(", ")})`},!S.querySelector('option[value="custom"]')){const l=document.createElement("option");l.value="custom",l.textContent="Custom…",S.appendChild(l)}S.value="custom",ee.textContent=`cubic-bezier(${n.join(", ")}) — ${d(n)}`,T(),e.tbd||e.play(a)}}return e.frames&&e.frames.length>0&&e.frames.forEach((n,l)=>{const re=i.querySelector(`[data-frame-idx="${l}"]`);re&&n.render(re)}),s.addEventListener("click",()=>{e.tbd||e.play(a)}),p.addEventListener("click",()=>{if(e.tbd)return;const n=e.slowFactor??4,l={...a,duration:a.duration*n};e.play(l)}),h.addEventListener("click",()=>{const n=$.find(l=>l.id===e.defaults.easingId)??$[0];a.duration=e.defaults.duration,q.value=String(a.duration),Z.textContent=`${a.duration} ms`,S.value=n.id,ae(n)}),q.addEventListener("input",()=>{a.duration=Number(q.value),Z.textContent=`${a.duration} ms`,T(),e.tbd||e.play(a)}),S.addEventListener("change",()=>{const n=$.find(l=>l.id===S.value);n&&ae(n)}),U.forEach(n=>n.addEventListener("change",be)),te.forEach(n=>{n.addEventListener("click",()=>{r=n.dataset.platform,T()})}),J.addEventListener("click",()=>{const n=e.snippets(a)[r];de(n,J,"Copy current snippet")}),K.addEventListener("click",()=>{de(e.pmTicket(),K,"Copy description")}),T(),e.tbd||requestAnimationFrame(()=>e.play(a)),i.__destroy=()=>{me()},i}function Oe(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let a=null;function r(s){const p=Q.find(h=>h.id===s);p&&(a!=null&&a.__destroy&&a.__destroy(),t.innerHTML="",a=Me(p),t.appendChild(a),i.setActive(s),location.hash=s)}const i=Ee(r);e.appendChild(i.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||Q[0].id;r(o),window.addEventListener("hashchange",()=>{const s=location.hash.replace(/^#/,"");s&&r(s)})}Oe();
