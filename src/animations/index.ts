@@ -12,6 +12,9 @@ import { Controller }  from './card-sharks/controller';
 import { InfoNote }    from './card-sharks/info-note';
 import { Card }        from './card-sharks/card';
 
+import { WrongFlash }       from './win-lose/wrong-flash';
+import { ConfettiBurstAnim } from './win-lose/confetti-burst';
+
 export const ANIMATIONS: AnimationModule[] = [
   // Family Feud
   AnswerBoard,
@@ -27,4 +30,8 @@ export const ANIMATIONS: AnimationModule[] = [
   Controller,
   InfoNote,
   Card,
+
+  // Win / Lose feedback
+  WrongFlash,
+  ConfettiBurstAnim,
 ];

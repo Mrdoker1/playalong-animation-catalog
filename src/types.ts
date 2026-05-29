@@ -21,7 +21,7 @@ export type AnimationFrame = {
 export type AnimationModule = {
   id: string;
   title: string;
-  game: 'Family Feud' | 'Card Sharks' | 'Common';
+  game: 'Family Feud' | 'Card Sharks' | 'Common' | 'Win/Lose';
   description: string;
   /**
    * Defaults restored when the user hits "Reset" or first opens the animation.

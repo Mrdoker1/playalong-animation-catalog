@@ -12,7 +12,7 @@ export function createSidebar(onSelect: (id: string) => void) {
     </div>
   `;
 
-  const games: AnimationModule['game'][] = ['Family Feud', 'Card Sharks', 'Common'];
+  const games: AnimationModule['game'][] = ['Family Feud', 'Card Sharks', 'Common', 'Win/Lose'];
   for (const game of games) {
     const items = ANIMATIONS.filter((a) => a.game === game);
     if (items.length === 0) continue;

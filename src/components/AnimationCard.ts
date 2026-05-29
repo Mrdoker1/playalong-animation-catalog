@@ -44,15 +44,15 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
         <button class="btn btn--primary" data-role="play">▶ Replay</button>
         <button class="btn" data-role="slow">⏱ Slow</button>
         <button class="btn" data-role="reset">Reset to defaults</button>
-        <span style="flex:1"></span>
-        <button class="btn" data-role="copy-snippet">Copy current snippet</button>
-        <button class="btn" data-role="copy-pm">Copy description</button>
       </div>
 
       <div class="info-grid">
         <div class="info-grid__col">
           <h3 class="section__title">Description</h3>
-          <div class="pm-block" data-role="pm-output"></div>
+          <div class="pm-block-wrap">
+            <div class="pm-block" data-role="pm-output"></div>
+            <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
+          </div>
         </div>
         <div class="info-grid__col">
           <h3 class="section__title">Controls</h3>
@@ -83,10 +83,13 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
         </div>
       </div>
 
-      <div class="tabs" role="tablist">
-        ${PLATFORMS.map((p) => `
-          <button type="button" class="tab ${p.id === activePlatform ? 'is-active' : ''}" role="tab" data-platform="${p.id}">${p.label}</button>
-        `).join('')}
+      <div class="tabs-row">
+        <div class="tabs" role="tablist">
+          ${PLATFORMS.map((p) => `
+            <button type="button" class="tab ${p.id === activePlatform ? 'is-active' : ''}" role="tab" data-platform="${p.id}">${p.label}</button>
+          `).join('')}
+        </div>
+        <button class="btn btn--small" data-role="copy-snippet">Copy code</button>
       </div>
 
       <div class="code-block" data-role="snippet-output"></div>
