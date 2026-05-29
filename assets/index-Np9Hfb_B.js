@@ -1,4 +1,4 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&r(s)}).observe(document,{childList:!0,subtree:!0});function a(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(i){if(i.ep)return;i.ep=!0;const o=a(i);fetch(i.href,o)}})();const _=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const P=450,V=350,he=`
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&r(s)}).observe(document,{childList:!0,subtree:!0});function a(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(i){if(i.ep)return;i.ep=!0;const o=a(i);fetch(i.href,o)}})();const _=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const P=450,H=350,he=`
 .preview-ff-board { display: flex; flex-direction: column; gap: 12px; width: 540px; perspective: 1000px; }
 .preview-ff-row {
   display: flex; align-items: center; gap: 20px;
@@ -27,7 +27,7 @@
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-`;let h=null,S=null,$=null;function E(e,t){e.innerHTML=`
+`;let h=null,S=null,$=null;function A(e,t){e.innerHTML=`
     <div class="frame-ff-row" style="
       transform: rotateX(${t.rotateX}deg) scale(${t.scale});
       ${t.state==="hidden"?"background:linear-gradient(180deg,#1d4ed8 0%,#0a1f5a 100%); border:1.5px solid rgba(56,138,255,0.5);":"background:linear-gradient(180deg,#008e11 0%,#053800 100%); border:1.5px solid rgba(0,255,85,0.55);"}
@@ -37,7 +37,7 @@
       <span style="flex:1;font-size:13px;font-weight:600;letter-spacing:0.3px;opacity:${t.textOpacity};">FAST FOOD</span>
       <span style="font-size:18px;font-weight:600;opacity:${t.textOpacity};">28</span>
     </div>
-  `}const H=`
+  `}const I=`
 .frame-ff-row {
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
@@ -45,7 +45,7 @@
   font-family:Arial,Helvetica,sans-serif;
   transform-origin:center center;
 }
-`,ge={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{c("css-ff-frame-row",H),E(e,{state:"hidden",rotateX:90,scale:.85,textOpacity:0})}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",he),e.innerHTML=`
+`,ge={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · slot number only",render:e=>{c("css-ff-frame-row",I),A(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{c("css-ff-frame-row",I),A(e,{state:"hidden",rotateX:90,scale:.85,textOpacity:0})}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",I),A(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",he),e.innerHTML=`
       <div class="preview-ff-board">
         <div class="preview-ff-row">
           <span class="preview-ff-row__num">1</span>
@@ -54,7 +54,7 @@
           <span class="preview-ff-row__pts">28</span>
         </div>
       </div>
-    `,h=e.querySelector(".preview-ff-row"),S=e.querySelector(".preview-ff-row__name"),$=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",h=null,S=null,$=null}},play({duration:e,easing:t}){if(!h||!S||!$)return;h.classList.remove("is-revealed"),h.style.animation="none",S.style.animation="none",$.style.animation="none",S.style.opacity="0",$.style.opacity="0",h.offsetWidth,h.classList.add("is-revealed"),h.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(V/700*e),r=`ff-text-fade-up ${P}ms ease-out ${a}ms both`;S.style.animation=r,$.style.animation=r},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
+    `,h=e.querySelector(".preview-ff-row"),S=e.querySelector(".preview-ff-row__name"),$=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",h=null,S=null,$=null}},play({duration:e,easing:t}){if(!h||!S||!$)return;h.classList.remove("is-revealed"),h.style.animation="none",S.style.animation="none",$.style.animation="none",S.style.opacity="0",$.style.opacity="0",h.offsetWidth,h.classList.add("is-revealed"),h.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(H/700*e),r=`ff-text-fade-up ${P}ms ease-out ${a}ms both`;S.style.animation=r,$.style.animation=r},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
 @keyframes ff-row-flip {
   0%   { transform: rotateX(90deg) scale(0.85); }
   60%  { transform: rotateX(-15deg) scale(1.04); }
@@ -76,7 +76,7 @@
 
 .ff-board__row--revealed .ff-board__name,
 .ff-board__row--revealed .ff-board__points {
-  animation: ff-text-fade-up ${P}ms ease-out ${V}ms both;
+  animation: ff-text-fade-up ${P}ms ease-out ${H}ms both;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
@@ -116,10 +116,10 @@ fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
     ) { /* slot number / name / points */ }
 }
 
-// Text fade-up — separate animation, delayed ${V} ms.
+// Text fade-up — separate animation, delayed ${H} ms.
 val textAlpha by animateFloatAsState(
     targetValue = if (revealed) 1f else 0f,
-    animationSpec = tween(${P}, delayMillis = ${V})
+    animationSpec = tween(${P}, delayMillis = ${H})
 )`,ios:`// SwiftUI — tvOS
 import SwiftUI
 
@@ -357,7 +357,7 @@ Acceptance criteria:
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
   100% { transform: scale(1) rotate(0);       opacity: 1; }
 }
-`;let w=[],A=0;function Y(e,t,a,r){e.innerHTML=`
+`;let w=[],L=0;function Y(e,t,a,r){e.innerHTML=`
     <div style="
       width:44px;height:44px;
       display:flex;align-items:center;justify-content:center;
@@ -373,7 +373,7 @@ Acceptance criteria:
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
       </div>
-    `,w=Array.from(e.querySelectorAll(".preview-ff-strike")),A=0,()=>{e.innerHTML="",w=[]}},play({duration:e,easing:t}){if(w.length===0)return;A>=w.length&&(w.forEach(r=>r.classList.remove("is-used")),A=0,w[0].offsetWidth);const a=w[A];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,A++},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,w=Array.from(e.querySelectorAll(".preview-ff-strike")),L=0,()=>{e.innerHTML="",w=[]}},play({duration:e,easing:t}){if(w.length===0)return;L>=w.length&&(w.forEach(r=>r.classList.remove("is-used")),L=0,w[0].offsetWidth);const a=w[L];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,L++},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-strike-pop {
   0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
@@ -1094,7 +1094,7 @@ Acceptance criteria:
   font-size: 32px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 1px; white-space: nowrap;
 }
-`;let I=null,L=null,z=null,Q=0;const se=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function le(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const r=e.querySelector(".preview-hl-btn__label");r&&(a==="correct"?r.textContent="Correct!":a==="wrong"?r.textContent="Incorrect!":r.textContent=t==="up"?"Higher":"Lower")}function ce(e,t,a){return`
+`;let z=null,V=null,E=null,Q=0;const se=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function le(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const r=e.querySelector(".preview-hl-btn__label");r&&(a==="correct"?r.textContent="Correct!":a==="wrong"?r.textContent="Incorrect!":r.textContent=t==="up"?"Higher":"Lower")}function ce(e,t,a){return`
     <div style="
       width:100%;height:30px;
       background:${{idle:"#202228",locked:"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)",correct:"linear-gradient(180deg,#008e11 0%,#053800 100%)",wrong:"linear-gradient(180deg,#8e0000 0%,#380000 100%)"}[t]};
@@ -1123,7 +1123,7 @@ Acceptance criteria:
           <span class="preview-hl-btn__label">Lower</span>
         </button>
       </div>
-    `,I=e.querySelector(".preview-hl"),[L,z]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",I=L=z=null}},play({duration:e}){if(!I)return;const t=se[Q%se.length];Q++,I.style.setProperty("--hl-duration",`${e}ms`),I.classList.toggle("is-resolved",t.resolved),L&&(L.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),z&&(z.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),le(L,"up",t.higher),le(z,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
+    `,z=e.querySelector(".preview-hl"),[V,E]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",z=V=E=null}},play({duration:e}){if(!z)return;const t=se[Q%se.length];Q++,z.style.setProperty("--hl-duration",`${e}ms`),z.classList.toggle("is-resolved",t.resolved),V&&(V.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),E&&(E.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),le(V,"up",t.higher),le(E,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
 .hl-btn {
   background: #202228;
   border: 1px solid rgba(255, 255, 255, 0.2);
