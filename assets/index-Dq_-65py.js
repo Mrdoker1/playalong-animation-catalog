@@ -1,10 +1,10 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&r(s)}).observe(document,{childList:!0,subtree:!0});function a(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function r(i){if(i.ep)return;i.ep=!0;const o=a(i);fetch(i.href,o)}})();const $=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const G=450,V=350,he=`
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))i(r);new MutationObserver(r=>{for(const o of r)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&i(s)}).observe(document,{childList:!0,subtree:!0});function a(r){const o={};return r.integrity&&(o.integrity=r.integrity),r.referrerPolicy&&(o.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?o.credentials="include":r.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function i(r){if(r.ep)return;r.ep=!0;const o=a(r);fetch(r.href,o)}})();const S=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'}];function d(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function c(e,t){if(document.getElementById(e))return;const a=document.createElement("style");a.id=e,a.textContent=t,document.head.appendChild(a)}const P=450,V=350,we=`
 .preview-ff-board { display: flex; flex-direction: column; gap: 12px; width: 540px; perspective: 1000px; }
 .preview-ff-row {
   display: flex; align-items: center; gap: 20px;
   height: 72px; padding: 0 28px; border-radius: 10px;
   transform-origin: center center;
-  color: #fff; font-family: Arial, Helvetica, sans-serif; font-weight: 500; font-size: 26px;
+  color: #fff; font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 26px;
   background: linear-gradient(180deg, #1d4ed8 0%, #0a1f5a 100%);
   border: 2px solid rgba(56, 138, 255, 0.5);
 }
@@ -27,7 +27,7 @@
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-`;let f=null,g=null,v=null;function E(e,t){e.innerHTML=`
+`;let f=null,g=null,y=null;function E(e,t){e.innerHTML=`
     <div class="frame-ff-row" style="
       transform: rotateX(${t.rotateX}deg) scale(${t.scale});
       ${t.state==="hidden"?"background:linear-gradient(180deg,#1d4ed8 0%,#0a1f5a 100%); border:1.5px solid rgba(56,138,255,0.5);":"background:linear-gradient(180deg,#008e11 0%,#053800 100%); border:1.5px solid rgba(0,255,85,0.55);"}
@@ -37,15 +37,15 @@
       <span style="flex:1;font-size:13px;font-weight:600;letter-spacing:0.3px;opacity:${t.textOpacity};">FAST FOOD</span>
       <span style="font-size:18px;font-weight:600;opacity:${t.textOpacity};">28</span>
     </div>
-  `}const H=`
+  `}const R=`
 .frame-ff-row {
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
   border-radius:6px;color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
   transform-origin:center center;
 }
-`,ge={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{c("css-ff-frame-row",H),E(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",H),E(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",he),e.innerHTML=`
+`,xe={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{c("css-ff-frame-row",R),E(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{c("css-ff-frame-row",R),E(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{c("css-ff-frame-row",R),E(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{c("css-ff-frame-row",R),E(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return c("css-ff-answer-board",we),e.innerHTML=`
       <div class="preview-ff-board">
         <div class="preview-ff-row">
           <span class="preview-ff-row__num">1</span>
@@ -54,7 +54,7 @@
           <span class="preview-ff-row__pts">28</span>
         </div>
       </div>
-    `,f=e.querySelector(".preview-ff-row"),g=e.querySelector(".preview-ff-row__name"),v=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",f=null,g=null,v=null}},play({duration:e,easing:t}){if(!f||!g||!v)return;f.classList.remove("is-revealed"),f.style.animation="none",g.style.animation="none",v.style.animation="none",g.style.opacity="0",v.style.opacity="0",f.offsetWidth,f.classList.add("is-revealed"),f.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(V/700*e),r=`ff-text-fade-up ${G}ms ease-out ${a}ms both`;g.style.animation=r,v.style.animation=r,setTimeout(()=>{!f||!g||!v||(f.style.animation="none",g.style.animation="none",v.style.animation="none",g.style.opacity="0",v.style.opacity="0",f.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
+    `,f=e.querySelector(".preview-ff-row"),g=e.querySelector(".preview-ff-row__name"),y=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",f=null,g=null,y=null}},play({duration:e,easing:t}){if(!f||!g||!y)return;f.classList.remove("is-revealed"),f.style.animation="none",g.style.animation="none",y.style.animation="none",g.style.opacity="0",y.style.opacity="0",f.offsetWidth,f.classList.add("is-revealed"),f.style.animation=`ff-row-flip ${e}ms ${d(t.bezier)}`;const a=Math.round(V/700*e),i=`ff-text-fade-up ${P}ms ease-out ${a}ms both`;g.style.animation=i,y.style.animation=i,setTimeout(()=>{!f||!g||!y||(f.style.animation="none",g.style.animation="none",y.style.animation="none",g.style.opacity="0",y.style.opacity="0",f.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
 @keyframes ff-row-flip {
   0%   { transform: rotateX(90deg) scale(0.85); }
   60%  { transform: rotateX(-15deg) scale(1.04); }
@@ -76,13 +76,13 @@
 
 .ff-board__row--revealed .ff-board__name,
 .ff-board__row--revealed .ff-board__points {
-  animation: ff-text-fade-up ${G}ms ease-out ${V}ms both;
+  animation: ff-text-fade-up ${P}ms ease-out ${V}ms both;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.graphicsLayer
 
-val easing = CubicBezierEasing(${a.toFixed(2)}f, ${r.toFixed(2)}f, ${i.toFixed(2)}f, ${o.toFixed(2)}f)
+val easing = CubicBezierEasing(${a.toFixed(2)}f, ${i.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
 
 @Composable
 fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
@@ -119,7 +119,7 @@ fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
 // Text fade-up — separate animation, delayed ${V} ms.
 val textAlpha by animateFloatAsState(
     targetValue = if (revealed) 1f else 0f,
-    animationSpec = tween(${G}, delayMillis = ${V})
+    animationSpec = tween(${P}, delayMillis = ${V})
 )`,ios:`// SwiftUI — tvOS
 import SwiftUI
 
@@ -137,7 +137,7 @@ struct AnswerRow: View {
             // chain three .withAnimation blocks (0→60%, 60%→85%, 85%→100%)
             // or use the new iOS 17 Animation.timeline API.
             .animation(
-                .timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s}),
+                .timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s}),
                 value: revealed
             )
 
@@ -183,7 +183,7 @@ struct AnswerRow: View {
     end sub
   <\/script>
 </component>
-<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${a},${r},${i},${o}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
+<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${a},${i},${r},${o}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
 
 Trigger: player submits a guess that matches an unrevealed survey answer.
 
@@ -199,7 +199,7 @@ Timings:
 Acceptance criteria:
   · Only the matching row animates; other hidden rows stay still.
   · Once revealed, the row is permanent for the rest of the round (no idle loop).
-  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},ve=`
+  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},ke=`
 .preview-ff-attempts {
   background: rgba(0,0,0,0.8);
   border: 1.5px solid rgba(255,255,255,0.12);
@@ -207,7 +207,7 @@ Acceptance criteria:
   padding: 24px 32px;
   width: 260px;
   display: flex; flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-ff-attempts__title {
   font-size: 18px; font-weight: 600; text-transform: uppercase;
@@ -228,23 +228,23 @@ Acceptance criteria:
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
 }
-`;let M=null,C=0;const ie=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function ne(e,t,a,r,i,o){e.innerHTML=`
+`;let H=null,$=0;const ne=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function se(e,t,a,i,r,o){e.innerHTML=`
     <div style="
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:18px;font-weight:600;
-      color:${r};
+      color:${i};
       opacity:${a};
       transform:translateY(${t}px);
       text-decoration:line-through;
     ">${o}</div>
-  `}const ye={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>ne(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>ne(e,0,1,"#c33",!0,"pizza")}],render(e){return c("css-ff-attempts",ve),e.innerHTML=`
+  `}const _e={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>se(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>se(e,0,1,"#c33",!0,"pizza")}],render(e){return c("css-ff-attempts",ke),e.innerHTML=`
       <div class="preview-ff-attempts">
         <div class="preview-ff-attempts__title">Attempts</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
       </div>
-    `,M=e.querySelector(".preview-ff-attempts"),C=0,()=>{e.innerHTML="",M=null}},play({duration:e,easing:t}){if(!M)return;const a=ie[C%ie.length],r=M.querySelectorAll(".preview-ff-attempts__row"),i=r[C%r.length];C++,i.textContent=a.text,i.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),i.classList.add(`preview-ff-attempts__row--${a.kind}`),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-attempt-slide-in ${e}ms ${d(t.bezier)}`,C%r.length===0&&setTimeout(()=>{r.forEach((o,s)=>{s!==(C-1)%r.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,H=e.querySelector(".preview-ff-attempts"),$=0,()=>{e.innerHTML="",H=null}},play({duration:e,easing:t}){if(!H)return;const a=ne[$%ne.length],i=H.querySelectorAll(".preview-ff-attempts__row"),r=i[$%i.length];$++,r.textContent=a.text,r.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),r.classList.add(`preview-ff-attempts__row--${a.kind}`),r.style.animation="none",r.offsetWidth,r.style.animation=`ff-attempt-slide-in ${e}ms ${d(t.bezier)}`,$%i.length===0&&setTimeout(()=>{i.forEach((o,s)=>{s!==($-1)%i.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-attempt-slide-in {
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
@@ -257,7 +257,7 @@ Acceptance criteria:
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 
-val easing = CubicBezierEasing(${a.toFixed(2)}f, ${r.toFixed(2)}f, ${i.toFixed(2)}f, ${o.toFixed(2)}f)
+val easing = CubicBezierEasing(${a.toFixed(2)}f, ${i.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
 
 @Composable
 fun AttemptRow(attempt: Attempt) {
@@ -287,7 +287,7 @@ struct AttemptRow: View {
             .offset(y: appeared ? 0 : -18)
             .opacity(appeared ? 1 : 0)
             .onAppear {
-                withAnimation(.timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s})) {
+                withAnimation(.timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s})) {
                     appeared = true
                 }
             }
@@ -332,7 +332,7 @@ Timings:
 Acceptance criteria:
   · Each new attempt instance plays this animation once on mount.
   · Existing attempts stay still — only the new row animates.
-  · After 3 strikes the panel locks; no further entries play.`}},we=`
+  · After 3 strikes the panel locks; no further entries play.`}},Ce=`
 .preview-ff-strikes {
   display: flex; gap: 32px; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.8);
@@ -346,7 +346,7 @@ Acceptance criteria:
   border: 3px solid #ef4444;
   border-radius: 8px;
   color: #ef4444; font-size: 36px; font-weight: 700;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   opacity: 0.2;
   transform: scale(0.9);
 }
@@ -357,23 +357,23 @@ Acceptance criteria:
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
   100% { transform: scale(1) rotate(0);       opacity: 1; }
 }
-`;let k=[],A=0;function X(e,t,a,r){e.innerHTML=`
+`;let k=[],I=0;function W(e,t,a,i){e.innerHTML=`
     <div style="
       width:44px;height:44px;
       display:flex;align-items:center;justify-content:center;
       border:2px solid #ef4444;border-radius:6px;
       color:#ef4444;font-size:26px;font-weight:700;
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       transform:scale(${t}) rotate(${a}deg);
-      opacity:${r};
+      opacity:${i};
     ">✕</div>
-  `}const xe={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>X(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>X(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>X(e,1,0,1)}],render(e){return c("css-ff-strikes",we),e.innerHTML=`
+  `}const Se={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>W(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>W(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>W(e,1,0,1)}],render(e){return c("css-ff-strikes",Ce),e.innerHTML=`
       <div class="preview-ff-strikes">
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
       </div>
-    `,k=Array.from(e.querySelectorAll(".preview-ff-strike")),A=0,()=>{e.innerHTML="",k=[]}},play({duration:e,easing:t}){if(k.length===0)return;A>=k.length&&(k.forEach(r=>r.classList.remove("is-used")),A=0,k[0].offsetWidth);const a=k[A];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,A++},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,k=Array.from(e.querySelectorAll(".preview-ff-strike")),I=0,()=>{e.innerHTML="",k=[]}},play({duration:e,easing:t}){if(k.length===0)return;I>=k.length&&(k.forEach(i=>i.classList.remove("is-used")),I=0,k[0].offsetWidth);const a=k[I];a.classList.add("is-used"),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-strike-pop ${e}ms ${d(t.bezier)}`,I++},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-strike-pop {
   0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
@@ -433,7 +433,7 @@ struct StrikeIcon: View {
             // exact match, chain two .withAnimation blocks (0→60% overshoot
             // and 60%→100% settle).
             .animation(
-                .timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s}),
+                .timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s}),
                 value: used
             )
     }
@@ -481,7 +481,7 @@ Timings:
 Acceptance criteria:
   · Only the newly-added strike icon animates; previously-used strikes stay still.
   · After 3 strikes the round ends — no further pop animations until next round.
-  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},ke=`
+  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},$e=`
 .preview-ff-feedback-wrap { width: 800px; }
 .preview-ff-banner {
   position: relative;
@@ -491,7 +491,7 @@ Acceptance criteria:
   border: 1.5px solid rgba(255,255,255,0.12);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-ff-banner__corner {
   position: absolute; top: 50%; transform: translateY(-50%);
@@ -528,21 +528,21 @@ Acceptance criteria:
   from { left: -45%; }
   to   { left: 100%; }
 }
-`;let _=null;function P(e,t,a,r,i){e.innerHTML=`
+`;let _=null;function X(e,t,a,i,r){e.innerHTML=`
     <div style="
       position:relative;
       width:100%;height:42px;border-radius:6px;
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       display:flex;align-items:center;justify-content:center;
       overflow:hidden;
-      color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:600;
+      color:#fff;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:13px;font-weight:600;
       transform:translateY(${t}px) scale(${a});
-      opacity:${r};
+      opacity:${i};
     ">
       <span style="display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 24px;background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);">Round Complete!</span>
-      ${i!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${i}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
+      ${r!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${r}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
     </div>
-  `}const _e={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>P(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>P(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>P(e,0,1,1,null)}],render(e){return c("css-ff-feedback",ke),e.innerHTML=`
+  `}const Fe={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>X(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>X(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>X(e,0,1,1,null)}],render(e){return c("css-ff-feedback",$e),e.innerHTML=`
       <div class="preview-ff-feedback-wrap">
         <div class="preview-ff-banner">
           <div class="preview-ff-banner__corner preview-ff-banner__corner--left">
@@ -557,7 +557,7 @@ Acceptance criteria:
           <div class="preview-ff-banner__sweep"></div>
         </div>
       </div>
-    `,_=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",_=null}},play({duration:e,easing:t}){if(!_)return;_.style.animation="none",_.offsetWidth,_.style.animation=`ff-banner-in ${e}ms ${d(t.bezier)} backwards`;const a=_.querySelector(".preview-ff-banner__sweep");if(a){const r=a.cloneNode(!0);a.replaceWith(r)}},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,_=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",_=null}},play({duration:e,easing:t}){if(!_)return;_.style.animation="none",_.offsetWidth,_.style.animation=`ff-banner-in ${e}ms ${d(t.bezier)} backwards`;const a=_.querySelector(".preview-ff-banner__sweep");if(a){const i=a.cloneNode(!0);a.replaceWith(i)}},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-banner-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -589,7 +589,7 @@ import androidx.compose.animation.core.*
 
 @Composable
 fun RoundCompleteBanner(visible: Boolean) {
-    val easing = CubicBezierEasing(${a.toFixed(2)}f, ${r.toFixed(2)}f, ${i.toFixed(2)}f, ${o.toFixed(2)}f)
+    val easing = CubicBezierEasing(${a.toFixed(2)}f, ${i.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
@@ -627,7 +627,7 @@ struct RoundCompleteBanner: View {
             .offset(y: visible ? 0 : -40)
             .scaleEffect(visible ? 1.0 : 0.94)
             .opacity(visible ? 1.0 : 0.0)
-            .animation(.timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s}), value: visible)
+            .animation(.timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s}), value: visible)
             .overlay(SweepStrip(offset: sweepOffset))
             .brightness(pulse - 1.0)
             .onChange(of: visible) { v in
@@ -702,14 +702,14 @@ Timings:
 Acceptance criteria:
   · Banner replaces the question without layout jump.
   · Sweep plays exactly once; pulse continues indefinitely.
-  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Se=`
+  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Te=`
 .preview-score {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   background: rgba(0,0,0,0.8);
   border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   padding: 24px 40px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-score__label {
   font-size: 22px; font-weight: 600; color: #fff;
@@ -728,18 +728,18 @@ Acceptance criteria:
   35%  { transform: scale(1.45); color: #6dd97a; }
   100% { transform: scale(1);    color: #caa512; }
 }
-`;let y=null,O=86;function W(e,t,a,r){e.innerHTML=`
+`;let v=null,N=86;function Y(e,t,a,i){e.innerHTML=`
     <div style="
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:32px;font-weight:800;color:${a};
       transform:scale(${t});transform-origin:center;
-    ">${r}</div>
-  `}const $e={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>W(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>W(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>W(e,1,"#caa512","102")}],render(e){return c("css-common-score",Se),O=86,e.innerHTML=`
+    ">${i}</div>
+  `}const Ae={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>Y(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>Y(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>Y(e,1,"#caa512","102")}],render(e){return c("css-common-score",Te),N=86,e.innerHTML=`
       <div class="preview-score">
         <div class="preview-score__label">Score</div>
-        <div class="preview-score__value">${O}</div>
+        <div class="preview-score__value">${N}</div>
       </div>
-    `,y=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",y=null}},play({duration:e,easing:t}){y&&(O+=Math.floor(Math.random()*25)+5,y.textContent=String(O),y.classList.remove("is-bumping"),y.style.animation="none",y.offsetWidth,y.style.animation=`game-timer-box-score-bump ${e}ms ${d(t.bezier)}`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
+    `,v=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",v=null}},play({duration:e,easing:t}){v&&(N+=Math.floor(Math.random()*25)+5,v.textContent=String(N),v.classList.remove("is-bumping"),v.style.animation="none",v.offsetWidth,v.style.animation=`game-timer-box-score-bump ${e}ms ${d(t.bezier)}`)},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
 @keyframes game-timer-box-score-bump {
   0%   { transform: scale(1);    color: #caa512; }
   35%  { transform: scale(1.45); color: #6dd97a; }
@@ -798,7 +798,7 @@ struct ScoreValue: View {
             .scaleEffect(scale)
             .foregroundColor(color)
             .onChange(of: score) { _ in
-                withAnimation(.timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s})) {
+                withAnimation(.timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s})) {
                     scale = 1.0  // ramps via spring-like back-ease
                 }
                 // Pulse via keyframe: scale 1 → 1.45 → 1
@@ -855,7 +855,7 @@ Timings:
 
 Acceptance criteria:
   · Animation re-fires on every distinct score change (skip if score is unchanged).
-  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Ce=`
+  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Ie=`
 .preview-cs-timer {
   width: 418px;
   height: 86px;
@@ -864,7 +864,7 @@ Acceptance criteria:
   border-radius: 12px;
   padding: 20px 28px;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   display: flex; flex-direction: column; gap: 8px; justify-content: center;
 }
 .preview-cs-timer__row {
@@ -895,12 +895,12 @@ Acceptance criteria:
   from { width: 100%; }
   to   { width: 0%; }
 }
-`;let m=null,F=null,u=null,w;function R(e,t){if(t.timeUp){e.innerHTML=`
+`;let m=null,F=null,u=null,w;function B(e,t){if(t.timeUp){e.innerHTML=`
       <div style="
         width:100%;height:40px;
         background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
         border-radius:6px;display:flex;align-items:center;justify-content:center;
-        color:#caa512;font-family:Arial,Helvetica,sans-serif;
+        color:#caa512;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
         font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;
       ">Time's Up!</div>
     `;return}const a=t.critical?"linear-gradient(90deg,#ef4444 0%,#f87171 100%)":"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)";e.innerHTML=`
@@ -911,12 +911,12 @@ Acceptance criteria:
       padding:6px 8px;box-sizing:border-box;
       display:flex;align-items:center;gap:8px;
     ">
-      <span style="color:#caa512;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:800;min-width:24px;">${t.label}</span>
+      <span style="color:#caa512;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:12px;font-weight:800;min-width:24px;">${t.label}</span>
       <div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;">
         <div style="height:100%;width:${t.fill}%;background:${a};border-radius:5px;"></div>
       </div>
     </div>
-  `}const Fe={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>R(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>R(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>R(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>R(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return c("css-cs-timer",Ce),e.innerHTML=`
+  `}const Le={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>B(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>B(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>B(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>B(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return c("css-cs-timer",Ie),e.innerHTML=`
       <div class="preview-cs-timer">
         <div class="preview-cs-timer__row">
           <span class="preview-cs-timer__value">6s</span>
@@ -925,7 +925,7 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,m=e.querySelector(".preview-cs-timer__bar-fill"),F=e.querySelector(".preview-cs-timer__bar"),u=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",m=null,F=null,u=null,w!==void 0&&clearInterval(w)}},play({duration:e}){if(!m||!u||!F)return;w!==void 0&&clearInterval(w),m.classList.remove("is-critical"),F.classList.remove("is-hidden"),u.classList.remove("is-time-up"),m.style.animation="none",m.offsetWidth,m.style.animationDuration=`${e}ms`,m.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);u.textContent=`${t}s`;const a=performance.now();w=window.setInterval(()=>{const r=Math.max(0,e-(performance.now()-a));if(r<=0){u&&(u.textContent="Time's Up!",u.classList.add("is-time-up")),F&&F.classList.add("is-hidden"),w!==void 0&&(clearInterval(w),w=void 0);return}u&&(u.textContent=`${Math.ceil(r/1e3)}s`),m&&r<e*.25&&m.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
+    `,m=e.querySelector(".preview-cs-timer__bar-fill"),F=e.querySelector(".preview-cs-timer__bar"),u=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",m=null,F=null,u=null,w!==void 0&&clearInterval(w)}},play({duration:e}){if(!m||!u||!F)return;w!==void 0&&clearInterval(w),m.classList.remove("is-critical"),F.classList.remove("is-hidden"),u.classList.remove("is-time-up"),m.style.animation="none",m.offsetWidth,m.style.animationDuration=`${e}ms`,m.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);u.textContent=`${t}s`;const a=performance.now();w=window.setInterval(()=>{const i=Math.max(0,e-(performance.now()-a));if(i<=0){u&&(u.textContent="Time's Up!",u.classList.add("is-time-up")),F&&F.classList.add("is-hidden"),w!==void 0&&(clearInterval(w),w=void 0);return}u&&(u.textContent=`${Math.ceil(i/1e3)}s`),m&&i<e*.25&&m.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
 @keyframes game-timer-box-deplete {
   from { width: 100%; }
   to   { width: 0%; }
@@ -1047,7 +1047,7 @@ Timings:
 Acceptance criteria:
   · The animation restarts cleanly on each new question (state fully resets).
   · If the player answers before time runs out, the animation pauses immediately and "Time's Up!" is never shown.
-  · No bounce/easing at end — it's a literal countdown.`}},Te=`
+  · No bounce/easing at end — it's a literal countdown.`}},ze=`
 .preview-hl {
   display: flex; flex-direction: column; gap: 16px;
   padding: 32px;
@@ -1055,7 +1055,7 @@ Acceptance criteria:
   border: 1.5px solid rgba(255,255,255,0.18);
   border-radius: 14px;
   width: 418px; box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-hl-btn {
   position: relative;
@@ -1094,25 +1094,25 @@ Acceptance criteria:
   font-size: 32px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 1px; white-space: nowrap;
 }
-`;let I=null,L=null,z=null,Y=0;const oe=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function se(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const r=e.querySelector(".preview-hl-btn__label");r&&(a==="correct"?r.textContent="Correct!":a==="wrong"?r.textContent="Incorrect!":r.textContent=t==="up"?"Higher":"Lower")}function le(e,t,a){return`
+`;let L=null,z=null,M=null,J=0;const le=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function ce(e,t,a){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${a}`;const i=e.querySelector(".preview-hl-btn__label");i&&(a==="correct"?i.textContent="Correct!":a==="wrong"?i.textContent="Incorrect!":i.textContent=t==="up"?"Higher":"Lower")}function de(e,t,a){return`
     <div style="
       width:100%;height:30px;
       background:${{idle:"#202228",locked:"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)",correct:"linear-gradient(180deg,#008e11 0%,#053800 100%)",wrong:"linear-gradient(180deg,#8e0000 0%,#380000 100%)"}[t]};
       border:1px solid rgba(255,255,255,${t==="idle"?.18:.4});
       border-radius:5px;
       display:flex;align-items:center;justify-content:center;
-      color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:800;
+      color:#fff;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:11px;font-weight:800;
       text-transform:uppercase;letter-spacing:0.5px;
       opacity:${a?.35:1};
     ">${e}</div>
-  `}function B(e,t,a){e.innerHTML=`
+  `}function O(e,t,a){e.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:6px;width:100%;
                 background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);
                 border-radius:6px;padding:8px;box-sizing:border-box;">
-      ${le(t.label,t.state,t.dim)}
-      ${le(a.label,a.state,a.dim)}
+      ${de(t.label,t.state,t.dim)}
+      ${de(a.label,a.state,a.dim)}
     </div>
-  `}const Ae={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>B(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>B(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>B(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>B(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return c("css-cs-controller",Te),Y=0,e.innerHTML=`
+  `}const Me={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>O(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>O(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>O(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>O(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return c("css-cs-controller",ze),J=0,e.innerHTML=`
       <div class="preview-hl">
         <button class="preview-hl-btn preview-hl-btn--higher preview-hl-btn--idle">
           <span class="preview-hl-key"><span class="preview-hl-key__arrow"></span></span>
@@ -1123,7 +1123,7 @@ Acceptance criteria:
           <span class="preview-hl-btn__label">Lower</span>
         </button>
       </div>
-    `,I=e.querySelector(".preview-hl"),[L,z]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",I=L=z=null}},play({duration:e}){if(!I)return;const t=oe[Y%oe.length];Y++,I.style.setProperty("--hl-duration",`${e}ms`),I.classList.toggle("is-resolved",t.resolved),L&&(L.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),z&&(z.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),se(L,"up",t.higher),se(z,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
+    `,L=e.querySelector(".preview-hl"),[z,M]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",L=z=M=null}},play({duration:e}){if(!L)return;const t=le[J%le.length];J++,L.style.setProperty("--hl-duration",`${e}ms`),L.classList.toggle("is-resolved",t.resolved),z&&(z.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),M&&(M.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),ce(z,"up",t.higher),ce(M,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
 .hl-btn {
   background: #202228;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1309,7 +1309,7 @@ Behavior:
 Acceptance criteria:
   · Label text changes are instant; only the colour + opacity crossfade.
   · A button cannot be focused/highlighted independently — D-pad navigation just moves the focus visual outside the button.
-  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Ie=`
+  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Ve=`
 .preview-hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 32px 36px;
@@ -1317,7 +1317,7 @@ Acceptance criteria:
   border: 1.5px solid rgba(255, 255, 255, 0.18);
   border-radius: 14px;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   font-size: 28px;
   font-weight: 500;
   line-height: 1.4;
@@ -1351,16 +1351,16 @@ Acceptance criteria:
   0%   { opacity: 0; transform: translate(-30px, -16px) scale(0.96); }
   100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
-`;let x=null;function ce(e,t,a,r,i){e.innerHTML=`
+`;let x=null;function pe(e,t,a,i,r){e.innerHTML=`
     <div style="
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       border-radius:6px;padding:8px 10px;
-      font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:11px;line-height:1.4;
-      transform:translate(${t}px, ${a}px) scale(${r});
-      opacity:${i};
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;color:#fff;font-size:11px;line-height:1.4;
+      transform:translate(${t}px, ${a}px) scale(${i});
+      opacity:${r};
       max-width:140px;
     ">Use ▲ / ▼ to make your selections.</div>
-  `}const Le={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>ce(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>ce(e,0,0,1,1)}],render(e){return c("css-cs-info-note",Ie),e.innerHTML=`
+  `}const Ee={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>pe(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>pe(e,0,0,1,1)}],render(e){return c("css-cs-info-note",Ve),e.innerHTML=`
       <div class="preview-hl-note">
         <div class="preview-hl-note__line">
           <span>Use the</span>
@@ -1373,7 +1373,7 @@ Acceptance criteria:
           <span>your TV remote to make your selections.</span>
         </div>
       </div>
-    `,x=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",x=null}},play({duration:e,easing:t}){x&&(x.classList.remove("is-shown"),x.style.animation="none",x.style.opacity="0",x.offsetWidth,x.style.animation=`cs-stage-in ${e}ms ${d(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
+    `,x=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",x=null}},play({duration:e,easing:t}){x&&(x.classList.remove("is-shown"),x.style.animation="none",x.style.opacity="0",x.offsetWidth,x.style.animation=`cs-stage-in ${e}ms ${d(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
 .hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 40px;
@@ -1415,7 +1415,7 @@ import androidx.compose.animation.core.*
 
 @Composable
 fun HigherLowerNote(visible: Boolean) {
-    val easing = CubicBezierEasing(${a.toFixed(2)}f, ${r.toFixed(2)}f, ${i.toFixed(2)}f, ${o.toFixed(2)}f)
+    val easing = CubicBezierEasing(${a.toFixed(2)}f, ${i.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = (
@@ -1465,7 +1465,7 @@ struct HigherLowerNote: View {
         .scaleEffect(visible ? 1.0 : 0.96)
         .opacity(visible ? 1.0 : 0.0)
         .animation(
-            .timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s}),
+            .timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s}),
             value: visible
         )
     }
@@ -1522,7 +1522,7 @@ Timings:
 Acceptance criteria:
   · Animation only plays on mount; toggling content inside the note must not re-trigger it.
   · The note persists across both the answering and result phases of Card Sharks.
-  · When dismissed, just remove from the tree — do not play an exit animation.`}},ze=`
+  · When dismissed, just remove from the tree — do not play an exit animation.`}},Re=`
 .preview-cs-card-stage {
   width: 334px; height: 398px;
   background: rgba(0,0,0,0.8);
@@ -1554,27 +1554,27 @@ Acceptance criteria:
   78%  { transform: translate(0, 8px)         rotate(3deg)   scale(1.04); }
   100% { transform: translate(0, 0)           rotate(0deg)   scale(1);    opacity: 1; }
 }
-`,N=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let b=null,D=0;function j(e,t,a,r,i,o){e.innerHTML=`
+`,D=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let b=null,j=0;function Q(e,t,a,i,r,o){e.innerHTML=`
     <div style="
       width:50px;height:72px;border-radius:6px;border:2px solid #fff;
       background:linear-gradient(135deg,#f5f5f5 0%,#e0e0e0 100%);
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       font-family:Georgia,serif;color:#b91c1c;font-weight:700;
-      transform:translate(${t}px, ${a}px) rotate(${r}deg) scale(${i});
+      transform:translate(${t}px, ${a}px) rotate(${i}deg) scale(${r});
       opacity:${o};
       box-shadow:0 8px 18px rgba(0,0,0,0.45);
     ">
       <div style="font-size:24px;line-height:1;">Q</div>
       <div style="font-size:18px;line-height:1;margin-top:2px;">♦</div>
     </div>
-  `}const Ve={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>j(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>j(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>j(e,0,0,0,1,1)}],render(e){return c("css-cs-card",ze),D=0,e.innerHTML=`
+  `}const He={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>Q(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>Q(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>Q(e,0,0,0,1,1)}],render(e){return c("css-cs-card",Re),j=0,e.innerHTML=`
       <div class="preview-cs-card-stage">
         <div class="preview-cs-card">
-          <div class="preview-cs-card__rank">${N[0][2]}</div>
-          <div class="preview-cs-card__suit">${N[0][0]}</div>
+          <div class="preview-cs-card__rank">${D[0][2]}</div>
+          <div class="preview-cs-card__suit">${D[0][0]}</div>
         </div>
       </div>
-    `,b=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",b=null}},play({duration:e}){if(!b)return;D=(D+1)%N.length;const t=N[D],a=b.querySelector(".preview-cs-card__rank"),r=b.querySelector(".preview-cs-card__suit");a&&(a.textContent=t[2]),r&&(r.textContent=t[0]),b.classList.remove("is-flying"),b.style.animation="none",b.offsetWidth,b.classList.add("is-flying"),b.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[a,r,i,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+    `,b=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",b=null}},play({duration:e}){if(!b)return;j=(j+1)%D.length;const t=D[j],a=b.querySelector(".preview-cs-card__rank"),i=b.querySelector(".preview-cs-card__suit");a&&(a.textContent=t[2]),i&&(i.textContent=t[0]),b.classList.remove("is-flying"),b.style.animation="none",b.offsetWidth,b.classList.add("is-flying"),b.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-card-fly-in {
   0%   { transform: translate(-380px, -160px) rotate(-26deg) scale(0.42); opacity: 0; }
   55%  {                                                                   opacity: 1; }
@@ -1651,7 +1651,7 @@ struct CardFlyIn: View {
 
     func restart() {
         stage = 0
-        withAnimation(.timingCurve(${a}, ${r}, ${i}, ${o}, duration: ${s} * 0.78)) {
+        withAnimation(.timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s} * 0.78)) {
             stage = 1
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + ${s} * 0.78) {
@@ -1710,15 +1710,363 @@ Timings:
 Acceptance criteria:
   · Re-fires cleanly when questionNumber changes — no stale frames from the previous card.
   · The card box itself never animates separately; this is purely the card-face element flying into it.
-  · No idle motion after the animation completes.`}},Q=[ge,ye,xe,_e,$e,Fe,Ae,Le,Ve];function Ee(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
+  · No idle motion after the animation completes.`}},Ne=`
+.preview-cs-flash-stage {
+  position: relative;
+  width: 100%; height: 220px;
+  background: linear-gradient(135deg, #1a1f2e 0%, #06080d 100%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.preview-cs-flash-stage__label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.preview-cs-flash {
+  position: absolute; inset: 0;
+  background: rgba(220, 30, 30, 0.4);
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes cs-flash {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+`;let T=null;const Be={id:"wl-wrong-flash",title:"Wrong Flash",game:"Win/Lose",description:"Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.",defaults:{duration:600,easingId:"ease-out"},render(e){return c("css-wl-wrong-flash",Ne),e.innerHTML=`
+      <div class="preview-cs-flash-stage">
+        <div class="preview-cs-flash-stage__label">player view (mocked)</div>
+        <div class="preview-cs-flash"></div>
+      </div>
+    `,T=e.querySelector(".preview-cs-flash"),()=>{e.innerHTML="",T=null}},play({duration:e,easing:t}){T&&(T.style.animation="none",T.offsetWidth,T.style.animation=`cs-flash ${e}ms ${d(t.bezier)} forwards`)},frames:[{label:"Idle",sublabel:"no overlay",render:e=>{e.innerHTML=`
+          <div style="
+            width:100%;height:64px;
+            background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);
+            border-radius:6px;display:flex;align-items:center;justify-content:center;
+            color:rgba(255,255,255,0.4);font-family:ui-monospace,Menlo,monospace;font-size:10px;
+          ">no flash</div>
+        `}},{label:"Peak",sublabel:"0% · opacity 1 · #DC1E1E66",render:e=>{e.innerHTML=`
+          <div style="
+            width:100%;height:64px;
+            background:rgba(220,30,30,0.4);
+            border-radius:6px;
+          "></div>
+        `}},{label:"Mid",sublabel:"50% · opacity .5",render:e=>{e.innerHTML=`
+          <div style="
+            width:100%;height:64px;
+            background:rgba(220,30,30,0.2);
+            border-radius:6px;
+          "></div>
+        `}},{label:"Settled",sublabel:"100% · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">overlay invisible</div>'}}],snippets({duration:e,easing:t}){const[a,i,r,o]=t.bezier,s=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+@keyframes cs-flash {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.cs-overlay__flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(220, 30, 30, 0.4);
+  animation: cs-flash ${e}ms ${d(t.bezier)} forwards;
+  z-index: 51;
+  pointer-events: none;
+}
+
+/* Mount with a key={questionNumber} so React remounts the node every
+   time a new wrong answer happens — animation replays on each mount. */`,android:`// Jetpack Compose — Android TV
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+
+@Composable
+fun WrongFlash(trigger: Int) {
+    var alpha by remember { mutableStateOf(0f) }
+    LaunchedEffect(trigger) {
+        if (trigger == 0) return@LaunchedEffect
+        alpha = 1f
+        val anim = Animatable(1f)
+        anim.animateTo(0f, tween(${e}, easing = CubicBezierEasing(${a.toFixed(2)}f, ${i.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)))
+        alpha = anim.value
+    }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color(0xFFDC1E1E).copy(alpha = 0.4f * alpha))
+    )
+}`,ios:`// SwiftUI — tvOS
+import SwiftUI
+
+struct WrongFlash: View {
+    let trigger: Int
+    @State private var alpha: Double = 0
+    var body: some View {
+        Color.red.opacity(0.4 * alpha)
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+            .onChange(of: trigger) { _ in
+                alpha = 1
+                withAnimation(.timingCurve(${a}, ${i}, ${r}, ${o}, duration: ${s})) {
+                    alpha = 0
+                }
+            }
+    }
+}`,roku:`<!-- Roku SceneGraph — components/WrongFlash.xml -->
+<component name="WrongFlash" extends="Group">
+  <interface>
+    <field id="trigger" type="integer" alwaysNotify="true" onChange="onTriggerChange" />
+  </interface>
+
+  <children>
+    <Rectangle id="flash" color="0xDC1E1E66" width="1920" height="1080" opacity="0" />
+    <Animation id="flashAnim" duration="${s}" easeFunction="outQuad" repeat="false">
+      <FloatFieldInterpolator
+        fieldToInterp="flash.opacity"
+        keyValue="[ 1, 0 ]"
+        key="[ 0, 1 ]" />
+    </Animation>
+  </children>
+
+  <script type="text/brightscript">
+    sub onTriggerChange()
+      m.top.findNode("flashAnim").control = "start"
+    end sub
+  <\/script>
+</component>`}},pmTicket(){return`Title: Wrong-answer red flash overlay
+
+Trigger: the player submits an incorrect answer in any game (Card Sharks, Family Feud, Match Game).
+
+Visual behavior:
+  · A full-screen red layer (RGBA 220,30,30,0.4) fades in instantly and out over 600 ms.
+  · The layer sits ABOVE the game UI but is non-interactive (pointer-events: none).
+  · Plays exactly once per wrong answer.
+
+Timings:
+  · 600 ms total, ease-out (cubic-bezier(0, 0, 0.2, 1)).
+  · No delay, no loop.
+
+Acceptance criteria:
+  · Animation replays on every distinct wrong answer (remount node by key).
+  · The flash must not block touches / D-pad presses.
+  · Tonally subdued — strong enough to register peripherally, not aggressive.`}},ue=40,Oe=12,fe=["#facc15","#22c55e","#3b82f6","#ec4899","#f97316","#a855f7","#06b6d4","#fb7185"],De=`
+.preview-confetti-stage {
+  position: relative;
+  width: 100%; height: 260px;
+  background: linear-gradient(135deg, #1a1f2e 0%, #06080d 100%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.preview-confetti-stage__label {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.preview-confetti {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.preview-confetti__p {
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0;
+  animation-timing-function: cubic-bezier(0.18, 0.55, 0.34, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* 12 baked trajectories — scaled down to ~30 % of the original 1920×1080
+   values so the burst fits the preview area. */
+@keyframes pc-traj-0  { 0%{transform:translate(0,0)            rotate(0deg);   opacity:0;} 10%{opacity:1;} 100%{transform:translate(-84px, -306px)  rotate(720deg);   opacity:0;} }
+@keyframes pc-traj-1  { 0%{transform:translate(0,0)            rotate(45deg);  opacity:0;} 10%{opacity:1;} 100%{transform:translate(78px,  -324px)  rotate(880deg);   opacity:0;} }
+@keyframes pc-traj-2  { 0%{transform:translate(0,0)            rotate(0deg);   opacity:0;} 12%{opacity:1;} 100%{transform:translate(-48px, -234px)  rotate(-720deg);  opacity:0;} }
+@keyframes pc-traj-3  { 0%{transform:translate(0,0)            rotate(20deg);  opacity:0;} 10%{opacity:1;} 100%{transform:translate(126px, -288px)  rotate(1080deg);  opacity:0;} }
+@keyframes pc-traj-4  { 0%{transform:translate(0,0)            rotate(-30deg); opacity:0;} 12%{opacity:1;} 100%{transform:translate(-132px,-282px)  rotate(-1080deg); opacity:0;} }
+@keyframes pc-traj-5  { 0%{transform:translate(0,0)            rotate(0deg);   opacity:0;} 10%{opacity:1;} 100%{transform:translate(24px,  -330px)  rotate(540deg);   opacity:0;} }
+@keyframes pc-traj-6  { 0%{transform:translate(0,0)            rotate(10deg);  opacity:0;} 10%{opacity:1;} 100%{transform:translate(-27px, -342px)  rotate(900deg);   opacity:0;} }
+@keyframes pc-traj-7  { 0%{transform:translate(0,0)            rotate(-15deg); opacity:0;} 12%{opacity:1;} 100%{transform:translate(108px, -210px)  rotate(-540deg);  opacity:0;} }
+@keyframes pc-traj-8  { 0%{transform:translate(0,0)            rotate(0deg);   opacity:0;} 10%{opacity:1;} 100%{transform:translate(-168px,-192px)  rotate(720deg);   opacity:0;} }
+@keyframes pc-traj-9  { 0%{transform:translate(0,0)            rotate(25deg);  opacity:0;} 10%{opacity:1;} 100%{transform:translate(168px, -246px)  rotate(-820deg);  opacity:0;} }
+@keyframes pc-traj-10 { 0%{transform:translate(0,0)            rotate(-10deg); opacity:0;} 10%{opacity:1;} 100%{transform:translate(-108px,-168px)  rotate(540deg);   opacity:0;} }
+@keyframes pc-traj-11 { 0%{transform:translate(0,0)            rotate(0deg);   opacity:0;} 12%{opacity:1;} 100%{transform:translate(54px,  -354px)  rotate(960deg);   opacity:0;} }
+`;function je(){const e=[];for(let t=0;t<ue;t++)e.push({left:Math.random()*100,bottom:2+Math.random()*14,delay:Math.random()*350,duration:1400+Math.random()*900,trajectory:t%Oe,size:5+Math.random()*4,color:fe[t%fe.length],shape:t%3===0?"streamer":t%2===0?"rect":"square"});return e}let q=null;function qe(e,t){const i=je().map(r=>{const o=r.shape==="rect"?r.size*1.6:r.shape==="streamer"?r.size*2.4:r.size;return`<span class="preview-confetti__p" style="
+      left:${r.left}%;
+      bottom:${r.bottom}%;
+      width:${r.size}px;
+      height:${o}px;
+      background:${r.color};
+      animation-name:pc-traj-${r.trajectory};
+      animation-delay:${r.delay}ms;
+      animation-duration:${r.duration*t}ms;
+    "></span>`}).join("");e.innerHTML=i}const Ue={id:"wl-confetti-burst",title:"Confetti Burst",game:"Win/Lose",description:"Celebratory confetti fired from the bottom of the screen on a correct answer. ~90 particles in 8 colours (3 shapes) follow 12 baked trajectories that rocket up and out. Each particle has a random delay (0–350 ms) and duration (1400–2300 ms).",defaults:{duration:1800,easingId:"ease-out"},slowFactor:2,render(e){return c("css-wl-confetti",De),e.innerHTML=`
+      <div class="preview-confetti-stage">
+        <div class="preview-confetti-stage__label">player view (mocked)</div>
+        <div class="preview-confetti"></div>
+      </div>
+    `,q=e.querySelector(".preview-confetti"),()=>{e.innerHTML="",q=null}},play({duration:e}){if(!q)return;const t=e/1800;qe(q,t)},frames:[{label:"Idle",sublabel:"no confetti",render:e=>{e.innerHTML='<div class="frame-ghost">no confetti</div>'}},{label:"Spawn",sublabel:"0–10% · particles at bottom · opacity 0 → 1",render:e=>{e.innerHTML=`
+          <div style="position:relative;width:100%;height:64px;background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);border-radius:6px;overflow:hidden;">
+            ${[{l:20,c:"#facc15"},{l:35,c:"#22c55e"},{l:50,c:"#3b82f6"},{l:65,c:"#ec4899"},{l:80,c:"#f97316"}].map(t=>`<span style="position:absolute;left:${t.l}%;bottom:6px;width:7px;height:7px;background:${t.c};border-radius:1px;opacity:0.6;"></span>`).join("")}
+          </div>
+        `}},{label:"Burst",sublabel:"50% · particles spread up & out",render:e=>{e.innerHTML=`
+          <div style="position:relative;width:100%;height:64px;background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);border-radius:6px;overflow:hidden;">
+            ${[{l:14,b:38,c:"#facc15",r:90},{l:28,b:52,c:"#22c55e",r:-30},{l:44,b:60,c:"#3b82f6",r:180},{l:56,b:48,c:"#ec4899",r:-120},{l:70,b:56,c:"#f97316",r:60},{l:82,b:30,c:"#a855f7",r:-90},{l:36,b:22,c:"#06b6d4",r:45},{l:64,b:18,c:"#fb7185",r:-200}].map(t=>`<span style="position:absolute;left:${t.l}%;bottom:${t.b}%;width:7px;height:11px;background:${t.c};border-radius:1px;transform:rotate(${t.r}deg);opacity:1;"></span>`).join("")}
+          </div>
+        `}},{label:"Fade",sublabel:"100% · off-frame · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">off-screen · opacity 0</div>'}}],snippets({duration:e}){return{web:`/* ConfettiBurst.css — 12 baked trajectories (excerpt). */
+.confetti-burst {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none;
+  z-index: 60;
+}
+.confetti-burst__particle {
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0;
+  animation-timing-function: cubic-bezier(0.18, 0.55, 0.34, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes cf-traj-0 {
+  0%   { transform: translate(0, 0)            rotate(0deg);    opacity: 0; }
+  10%  {                                                         opacity: 1; }
+  100% { transform: translate(-280px, -1020px) rotate(720deg);   opacity: 0; }
+}
+/* … cf-traj-1 … cf-traj-11 — see ConfettiBurst.css for the full set. */
+
+/* JSX seeds ${ue} particles (real component uses 90) with
+   random delay / duration / colour / shape / trajectory:
+     - left          : 0–100%
+     - bottom        : 2–16%        (slight vertical spread at spawn)
+     - delay         : 0–350 ms
+     - duration      : ${e}–${Math.round(e*1.65)} ms
+     - trajectory    : i % 12
+     - palette       : 8 colours
+     - shape         : square | rect (1:1.6) | streamer (1:2.4)
+
+Mount the whole burst with a key (e.g. questionNumber) so it
+remounts and replays on each correct answer. */`,android:`// Jetpack Compose — Android TV
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
+
+@Composable
+fun ConfettiBurst(trigger: Int) {
+    val palette = listOf(
+        Color(0xFFFACC15), Color(0xFF22C55E), Color(0xFF3B82F6), Color(0xFFEC4899),
+        Color(0xFFF97316), Color(0xFFA855F7), Color(0xFF06B6D4), Color(0xFFFB7185),
+    )
+    val particles = remember(trigger) {
+        List(90) {
+            // Pre-baked X/Y endpoints for each of 12 trajectories.
+            ConfettiParticle(
+                colour      = palette[it % palette.size],
+                trajectory  = it % 12,
+                startLeftPct = Random.nextFloat(),
+                delayMs     = Random.nextInt(0, 350),
+                durationMs  = Random.nextInt(${e}, ${Math.round(e*1.65)}),
+                sizePx      = 7 + Random.nextInt(8),
+            )
+        }
+    }
+    Canvas(Modifier.fillMaxSize()) {
+        particles.forEach { p ->
+            // Drive each particle with an Animatable started in LaunchedEffect
+            // (see ConfettiParticle render impl).
+        }
+    }
+}
+
+data class ConfettiParticle(
+    val colour: Color,
+    val trajectory: Int,
+    val startLeftPct: Float,
+    val delayMs: Int,
+    val durationMs: Int,
+    val sizePx: Int,
+)`,ios:`// SwiftUI — tvOS
+import SwiftUI
+
+struct ConfettiBurst: View {
+    let trigger: Int
+    var body: some View {
+        Canvas { context, size in
+            // 90 particles, 12 baked trajectories, ${e}–${Math.round(e*1.65)} ms each.
+            // Use TimelineView(.animation) + per-particle Animatable to drive
+            // translate + rotate; final opacity 0 so particles fade out off-screen.
+        }
+        .allowsHitTesting(false)
+        .id(trigger)
+    }
+}`,roku:`<!-- Roku SceneGraph — components/ConfettiBurst.xml -->
+<component name="ConfettiBurst" extends="Group">
+  <interface>
+    <field id="trigger" type="integer" alwaysNotify="true" onChange="onTriggerChange" />
+  </interface>
+
+  <children>
+    <!-- 12 reusable Animation nodes per trajectory; pool of 90 Poster
+         particles, each picks a trajectory and a delay at runtime. -->
+  </children>
+
+  <script type="text/brightscript">
+    sub onTriggerChange()
+      ' Re-seed positions / colours / delays for every particle, then
+      ' kick off each particle's Animation node with its randomised
+      ' duration (1.4–2.3 s).
+    end sub
+  <\/script>
+</component>`}},pmTicket(){return`Title: Correct-answer confetti burst
+
+Trigger: the player picks the correct answer in any game.
+
+Visual behavior:
+  · A burst of ~90 particles is fired from random columns near the bottom of the screen.
+  · 8 colours, 3 shapes (square, rect 1:1.6, streamer 1:2.4), sizes 7–15 px.
+  · Each particle follows one of 12 pre-baked trajectories (mostly up & outward, some lateral arcs).
+  · Per-particle randomisation:
+      · spawn delay 0–350 ms
+      · duration 1.4–2.3 s
+      · rotation 540°–1080° during flight
+  · Particles fade out at the end of their trajectories (opacity 0).
+  · The whole layer is non-interactive (pointer-events: none).
+
+Easing:
+  · cubic-bezier(0.18, 0.55, 0.34, 1) — slow-out so particles "soar" then drift.
+
+Acceptance criteria:
+  · Re-spawns on every correct answer (remount the layer by key).
+  · No layout reflow — particles are absolutely positioned in an overlay.
+  · Confetti does not block input.`}},K=[xe,_e,Se,Fe,Ae,Le,Me,Ee,He,Be,Ue];function Ge(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
     <div class="sidebar__brand">
       <p class="sidebar__title">PlayAlong TV</p>
       <p class="sidebar__subtitle">Animation Catalog</p>
     </div>
-  `;const a=["Family Feud","Card Sharks","Common"];for(const i of a){const o=Q.filter(p=>p.game===i);if(o.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`<div class="sidebar__group-title">${i}</div>`;for(const p of o){const h=document.createElement("div");h.className="sidebar__item",h.dataset.id=p.id,h.innerHTML=`
+  `;const a=["Family Feud","Card Sharks","Common","Win/Lose"];for(const r of a){const o=K.filter(p=>p.game===r);if(o.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`<div class="sidebar__group-title">${r}</div>`;for(const p of o){const h=document.createElement("div");h.className="sidebar__item",h.dataset.id=p.id,h.innerHTML=`
         <span>${p.title}</span>
         ${p.tbd?'<span class="sidebar__badge is-tbd">TBD</span>':'<span class="sidebar__badge">Ready</span>'}
-      `,h.addEventListener("click",()=>e(p.id)),s.appendChild(h)}t.appendChild(s)}function r(i){t.querySelectorAll(".sidebar__item").forEach(o=>{o.classList.toggle("is-active",o.dataset.id===i)})}return{root:t,setActive:r}}async function de(e,t,a){try{await navigator.clipboard.writeText(e)}catch{const r=document.createElement("textarea");r.value=e,r.style.position="fixed",r.style.opacity="0",document.body.appendChild(r),r.select(),document.execCommand("copy"),document.body.removeChild(r)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=a},1400)}const He=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function Me(e){const t=$.find(n=>n.id===e.defaults.easingId)??$[0],a={duration:e.defaults.duration,easing:t};let r="web";const i=document.createElement("div");i.innerHTML=`
+      `,h.addEventListener("click",()=>e(p.id)),s.appendChild(h)}t.appendChild(s)}function i(r){t.querySelectorAll(".sidebar__item").forEach(o=>{o.classList.toggle("is-active",o.dataset.id===r)})}return{root:t,setActive:i}}async function me(e,t,a){try{await navigator.clipboard.writeText(e)}catch{const i=document.createElement("textarea");i.value=e,i.style.position="fixed",i.style.opacity="0",document.body.appendChild(i),i.select(),document.execCommand("copy"),document.body.removeChild(i)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=a},1400)}const Pe=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function We(e){const t=S.find(n=>n.id===e.defaults.easingId)??S[0],a={duration:e.defaults.duration,easing:t};let i="web";const r=document.createElement("div");r.innerHTML=`
     <header class="page-header">
       <div class="page-header__eyebrow">${e.game}</div>
       <h1 class="page-header__title">${e.title}</h1>
@@ -1744,15 +2092,15 @@ Acceptance criteria:
         <button class="btn btn--primary" data-role="play">▶ Replay</button>
         <button class="btn" data-role="slow">⏱ Slow</button>
         <button class="btn" data-role="reset">Reset to defaults</button>
-        <span style="flex:1"></span>
-        <button class="btn" data-role="copy-snippet">Copy current snippet</button>
-        <button class="btn" data-role="copy-pm">Copy description</button>
       </div>
 
       <div class="info-grid">
         <div class="info-grid__col">
           <h3 class="section__title">Description</h3>
-          <div class="pm-block" data-role="pm-output"></div>
+          <div class="pm-block-wrap">
+            <div class="pm-block" data-role="pm-output"></div>
+            <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
+          </div>
         </div>
         <div class="info-grid__col">
           <h3 class="section__title">Controls</h3>
@@ -1768,7 +2116,7 @@ Acceptance criteria:
             <div class="control">
               <div class="control__label">Easing preset</div>
               <select data-role="easing-preset" style="width:100%">
-                ${$.map(n=>`<option value="${n.id}" ${n.id===a.easing.id?"selected":""}>${n.label}</option>`).join("")}
+                ${S.map(n=>`<option value="${n.id}" ${n.id===a.easing.id?"selected":""}>${n.label}</option>`).join("")}
               </select>
             </div>
 
@@ -1783,12 +2131,15 @@ Acceptance criteria:
         </div>
       </div>
 
-      <div class="tabs" role="tablist">
-        ${He.map(n=>`
-          <button type="button" class="tab ${n.id===r?"is-active":""}" role="tab" data-platform="${n.id}">${n.label}</button>
-        `).join("")}
+      <div class="tabs-row">
+        <div class="tabs" role="tablist">
+          ${Pe.map(n=>`
+            <button type="button" class="tab ${n.id===i?"is-active":""}" role="tab" data-platform="${n.id}">${n.label}</button>
+          `).join("")}
+        </div>
+        <button class="btn btn--small" data-role="copy-snippet">Copy code</button>
       </div>
 
       <div class="code-block" data-role="snippet-output"></div>
     </div>
-  `;const o=i.querySelector("[data-role=stage]"),s=i.querySelector("[data-role=play]"),p=i.querySelector("[data-role=slow]"),h=i.querySelector("[data-role=reset]"),J=i.querySelector("[data-role=copy-snippet]"),K=i.querySelector("[data-role=copy-pm]"),q=i.querySelector("[data-role=duration]"),Z=i.querySelector("[data-role=duration-value]"),S=i.querySelector("[data-role=easing-preset]"),ee=i.querySelector("[data-role=easing-desc]"),U=[0,1,2,3].map(n=>i.querySelector(`[data-role=bezier-${n}]`)),pe=i.querySelector("[data-role=snippet-output]"),fe=i.querySelector("[data-role=pm-output]"),te=Array.from(i.querySelectorAll(".tab")),me=e.render(o);function ue(){a.easing.bezier.forEach((n,l)=>{U[l].value=String(n)})}function T(){const n=e.snippets(a);pe.textContent=n[r],fe.textContent=e.pmTicket(),te.forEach(l=>{l.classList.toggle("is-active",l.dataset.platform===r)})}function ae(n){a.easing={...n},ee.textContent=n.description,ue(),T(),e.tbd||e.play(a)}function be(){const n=U.map(l=>Number(l.value));if(!n.some(l=>Number.isNaN(l))){if(a.easing={id:"custom",label:`Custom (${n.join(", ")})`,bezier:n,description:`cubic-bezier(${n.join(", ")})`},!S.querySelector('option[value="custom"]')){const l=document.createElement("option");l.value="custom",l.textContent="Custom…",S.appendChild(l)}S.value="custom",ee.textContent=`cubic-bezier(${n.join(", ")}) — ${d(n)}`,T(),e.tbd||e.play(a)}}return e.frames&&e.frames.length>0&&e.frames.forEach((n,l)=>{const re=i.querySelector(`[data-frame-idx="${l}"]`);re&&n.render(re)}),s.addEventListener("click",()=>{e.tbd||e.play(a)}),p.addEventListener("click",()=>{if(e.tbd)return;const n=e.slowFactor??4,l={...a,duration:a.duration*n};e.play(l)}),h.addEventListener("click",()=>{const n=$.find(l=>l.id===e.defaults.easingId)??$[0];a.duration=e.defaults.duration,q.value=String(a.duration),Z.textContent=`${a.duration} ms`,S.value=n.id,ae(n)}),q.addEventListener("input",()=>{a.duration=Number(q.value),Z.textContent=`${a.duration} ms`,T(),e.tbd||e.play(a)}),S.addEventListener("change",()=>{const n=$.find(l=>l.id===S.value);n&&ae(n)}),U.forEach(n=>n.addEventListener("change",be)),te.forEach(n=>{n.addEventListener("click",()=>{r=n.dataset.platform,T()})}),J.addEventListener("click",()=>{const n=e.snippets(a)[r];de(n,J,"Copy current snippet")}),K.addEventListener("click",()=>{de(e.pmTicket(),K,"Copy description")}),T(),e.tbd||requestAnimationFrame(()=>e.play(a)),i.__destroy=()=>{me()},i}function Oe(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let a=null;function r(s){const p=Q.find(h=>h.id===s);p&&(a!=null&&a.__destroy&&a.__destroy(),t.innerHTML="",a=Me(p),t.appendChild(a),i.setActive(s),location.hash=s)}const i=Ee(r);e.appendChild(i.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||Q[0].id;r(o),window.addEventListener("hashchange",()=>{const s=location.hash.replace(/^#/,"");s&&r(s)})}Oe();
+  `;const o=r.querySelector("[data-role=stage]"),s=r.querySelector("[data-role=play]"),p=r.querySelector("[data-role=slow]"),h=r.querySelector("[data-role=reset]"),Z=r.querySelector("[data-role=copy-snippet]"),ee=r.querySelector("[data-role=copy-pm]"),U=r.querySelector("[data-role=duration]"),te=r.querySelector("[data-role=duration-value]"),C=r.querySelector("[data-role=easing-preset]"),ae=r.querySelector("[data-role=easing-desc]"),G=[0,1,2,3].map(n=>r.querySelector(`[data-role=bezier-${n}]`)),be=r.querySelector("[data-role=snippet-output]"),he=r.querySelector("[data-role=pm-output]"),re=Array.from(r.querySelectorAll(".tab")),ge=e.render(o);function ye(){a.easing.bezier.forEach((n,l)=>{G[l].value=String(n)})}function A(){const n=e.snippets(a);be.textContent=n[i],he.textContent=e.pmTicket(),re.forEach(l=>{l.classList.toggle("is-active",l.dataset.platform===i)})}function ie(n){a.easing={...n},ae.textContent=n.description,ye(),A(),e.tbd||e.play(a)}function ve(){const n=G.map(l=>Number(l.value));if(!n.some(l=>Number.isNaN(l))){if(a.easing={id:"custom",label:`Custom (${n.join(", ")})`,bezier:n,description:`cubic-bezier(${n.join(", ")})`},!C.querySelector('option[value="custom"]')){const l=document.createElement("option");l.value="custom",l.textContent="Custom…",C.appendChild(l)}C.value="custom",ae.textContent=`cubic-bezier(${n.join(", ")}) — ${d(n)}`,A(),e.tbd||e.play(a)}}return e.frames&&e.frames.length>0&&e.frames.forEach((n,l)=>{const oe=r.querySelector(`[data-frame-idx="${l}"]`);oe&&n.render(oe)}),s.addEventListener("click",()=>{e.tbd||e.play(a)}),p.addEventListener("click",()=>{if(e.tbd)return;const n=e.slowFactor??4,l={...a,duration:a.duration*n};e.play(l)}),h.addEventListener("click",()=>{const n=S.find(l=>l.id===e.defaults.easingId)??S[0];a.duration=e.defaults.duration,U.value=String(a.duration),te.textContent=`${a.duration} ms`,C.value=n.id,ie(n)}),U.addEventListener("input",()=>{a.duration=Number(U.value),te.textContent=`${a.duration} ms`,A(),e.tbd||e.play(a)}),C.addEventListener("change",()=>{const n=S.find(l=>l.id===C.value);n&&ie(n)}),G.forEach(n=>n.addEventListener("change",ve)),re.forEach(n=>{n.addEventListener("click",()=>{i=n.dataset.platform,A()})}),Z.addEventListener("click",()=>{const n=e.snippets(a)[i];me(n,Z,"Copy current snippet")}),ee.addEventListener("click",()=>{me(e.pmTicket(),ee,"Copy description")}),A(),e.tbd||requestAnimationFrame(()=>e.play(a)),r.__destroy=()=>{ge()},r}function Xe(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let a=null;function i(s){const p=K.find(h=>h.id===s);p&&(a!=null&&a.__destroy&&a.__destroy(),t.innerHTML="",a=We(p),t.appendChild(a),r.setActive(s),location.hash=s)}const r=Ge(i);e.appendChild(r.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||K[0].id;i(o),window.addEventListener("hashchange",()=>{const s=location.hash.replace(/^#/,"");s&&i(s)})}Xe();
