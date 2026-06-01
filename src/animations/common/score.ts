@@ -9,7 +9,7 @@ const CSS = `
   border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   padding: 24px 40px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-score__label {
   font-size: 22px; font-weight: 600; color: #fff;
@@ -36,7 +36,7 @@ let currentScore = 86;
 function frameScore(slot: HTMLElement, scale: number, color: string, value: string) {
   slot.innerHTML = `
     <div style="
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:32px;font-weight:800;color:${color};
       transform:scale(${scale});transform-origin:center;
     ">${value}</div>

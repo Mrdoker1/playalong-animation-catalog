@@ -9,7 +9,7 @@ const CSS = `
   border: 1.5px solid rgba(255,255,255,0.18);
   border-radius: 14px;
   width: 418px; box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-hl-btn {
   position: relative;
@@ -88,7 +88,7 @@ function frameBtn(label: string, state: 'idle' | 'locked' | 'correct' | 'wrong',
       border:1px solid rgba(255,255,255,${state === 'idle' ? 0.18 : 0.4});
       border-radius:5px;
       display:flex;align-items:center;justify-content:center;
-      color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:800;
+      color:#fff;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:11px;font-weight:800;
       text-transform:uppercase;letter-spacing:0.5px;
       opacity:${dim ? 0.35 : 1};
     ">${label}</div>

@@ -12,7 +12,7 @@ const CSS = `
   border: 1.5px solid rgba(255,255,255,0.12);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-ff-banner__corner {
   position: absolute; top: 50%; transform: translateY(-50%);
@@ -61,7 +61,7 @@ function frameBanner(slot: HTMLElement, translateY: number, scale: number, opaci
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       display:flex;align-items:center;justify-content:center;
       overflow:hidden;
-      color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:600;
+      color:#fff;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:13px;font-weight:600;
       transform:translateY(${translateY}px) scale(${scale});
       opacity:${opacity};
     ">

@@ -10,7 +10,7 @@ const CSS = `
   padding: 24px 32px;
   width: 260px;
   display: flex; flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
 }
 .preview-ff-attempts__title {
   font-size: 18px; font-weight: 600; text-transform: uppercase;
@@ -44,7 +44,7 @@ const sequence = [
 function frameAttempt(slot: HTMLElement, translateY: number, opacity: number, color: string, strike: boolean, text: string) {
   slot.innerHTML = `
     <div style="
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:18px;font-weight:600;
       color:${color};
       opacity:${opacity};

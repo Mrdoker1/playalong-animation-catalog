@@ -10,7 +10,7 @@ const CSS = `
   border-radius: 12px;
   padding: 20px 28px;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   display: flex; flex-direction: column; gap: 8px; justify-content: center;
 }
 .preview-cs-timer__row {
@@ -55,7 +55,7 @@ function frameTimer(slot: HTMLElement, opts: { label: string; fill: number; crit
         width:100%;height:40px;
         background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
         border-radius:6px;display:flex;align-items:center;justify-content:center;
-        color:#caa512;font-family:Arial,Helvetica,sans-serif;
+        color:#caa512;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
         font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;
       ">Time's Up!</div>
     `;
@@ -72,7 +72,7 @@ function frameTimer(slot: HTMLElement, opts: { label: string; fill: number; crit
       padding:6px 8px;box-sizing:border-box;
       display:flex;align-items:center;gap:8px;
     ">
-      <span style="color:#caa512;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:800;min-width:24px;">${opts.label}</span>
+      <span style="color:#caa512;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:12px;font-weight:800;min-width:24px;">${opts.label}</span>
       <div style="flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;">
         <div style="height:100%;width:${opts.fill}%;background:${grad};border-radius:5px;"></div>
       </div>

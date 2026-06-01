@@ -10,7 +10,7 @@ const CSS = `
   border: 1.5px solid rgba(255, 255, 255, 0.18);
   border-radius: 14px;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   font-size: 28px;
   font-weight: 500;
   line-height: 1.4;
@@ -53,7 +53,7 @@ function frameNote(slot: HTMLElement, tx: number, ty: number, scale: number, opa
     <div style="
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       border-radius:6px;padding:8px 10px;
-      font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:11px;line-height:1.4;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;color:#fff;font-size:11px;line-height:1.4;
       transform:translate(${tx}px, ${ty}px) scale(${scale});
       opacity:${opacity};
       max-width:140px;

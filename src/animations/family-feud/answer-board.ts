@@ -11,7 +11,7 @@ const CSS = `
   display: flex; align-items: center; gap: 20px;
   height: 72px; padding: 0 28px; border-radius: 10px;
   transform-origin: center center;
-  color: #fff; font-family: Arial, Helvetica, sans-serif; font-weight: 500; font-size: 26px;
+  color: #fff; font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif; font-weight: 500; font-size: 26px;
   background: linear-gradient(180deg, #1d4ed8 0%, #0a1f5a 100%);
   border: 2px solid rgba(56, 138, 255, 0.5);
 }
@@ -66,7 +66,7 @@ const FRAME_ROW_CSS = `
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
   border-radius:6px;color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
   transform-origin:center center;
 }
 `;

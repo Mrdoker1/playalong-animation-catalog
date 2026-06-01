@@ -16,7 +16,7 @@ const CSS = `
   border: 3px solid #ef4444;
   border-radius: 8px;
   color: #ef4444; font-size: 36px; font-weight: 700;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   opacity: 0.2;
   transform: scale(0.9);
 }
@@ -39,7 +39,7 @@ function frameStrike(slot: HTMLElement, scale: number, rotate: number, opacity: 
       display:flex;align-items:center;justify-content:center;
       border:2px solid #ef4444;border-radius:6px;
       color:#ef4444;font-size:26px;font-weight:700;
-      font-family:Arial,Helvetica,sans-serif;
+      font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       transform:scale(${scale}) rotate(${rotate}deg);
       opacity:${opacity};
     ">✕</div>

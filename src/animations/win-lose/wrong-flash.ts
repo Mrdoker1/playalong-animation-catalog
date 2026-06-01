@@ -13,7 +13,7 @@ const CSS = `
 .preview-cs-flash-stage__label {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Rubik', 'Helvetica Neue', Arial, sans-serif;
   color: rgba(255,255,255,0.5);
   font-size: 14px;
   letter-spacing: 0.06em;
