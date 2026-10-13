@@ -11,7 +11,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "tokens:build": "node scripts/tokens-to-css.mjs",
-    "external:sync": "node scripts/sync-external.mjs && npm run tokens:build"
+    "external:sync": "node scripts/sync-external.mjs && npm run tokens:build",
+    "demo:tv-game-poc": "node scripts/build-demo-tv-game-poc.mjs"
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",

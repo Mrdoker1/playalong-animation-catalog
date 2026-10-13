@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=1920, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <title>TV Game POC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&family=Roboto+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <style>* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Fill the actual viewport. The 1920×1080 "TV stage" lives in #root
+         and is scaled to fit whatever window the user opened so reviewers
+         on smaller monitors / non-fullscreen browsers don't see clipped
+         controls. Real webOS 6 TVs hit the viewport at 1920×1080 and the
+         JS below resolves to scale = 1 (no-op). */
+      html, body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #040810;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #root {
+        width: 1920px;
+        height: 1080px;
+        flex-shrink: 0;
+        overflow: hidden;
+        transform-origin: center center;
+        /* transform set by the inline script below, recomputed on resize. */
+      }
+    </style>
+    <script type="module" crossorigin src="/playalong-animation-catalog/demos/tv-game-poc/assets/index-DW7QZWyL.js"></script>
+    <link rel="stylesheet" crossorigin href="/playalong-animation-catalog/demos/tv-game-poc/assets/index-BqIs0BFh.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      /* Auto-fit the 1920×1080 stage into the user's window. Runs once
+         immediately (before React mounts, so there's no unscaled flash)
+         and on every resize. Capped at scale = 1 so we never upscale on
+         oversized displays. */
+      (function () {
+        var root = document.getElementById('root');
+        function apply() {
+          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080, 1);
+          root.style.transform = 'scale(' + s + ')';
+        }
+        apply();
+        window.addEventListener('resize', apply);
+      })();
+    </script>
+  </body>
+</html>

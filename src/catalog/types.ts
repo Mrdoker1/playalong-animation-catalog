@@ -31,8 +31,19 @@ export type DemoModule = {
   id: string;
   title: string;
   section: string;
-  /** Path under `public/`, e.g. `demos/stack-it.html`. */
-  src: string;
+  /**
+   * Where the demo lives. Either a path under `public/` for a build that is
+   * copied in, or an absolute URL for one that is hosted elsewhere.
+   *
+   * Not everything can be copied in. `tv-game-poc` is the worked example: its
+   * build uses absolute paths, and its video comes through Vercel rewrites that
+   * proxy CloudFront and add the CORS headers. A static copy on GitHub Pages
+   * would lose both, so it is linked instead.
+   */
+  src?: string;
+  href?: string;
+  /** Why it is linked rather than copied, shown on the card. */
+  hostedNote?: string;
   description: string;
   /** What to look at, what is placeholder, what is known-wrong. */
   notes?: string[];

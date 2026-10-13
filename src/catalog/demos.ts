@@ -21,4 +21,19 @@ export const DEMOS: DemoModule[] = [
       'Its colours are its own and do not match the palette yet: <code>#030308</code> where ours is <code>#040810</code>, <code>#FF2A2A</code> where ours is <code>#FF0000</code>. That gap is the point of having it here.',
     ],
   },
+  {
+    id: 'demo-tv-game-poc',
+    title: 'TV Game PoC — Family Feud, Card Sharks, Match Game',
+    section: 'Demos',
+    src: 'demos/tv-game-poc/index.html',
+    description:
+      'The original proof of concept: full episodes with video, the answer board, strikes and Fast Money. Most of the motion in this catalog was measured from here.',
+    notes: [
+      'Built from <code>tv-game-poc</code> into this repository — <code>npm run demo:tv-game-poc</code>. Its own source is untouched.',
+      'It was built for a domain root, so it is rebuilt here with a base path; without that every asset 404s under a sub-path.',
+      'Video came through <strong>Vercel rewrites</strong> proxying CloudFront, which GitHub Pages cannot do. The six stream prefixes now point straight at CloudFront, which already answers cross-origin.',
+      'Three of those six are renamed on CloudFront — <code>/fastmoney/</code> is <code>/fast-money/</code>, <code>/matchgame/</code> is <code>/match-game/</code>, <code>/matchgameep2/</code> is <code>/match-game-andy/</code>. A prefix rule would have 404d.',
+      'It carries 49 MB of images, audio and episode content.',
+    ],
+  },
 ];

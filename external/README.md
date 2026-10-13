@@ -35,13 +35,16 @@ Figma  ->  playalong-hub/docs/design-tokens.json  ->  external/  ->  src/tokens/
 **Only the first arrow is a decision.** The other two are copies, and if a number
 here disagrees with Figma, Figma is right and this is stale.
 
-## ⚠ This repository is public
+## This repository is public — decided, not overlooked
 
-`github.com/Mrdoker1/playalong-animation-catalog` is **public**, and it is
-published at <https://mrdoker1.github.io/playalong-animation-catalog/>. Anything
-copied in here is on the open internet.
+`github.com/Mrdoker1/playalong-animation-catalog` is **public** and published at
+<https://mrdoker1.github.io/playalong-animation-catalog/>. Everything here is on
+the open internet, and that is deliberate (Viachaslau Kulbitski, 2026-10-13):
+the demos are demos rather than client code, showing them is useful — including
+to potential investors — and the palette is not sensitive.
 
-The hub is private and belongs to the client project. **Before copying anything
-further from it — specs, meeting records, open questions, anything naming people
-or unreleased formats — that is a disclosure decision, not a build decision.**
-It needs the project's owner, not a developer in a hurry.
+So this is not a warning against copying. It is a note that **what lands here
+gets published**, so the thing to think about is the audience rather than the
+build. Material of a different kind — meeting records, commercial notes,
+anything from `private/` — is a separate decision and still belongs to the
+project's owner.

@@ -6,6 +6,19 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
   const root: WithDestroy = document.createElement('section');
   root.className = 'card demo';
 
+  const url = demo.href ?? (demo.src ? `${import.meta.env.BASE_URL}${demo.src}` : null);
+
+  // A demo with nowhere to point is shown as exactly that, rather than as a
+  // broken frame or left out of the list entirely.
+  const stage = !url
+    ? `<div class="demo__stage demo__stage--empty"><div>
+         <p class="demo__empty-title">No address yet</p>
+         <p class="demo__empty-body">${demo.hostedNote ?? 'This demo is hosted elsewhere and its URL has not been recorded.'}</p>
+       </div></div>`
+    : `<div class="demo__stage">
+         <iframe class="demo__frame" title="${demo.title}" src="${url}" allow="autoplay" loading="lazy"></iframe>
+       </div>`;
+
   const notes = (demo.notes ?? [])
     .map((n) => `<li>${n}</li>`)
     .join('');
@@ -20,15 +33,12 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
         <p class="card__desc">${demo.description}</p>
       </div>
       <div class="demo__actions">
-        <button type="button" class="btn" data-act="reload">Restart</button>
-        <a class="btn" href="${import.meta.env.BASE_URL}${demo.src}" target="_blank" rel="noopener">Open full screen</a>
+        ${url ? '<button type="button" class="btn" data-act="reload">Restart</button>' : ''}
+        ${url ? `<a class="btn" href="${url}" target="_blank" rel="noopener">Open full screen</a>` : ''}
       </div>
     </header>
 
-    <div class="demo__stage">
-      <iframe class="demo__frame" title="${demo.title}" src="${import.meta.env.BASE_URL}${demo.src}"
-              allow="autoplay" loading="lazy"></iframe>
-    </div>
+    ${stage}
 
     <div class="demo__side">
       ${controls ? `<div class="demo__block"><h2>Controls</h2><table class="demo__keys">${controls}</table></div>` : ''}
@@ -36,9 +46,10 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
     </div>
   `;
 
-  const frame = root.querySelector<HTMLIFrameElement>('.demo__frame')!;
-  root.querySelector<HTMLButtonElement>('[data-act="reload"]')!
-    .addEventListener('click', () => { frame.src = frame.src; });
+  const frame = root.querySelector<HTMLIFrameElement>('.demo__frame');
+  if (!frame) return root;
+  root.querySelector<HTMLButtonElement>('[data-act="reload"]')
+    ?.addEventListener('click', () => { frame.src = frame.src; });
 
   // The iframe keeps running — and keeps making noise — unless it is detached.
   root.__destroy = () => { frame.src = 'about:blank'; };
