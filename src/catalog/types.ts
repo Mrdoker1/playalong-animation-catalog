@@ -17,7 +17,7 @@ export type CatalogEntry = {
   /** Sidebar group. */
   section: string;
   /** Small pill on the sidebar row. */
-  badge?: { text: string; tone?: 'ready' | 'tbd' | 'demo' };
+  badge?: { text: string; tone?: 'ready' | 'tbd' | 'demo'; title?: string };
   /**
    * Paint into `host`; return a cleanup that runs before the next entry opens.
    * `arg` is whatever followed `~` in the hash — used to deep-link a token.

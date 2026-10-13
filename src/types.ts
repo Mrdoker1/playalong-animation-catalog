@@ -22,6 +22,12 @@ export type AnimationModule = {
   id: string;
   title: string;
   game: 'Family Feud' | 'Card Sharks' | 'Stack It' | 'Common' | 'Win/Lose';
+  /**
+   * Every game that actually uses this, when it is more than one -- read from
+   * tv-game-poc, not assumed. The sidebar badge then says "N games" and the
+   * page header lists them.
+   */
+  usedIn?: string[];
   description: string;
   /**
    * Defaults restored when the user hits "Reset" or first opens the animation.

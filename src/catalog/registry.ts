@@ -37,7 +37,10 @@ const fromAnimations: CatalogEntry[] = ANIMATIONS.map((a) => ({
   title: a.title,
   kind: 'animation',
   section: 'Animations',
-  badge: { text: a.game, tone: a.tbd ? 'tbd' : 'ready' },
+  // Shared by several games: say how many, and name them on hover.
+  badge: a.usedIn && a.usedIn.length > 1
+    ? { text: `${a.usedIn.length} games`, tone: a.tbd ? 'tbd' : 'ready', title: a.usedIn.join(' · ') }
+    : { text: a.game, tone: a.tbd ? 'tbd' : 'ready' },
   open: (host) => mount(host, createAnimationCard(a) as WithDestroy),
 }));
 

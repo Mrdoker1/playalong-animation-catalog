@@ -20,7 +20,7 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
   const root = document.createElement('div');
   root.innerHTML = `
     <header class="page-header">
-      <div class="page-header__eyebrow">${anim.game}</div>
+      <div class="page-header__eyebrow">${anim.usedIn?.join(' · ') ?? anim.game}</div>
       <h1 class="page-header__title">${anim.title}</h1>
       <p class="page-header__desc">${anim.description}</p>
     </header>

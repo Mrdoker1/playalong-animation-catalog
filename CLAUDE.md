@@ -83,6 +83,10 @@ Conventions every existing module follows — keep them:
 
 - **ids** are prefixed by game: `ff-` Family Feud, `cs-` Card Sharks, `si-` Stack
   It, `wl-` Win/Lose. The id is also the URL hash.
+- **`usedIn`** lists every game that really uses the piece when it is more than
+  one (checked in tv-game-poc: e.g. the Timer, Controller, Wrong Flash and Confetti
+  are Card Sharks AND Match Game; Score is four games). The sidebar badge then says
+  "N games" with the names on hover, and the page header lists them.
 - **Preview CSS** goes through `injectStyle('css-<id>', CSS)` with classes
   prefixed `preview-<game>-…` so modules can't collide. Shared pieces per game go
   in a `shared.ts` (see `stack-it/shared.ts`).
@@ -197,7 +201,7 @@ time by a wrapper Vite config the script writes to a temp dir:
 | Web vs TV | Sign In / Reset Password are **web, not TV**: served by the same build under `?view=web` as the separate demo *Web — Sign In* |
 | Menu | the PoC's `SideMenu` is **replaced by the catalog's Menu** (PTV-858): rail 160 open or shut, labels over a 220ms ramp, one ring that slides, white = selected page only, focus = the ring. Same Figma geometry and icon set as the catalog component, the PoC's own props and keys. Restyling the PoC menu from outside with CSS was tried twice and broke something every round — don't go back to it |
 | Rail scroll | `GameSelectionScreen` computed rail scroll as if the open menu were 340 wide, which made *Featured Games* jump; patched to 160 |
-| Screen diagram | `App` and the web app expose `window.catalogFlow` so the card's diagram can switch screens |
+| Screen diagram | `App` and the web app expose `window.catalogFlow` so the card's diagram can switch screens. Each game is a lane of its **stages**; they are driven by the video timeline, so a stage box reopens the episode fresh (played rounds stay done) and **seeks the video to where that stage starts** (`SEEK` table: FF round 1 at 79 s, Fast Money 1311 s…), re-checking that the seek held because the stream player can reset it on load. The current stage is read from the overlay on screen (`.ff-banner`, `.fm-stage`, `.hl-buttons--has-result`, `.game-status-card--*`…). Headless Chrome cannot decode the Family Feud (`stream2`) and Match Game streams — test those two in a real browser |
 
 Rules of that script:
 

@@ -47,6 +47,7 @@ export const Score: AnimationModule = {
   id: 'common-score',
   title: 'Score',
   game: 'Common',
+  usedIn: ['Family Feud', 'Card Sharks', 'Match Game', 'The 1% Club'],
   description:
     'When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.',
   defaults: { duration: 600, easingId: 'back-out' },

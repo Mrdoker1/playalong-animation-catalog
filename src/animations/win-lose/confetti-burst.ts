@@ -141,6 +141,7 @@ export const ConfettiBurstAnim: AnimationModule = {
   id: 'wl-confetti-burst',
   title: 'Confetti Burst',
   game: 'Win/Lose',
+  usedIn: ['Card Sharks', 'Match Game'],
   description:
     'Celebratory confetti fired from the bottom of the screen on a correct answer. Each piece is tossed up, slows to a stop at its apex, then falls back down under gravity and leaves through the bottom edge while tumbling. Higher tosses hang in the air longer — rise and fall times follow t = √(2h / g).',
   defaults: { duration: 1800, easingId: 'ease-out' },

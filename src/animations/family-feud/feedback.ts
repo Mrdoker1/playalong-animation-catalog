@@ -75,6 +75,7 @@ export const Feedback: AnimationModule = {
   id: 'ff-feedback',
   title: 'Feedback',
   game: 'Family Feud',
+  usedIn: ['Family Feud', 'Stack It'],
   description:
     'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',
   defaults: { duration: 620, easingId: 'ease-out' },

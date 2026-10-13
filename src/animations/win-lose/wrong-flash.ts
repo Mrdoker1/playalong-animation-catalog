@@ -37,6 +37,7 @@ export const WrongFlash: AnimationModule = {
   id: 'wl-wrong-flash',
   title: 'Wrong Flash',
   game: 'Win/Lose',
+  usedIn: ['Card Sharks', 'Match Game'],
   description:
     'Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.',
   defaults: { duration: 600, easingId: 'ease-out' },

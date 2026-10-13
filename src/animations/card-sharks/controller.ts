@@ -110,6 +110,7 @@ export const Controller: AnimationModule = {
   id: 'cs-controller',
   title: 'Controller with Feedback',
   game: 'Card Sharks',
+  usedIn: ['Card Sharks', 'Match Game'],
   description:
     'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',
   defaults: { duration: 200, easingId: 'ease' },

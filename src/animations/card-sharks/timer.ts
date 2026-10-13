@@ -84,6 +84,7 @@ export const Timer: AnimationModule = {
   id: 'cs-timer',
   title: 'Timer',
   game: 'Card Sharks',
+  usedIn: ['Card Sharks', 'Match Game'],
   description:
     'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',
   defaults: { duration: 6000, easingId: 'linear' },

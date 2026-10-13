@@ -58,18 +58,48 @@ export const DEMOS: DemoModule[] = [
     src: 'demos/tv-game-poc/index.html',
     description:
       'The original proof of concept: full episodes with video, the answer board, strikes and Fast Money. Most of the motion in this catalog was measured from here.',
+    // Each game is a lane: its stages left to right, in the order the episode
+    // plays them. Stages are driven by the video's timeline, so a box jumps by
+    // reopening the episode and seeking to where that stage starts.
     flow: {
       nodes: [
         { id: 'splash', label: 'Splash', sub: '2 s · loader', col: 0, row: 0 },
-        { id: 'home', label: 'Home', sub: 'hero + rails', col: 1, row: 0 },
-        { id: 'menu', label: 'Menu', sub: 'rail · ramp · ring', col: 1, row: 1 },
-        { id: 'pages', label: 'Search · Profile · Legal', sub: 'menu pages', col: 1, row: 2 },
-        { id: 'ff', label: 'Family Feud', sub: 'episode', col: 2, row: 0 },
-        { id: 'fm', label: 'Fast Money', sub: 'episode', col: 2, row: 1 },
-        { id: 'cs', label: 'Card Sharks', sub: 'episode', col: 2, row: 2 },
-        { id: 'mg', label: 'Match Game', sub: 'episode', col: 2, row: 3 },
-        { id: 'mg2', label: 'Match Game', sub: 'Executive Edition', col: 2, row: 4 },
-        { id: 'pc', label: 'The 1% Club', sub: 'episode', col: 2, row: 5 },
+        { id: 'home', label: 'Home', sub: 'hero + rails', col: 0, row: 1 },
+        { id: 'menu', label: 'Menu', sub: 'rail · ramp · ring', col: 0, row: 2 },
+        { id: 'pages', label: 'Search · Profile · Legal', sub: 'menu pages', col: 0, row: 3 },
+
+        { id: 'ff', label: 'Family Feud', sub: 'episode', col: 1, row: 0 },
+        { id: 'ff-round', label: 'Panel round', sub: '×4 · board + keyboard', col: 2, row: 0 },
+        { id: 'ff-complete', label: 'Round complete', sub: 'Continue · Skip', col: 3, row: 0 },
+        { id: 'ff-fm', label: 'Fast Money', sub: '2 parts · 40 s a question', col: 4, row: 0 },
+        { id: 'ff-end', label: 'Match results', col: 5, row: 0 },
+
+        { id: 'fm', label: 'Fast Money', sub: 'episode', col: 1, row: 1 },
+        { id: 'fm-p1', label: 'Part 1', sub: '5 questions', col: 2, row: 1 },
+        { id: 'fm-p2', label: 'Part 2', sub: 'target 200', col: 3, row: 1 },
+        { id: 'fm-end', label: 'Match results', sub: 'win · lose', col: 4, row: 1 },
+
+        { id: 'cs', label: 'Card Sharks', sub: 'episode', col: 1, row: 2 },
+        { id: 'cs-answer', label: 'Higher or lower?', sub: '▲ Higher · ▼ Lower', col: 2, row: 2 },
+        { id: 'cs-locked', label: 'Locked', sub: 'once only', col: 3, row: 2, state: true },
+        { id: 'cs-result', label: 'Result', sub: '3 s', col: 4, row: 2 },
+        { id: 'cs-end', label: 'End', sub: 'Replay · Back', col: 5, row: 2 },
+
+        { id: 'mg', label: 'Match Game', sub: 'episode', col: 1, row: 3 },
+        { id: 'mg-panel', label: 'Panel answer', sub: 'keyboard · timer', col: 2, row: 3 },
+        { id: 'mg-reveal', label: 'Panel reveal', sub: 'OK to continue', col: 3, row: 3 },
+        { id: 'mg-matchup', label: 'Match-up', sub: '▲ ▼ pick one', col: 4, row: 3 },
+        { id: 'mg-end', label: 'End', sub: 'Replay · Back', col: 5, row: 3 },
+
+        { id: 'mg2', label: 'Match Game', sub: 'Executive Edition', col: 1, row: 4 },
+        { id: 'mg2-matchup', label: 'Match-up', sub: '15 · 5 s to lock', col: 2, row: 4 },
+        { id: 'mg2-end', label: 'End', sub: 'Replay · Back', col: 3, row: 4 },
+
+        { id: 'pc', label: 'The 1% Club', sub: 'episode', col: 1, row: 5 },
+        { id: 'pc-press', label: 'Press OK', sub: 'question open', col: 2, row: 5 },
+        { id: 'pc-answer', label: 'Answer', sub: 'keyboard · choices', col: 3, row: 5 },
+        { id: 'pc-locked', label: 'Locked', sub: "or Time's up", col: 4, row: 5 },
+        { id: 'pc-result', label: 'Result', sub: 'correct · incorrect', col: 5, row: 5 },
       ],
       edges: [
         { from: 'splash', to: 'home', label: '2 s' },
@@ -81,6 +111,33 @@ export const DEMOS: DemoModule[] = [
         { from: 'home', to: 'mg' },
         { from: 'home', to: 'mg2' },
         { from: 'home', to: 'pc' },
+
+        { from: 'ff', to: 'ff-round', label: '1:19' },
+        { from: 'ff-round', to: 'ff-complete', label: 'all · ✕✕✕' },
+        { from: 'ff-complete', to: 'ff-fm', label: 'after 4' },
+        { from: 'ff-fm', to: 'ff-end', label: 'win · lose' },
+
+        { from: 'fm', to: 'fm-p1', label: '0:35' },
+        { from: 'fm-p1', to: 'fm-p2', label: 'Continue' },
+        { from: 'fm-p2', to: 'fm-end', label: 'total' },
+
+        { from: 'cs', to: 'cs-answer', label: '3:08' },
+        { from: 'cs-answer', to: 'cs-locked', label: '▲ / ▼', dashed: true },
+        { from: 'cs-locked', to: 'cs-result', label: 'time up' },
+        { from: 'cs-result', to: 'cs-end', label: '×23' },
+
+        { from: 'mg', to: 'mg-panel', label: '2:48' },
+        { from: 'mg-panel', to: 'mg-reveal', label: 'Submit' },
+        { from: 'mg-reveal', to: 'mg-matchup', label: 'OK' },
+        { from: 'mg-matchup', to: 'mg-end', label: '×10' },
+
+        { from: 'mg2', to: 'mg2-matchup', label: '0:25' },
+        { from: 'mg2-matchup', to: 'mg2-end', label: '×15' },
+
+        { from: 'pc', to: 'pc-press', label: '4:07' },
+        { from: 'pc-press', to: 'pc-answer', label: 'OK' },
+        { from: 'pc-answer', to: 'pc-locked', label: 'Submit' },
+        { from: 'pc-locked', to: 'pc-result', label: 'reveal' },
       ],
     },
     controls: [
