@@ -42,8 +42,8 @@ injectStyle('css-c-game', `
 /* Keys — the remote keys drawn on screen. The skirt that makes them read as
    keycaps is an INNER shadow with no blur, offset 0 -6: a hard 6px band of
    #00000040 along the bottom inside edge. */
-.c-key { width: 64px; height: 64px; border-radius: 8px; background: var(--tv-base-light);
-  box-shadow: inset 0 -6px 0 #00000040;
+.c-key { width: 64px; height: 64px; flex: none; border-radius: 8px;
+  background: var(--tv-base-light); box-shadow: inset 0 -6px 0 #00000040;
   display: grid; place-items: center; ${T('heading-l')}; color: var(--tv-base-black); }
 .c-key__tri { width: 25px; height: 30px; display: block; color: var(--tv-base-dark);
   margin-bottom: 4px; }
