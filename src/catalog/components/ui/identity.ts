@@ -89,15 +89,12 @@ injectStyle('css-c-identity', `
 .c-msg--warn  > svg { color: var(--tv-game-ui-yellow); }
 .c-msg--info  > svg { color: var(--tv-base-light); }
 
-/* Strike Box — a rounded square OUTLINE with an X inside it, not a bare cross */
-.c-strike { width: 36px; height: 36px; border-radius: 10px; box-sizing: border-box;
-  position: relative; border: 4px solid var(--tv-game-ui-red-1); }
+/* Strike Box — a rounded square whose 4px edge sits OUTSIDE the 36, with a
+   round-capped X inside it. */
+.c-strike { width: 36px; height: 36px; border-radius: 10px; box-sizing: content-box;
+  border: 4px solid var(--tv-game-ui-red-1); display: grid; place-items: center; }
 .c-strike--spent { opacity: .35; }
-.c-strike::before, .c-strike::after { content: ''; position: absolute;
-  left: 50%; top: 50%; width: 18px; height: 4px; border-radius: 2px;
-  background: var(--tv-game-ui-red-1); }
-.c-strike::before { transform: translate(-50%, -50%) rotate(45deg); }
-.c-strike::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+.c-strike svg { display: block; color: var(--tv-game-ui-red-1); }
 
 /* Attempt */
 .c-attempt { width: 168px; height: 71px; box-sizing: border-box; display: flex; align-items: center;
@@ -285,9 +282,13 @@ export const InputMessages: ComponentModule = {
 
 export const StrikeBox: ComponentModule = {
   id: 'c-strike-box', title: 'Strike Box', group: 'Game', figma: '4689:5985',
-  description: 'A 36 × 36 cross in Game UI/Red 1. Family Feud — one per wrong answer.',
+  description: 'A 36 × 36 rounded square outlined in Game UI/Red 1 with a round-capped X inside. Family Feud — one per wrong answer.',
   tokens: { colour: ['TV/Game UI/Red 1'], type: [] },
-  variants: [{ label: 'Strike', el: () => h(`<span class="c-strike"></span>`) }],
+  variants: [{ label: 'Strike', el: () => h(`<span class="c-strike"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 2 L16 16 M16 2 L2 16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span>`) }],
+  notes: [
+    'The 4px edge is <code>strokeAlign: OUTSIDE</code>, so the marker measures 44 on screen rather than 36.',
+    'The X has <strong>round caps</strong> and is 17.7 across, centred — not a pair of square bars.',
+  ],
 };
 
 export const Attempt: ComponentModule = {

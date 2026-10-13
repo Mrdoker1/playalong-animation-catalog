@@ -39,12 +39,14 @@ injectStyle('css-c-game', `
 .c-statusbox__banner--win  { background: var(--gradient-tv-status-you-win); }
 .c-statusbox__banner--lose { background: var(--gradient-tv-status-you-lose); }
 
-/* Keys */
+/* Keys — the remote keys drawn on screen. The skirt that makes them read as
+   keycaps is an INNER shadow with no blur, offset 0 -6: a hard 6px band of
+   #00000040 along the bottom inside edge. */
 .c-key { width: 64px; height: 64px; border-radius: 8px; background: var(--tv-base-light);
+  box-shadow: inset 0 -6px 0 #00000040;
   display: grid; place-items: center; ${T('heading-l')}; color: var(--tv-base-black); }
-.c-key__arrow { width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; }
-.c-key__arrow--up   { border-bottom: 18px solid var(--tv-base-black); }
-.c-key__arrow--down { border-top: 18px solid var(--tv-base-black); }
+.c-key__tri { width: 25px; height: 30px; display: block; color: var(--tv-base-dark);
+  margin-bottom: 4px; }
 
 /* Higher / Lower Button */
 .c-hl { width: 338px; height: 100px; box-sizing: border-box; border-radius: 12px;
@@ -115,8 +117,8 @@ export const ScoreBox: ComponentModule = {
         <span class="c-boxc__word">Time\u2019s up!</span></div></div>`) },
     { label: 'Error Indicator', el: () => h(
       `<div class="c-panel c-scorebox"><div class="c-strikes">
-        <span class="c-strike"></span><span class="c-strike"></span>
-        <span class="c-strike c-strike--spent"></span></div></div>`) },
+        <span class="c-strike"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 2 L16 16 M16 2 L2 16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span><span class="c-strike"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 2 L16 16 M16 2 L2 16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span>
+        <span class="c-strike c-strike--spent"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 2 L16 16 M16 2 L2 16" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></span></div></div>`) },
     { label: 'Timer — 155 of 205', el: () => h(
       `<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__n">32s</span>
         <span class="c-boxc__bar" style="width:205px"><span class="c-boxc__fill" style="width:155px"></span></span></div></div>`) },
@@ -164,11 +166,15 @@ export const StatusBox: ComponentModule = {
 
 export const Keys: ComponentModule = {
   id: 'c-keys', title: 'Keys', group: 'Game', figma: '3750:15653',
-  description: 'The remote keys drawn on screen: 64 × 64, radius 8, white. Up, Down and Ok.',
+  description: 'The remote keys drawn on screen: 64 × 64, radius 8, white, with a 6px shadow skirt along the bottom that makes them read as keycaps. Up, Down and Ok.',
   tokens: { colour: ['TV/Base/Black', 'TV/Base/Dark', 'TV/Base/Light'], type: ['Heading/L'] },
+  notes: [
+    'The skirt is an <strong>inner shadow with zero blur</strong> — <code>inset 0 -6px 0 #00000040</code> — not a second rectangle and not a border. It was a flat white square here until 2026-10-13.',
+    'The arrows are filled triangles with rounded corners, drawn with a round line join rather than as a CSS border triangle, which cannot round.',
+  ],
   variants: [
-    { label: 'Up', el: () => h(`<span class="c-key"><span class="c-key__arrow c-key__arrow--up"></span></span>`) },
-    { label: 'Down', el: () => h(`<span class="c-key"><span class="c-key__arrow c-key__arrow--down"></span></span>`) },
+    { label: 'Up', el: () => h(`<span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 4 L22 26 L3 26 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>`) },
+    { label: 'Down', el: () => h(`<span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 26 L3 4 L22 4 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>`) },
     { label: 'Ok', el: () => h(`<span class="c-key">Ok</span>`) },
   ],
 };
@@ -178,11 +184,11 @@ export const HigherLowerButton: ComponentModule = {
   description: '338 × 100 with a Key on the left and the label in Game/M. The outcome states swap the fill for a Status gradient.',
   tokens: { colour: ['TV/Base/Dark', 'TV/Base/Light', 'TV/Base/Neutral', 'TV/Border/White 20', 'TV/Button/Primary', 'TV/Status/Failure', 'TV/Status/Success'], type: ['Game/M'] },
   variants: [
-    { label: 'Higher · Default', el: () => h(`<div class="c-hl"><span class="c-key"><span class="c-key__arrow c-key__arrow--up"></span></span>Higher</div>`) },
-    { label: 'Higher · Focus', el: () => h(`<div class="c-hl c-hl--focus"><span class="c-key"><span class="c-key__arrow c-key__arrow--up"></span></span>Higher</div>`) },
-    { label: 'Lower · Default', el: () => h(`<div class="c-hl"><span class="c-key"><span class="c-key__arrow c-key__arrow--down"></span></span>Lower</div>`) },
-    { label: 'Correct', el: () => h(`<div class="c-hl c-hl--correct"><span class="c-key"><span class="c-key__arrow c-key__arrow--up"></span></span>Correct!</div>`) },
-    { label: 'Incorrect', el: () => h(`<div class="c-hl c-hl--incorrect"><span class="c-key"><span class="c-key__arrow c-key__arrow--down"></span></span>Incorrect!</div>`) },
+    { label: 'Higher · Default', el: () => h(`<div class="c-hl"><span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 4 L22 26 L3 26 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>Higher</div>`) },
+    { label: 'Higher · Focus', el: () => h(`<div class="c-hl c-hl--focus"><span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 4 L22 26 L3 26 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>Higher</div>`) },
+    { label: 'Lower · Default', el: () => h(`<div class="c-hl"><span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 26 L3 4 L22 4 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>Lower</div>`) },
+    { label: 'Correct', el: () => h(`<div class="c-hl c-hl--correct"><span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 4 L22 26 L3 26 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>Correct!</div>`) },
+    { label: 'Incorrect', el: () => h(`<div class="c-hl c-hl--incorrect"><span class="c-key"><svg class="c-key__tri" viewBox="0 0 25 30" fill="none" aria-hidden="true"><path d="M12.5 26 L3 4 L22 4 Z" fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg></span>Incorrect!</div>`) },
   ],
 };
 
