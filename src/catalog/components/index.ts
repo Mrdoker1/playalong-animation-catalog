@@ -13,6 +13,10 @@ import {
   CollapsedMenu, ExpandedMenu, MenuOverlay, Tabs, GameTypeTagsRow,
 } from './ui/navigation';
 import {
+  Logo, LogoWithText, Subtract, Confetti, TrophiesThumbnail, InputFieldWeb,
+  AnswerBox, AttemptsBox,
+} from './ui/brand';
+import {
   Reward, AvatarTile, RewardTrack, RewardTrackFirst,
 } from './ui/rewards';
 import {
@@ -27,21 +31,21 @@ import {
 
 export const COMPONENTS: ComponentModule[] = [
   // Controls
-  Button, Input, InputWeb, Keyboard, Toggle, Checkbox, CheckboxMessage, SelectionRadio,
+  Button, Input, InputWeb, InputFieldWeb, Keyboard, Toggle, Checkbox, CheckboxMessage, SelectionRadio,
   // Navigation
   MenuItem, CollapsedMenu, ExpandedMenu, MenuOverlay, TabsItem, Tabs, Dots,
   // Identity
   AvatarPicture, AvatarTile, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
-  Reward, RewardTrackFirst, RewardTrack,
+  Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail,
   // Content
   IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
   HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
-  SectionTrending, SectionWatchMore,
+  SectionTrending, SectionWatchMore, Logo, LogoWithText, Subtract,
   // Feedback
-  InputMessages, Mic, NotificationMessage,
+  InputMessages, Mic, NotificationMessage, Confetti,
   // Game
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, HigherLower, HigherLowerNote,
-  CardBox, AnswerOption, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
+  CardBox, AnswerOption, AnswerBox, AttemptsBox, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
 ];
 
 export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({
