@@ -109,6 +109,10 @@ injectStyle('css-c-toggle', `
   transition: transform .18s cubic-bezier(.3,.9,.3,1); transform: translateX(0); }
 .c-toggle--on .c-toggle__knob { transform: translateX(26px); }
 .c-toggle--live { cursor: pointer; }
+/* Off is dimmed, not just moved: the track and knob drop back so the state
+   reads at three metres without having to find the knob. */
+.c-toggle--off .c-toggle__track { opacity: .5; }
+.c-toggle__track { transition: opacity .18s ease; }
 `);
 
 const toggle = (on: boolean, focus = false) =>

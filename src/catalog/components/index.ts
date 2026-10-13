@@ -34,7 +34,8 @@ export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({
   badge: { text: c.group, tone: 'ready' },
   open: (host) => {
     host.innerHTML = '';
-    host.appendChild(createComponentCard(c));
-    return () => { /* static */ };
+    const card = createComponentCard(c) as HTMLElement & { __destroy?: () => void };
+    host.appendChild(card);
+    return () => card.__destroy?.();
   },
 }));

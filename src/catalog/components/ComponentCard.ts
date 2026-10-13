@@ -50,14 +50,81 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
   for (const v of c.variants) {
     const cell = document.createElement('div');
     cell.className = 'variant';
+
     const slot = document.createElement('div');
     slot.className = 'variant__slot';
-    slot.appendChild(v.el());
+    // The scaler is what gets transformed, so the component itself keeps its
+    // real pixel sizes — which is the point of rebuilding it at all.
+    const scaler = document.createElement('div');
+    scaler.className = 'variant__scaler';
+    scaler.appendChild(v.el());
+    slot.appendChild(scaler);
+
     const label = document.createElement('div');
     label.className = 'variant__label';
     label.textContent = v.label;
+
     cell.append(slot, label);
     host.appendChild(cell);
   }
+
+  // The card is still detached here, so every measurement would be zero. Fit
+  // once the browser has laid it out, and again when the window changes.
+  //
+  // NOT a ResizeObserver on `host`: fit() changes sizes inside host, which
+  // re-triggers the observer, which the browser then aborts as a loop -- and it
+  // aborts it right after fit() has reset the transforms, so nothing is scaled.
+  requestAnimationFrame(() => fit(host));
+  const onResize = () => requestAnimationFrame(() => fit(host));
+  window.addEventListener('resize', onResize);
+  (root as HTMLElement & { __destroy?: () => void }).__destroy =
+    () => window.removeEventListener('resize', onResize);
   return root;
+}
+
+/**
+ * Some components are bigger than any sensible preview — Status Box is 1704
+ * wide, Answer Option 552. Rather than clip them or rebuild them smaller, each
+ * is scaled down to fit and the factor is written next to it, so nobody reads a
+ * shrunken thing as its real size.
+ */
+function fit(host: HTMLElement) {
+  // Widest variant decides the column, so a row of small ones does not get
+  // stretched and a single wide one is not squeezed into a narrow column.
+  const scalers = [...host.querySelectorAll<HTMLElement>('.variant__scaler')];
+  if (!scalers.length) return;
+
+  for (const s of scalers) { s.style.transform = ''; s.style.width = ''; s.style.height = ''; }
+
+  const natural = scalers.map((s) => s.firstElementChild as HTMLElement);
+  const widest = Math.max(...natural.map((n) => n.offsetWidth || 0));
+  const room = host.clientWidth - 56;                       // the section's own padding
+  if (widest > 0) {
+    host.style.setProperty('--variant-basis', `${Math.min(widest, room)}px`);
+  }
+
+  for (let i = 0; i < scalers.length; i++) {
+    const el = natural[i];
+    const slot = scalers[i].parentElement as HTMLElement;
+    const w = el.offsetWidth, h = el.offsetHeight;
+    const available = slot.clientWidth;
+    if (!w || !h) continue;
+    const factor = available > 0 && w > available ? available / w : 1;
+    if (factor < 1) {
+      scalers[i].style.transform = `scale(${factor})`;
+      // A transform does not change layout, so the slot has to be told.
+      scalers[i].style.width = `${w}px`;
+      scalers[i].style.height = `${h}px`;
+      slot.style.height = `${Math.ceil(h * factor)}px`;
+      const label = slot.nextElementSibling as HTMLElement | null;
+      if (label) {
+        label.dataset.base ??= label.textContent ?? '';
+        label.textContent = `${label.dataset.base}  ·  ${w}×${h} at ${Math.round(factor * 100)}%`;
+      }
+    } else {
+      slot.style.height = '';
+      const label = slot.nextElementSibling as HTMLElement | null;
+      if (label?.dataset.base) label.textContent = label.dataset.base;
+    }
+  }
 }

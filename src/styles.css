@@ -493,13 +493,19 @@ select:focus, input:focus { border-color: var(--accent); }
 
 /* ===== Components ===== */
 .variants {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px; padding: 28px; border-radius: var(--radius); border: 1px solid var(--border);
+  --variant-basis: 260px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--variant-basis), 100%), 1fr));
+  gap: 20px 24px; padding: 28px; border-radius: var(--radius); border: 1px solid var(--border);
 }
+.variant__scaler { transform-origin: left top; }
 .variants--dark { background: var(--tv-base-dark); }
 .variants--neutral { background: var(--tv-base-neutral); }
-.variant { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
-.variant__slot { display: flex; align-items: center; min-height: 72px; }
+/* min-width:0 — a grid track is minmax(auto, 1fr) and `auto` is the content
+   size, so without this a 1704-wide component simply widens its own column and
+   nothing ever looks too big to fit. */
+.variant { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; min-width: 0; }
+.variant__slot { display: flex; align-items: center; min-height: 72px; overflow: hidden; }
 .variant__label { font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
 
 .comp__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 22px; }
