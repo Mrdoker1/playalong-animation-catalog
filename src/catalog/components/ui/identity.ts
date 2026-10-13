@@ -24,7 +24,10 @@ injectStyle('css-c-identity', `
 /* Game Type Tag */
 .c-gtt { height: 42px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 16px; border-radius: 8px; background: var(--tv-button-secondary);
-  border: 1px solid var(--tv-border-white-20); ${T('label-m')}; color: var(--tv-base-light); }
+  border: 1px solid var(--tv-border-white-20); ${T('label-m')}; color: var(--tv-base-light);
+  white-space: nowrap; }
+.c-gtt--prime { background: var(--tv-game-ui-yellow); border-color: transparent;
+  color: var(--tv-base-dark); }
 .c-gtt > svg { flex: none; }
 
 /* Avatar Picture — 140 round. Both states take a 4px white-at-20% edge that
@@ -64,8 +67,8 @@ injectStyle('css-c-identity', `
 
 /* Unlocked counter */
 .c-unlocked { display: flex; align-items: center; gap: 16px; height: 70px; }
-.c-unlocked__badge { width: 44px; height: 44px; flex: none; border-radius: 8px;
-  background: var(--gradient-tv-placeholder-light); }
+.c-unlocked__badge { width: 44px; height: 44px; flex: none; display: block;
+  object-fit: contain; }
 .c-unlocked__n { ${T('display-m')}; color: var(--tv-base-light); }
 .c-unlocked__cap { ${T('label-m')}; color: var(--tv-text-primary); }
 
@@ -130,14 +133,31 @@ export const MenuItem: ComponentModule = {
   ],
 };
 
+const GAME_TYPES: { v: string; ico: string; tx: string; w: number; prime?: boolean }[] = [
+  { v: 'Multiple',   ico: 'Check',   tx: 'Multiple Choice (A-D)', w: 273 },
+  { v: 'Numeric',    ico: 'Pad',     tx: 'numeric input',         w: 205 },
+  { v: 'Free Text',  ico: 'Text',    tx: 'Free Text Entry',       w: 222 },
+  { v: 'UpDown',     ico: 'Up/Down', tx: 'up/down select',        w: 224 },
+  { v: 'Voice',      ico: 'Mic',     tx: 'voice input',           w: 177 },
+  { v: 'Time',       ico: 'Timer',   tx: 'time-limited',          w: 187 },
+  { v: 'Prime Time', ico: 'Crown',   tx: 'PRIME TIME',            w: 167, prime: true },
+];
+
 export const GameTypeTag: ComponentModule = {
-  id: 'c-game-type-tag', title: 'Game Type Tag', group: 'Content', figma: '1020:8114',
-  description: '42 high, radius 8, on the secondary surface with a 20% white edge. Icon 24, label in Label/M.',
-  tokens: { colour: ['TV/Base/Light', 'TV/Border/White 20', 'TV/Button/Secondary'], type: ['Label/M'] },
-  variants: [
-    { label: 'Multiple Choice', el: () => h(`<span class="c-gtt">${icon('Pad', 24)}Multiple Choice (A-D)</span>`) },
-    { label: 'Voice', el: () => h(`<span class="c-gtt">${icon('Mic', 24)}Voice</span>`) },
-    { label: 'Free Text', el: () => h(`<span class="c-gtt">${icon('Text', 24)}Free Text</span>`) },
+  id: 'c-game-type-tag', title: 'Game Type Tag', group: 'Content', figma: '5022:9521',
+  description: 'How a show says what kind of answering it wants. 42 high, radius 8, a 24 icon and Label/M. Six sit on the secondary surface; Prime Time is the odd one out.',
+  tokens: {
+    colour: ['TV/Base/Dark', 'TV/Base/Light', 'TV/Border/White 20', 'TV/Button/Secondary', 'TV/Game UI/Yellow'],
+    type: ['Label/M'],
+  },
+  variants: GAME_TYPES.map((g) => ({
+    label: `${g.v} — ${g.w}`,
+    el: () => h(`<span class="c-gtt${g.prime ? ' c-gtt--prime' : ''}">${icon(g.ico, 24)}${g.tx}</span>`),
+  })),
+  notes: [
+    '<strong>Prime Time is not like the other six.</strong> It fills with <code>TV/Game UI/Yellow</code> and prints in <code>TV/Base/Dark</code> — the only one that inverts — and it is the only one whose label is set in capitals.',
+    'The copy is inconsistent in the file and is reproduced as found: <em>Multiple Choice (A-D)</em> and <em>Free Text Entry</em> are capitalised, <em>numeric input</em>, <em>voice input</em>, <em>time-limited</em> and <em>up/down select</em> are not.',
+    'Every variant\'s text layer is still named <code>Multiple Choice (A-D)</code> in Figma, whatever it says — they were duplicated and retyped.',
   ],
 };
 
@@ -209,11 +229,14 @@ export const AvatarLabel: ComponentModule = {
 
 export const UnlockedCounter: ComponentModule = {
   id: 'c-unlocked-counter', title: 'Unlocked counter', group: 'Identity', figma: '13550:42728',
-  description: '170 × 70. A 44 badge, then the count in Display/M over the caption in Label/M.',
+  description: '170 × 70. The gold star at 44, then the count in Display/M over UNLOCKED in Label/M, 16 apart.',
   tokens: { colour: ['TV/Base/Light', 'TV/Text/Primary'], type: ['Display/M', 'Label/M'] },
+  notes: [
+    'The badge is the file\'s own star image, downloaded rather than approximated — it was a grey rounded square here until 2026-10-13.',
+  ],
   variants: [
     { label: '7 of 24', el: () => h(
-      `<div class="c-unlocked"><span class="c-unlocked__badge"></span>
+      `<div class="c-unlocked"><img class="c-unlocked__badge" src="${import.meta.env.BASE_URL}assets/components/star.png" alt="" />
         <div><div class="c-unlocked__n">7/24</div><div class="c-unlocked__cap">Unlocked</div></div></div>`) },
   ],
 };

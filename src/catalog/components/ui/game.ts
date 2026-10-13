@@ -72,13 +72,17 @@ injectStyle('css-c-game', `
 .c-ao__rule { width: 2px; align-self: stretch; background: var(--tv-button-secondary); }
 .c-ao__text { flex: 1; }
 
-/* Video Player Buttons */
+/* Video Player Buttons — the glyph is a filled white disc with the shape
+   knocked out of it, not a bare triangle on the ground. */
 .c-vpb { display: flex; align-items: center; gap: 16px; padding: 4px 0; }
-.c-vpb__glyph { width: 88px; height: 88px; display: grid; place-items: center; }
-.c-vpb__play { width: 0; height: 0; border-left: 46px solid var(--tv-base-light);
-  border-top: 28px solid transparent; border-bottom: 28px solid transparent; }
-.c-vpb__pause { display: flex; gap: 14px; }
-.c-vpb__pause span { width: 24px; height: 60px; background: var(--tv-base-light); border-radius: 3px; }
+.c-vpb__glyph { width: 88px; height: 88px; flex: none; border-radius: 50%;
+  background: var(--tv-base-light); display: grid; place-items: center; }
+.c-vpb__play { width: 0; height: 0; margin-left: 6px;
+  border-left: 30px solid var(--tv-base-dark);
+  border-top: 18px solid transparent; border-bottom: 18px solid transparent; }
+.c-vpb__pause { display: flex; gap: 9px; }
+.c-vpb__pause span { width: 11px; height: 36px; border-radius: 3px;
+  background: var(--tv-base-dark); }
 `);
 
 const bar = (pct: number, out = false) =>
@@ -173,16 +177,20 @@ export const AnswerOption: ComponentModule = {
 
 export const VideoPlayerButtons: ComponentModule = {
   id: 'c-video-player-buttons', title: 'Video Player Buttons', group: 'Content', figma: '5623:18110',
-  description: 'The transport row: two 240 secondary buttons either side of an 88 glyph.',
+  description: 'The question transport: two 240 secondary buttons either side of an 88 white disc carrying a dark play or pause glyph.',
   tokens: { colour: ['TV/Base/Light', 'TV/Border/White 20', 'TV/Button/Secondary'], type: ['Body/L'] },
+  notes: [
+    'The buttons say <strong>Previous Question</strong> and <strong>Next Question</strong> — this moves through questions, not through video. They were labelled Rewind and Forward here, which was a guess from the component\'s name.',
+    'In Figma the glyph is a single vector for Play and a boolean Subtract for Pause; both are a white disc with the shape cut out of it.',
+  ],
   variants: [
     { label: 'Play', el: () => h(
-      `<div class="c-vpb"><span class="c-btn c-btn--secondary">Rewind</span>
+      `<div class="c-vpb"><span class="c-btn c-btn--secondary">Previous Question</span>
         <span class="c-vpb__glyph"><span class="c-vpb__play"></span></span>
-        <span class="c-btn c-btn--secondary">Forward</span></div>`) },
+        <span class="c-btn c-btn--secondary">Next Question</span></div>`) },
     { label: 'Pause', el: () => h(
-      `<div class="c-vpb"><span class="c-btn c-btn--secondary">Rewind</span>
+      `<div class="c-vpb"><span class="c-btn c-btn--secondary">Previous Question</span>
         <span class="c-vpb__glyph"><span class="c-vpb__pause"><span></span><span></span></span></span>
-        <span class="c-btn c-btn--secondary">Forward</span></div>`) },
+        <span class="c-btn c-btn--secondary">Next Question</span></div>`) },
   ],
 };

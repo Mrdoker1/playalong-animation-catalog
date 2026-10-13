@@ -1,7 +1,6 @@
 import { injectStyle } from '../../../lib/injectStyle';
 import type { ComponentModule } from '../types';
 import { icon, ICONS, ICON_NAMES } from '../icons';
-import { copyToClipboard } from '../../../lib/copyClipboard';
 
 /** Shared helper: build an element from an HTML string. */
 const h = (html: string): HTMLElement => {
@@ -298,7 +297,7 @@ injectStyle('css-c-iconset', `
 .c-iconset__cell:focus-visible { outline: var(--tv-focus-ring-width) solid var(--tv-focus-ring-color);
   outline-offset: 2px; }
 .c-iconset__cell.is-copied { border-color: var(--tv-game-ui-green-1); }
-.c-iconset__hint { position: absolute; inset: auto 0 4px; font-size: 9px; opacity: 0;
+.c-iconset__hint { position: absolute; inset: auto 0 3px; font-size: 8px; opacity: 0;
   color: var(--tv-text-primary); transition: opacity .12s ease; }
 .c-iconset__cell:hover .c-iconset__hint { opacity: .7; }
 .c-iconset__cell.is-copied .c-iconset__hint { opacity: 1; color: var(--tv-game-ui-green-1); }
@@ -312,24 +311,49 @@ export const IconSet: ComponentModule = {
   tokens: { colour: ['TV/Base/Light'], type: [] },
   wide: true,
   variants: [
-    { label: `${ICON_NAMES.length} icons at 32 — click one to copy its SVG`, el: () => {
+    { label: `${ICON_NAMES.length} icons at 32 — click to download the .svg, shift-click to copy the markup`, el: () => {
       const grid = h('<div class="c-iconset"></div>');
       for (const name of ICON_NAMES) {
         const cell = h(
-          `<button type="button" class="c-iconset__cell" title="Copy ${name} as SVG">
+          `<button type="button" class="c-iconset__cell" title="Download ${name}.svg — hold shift to copy the markup instead">
              ${icon(name)}<span class="c-iconset__name">${name}</span>
-             <span class="c-iconset__hint">copy SVG</span>
+             <span class="c-iconset__hint">download · shift to copy</span>
            </button>`) as HTMLButtonElement;
-        cell.addEventListener('click', async () => {
-          // A standalone file: the viewBox and currentColor are what make it
-          // drop straight into anything.
+        cell.addEventListener('click', async (ev) => {
+          // A standalone file: xmlns, a viewBox and currentColor rather than a
+          // baked fill, so it drops into anything and takes the colour of
+          // wherever it lands.
           const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" `
             + `viewBox="0 0 32 32" fill="none">${ICONS[name]}</svg>`;
           const hint = cell.querySelector('.c-iconset__hint')!;
-          await copyToClipboard(svg, cell, 'copy SVG');
+          let said: string;
+
+          if ((ev as MouseEvent).shiftKey) {
+            // Shift copies the markup. Pasting SVG source as TEXT is what makes
+            // Figma build vectors from it, so this is the route back into the
+            // file -- not a worse version of the download.
+            try { await navigator.clipboard.writeText(svg); said = 'copied'; }
+            catch { said = 'copy failed'; }
+          } else {
+            // A real file. The clipboard cannot carry one: ClipboardItem only
+            // accepts sanitised types and image/svg+xml is not among them, so a
+            // download is the honest way to hand over a file.
+            const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.svg`;
+            a.click();
+            URL.revokeObjectURL(url);
+            said = 'downloaded';
+          }
+
+          // Only the hint changes -- the icon and its name stay put.
           cell.classList.add('is-copied');
-          hint.textContent = 'copied';
-          setTimeout(() => { cell.classList.remove('is-copied'); hint.textContent = 'copy SVG'; }, 1400);
+          hint.textContent = said;
+          setTimeout(() => {
+            cell.classList.remove('is-copied');
+            hint.textContent = 'download · shift to copy';
+          }, 1400);
         });
         grid.appendChild(cell);
       }
@@ -338,6 +362,7 @@ export const IconSet: ComponentModule = {
   ],
   notes: [
     'Three of the 55 are not here. <code>Avatar with Frame</code> and <code>Stacked-Avatar-StackStage2</code> are bare rectangles in the file — placeholders rather than icons — and <code>Processing</code> is a conic gradient, which belongs in CSS rather than in a path. Left out rather than faked.',
-    'Each is drawn in <code>currentColor</code>, so it takes the colour of whatever it sits in. The copied file carries a <code>viewBox</code> and no hard-coded fill, so it drops straight into anything.',
+    'Each is drawn in <code>currentColor</code>, so it takes the colour of whatever it sits in, and carries a <code>viewBox</code> rather than a fixed size.',
+    'Click downloads a real <code>.svg</code>; <strong>shift-click copies the markup</strong>. A browser cannot put a file on the clipboard — <code>ClipboardItem</code> only accepts sanitised types and <code>image/svg+xml</code> is not one — and pasting the markup as text is what makes Figma rebuild it as vectors anyway.',
   ],
 };
