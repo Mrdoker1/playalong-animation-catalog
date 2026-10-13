@@ -8,6 +8,9 @@ npm install
 npm run dev
 ```
 
+Before changing anything, read [CLAUDE.md](CLAUDE.md) — the working context:
+conventions, product decisions, how the demos are built, and known traps.
+
 ## What is in it
 
 | Section | What it holds |

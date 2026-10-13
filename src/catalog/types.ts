@@ -55,6 +55,12 @@ export type DemoModule = {
    * for `storage` events picks the change up live.
    */
   settings?: DemoSetting[];
+  /**
+   * Buttons in the card header that drive the running demo, e.g. "End timer".
+   * The frame is same-origin, so `run` gets its window and calls what the demo
+   * exposes there.
+   */
+  actions?: { label: string; run: (win: Window) => void }[];
 };
 
 export type DemoSetting = {

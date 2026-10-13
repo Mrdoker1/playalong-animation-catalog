@@ -9,13 +9,20 @@ export const DEMOS: DemoModule[] = [
     description:
       'The whole game loop, playable: answer selection, the timed stacking phase, results and Round Complete. Self-contained build, no backend.',
     controls: [
-      { keys: '↑ ↓ ← →', does: 'Choose an answer; move a placed answer between free slots' },
-      { keys: 'OK / Enter', does: 'Place into the first free slot from the top; in the timed phase, pick up and drop' },
-      { keys: 'Back / Esc', does: 'Return an answer to the list' },
+      { keys: '← → ↑ ↓', does: 'Choose an answer' },
+      { keys: 'OK / Enter', does: 'Move it to the first free slot from the top' },
+      { keys: '↑ ↓ then OK', does: 'Move it between free slots, then lock it' },
+      { keys: 'Back / Esc', does: 'Return it to the list' },
+      { keys: '↑ ↓ + OK', does: 'Until the timer runs out: choose a block, OK picks it up, ↑ ↓ moves it, OK drops it' },
+      { keys: 'OK', does: 'On results / Round Complete: skip ahead' },
+    ],
+    // The demo's window exposes window.stackIt for these.
+    actions: [
+      { label: 'End timer', run: (win) => (win as Window & { stackIt?: { endTimer(): void } }).stackIt?.endTimer() },
     ],
     notes: [
-      'Scoring is 1 point per correct slot in round 1, 2 in round 2, 5 in the final — 10 / 20 / 50 for all six.',
       'After the fifth answer the sixth fills the last slot on its own.',
+      'Scoring is 1 point per correct slot in round 1, 2 in round 2, 5 in the final — 10 / 20 / 50 for all six. The running score is on Round Complete.',
       "The contestant's stack is placeholder data.",
       'It already loads <strong>Rubik and Roboto Condensed</strong> — our two families, split the way we split them.',
       'Its colours are its own and do not match the palette yet: <code>#030308</code> where ours is <code>#040810</code>, <code>#FF2A2A</code> where ours is <code>#FF0000</code>. That gap is the point of having it here.',

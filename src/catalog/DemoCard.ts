@@ -52,6 +52,7 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
         <p class="card__desc">${demo.description}</p>
       </div>
       <div class="demo__actions">
+        ${url ? (demo.actions ?? []).map((a, i) => `<button type="button" class="btn" data-action="${i}">${a.label}</button>`).join('') : ''}
         ${url ? '<button type="button" class="btn" data-act="reload">Restart</button>' : ''}
         ${url ? `<a class="btn" href="${url}" target="_blank" rel="noopener">Open full screen</a>` : ''}
       </div>
@@ -78,6 +79,13 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
 
   const frame = root.querySelector<HTMLIFrameElement>('.demo__frame');
   if (!frame) return root;
+  root.querySelectorAll<HTMLButtonElement>('[data-action]').forEach((btn) => {
+    const action = demo.actions![Number(btn.dataset.action)];
+    btn.addEventListener('click', () => {
+      if (frame.contentWindow) action.run(frame.contentWindow);
+      frame.focus(); // keep the keyboard driving the demo, not the button
+    });
+  });
   root.querySelector<HTMLButtonElement>('[data-act="reload"]')
     ?.addEventListener('click', () => { frame.src = frame.src; });
 
