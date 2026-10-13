@@ -22,6 +22,7 @@ import {
 import {
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox,
   AnswerOption, VideoPlayerButtons,
+  StackedAnswer, HigherLowerNote, HigherLower, ScoreTableRow, NotificationMessage,
 } from './ui/game';
 
 export const COMPONENTS: ComponentModule[] = [
@@ -37,9 +38,10 @@ export const COMPONENTS: ComponentModule[] = [
   HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
   SectionTrending, SectionWatchMore,
   // Feedback
-  InputMessages, Mic,
+  InputMessages, Mic, NotificationMessage,
   // Game
-  BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox, AnswerOption, Attempt, StrikeBox,
+  BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, HigherLower, HigherLowerNote,
+  CardBox, AnswerOption, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
 ];
 
 export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({

@@ -1,5 +1,6 @@
 import { injectStyle } from '../../../lib/injectStyle';
 import type { ComponentModule } from '../types';
+import { icon } from '../icons';
 
 const h = (html: string): HTMLElement => {
   const t = document.createElement('template');
@@ -247,5 +248,161 @@ export const VideoPlayerButtons: ComponentModule = {
       `<div class="c-vpb"><span class="c-btn c-btn--secondary">Previous Question</span>
         <span class="c-vpb__glyph"><span class="c-vpb__pause"><span></span><span></span></span></span>
         <span class="c-btn c-btn--secondary">Next Question</span></div>`) },
+  ],
+};
+
+/* ------------------------------------------------- Stacked - Answer ------- */
+
+injectStyle('css-c-game2', `
+.c-stacked { width: 496px; height: 116px; box-sizing: border-box; border-radius: 48px;
+  background: var(--tv-button-primary-solid); display: grid; place-items: center;
+  font-family: var(--type-game-m-family); font-size: 28px; color: var(--tv-base-light); }
+.c-stacked--default { border: 12px solid var(--tv-game-ui-red-1); }
+.c-stacked--success { border: 12px solid var(--tv-text-gain); }
+
+.c-note { box-sizing: border-box; border-radius: 24px; padding: 40px;
+  background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
+  display: flex; flex-direction: column; gap: 8px; color: var(--tv-base-light); }
+.c-note__line { display: flex; align-items: center; gap: 16px;
+  font-family: var(--type-heading-l-family); font-weight: var(--type-heading-l-weight);
+  font-size: var(--type-heading-l-size); line-height: var(--type-heading-l-line); }
+.c-dkey { width: 64px; height: 64px; border-radius: 8px; background: var(--tv-base-light);
+  color: var(--tv-base-dark); display: grid; place-items: center; flex: none; }
+.c-dkey--up > svg { transform: rotate(-90deg); }
+.c-dkey--down > svg { transform: rotate(90deg); }
+
+.c-hl { width: 418px; box-sizing: border-box; border-radius: 24px; padding: 40px;
+  background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
+  display: flex; flex-direction: column; gap: 16px; }
+.c-hl__btn { height: 100px; box-sizing: border-box; border-radius: 12px;
+  background: var(--tv-base-neutral); border: 1px solid var(--tv-border-white-20);
+  display: flex; align-items: center; gap: 24px; padding: 20px 32px;
+  font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
+  font-size: var(--type-game-m-size); color: var(--tv-base-light); }
+
+.c-scorerow { width: 1117px; box-sizing: border-box; height: 104px; display: flex;
+  align-items: center; gap: 24px; padding: 20px 10px;
+  border-bottom: 1px solid var(--tv-border-white-20); color: var(--tv-base-light); }
+.c-scorerow__rank { width: 68px; ${T('heading-s')}; }
+.c-scorerow__av { width: 64px; height: 64px; border-radius: 50%; flex: none; object-fit: cover;
+  box-shadow: 0 0 0 1px var(--tv-border-white-20); }
+.c-scorerow__name { width: 200px; ${T('heading-s')}; }
+.c-scorerow__n { width: 120px; ${T('body-l')}; }
+.c-scorerow__streak { display: flex; align-items: center; gap: 10px; ${T('body-l')}; }
+
+.c-notif { width: 1728px; box-sizing: border-box; height: 120px; border-radius: 24px;
+  background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
+  display: flex; align-items: center; gap: 32px; padding: 24px 40px;
+  color: var(--tv-base-light); }
+.c-notif__text { flex: 1; ${T('heading-l')}; }
+`);
+
+export const StackedAnswer: ComponentModule = {
+  id: 'c-stacked-answer', title: 'Stacked — Answer', group: 'Game', figma: '14010:45824',
+  description: '496 × 116, radius 48 — an answer the player gave, on the Primary Solid blue with a 12px edge that carries the verdict.',
+  tokens: {
+    colour: ['TV/Button/Primary Solid', 'TV/Game UI/Red 1', 'TV/Text/Gain', 'TV/Base/Light'],
+    type: [],
+  },
+  wide: true,
+  variants: [
+    { label: 'Default', el: () => h(`<div class="c-stacked c-stacked--default">violin/fiddle</div>`) },
+    { label: 'Success', el: () => h(`<div class="c-stacked c-stacked--success">violin/fiddle</div>`) },
+  ],
+  notes: [
+    '<strong>Both variant names are misspelled in the file</strong>: <code>Type=Defau;t</code> — with a semicolon — and <code>Type=Sucess</code>. The same <em>Sucess</em> slip was fixed in the paint styles on 2026-10-12 and survives here. <strong>Worth fixing.</strong>',
+    '<strong>The "default" is red.</strong> A 12px <code>Game UI/Red 1</code> edge is a wrong answer, not a resting state — so this set has two verdicts and no neutral. Either the name is wrong or a third variant is missing. <strong>Needs a decision.</strong>',
+    'The label binds <strong>no text style</strong>: a loose 28px. Neither the Rubik scale nor the Game scale has a 28.',
+  ],
+};
+
+export const HigherLowerNote: ComponentModule = {
+  id: 'c-hl-note', title: 'Higher/Lower Note', group: 'Game', figma: '3750:15695',
+  description: '872 × 190 — the instruction that teaches the remote, with the two D-pad keys drawn inline in the sentence.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Base/Dark'],
+    type: ['Heading/L'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Default', el: () => h(`<div class="c-note" style="width:872px">
+        <div class="c-note__line"><span>Use the</span>
+          <span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>(Up) and</span>
+          <span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>(Down) buttons on</span></div>
+        <div class="c-note__line"><span>your TV remote to make your selections.</span></div>
+      </div>`) },
+  ],
+  notes: [
+    '<strong>The arrow keys are the <code>Play</code> icon rotated</strong> — there is no up or down glyph in the set, so a play triangle is turned 90°. It reads correctly and it means the icon set is missing two members.',
+    'The sentence is <strong>built from five separate text nodes</strong> with the keys between them, so it cannot wrap or be translated as one string. A client has to reassemble it.',
+    'This is the voice-first product\'s remote-only instruction, and <code>Heading/L</code> at 36 is well above the 24 floor — correctly, since it is meant to be read from the sofa.',
+  ],
+};
+
+export const HigherLower: ComponentModule = {
+  id: 'c-higher-lower', title: 'Higher/Lower', group: 'Game', figma: '3752:15760',
+  description: '418 × 296 — the two Card Sharks choices stacked in a dark panel.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral', 'TV/Base/Light', 'TV/Base/Dark'],
+    type: ['Game/M'],
+  },
+  variants: [
+    { label: 'Default', el: () => h(`<div class="c-hl">
+        <div class="c-hl__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
+        <div class="c-hl__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
+      </div>`) },
+  ],
+  notes: [
+    '<strong>The two labels disagree about case</strong>: <em>Higher</em> and <em>lower</em>. Both bind <code>Game/M</code>, which is Roboto Condensed ExtraBold 40 — a style with no case transform, so the file renders exactly that. <strong>A file defect.</strong>',
+    'The set has <strong>one variant</strong>, <code>Type=Default</code>, so there is no focused state for the pair although the buttons inside have one. Focus on this panel is undefined.',
+    'This is the game layer, so it is Roboto Condensed rather than Rubik — the deliberate second family, not drift.',
+  ],
+};
+
+export const ScoreTableRow: ComponentModule = {
+  id: 'c-score-row', title: 'Score Table Row', group: 'Game', figma: '6933:11901',
+  description: '1117 × 104 — one player on a leaderboard: rank, avatar, name, tag, three numbers and a streak.',
+  tokens: {
+    colour: ['TV/Border/White 20', 'TV/Base/Light', 'TV/Tags/Primary'],
+    type: ['Heading/S', 'Body/L', 'Label/S'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Rank 1', el: () => h(`<div class="c-scorerow">
+        <span class="c-scorerow__rank">#1</span>
+        <img class="c-scorerow__av" src="assets/components/avatar-sample.png" alt="">
+        <span class="c-scorerow__name">QuizMaster99</span>
+        <span class="c-pill c-pill--new" style="position:static">NEW</span>
+        <span class="c-scorerow__n">25,521</span>
+        <span class="c-scorerow__n">900</span>
+        <span class="c-scorerow__n">28</span>
+        <span class="c-scorerow__streak">${icon('Fire', 32)}31</span>
+      </div>`) },
+  ],
+  notes: [
+    '<strong>None of the four numbers is labelled.</strong> 25,521 / 900 / 28 / 31 sit in unnamed frames with no header anywhere in the component, so what they count is not in the file. The flame suggests the last is a streak. <strong>Needs the column headings.</strong>',
+    'Leaderboards are <strong>post-MVP</strong> per the product brief — competitive trivia is phase 2. This component exists ahead of the feature.',
+    'The row\'s only surface is a 1px <code>Border/White 20</code>; drawn here as a bottom rule, which is what a table row needs, though the file strokes the whole frame.',
+  ],
+};
+
+export const NotificationMessage: ComponentModule = {
+  id: 'c-notification', title: 'Notification Message', group: 'Feedback', figma: '2565:2660',
+  description: '1728 × 120 — a full-width prompt over the video, with the button that answers it on the right.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Button/Primary'],
+    type: ['Heading/L', 'Body/L'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Default', el: () => h(`<div class="c-notif">
+        <span class="c-notif__text">Press OK if you want to answer the question</span>
+        <span class="c-btn c-btn--primary is-focus" style="width:200px">OK</span>
+      </div>`) },
+  ],
+  notes: [
+    '<strong>Its button is drawn focused and there is no unfocused variant</strong>, so the prompt only exists in the state where the remote is already on it.',
+    'The button is 200 × 72 with <code>64px</code> side padding for a two-character label — the padding is from a wider button and was not reset. The same leftover the <code>Button</code> component has.',
+    '1728 wide is the content block (1760) less its 32 — so this sits inside the content, not across the screen.',
   ],
 };
