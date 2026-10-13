@@ -27,25 +27,27 @@ injectStyle('css-c-identity', `
   border: 1px solid var(--tv-border-white-20); ${T('label-m')}; color: var(--tv-base-light); }
 .c-gtt > svg { flex: none; }
 
-/* Avatar Picture */
-.c-av { width: 140px; height: 140px; border-radius: 50%; box-sizing: border-box; position: relative;
-  border: 4px solid var(--tv-button-secondary); display: grid; place-items: center; overflow: visible; }
-.c-av--guest { background: var(--tv-border-white-20); border-color: var(--tv-border-white-20); }
-.c-av__img { width: 100%; height: 100%; border-radius: 50%;
+/* Avatar Picture — 140 round. Guest is a grey ring over a black disc; logged in
+   is the photo. The edit button is a real Secondary Button, 48 with radius 12. */
+.c-av { width: 140px; height: 140px; border-radius: 50%; box-sizing: border-box;
+  position: relative; display: grid; place-items: center; }
+.c-av--photo { border: 4px solid var(--tv-button-secondary);
   background: linear-gradient(160deg, #3a4a6b, #16203a); }
-.c-av__silhouette { width: 111px; height: 111px; border-radius: 50%; background: #000; opacity: .55;
-  clip-path: circle(50%); }
-.c-av__edit { position: absolute; right: -4px; bottom: -4px; width: 48px; height: 48px;
-  border-radius: 12px; background: var(--tv-base-neutral);
-  border: 1px solid var(--tv-border-white-20); display: grid; place-items: center; }
+.c-av--guest { border: 4px solid var(--tv-border-white-20);
+  background: var(--tv-border-white-20); }
+.c-av__disc { width: 111px; height: 111px; border-radius: 50%; background: #000; }
+.c-av__edit { position: absolute; right: -6px; bottom: -2px; width: 48px; height: 48px;
+  border-radius: 12px; box-sizing: border-box; display: grid; place-items: center;
+  background: var(--tv-base-neutral); border: 1px solid var(--tv-border-white-20);
+  color: var(--tv-base-light); }
 
-
-/* User Avatar */
+/* User Avatar — the picture, then the name over two metadata rows */
 .c-ua { width: 518px; display: flex; align-items: center; gap: 32px; }
 .c-ua__name { ${T('heading-l')}; color: var(--tv-base-light); margin: 0 0 16px; }
 .c-ua__row { display: flex; align-items: center; gap: 8px; height: 32px;
-  ${T('body-l')}; color: var(--tv-text-primary); }
-.c-ua__dot { width: 24px; height: 24px; border-radius: 6px; background: var(--tv-text-primary); opacity: .5; }
+  ${T('body-l')}; color: var(--tv-text-primary); white-space: nowrap; }
+.c-ua__row + .c-ua__row { margin-top: 16px; }
+.c-ua__row > svg { flex: none; }
 
 /* AVATAR Label pill */
 .c-alabel { height: 28px; box-sizing: border-box; display: inline-flex; align-items: center;
@@ -131,27 +133,47 @@ export const GameTypeTag: ComponentModule = {
   ],
 };
 
+const avatarPicture = (kind: 'photo' | 'guest', edit = false) => h(
+  `<div class="c-av c-av--${kind}">
+     ${kind === 'guest' ? '<span class="c-av__disc"></span>' : ''}
+     ${edit ? `<span class="c-av__edit">${icon('Edit', 32)}</span>` : ''}
+   </div>`);
+
 export const AvatarPicture: ComponentModule = {
   id: 'c-avatar-picture', title: 'Avatar Picture', group: 'Identity', figma: '8717:11254',
-  description: '140 round with a 4px edge, and an optional 48 edit button. The part inside User Avatar, not placed on its own.',
+  description: '140 round with a 4px edge. Guest is a grey ring over a black 111 disc; logged in is the photo. The edit button is a real Secondary Button — 48, radius 12, carrying the Edit icon.',
   tokens: { colour: ['TV/Base/Light', 'TV/Base/Neutral', 'TV/Border/White 20', 'TV/Button/Secondary'], type: [] },
   variants: [
-    { label: 'Logged in', el: () => h(`<div class="c-av"><div class="c-av__img"></div></div>`) },
-    { label: 'Logged in · edit', el: () => h(`<div class="c-av"><div class="c-av__img"></div><span class="c-av__edit">${icon('Edit', 24)}</span></div>`) },
-    { label: 'Guest', el: () => h(`<div class="c-av c-av--guest"><div class="c-av__silhouette"></div></div>`) },
+    { label: 'Guest', el: () => avatarPicture('guest') },
+    { label: 'Guest · edit', el: () => avatarPicture('guest', true) },
+    { label: 'Logged in', el: () => avatarPicture('photo') },
+    { label: 'Logged in · edit', el: () => avatarPicture('photo', true) },
+  ],
+  notes: [
+    'The two states take their edge from <strong>different tokens</strong>: logged in uses <code>TV/Button/Secondary</code>, guest uses <code>TV/Border/White 20</code>. Same 4px, different colour.',
+    'In the file the guest variant lays its disc and button out in a column with a 28 top pad, summing to 201 inside a 140 box — so the button overhangs. Positioned here rather than laid out, to the same effect.',
   ],
 };
 
 export const UserAvatar: ComponentModule = {
   id: 'c-user-avatar', title: 'User Avatar', group: 'Identity', figma: '8408:16678',
-  description: '518 × 140: the avatar, then the name in Heading/L over two metadata rows, 32 apart.',
+  description: '518 × 140: an Avatar Picture, then the name in Heading/L over two metadata rows — member since, and the email address — each a 32 icon and Body/L, 8 apart.',
   tokens: { colour: ['TV/Base/Light', 'TV/Base/Neutral', 'TV/Border/White 20', 'TV/Text/Primary'], type: ['Body/L', 'Heading/L'] },
   variants: [
-    { label: 'New user', el: () => h(
-      `<div class="c-ua"><div class="c-av c-av--guest"><div class="c-av__silhouette"></div></div>
+    { label: 'Guest', el: () => h(
+      `<div class="c-ua">${avatarPicture('guest', true).outerHTML}
         <div><p class="c-ua__name">New User</p>
-          <div class="c-ua__row"><span class="c-ua__dot"></span>Guest</div>
-          <div class="c-ua__row"><span class="c-ua__dot"></span>0 trophies</div></div></div>`) },
+          <div class="c-ua__row">${icon('Info', 32)}Member since May 12, 2026</div>
+          <div class="c-ua__row">${icon('Email', 32)}example@gmail.com</div></div></div>`) },
+    { label: 'With a picture', el: () => h(
+      `<div class="c-ua">${avatarPicture('photo', true).outerHTML}
+        <div><p class="c-ua__name">Viachaslau</p>
+          <div class="c-ua__row">${icon('Info', 32)}Member since May 12, 2026</div>
+          <div class="c-ua__row">${icon('Email', 32)}example@gmail.com</div></div></div>`) },
+  ],
+  notes: [
+    'The avatar is an <strong>instance of Avatar Picture</strong>, and the edit button inside it an instance of <code>Button [Secondary]</code> — this composes two other components rather than redrawing them.',
+    'The two rows were built here as "Guest" and "0 trophies". That was invented: the file says <em>Member since</em> with the Info icon, and the email address with the Email icon.',
   ],
 };
 
