@@ -15,14 +15,14 @@ import {
 import {
   Logo, LogoWithText, Subtract, Confetti, TrophiesThumbnail, InputFieldWeb,
   AnswerBox, AttemptsBox, AnswerOptionsList, CardSharksQuestion, GameKeyboard,
-  RewardUnlockedContainer, LoadingState,
+  LoadingState,
 } from './ui/brand';
 import {
   Reward, AvatarTile, RewardTrack, RewardTrackFirst,
 } from './ui/rewards';
 import {
-  HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
-  SectionTrending, SectionWatchMore,
+  HorizontalRailCard, SearchListItem, SearchListItemImage,
+  SectionTrending,
 } from './ui/rails';
 import {
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox,
@@ -37,11 +37,15 @@ export const COMPONENTS: ComponentModule[] = [
   MenuItem, Menu, TabsItem, Tabs, Dots,
   // Identity
   AvatarPicture, AvatarTile, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
-  Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail, RewardUnlockedContainer,
+  Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail,
+  // RewardUnlockedContainer (ui/brand.ts) is hidden for now, at the owner's request — the code stays.
   // Content
   IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
-  HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
-  SectionTrending, SectionWatchMore, Logo, LogoWithText, Subtract,
+  // VerticalRailCard and SectionWatchMore (ui/rails.ts) are hidden for now, at the owner's request — the
+  // code stays. Figma marks both NOT USED on any design frame; the rebuild also crops one landscape still
+  // into every portrait card where the file has six real posters — fix that before bringing them back.
+  HorizontalRailCard, SearchListItem, SearchListItemImage,
+  SectionTrending, Logo, LogoWithText, Subtract,
   // Feedback
   InputMessages, Mic, NotificationMessage, Confetti, LoadingState,
   // Game

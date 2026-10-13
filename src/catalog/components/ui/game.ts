@@ -301,7 +301,7 @@ injectStyle('css-c-game2', `
 
 export const StackedAnswer: ComponentModule = {
   id: 'c-stacked-answer', title: 'Stacked — Answer', group: 'Game', figma: '14010:45824',
-  description: '496 × 116, radius 48 — an answer the player gave, on the Primary Solid blue with a 12px edge that carries the verdict.',
+  description: '496 × 116 — an answer the player gave, on Primary Solid blue with a 12px edge that carries the verdict.',
   tokens: {
     colour: ['TV/Button/Primary Solid', 'TV/Game UI/Red 1', 'TV/Text/Gain', 'TV/Base/Light'],
     type: [],
@@ -320,7 +320,7 @@ export const StackedAnswer: ComponentModule = {
 
 export const HigherLowerNote: ComponentModule = {
   id: 'c-hl-note', title: 'Higher/Lower Note', group: 'Game', figma: '3750:15695',
-  description: '872 × 190 — the instruction that teaches the remote, with the two D-pad keys drawn inline in the sentence.',
+  description: '872 × 190 — the instruction that teaches the remote, with the two D-pad keys drawn inline. Shown once per game.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Base/Dark'],
     type: ['Heading/L'],
@@ -343,7 +343,7 @@ export const HigherLowerNote: ComponentModule = {
 
 export const HigherLower: ComponentModule = {
   id: 'c-higher-lower', title: 'Higher/Lower', group: 'Game', figma: '3752:15760',
-  description: '418 × 296 — the two Card Sharks choices stacked in a dark panel.',
+  description: '418 × 296 — the two Card Sharks choices stacked in a dark panel. Card Sharks only, on all eleven of its frames.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral', 'TV/Base/Light', 'TV/Base/Dark'],
     type: ['Game/M'],
@@ -390,7 +390,7 @@ export const ScoreTableRow: ComponentModule = {
 
 export const NotificationMessage: ComponentModule = {
   id: 'c-notification', title: 'Notification Message', group: 'Feedback', figma: '2565:2660',
-  description: '1728 × 120 — a full-width prompt over the video, with the button that answers it on the right.',
+  description: '1728 × 120 — the prompt that asks whether the viewer wants to play this question. It appears on exactly one frame in the file.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Button/Primary'],
     type: ['Heading/L', 'Body/L'],

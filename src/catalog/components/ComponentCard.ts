@@ -1,6 +1,27 @@
 import type { ComponentModule } from './types';
+import { USAGE } from './usage';
 
 const FILE = 'Gd6wyiODkYk46DjaeyqU9o';
+
+
+/**
+ * Where the component is used, counted from the file rather than assumed.
+ * A component used nowhere is the most useful thing this block can say.
+ */
+function usageBlock(c: ComponentModule): string {
+  const u = USAGE[c.id];
+  if (!u) return '';
+  const head = u.count === 0
+    ? '<strong>Used on no frame at all.</strong>'
+    : `Used on <strong>${u.count}</strong> frame${u.count === 1 ? '' : 's'}`;
+  const list = u.frames.length
+    ? `: ${u.frames.map((f) => `<code>${f}</code>`).join(', ')}${u.count > u.frames.length ? ' …' : ''}`
+    : '';
+  return `<div class="comp__block comp__block--usage">
+      <h2>Where it is used</h2>
+      <p class="comp__usage">${head}${list}${u.note ? ` — ${u.note}` : ''}</p>
+    </div>`;
+}
 
 export function createComponentCard(c: ComponentModule): HTMLElement {
   const root = document.createElement('section');
@@ -39,6 +60,8 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
         <div class="token-chips">${chips(c.tokens.type, 'type')}</div>
       </div>
     </div>
+
+    ${usageBlock(c)}
 
     ${c.notes?.length ? `<div class="comp__block comp__block--notes">
       <h2>Known differences</h2>

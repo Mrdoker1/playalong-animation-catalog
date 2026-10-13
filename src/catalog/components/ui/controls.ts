@@ -429,7 +429,7 @@ export const input = (state: InputState, text: string, msg?: string, ico: string
 
 export const Input: ComponentModule = {
   id: 'c-input', title: 'Input', group: 'Controls', figma: '7233:9283',
-  description: '710 × 72, radius 12, padding 20/32, Body/L, with a 32 leading icon at 50%. Eight states, and three different rings between them.',
+  description: '710 × 72 — the TV text field, on every sign-in, sign-up and reset screen. Eight states, and three different rings between them.',
   tokens: {
     colour: ['TV/Transparent/Dark 25', 'TV/Transparent/Red 50', 'TV/Border/White 20', 'TV/Text/Primary', 'TV/Button/Primary Solid', 'TV/Base/Light', 'TV/Game UI/Red 1'],
     type: ['Body/L', 'Body/M'],
@@ -476,7 +476,7 @@ export const checkboxMessage = (selected: boolean, focus: boolean, label = 'Show
 
 export const CheckboxMessage: ComponentModule = {
   id: 'c-checkbox-message', title: 'Checkbox Message', group: 'Controls', figma: '10432:15331',
-  description: 'A checkbox and its label, 32 high with a 12 gap. Focus wraps the pair rather than the box.',
+  description: 'A checkbox and its label, 32 high with a 12 gap. Both uses in the file are Show Password, on the sign-in and the Roku sign-up.',
   tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary Solid'], type: ['Label/M'] },
   variants: [
     { label: 'Default', el: () => checkboxMessage(false, false) },
@@ -570,7 +570,7 @@ export const keyboard = (state: KbState = 'letters', focusKey = 'a') => {
 
 export const Keyboard: ComponentModule = {
   id: 'c-keyboard', title: 'Email Keyboard', group: 'Controls', figma: '7605:8146',
-  description: '582 wide on TV/Base/Neutral, six states. Letters, Caps and Search are six columns of 95 × 90; Digit and With Mic are five of 114.',
+  description: '582 wide on TV/Base/Neutral, six states — the on-screen keyboard for entering an email address on a TV.',
   tokens: {
     colour: ['TV/Base/Neutral', 'TV/Base/Dark', 'TV/Base/Light', 'TV/Text/Primary', 'TV/Button/Primary Solid'],
     type: ['Heading/M', 'Body/M'],
@@ -598,7 +598,7 @@ export const Keyboard: ComponentModule = {
 
 export const Mic: ComponentModule = {
   id: 'c-mic', title: 'Mic', group: 'Feedback', figma: '9437:15313',
-  description: '163 × 208. Two haloes behind an 88 core, with Listening… over Speak now beneath it.',
+  description: '163 × 208 — the open microphone. It serves both halves of voice input: answering a Family Feud question, and dictating an email address at sign-up.',
   tokens: { colour: ['TV/Base/Light', 'TV/Text/Primary', 'TV/Button/Primary Solid'], type: ['Heading/M', 'Body/M'] },
   variants: [
     { label: 'Default', el: () => h(`<div class="c-kb__mic">
@@ -628,7 +628,7 @@ injectStyle('css-c-inputweb', `
 
 export const InputWeb: ComponentModule = {
   id: 'c-input-web', title: 'Input (Web)', group: 'Controls', figma: '9849:13731',
-  description: '280 × 44, radius 8, padding 10/16 on Web/Transparent/White 6 — the browser twin of the TV field, at a third of its height.',
+  description: '280 × 44 — the browser field with its message row. The web auth screens are a separate set of frames from the TV ones, and this is their control.',
   tokens: { colour: ['Web/Transparent/White 6', 'TV/Game UI/Red 1', 'TV/Base/Light'], type: [] },
   variants: [
     { label: 'Default', el: () => h(`<div class="c-inputweb"><div class="c-inputweb__box">Your email address</div></div>`) },

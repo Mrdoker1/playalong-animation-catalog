@@ -57,7 +57,7 @@ injectStyle('css-c-brand', `
 
 export const Logo: ComponentModule = {
   id: 'c-logo', title: 'Logo', group: 'Content', figma: '933:7815',
-  description: '572 × 128 — the wordmark, nine vectors all bound to TV/Base/Light.',
+  description: '572 × 128 — the wordmark, nine vectors all bound to TV/Base/Light. It opens the splash, the menu and every auth screen.',
   tokens: { colour: ['TV/Base/Light'], type: [] },
   wide: true,
   variants: [
@@ -87,7 +87,7 @@ export const LogoWithText: ComponentModule = {
 
 export const Subtract: ComponentModule = {
   id: 'c-subtract', title: 'Subtract', group: 'Content', figma: '933:7845',
-  description: '119 × 123 — the A of the wordmark, used alone as the app mark.',
+  description: '119 × 123 — the A of the wordmark, used alone as the app mark at the top of the collapsed rail.',
   tokens: { colour: ['TV/Base/Light'], type: [] },
   variants: [
     { label: 'Mark', el: () => h(`<div class="c-logo"><img src="assets/flows/mark.svg" alt="PlayAlong" style="width:119px;height:123px"></div>`) },
@@ -145,7 +145,7 @@ export const Confetti: ComponentModule = {
 
 export const TrophiesThumbnail: ComponentModule = {
   id: 'c-trophies-thumb', title: 'Trophies thumbnail', group: 'Identity', figma: '13550:43488',
-  description: '1664 × 473 — the Trophy Cabinet\'s empty state: an outlined prize over two empty slots.',
+  description: '1664 × 473 — the Trophy Cabinet before anything is earned.',
   tokens: { colour: ['TV/Border/White 20', 'TV/Base/Light'], type: [] },
   wide: true,
   variants: [
@@ -165,7 +165,7 @@ export const TrophiesThumbnail: ComponentModule = {
 
 export const InputFieldWeb: ComponentModule = {
   id: 'c-input-field-web', title: 'Input Field (Web)', group: 'Controls', figma: '9849:13692',
-  description: '280 × 44 — the web field itself, in five states. The sibling of Input (Web), which adds the message row.',
+  description: '280 × 44 — the browser field itself, in five states. The sibling of Input (Web), which adds the message row.',
   tokens: {
     colour: ['Web/Transparent/White 6', 'Web/Transparent/Red 6'],
     type: [],
@@ -186,7 +186,7 @@ export const InputFieldWeb: ComponentModule = {
 
 export const AnswerBox: ComponentModule = {
   id: 'c-answer-box', title: 'Answer Box', group: 'Game', figma: '2565:2734',
-  description: '768 × 317 — how many answers are found, then the one being given, over a blue glow.',
+  description: '768 × 317 — how many answers are found, then the one being given. The 1% Club, Match Game and Family Feud all post questions through it.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Yellow', 'TV/Button/Primary Solid'],
     type: ['Game/S', 'Game/M'],
@@ -213,18 +213,19 @@ const ATTEMPTS: [string, boolean][] = [
 
 export const AttemptsBox: ComponentModule = {
   id: 'c-attempts-box', title: 'Attempts Box', group: 'Game', figma: '2565:2667',
-  description: '248 × 819 — every answer the player has tried, the matches green and the misses dark red.',
+  description: '248 × 819 — every answer a Family Feud player has tried, the matches green and the misses dark red.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Green 1', 'TV/Game UI/Red 2'],
     type: ['Game/S'],
   },
   variants: [
-    { label: 'Two found, eight missed', el: () => h(`<div class="c-attempts">
-        <span class="c-game-upper" style="font-family:var(--type-game-s-family);font-weight:var(--type-game-s-weight);font-size:var(--type-game-s-size)">attemps</span>
-        <div style="display:flex;flex-direction:column">${
+    { label: 'Two found, eight missed', el: () => h(`<div class="c-attempts"><div class="c-attempts__col">
+        <span class="c-attempts__head">attemps</span>
+        <div class="c-attempts__list">${
           ATTEMPTS.map(([w, hit]) =>
-            `<span class="c-attempts__row c-attempts__row--${hit ? 'hit' : 'miss'}">${w}</span>`).join('')}</div>
-      </div>`) },
+            `<span class="c-attempts__row c-attempts__row--${hit ? 'hit' : 'miss'}">${w}</span>`)
+            .join('<span class="c-attempts__rule"></span>')}</div>
+      </div></div>`) },
   ],
   notes: [
     '<strong>The heading is spelled <code>attemps</code></strong> — the <em>t</em> is missing. <strong>A file defect</strong>, and it is the component\'s title on screen.',
@@ -291,12 +292,19 @@ injectStyle('css-c-last', `
 .c-game-upper { text-transform: uppercase; }
 .c-attempts { width: 248px; height: 819px; box-sizing: border-box; border-radius: 24px;
   padding: 40px; background: var(--tv-transparent-dark-80);
-  border: 1px solid var(--tv-border-white-20);
-  display: flex; flex-direction: column; gap: 24px; }
-.c-attempts__row { height: 47px; display: flex; align-items: center;
-  font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
-  font-size: var(--type-game-s-size); text-transform: uppercase;
-  border-bottom: 1px solid var(--tv-transparent-white-10); }
+  border: 1px solid var(--tv-border-white-20); display: flex; justify-content: center; }
+/* A 168-wide column, centred: the heading, then Attempt rows split by 168 lines. */
+.c-attempts__col { width: 168px; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.c-attempts__head, .c-attempts__row { font-family: var(--type-game-s-family);
+  font-weight: var(--type-game-s-weight); font-size: var(--type-game-s-size);
+  line-height: var(--type-game-s-line); text-transform: uppercase; text-align: center;
+  /* The file trims text to the cap height, which is what makes a row 71 tall. */
+  text-box: trim-both cap alphabetic; }
+.c-attempts__head { color: var(--tv-base-light); width: 100%; }
+.c-attempts__list { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.c-attempts__row { width: 168px; box-sizing: border-box; padding: 24px 0; }
+/* Vector 7: a 168 line, Border/White 20 at 40% opacity. */
+.c-attempts__rule { width: 168px; height: 1px; flex: none; background: var(--tv-border-white-20); opacity: .4; }
 .c-attempts__row--hit  { color: var(--tv-game-ui-green-1); }
 .c-attempts__row--miss { color: var(--tv-game-ui-red-2); }
 
@@ -340,7 +348,7 @@ const OPTS: [string, string][] = [
 
 export const AnswerOptionsList: ComponentModule = {
   id: 'c-answer-options', title: 'List of answer Options', group: 'Game', figma: '2565:2663',
-  description: '656 × 819 — the survey board: eight rows, the found ones green and the unfound ones blue with their text hidden.',
+  description: '656 × 819 — Family Feud\'s survey board: eight rows, the found ones green and the unfound ones blue with their text hidden.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Status/Success', 'TV/Status/Wait', 'TV/Game UI/Green 1', 'TV/Button/Primary Solid', 'TV/Button/Secondary', 'TV/Base/Light'],
     type: ['Game/M', 'Game/S'],
@@ -369,7 +377,7 @@ export const AnswerOptionsList: ComponentModule = {
 
 export const CardSharksQuestion: ComponentModule = {
   id: 'c-card-sharks-question', title: 'Card Sharks Question', group: 'Game', figma: '3752:30765',
-  description: '418 × 398 — the timer panel stacked on the Higher/Lower panel, which is how the question is actually posed.',
+  description: '418 × 398 — the timer panel over the Higher/Lower panel. This is how every Card Sharks question is posed.',
   tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral'], type: [] },
   variants: [
     { label: 'Default', el: () => h(`<div style="display:flex;flex-direction:column;gap:16px;width:418px">
@@ -443,7 +451,7 @@ const gameKeyboard = (type: keyof typeof GKB) => {
 
 export const GameKeyboard: ComponentModule = {
   id: 'c-game-keyboard', title: 'Keyboard (game)', group: 'Game', figma: '2565:2733',
-  description: 'The in-game input panel, in six shapes — one per way a game can ask for an answer. Every layout ends in Skip and Submit Answer.',
+  description: 'The in-game input panel in six shapes. Six, because The 1% Club asks for an answer six different ways; Match Game and Family Feud use two of them.',
   tokens: {
     colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral', 'TV/Base/Light', 'TV/Button/Secondary', 'TV/Button/Primary'],
     type: ['Heading/S', 'Body/L'],
@@ -462,7 +470,7 @@ export const GameKeyboard: ComponentModule = {
 
 export const RewardUnlockedContainer: ComponentModule = {
   id: 'c-reward-unlocked', title: 'Container — Reward unlocked', group: 'Identity', figma: '11643:39611',
-  description: '1100 × 684 — the popup that celebrates a claimed reward: the heading, the art, and the button that dismisses it.',
+  description: '1100 × 684 — the popup that celebrates a claimed reward: the heading, the Gold Wings frame, the name and the button that dismisses it.',
   tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid'], type: ['Display/L'] },
   wide: true,
   variants: [
@@ -485,7 +493,7 @@ export const RewardUnlockedContainer: ComponentModule = {
 
 export const LoadingState: ComponentModule = {
   id: 'c-loading', title: 'Loading state', group: 'Feedback', figma: '13523:20837',
-  description: 'The spinner over "Loading your progress…", at full screen and as a 1665 × 323 band.',
+  description: 'The spinner over \u201cLoading your progress\u2026\u201d, at full screen and as a 1665 \u00d7 323 band.',
   tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary Solid', 'TV/Button/Secondary'], type: ['Heading/L'] },
   wide: true,
   variants: [

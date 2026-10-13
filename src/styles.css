@@ -541,3 +541,8 @@ select:focus, input:focus { border-color: var(--accent); }
 @keyframes token-hit { 0%, 60% { background: var(--accent-soft); } 100% { background: none; } }
 a.token-chip { text-decoration: none; transition: border-color .12s ease, color .12s ease; }
 a.token-chip:hover { color: var(--text); border-color: var(--accent); }
+
+/* Where a component is used, counted from the Figma file. */
+.comp__block--usage { margin-top: 22px; }
+.comp__usage { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+.comp__usage code { font-family: var(--mono); font-size: .92em; }

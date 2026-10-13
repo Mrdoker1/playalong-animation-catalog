@@ -40,10 +40,11 @@ injectStyle('css-c-menu', `
   box-shadow: inset 0 0 0 1px var(--tv-button-primary-solid); }
 
 .c-overlay { width: 792px; height: 1080px; position: relative; overflow: hidden; }
-/* A stand-in for the content the ramp dims. Without it the gradient is
-   invisible on a dark card, and the component's whole job is the dimming. */
-.c-overlay__behind { position: absolute; inset: 0; background:
-  repeating-linear-gradient(90deg, var(--tv-base-neutral) 0 88px, var(--tv-transparent-white-10) 88px 176px); }
+/* The real Home screen the menu sits on — captured from the TV Game PoC at
+   1920 x 1080 with its own rail hidden, so only this rail is drawn. Without real
+   content the ramp is invisible on a dark card, and dimming is its whole job. */
+.c-overlay__behind { position: absolute; inset: 0;
+  background: var(--tv-base-dark) url('assets/components/home-screen.jpg') left top / 1920px 1080px no-repeat; }
 .c-overlay__ramp { position: absolute; inset: 0;
   background: linear-gradient(90deg, #040810 0%, rgb(2 5 9 / .8) 43%, rgb(0 0 0 / 0) 100%); }
 .c-overlay .c-menu { position: absolute; left: 0; top: 0; }
@@ -95,7 +96,7 @@ const LOGO_WORDMARK = `<img src="assets/flows/logo.svg" alt="PlayAlong" style="w
  */
 export const Menu: ComponentModule = {
   id: 'c-menu', title: 'Menu', group: 'Navigation', figma: '11561:15402',
-  description: 'The rail at 160, the labels that appear beside it, and the ramp that dims the content. Three Figma nodes, one behaviour.',
+  description: 'The rail at 160, the labels that appear beside it, and the ramp that dims the content. Three Figma nodes, one behaviour, on 45 frames.',
   tokens: {
     colour: ['TV/Base/Dark', 'TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid', 'TV/Focus/Ring Color'],
     type: ['Body/L'],
@@ -103,21 +104,28 @@ export const Menu: ComponentModule = {
   wide: true,
   variants: [
     { label: '▶ Live — click the rail, then ↑ ↓ and Esc', el: liveMenu },
-    { label: 'Collapsed Menu — 772:7012', el: () => menu(false, 0) },
-    { label: 'Expanded Menu — 772:6986', el: () => menu(true, 0) },
+    { label: 'Collapsed Menu — 772:7012', el: () => onScreen(menu(false, 0)) },
+    { label: 'Expanded Menu — 772:6986', el: () => onScreen(menu(true, 0)) },
     { label: 'Overlay — 11561:15402', el: drawnOverlay },
   ],
   notes: [
     '<strong><code>Expanded Menu</code> is 340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is the <em>collapsed</em> rail with the six labels as loose text beside it over the dimming ramp. The expanded component is not what the screen uses, so anything reserving 792 for the menu has read the wrong node.',
-    'The rail is the <strong>same 160 wide open or shut</strong> — that is the whole of PTV-858, and why the content never shifts. The live variant is the only way to see it: watch the striped band behind the ramp stay put.',
+    'The rail is the <strong>same 160 wide open or shut</strong> — that is the whole of PTV-858, and why the content never shifts. The live variant is the only way to see it: watch the Home screen behind the ramp stay put.',
     'The ramp is a horizontal gradient, not a flat panel: opaque <code>#040810</code>, <code>rgb(2,5,9)</code> at 80% at 43% of its width, fully transparent at the end. Measured on a device during PTV-858 — content keeps 39.9% of its luminance at x = 450 and 100% from x = 792.',
     'The focus ring is a single 250 × 64 rectangle at x = 47, <strong>one size for every item</strong>, taken from the longest label (<code>Progression</code>, 134 wide). It does not hug its own text — a ring that resized per item would flicker as focus moved, and on a D-pad the moving ring is the only feedback there is.',
     'In the drawn <code>Overlay</code> frame the <strong>ring is on Home but the full-strength label is Trophies</strong> — the labels carry their own opacity and two of them disagree about where focus is. <strong>A file defect</strong>, kept in the drawn variant and corrected in the live one, which has a single focus.',
     'The unselected items sit at <strong>50% opacity and radius 80</strong>; the selected one at full strength and radius 12 — so selecting an item turns its corner from a pill into a rounded rectangle. The same unintended corner move the <code>Tabs Item</code> has.',
     'In the collapsed rail the Sign In item is <strong>104 wide where the other five are 96</strong>. An 8px difference on an item whose label is hidden.',
-    'The striped band behind the ramp is this rebuild\'s, standing in for the content the ramp dims — on a dark card the gradient would otherwise show nothing at all.',
+    'The screen behind every variant is the real Home screen, captured from the TV Game PoC with its own rail hidden — it is context, not part of the component. On a dark card the ramp would otherwise show nothing at all.',
   ],
 };
+
+/** A menu variant on the real Home screen, so it reads as the thing on the TV. */
+function onScreen(menuEl: HTMLElement): HTMLElement {
+  const el = h(`<div class="c-overlay"><div class="c-overlay__behind"></div></div>`);
+  el.appendChild(menuEl);
+  return el;
+}
 
 /** The six labels as the Overlay frame positions them, with its own focus bug. */
 const OVERLAY_LABELS: [string, number][] = [
@@ -190,7 +198,7 @@ injectStyle('css-c-tabs', `
 
 export const Tabs: ComponentModule = {
   id: 'c-tabs', title: 'Tabs', group: 'Navigation', figma: '867:1808',
-  description: '676 × 56 — four Tabs Items of 151 on a 24 gap, the first selected.',
+  description: '676 × 56 — four Tabs Items on a 24 gap. It switches seasons on Details and QR against Email on the auth screens.',
   tokens: {
     colour: ['TV/Button/Secondary', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Text/Primary'],
     type: [],
@@ -242,7 +250,7 @@ const TAGS: [string, string][] = [
 
 export const GameTypeTagsRow: ComponentModule = {
   id: 'c-game-type-tags-row', title: 'Game Type Tags Row', group: 'Content', figma: '473:2980',
-  description: '1408 × 42 — the six input-kind tags a game can carry, on a 24 gap.',
+  description: '1408 × 42 — the six input-kind tags a game can carry, shown on rail cards and on Details.',
   tokens: {
     colour: ['TV/Button/Secondary', 'TV/Border/White 20', 'TV/Base/Light'],
     type: ['Label/M'],

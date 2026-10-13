@@ -110,7 +110,7 @@ const card = (w: number, artH: number, state: CardState, extraPill = '') => {
 
 export const HorizontalRailCard: ComponentModule = {
   id: 'c-rail-h', title: 'Horizontal Rail Card', group: 'Content', figma: '629:4401',
-  description: '400 × 297 — a 400 × 225 still at radius 12, then the title and the episode line. Eleven variants across six states and focus.',
+  description: '400 × 297 — the card every rail on the homepage is built from. Eleven variants across six states and focus.',
   tokens: {
     colour: ['TV/Base/Neutral', 'TV/Border/White 20', 'TV/Button/Primary Solid', 'TV/Button/Secondary', 'TV/Game UI/Yellow', 'TV/Tags/Primary', 'TV/Base/Light', 'TV/Base/Dark', 'TV/Text/Primary'],
     type: ['Label/S'],
@@ -137,7 +137,7 @@ export const HorizontalRailCard: ComponentModule = {
 
 export const VerticalRailCard: ComponentModule = {
   id: 'c-rail-v', title: 'Vertical Rail Card', group: 'Content', figma: '629:5141',
-  description: '300 × 472 — a 300 × 400 portrait still, with an Interactive pill the horizontal card does not carry.',
+  description: '300 × 472 — a portrait card with an Interactive pill the horizontal one does not carry.',
   tokens: {
     colour: ['TV/Base/Neutral', 'TV/Border/White 20', 'TV/Button/Primary Solid', 'TV/Button/Secondary', 'TV/Tags/Primary', 'TV/Base/Dark', 'TV/Base/Light', 'TV/Text/Primary'],
     type: ['Label/S'],
@@ -158,7 +158,7 @@ export const VerticalRailCard: ComponentModule = {
 
 export const SearchListItem: ComponentModule = {
   id: 'c-search-item', title: 'Search List Item', group: 'Content', figma: '8837:11368',
-  description: '812 × 132 — a 169 × 92 still beside a Heading/L title and a Body/L episode line. Six variants: three tag combinations, each with focus.',
+  description: '812 × 132 — one result in the search list: a still beside a Heading/L title and a Body/L episode line.',
   tokens: {
     colour: ['TV/Button/Secondary', 'TV/Button/Primary Solid', 'TV/Game UI/Yellow', 'TV/Tags/Primary', 'TV/Base/Light', 'TV/Base/Dark', 'TV/Text/Primary'],
     type: ['Heading/L', 'Body/L', 'Label/S'],
@@ -205,7 +205,7 @@ const section = (title: string, cards: HTMLElement[]) => {
 
 export const SectionTrending: ComponentModule = {
   id: 'c-section-trending', title: 'Section — Trending', group: 'Content', figma: '629:4537',
-  description: '1756 × 365 — a heading over a row of horizontal rail cards, the first focused.',
+  description: '1756 × 365 — a heading over a row of horizontal rail cards. The homepage is a stack of these.',
   tokens: { colour: ['TV/Base/Light'], type: [] },
   wide: true,
   variants: [
@@ -221,7 +221,7 @@ export const SectionTrending: ComponentModule = {
 
 export const SectionWatchMore: ComponentModule = {
   id: 'c-section-watch-more', title: 'Section — Watch More', group: 'Content', figma: '629:5321',
-  description: '1920 × 540 — the same shape with vertical cards, and it spans the whole screen rather than the content block.',
+  description: '1920 × 540 — the same shape as the trending section but with vertical cards, and it spans the whole screen rather than the content block.',
   tokens: { colour: ['TV/Base/Light'], type: ['Heading/L'] },
   wide: true,
   variants: [
