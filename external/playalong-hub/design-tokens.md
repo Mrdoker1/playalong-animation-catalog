@@ -74,7 +74,7 @@ path segments, and a segment may contain spaces (`{primitives.color.Red.600 50%}
 | `dimension` | String with a `px` suffix — `"96px"`. **Not** an object |
 | `fontFamily` | String — `"Rubik"` |
 | `fontWeight` | String as Figma names it — `"SemiBold"`, `"ExtraBold"`. **Not** lowercase-hyphenated |
-| `gradient` | `{"type": "linear" \| "angular", "stops": [{"color": hex, "position": 0…1}]}`. **An object, not an array** — the array alone has nowhere to put the gradient's kind |
+| `gradient` | `{"type": "linear" \| "angular", "angle": deg, "stops": [{"color": hex, "position": 0…1}]}`. **An object, not an array** — the array alone has nowhere to put the kind or the angle. `angle` is CSS degrees (0 points up, 90 right) and is absent on an angular gradient |
 | `typography` | `{fontFamily, fontWeight, fontSize, lineHeight, letterSpacing, textCase}` |
 
 **Inside `typography`:**
@@ -120,6 +120,18 @@ primitives → semantic → used by a style or a text style in Figma → used by
 Three layers, and the point of the middle one is that `TV/Base/Light`,
 `Web/Base/Light` and `Web/Text/Primary` all resolve to the single primitive
 `White/Base`. Before 2026-10-12 they were three unrelated copies of white.
+
+> **Direction is a token, and it was missing until 2026-10-13.** Figma stores a
+> gradient's direction as a `gradientTransform` matrix rather than an angle, so
+> an export that reads only the stops loses it. Every gradient came out as if it
+> ran top to bottom. **Seven of the sixteen do not**: `Button/Primary`,
+> `Scrim/Menu`, `Round Complete`, `You Win!`, `You Lose!` and `Web/Button/Primary`
+> run left to right, `Background/Stacked` runs bottom to top, and `Game UI/Gold`
+> is on a 50° diagonal. The exporter now carries the matrix and the build turns
+> it into CSS degrees.
+>
+> It checks out against something already measured here: `Scrim/Menu` comes out
+> at 90°, and the PTV-858 dimming is recorded above as *a horizontal ramp*.
 
 **Gradients are in the JSON but cannot be Figma variables** — a colour variable
 holds one solid colour. Sixteen of the 128 are therefore styles in Figma and

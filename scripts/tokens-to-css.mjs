@@ -70,7 +70,9 @@ for (const [path, tok] of walk(doc.gradient)) {
   const v = tok.$value;
   const stops = v.stops.map((s) => `${s.color} ${Math.round(s.position * 100)}%`).join(', ');
   const fn = v.type === 'angular' ? 'conic-gradient' : 'linear-gradient';
-  const head = v.type === 'angular' ? 'from 0deg' : '180deg';
+  // The angle is part of the token. Seven of the sixteen do not run top to
+  // bottom, and reading only the stops loses that.
+  const head = v.type === 'angular' ? 'from 0deg' : `${v.angle ?? 180}deg`;
   lines.push(`  ${varName(['gradient', ...path])}: ${fn}(${head}, ${stops});`);
 }
 

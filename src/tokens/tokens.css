@@ -81,22 +81,22 @@
   --web-transparent-white-6: #FFFFFF0F;
 
   /* Gradients — styles in Figma; a colour variable cannot hold one. */
-  --gradient-tv-background-stacked: linear-gradient(180deg, #EDF3FE 0%, #ACCAEB 100%);
-  --gradient-tv-button-primary: linear-gradient(180deg, #0090FF 0%, #0022AB 100%);
-  --gradient-tv-game-ui-gold: linear-gradient(180deg, #F2D383 0%, #49391E 5%, #BB7424 17%, #F4CB82 36%, #FCF9A6 63%, #BC9E53 75%, #806F1A 89%, #E6CD77 100%);
+  --gradient-tv-background-stacked: linear-gradient(0deg, #EDF3FE 0%, #ACCAEB 100%);
+  --gradient-tv-button-primary: linear-gradient(90deg, #0090FF 0%, #0022AB 100%);
+  --gradient-tv-game-ui-gold: linear-gradient(50deg, #F2D383 0%, #49391E 5%, #BB7424 17%, #F4CB82 36%, #FCF9A6 63%, #BC9E53 75%, #806F1A 89%, #E6CD77 100%);
   --gradient-tv-loader-spin: conic-gradient(from 0deg, #FFFFFF 0%, #FFFFFF 18%, #FFFFFF00 100%);
   --gradient-tv-placeholder-grey: linear-gradient(180deg, #FBFBFB 0%, #666666 100%);
   --gradient-tv-placeholder-light: linear-gradient(180deg, #FFFFFF 0%, #999999 100%);
   --gradient-tv-scrim-card: linear-gradient(180deg, #04081000 0%, #040810 81%, #040810 100%);
-  --gradient-tv-scrim-menu: linear-gradient(180deg, #040810 0%, #040810 18%, #04081000 45%, #04081000 100%);
+  --gradient-tv-scrim-menu: linear-gradient(90deg, #040810 0%, #040810 18%, #04081000 45%, #04081000 100%);
   --gradient-tv-status-failure: linear-gradient(180deg, #8E0000 0%, #380000 100%);
   --gradient-tv-status-purple: linear-gradient(180deg, #422DFF 0%, #ACACAC 100%);
-  --gradient-tv-status-round-complete: linear-gradient(180deg, #002FFF00 0%, #002FFF 51%, #002FFF00 100%);
+  --gradient-tv-status-round-complete: linear-gradient(90deg, #002FFF00 0%, #002FFF 51%, #002FFF00 100%);
   --gradient-tv-status-success: linear-gradient(180deg, #008E11 0%, #053800 100%);
   --gradient-tv-status-wait: linear-gradient(180deg, #0056C6 0%, #001462 100%);
-  --gradient-tv-status-you-lose: linear-gradient(180deg, #8E000000 0%, #8E0000 51%, #8E000000 100%);
-  --gradient-tv-status-you-win: linear-gradient(180deg, #008E0E00 0%, #008E0E 51%, #008E0E00 100%);
-  --gradient-web-button-primary: linear-gradient(180deg, #0090FF 0%, #0022AB 100%);
+  --gradient-tv-status-you-lose: linear-gradient(90deg, #8E000000 0%, #8E0000 51%, #8E000000 100%);
+  --gradient-tv-status-you-win: linear-gradient(90deg, #008E0E00 0%, #008E0E 51%, #008E0E00 100%);
+  --gradient-web-button-primary: linear-gradient(90deg, #0090FF 0%, #0022AB 100%);
 
   /* Typography — one group of variables per style. */
   --type-body-l-family: "Rubik";

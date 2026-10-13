@@ -89,12 +89,15 @@ injectStyle('css-c-identity', `
 .c-msg--warn  > svg { color: var(--tv-game-ui-yellow); }
 .c-msg--info  > svg { color: var(--tv-base-light); }
 
-/* Strike Box */
-.c-strike { width: 36px; height: 36px; border-radius: 10px; box-sizing: border-box; position: relative; }
-.c-strike::before, .c-strike::after { content: ''; position: absolute; inset: 9px auto auto 4px;
-  width: 28px; height: 4px; border-radius: 2px; background: var(--tv-game-ui-red-1); top: 16px; }
-.c-strike::before { transform: rotate(45deg); }
-.c-strike::after  { transform: rotate(-45deg); }
+/* Strike Box — a rounded square OUTLINE with an X inside it, not a bare cross */
+.c-strike { width: 36px; height: 36px; border-radius: 10px; box-sizing: border-box;
+  position: relative; border: 4px solid var(--tv-game-ui-red-1); }
+.c-strike--spent { opacity: .35; }
+.c-strike::before, .c-strike::after { content: ''; position: absolute;
+  left: 50%; top: 50%; width: 18px; height: 4px; border-radius: 2px;
+  background: var(--tv-game-ui-red-1); }
+.c-strike::before { transform: translate(-50%, -50%) rotate(45deg); }
+.c-strike::after  { transform: translate(-50%, -50%) rotate(-45deg); }
 
 /* Attempt */
 .c-attempt { width: 168px; height: 71px; box-sizing: border-box; display: flex; align-items: center;

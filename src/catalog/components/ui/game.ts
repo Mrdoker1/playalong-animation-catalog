@@ -14,27 +14,30 @@ injectStyle('css-c-game', `
 .c-panel { box-sizing: border-box; border-radius: 24px; background: var(--tv-transparent-dark-80);
   border: 1px solid var(--tv-border-white-20); display: flex; align-items: center; }
 
-/* Box Content */
+/* Box Content — the readout inside a Score or Status box */
 .c-boxc { display: flex; align-items: center; gap: 16px; height: 38px; }
 .c-boxc__n { ${T('game-m')}; color: var(--tv-game-ui-yellow); white-space: nowrap; }
+.c-boxc__word { ${T('game-s')}; color: var(--tv-base-light); white-space: nowrap; }
 .c-boxc__bar { height: 16px; border-radius: 12px; background: var(--tv-button-secondary);
-  overflow: hidden; width: 205px; }
-.c-boxc__fill { height: 100%; background: var(--gradient-tv-button-primary); }
+  overflow: hidden; display: block; flex: none; }
+/* display:block matters: the fill is a span, and height:100% does nothing on an
+   inline box — which is why the bar looked empty. */
+.c-boxc__fill { display: block; height: 100%; background: var(--gradient-tv-button-primary); }
 .c-boxc__fill--out { background: var(--gradient-tv-status-failure); }
-.c-boxc__q { ${T('heading-m')}; font-size: 32px; color: var(--tv-base-light); }
-.c-boxc__of { ${T('game-m')}; color: var(--tv-game-ui-yellow); }
 
 /* Score Box */
-.c-scorebox { width: 364px; height: 86px; padding: 24px 40px; }
+.c-scorebox { width: 364px; height: 86px; padding: 24px 40px; justify-content: center; }
 .c-strikes { display: flex; gap: 24px; }
 
 /* Status Box */
-.c-statusbox { width: 1704px; height: 122px; padding: 0 40px; gap: 32px; justify-content: space-between; }
+.c-statusbox { width: 1704px; height: 122px; padding: 0 40px; gap: 32px;
+  justify-content: space-between; }
+.c-statusbox__side { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .c-statusbox__banner { flex: 1; height: 122px; display: grid; place-items: center;
   ${T('game-l')}; color: var(--tv-base-light); }
 .c-statusbox__banner--complete { background: var(--gradient-tv-status-round-complete); }
-.c-statusbox__banner--win  { background: var(--gradient-tv-status-you-win-); }
-.c-statusbox__banner--lose { background: var(--gradient-tv-status-you-lose-); }
+.c-statusbox__banner--win  { background: var(--gradient-tv-status-you-win); }
+.c-statusbox__banner--lose { background: var(--gradient-tv-status-you-lose); }
 
 /* Keys */
 .c-key { width: 64px; height: 64px; border-radius: 8px; background: var(--tv-base-light);
@@ -101,30 +104,62 @@ export const BoxContent: ComponentModule = {
 
 export const ScoreBox: ComponentModule = {
   id: 'c-score-box', title: 'Score Box', group: 'Game', figma: '2565:2735',
-  description: '364 × 86 on the dark-80 slab, radius 24. Holds either a Box Content readout or three Strike Boxes.',
-  tokens: { colour: ['TV/Base/Light', 'TV/Border/White 20', 'TV/Game UI/Red 1', 'TV/Game UI/Yellow', 'TV/Transparent/Dark 80'], type: ['Game/M'] },
+  description: '364 × 86 on the dark-80 slab, radius 24. Five readouts: the score, the timer with its bar, the time-up states, and three strikes.',
+  tokens: { colour: ['TV/Base/Light', 'TV/Border/White 20', 'TV/Button/Primary', 'TV/Button/Secondary', 'TV/Game UI/Red 1', 'TV/Game UI/Yellow', 'TV/Status/Failure', 'TV/Transparent/Dark 80'], type: ['Game/M', 'Game/S'] },
   variants: [
-    { label: 'Timer', el: () => h(`<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__n">32s</span>${bar(76)}</div></div>`) },
-    { label: "Timer · Time's Up", el: () => h(`<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__n">3s</span>${bar(18, true)}</div></div>`) },
-    { label: 'Score', el: () => h(`<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__q">Score</span><span class="c-boxc__of">120</span></div></div>`) },
+    { label: 'Score', el: () => h(
+      `<div class="c-panel c-scorebox"><div class="c-boxc">
+        <span class="c-boxc__word">Score</span><span class="c-boxc__n">72</span></div></div>`) },
+    { label: "Time's Up", el: () => h(
+      `<div class="c-panel c-scorebox"><div class="c-boxc">
+        <span class="c-boxc__word">Time\u2019s up!</span></div></div>`) },
     { label: 'Error Indicator', el: () => h(
       `<div class="c-panel c-scorebox"><div class="c-strikes">
-        <span class="c-strike"></span><span class="c-strike"></span><span class="c-strike"></span></div></div>`) },
+        <span class="c-strike"></span><span class="c-strike"></span>
+        <span class="c-strike c-strike--spent"></span></div></div>`) },
+    { label: 'Timer — 155 of 205', el: () => h(
+      `<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__n">32s</span>
+        <span class="c-boxc__bar" style="width:205px"><span class="c-boxc__fill" style="width:155px"></span></span></div></div>`) },
+    { label: "Timer · Time's Up — 40 of 225", el: () => h(
+      `<div class="c-panel c-scorebox"><div class="c-boxc"><span class="c-boxc__n">3s</span>
+        <span class="c-boxc__bar" style="width:225px"><span class="c-boxc__fill c-boxc__fill--out" style="width:40px"></span></span></div></div>`) },
+  ],
+  notes: [
+    'The bar is a fixed <strong>pixel</strong> width in the file, and it differs between the two timer states — 205 with 155 filled, then 225 with 40. The track lengthens as the number shortens, so the readout keeps its overall width.',
+    'The two timers use different fills: <code>TV/Button/Primary</code> while running, <code>TV/Status/Failure</code> when it is nearly out.',
   ],
 };
 
+const STATUS = [
+  { k: 'complete', text: 'Round Complete!', left: ['Part 1 Score', '110/200'],
+    right: ['continue to part 2 for more points'] },
+  { k: 'win',  text: 'You Win!',  left: ['Part 2 Score', '110/200'], right: ['Total', '200/200'] },
+  { k: 'lose', text: 'You Lose!', left: ['Part 2 Score', '110/200'], right: ['Total', '180/200'] },
+];
+
+// Only a score reads as a number. "continue to part 2 for more points" contains
+// a digit and is not one — it is a sentence, and it is set like the labels.
+const isScore = (t: string) => /^\d+\s*\/\s*\d+$/.test(t.trim());
+const side = (parts: string[]) => parts.map((t) =>
+  isScore(t) ? `<span class="c-boxc__n">${t}</span>`
+             : `<span class="c-boxc__word">${t}</span>`).join('');
+
 export const StatusBox: ComponentModule = {
   id: 'c-status-box', title: 'Status Box', group: 'Game', figma: '2565:2732',
-  description: '1704 × 122 across the foot of the screen. The middle panel carries one of the three Status gradients, in Game/L.',
+  description: '1704 × 122 across the foot of the screen. The part score on the left, the outcome on a 707-wide gradient band in Game/L, and what it is worth on the right.',
   wide: true,
   tokens: { colour: ['TV/Base/Light', 'TV/Border/White 20', 'TV/Game UI/Yellow', 'TV/Status/Round Complete', 'TV/Status/You Lose!', 'TV/Status/You Win!', 'TV/Transparent/Dark 80'], type: ['Game/L', 'Game/M', 'Game/S'] },
-  variants: ([['complete', 'Round Complete!'], ['win', 'You Win!'], ['lose', 'You Lose!']] as const).map(([k, text]) => ({
-    label: text,
+  variants: STATUS.map((v) => ({
+    label: v.text,
     el: () => h(`<div class="c-panel c-statusbox">
-      <div class="c-boxc"><span class="c-boxc__q">Q</span><span class="c-boxc__of">1/3</span></div>
-      <div class="c-statusbox__banner c-statusbox__banner--${k}">${text}</div>
-      <div class="c-boxc"><span class="c-boxc__of">120</span></div></div>`),
+      <span class="c-statusbox__side">${side(v.left)}</span>
+      <span class="c-statusbox__banner c-statusbox__banner--${v.k}">${v.text}</span>
+      <span class="c-statusbox__side">${side(v.right)}</span></div>`),
   })),
+  notes: [
+    'The sides are not the same shape. <strong>Round Complete</strong> carries a sentence — <em>continue to part 2 for more points</em> — where the other two carry <em>Total</em> and a number.',
+    'The three bands are glows that fade to nothing at both ends, and they run <strong>left to right</strong>. Until the token file learned to carry a gradient\'s direction they were drawn top to bottom here, and the two that resolved to nothing came out black.',
+  ],
 };
 
 export const Keys: ComponentModule = {

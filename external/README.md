@@ -22,8 +22,8 @@ for, and why the sync is one command.
 
 | File | Copied from | Taken at |
 | --- | --- | --- |
-| `playalong-hub/design-tokens.json` | `playalong-hub` `docs/design-tokens.json` | commit `df07093`, 2026-10-13 |
-| `playalong-hub/design-tokens.md` | `playalong-hub` `docs/design-tokens.md` | commit `df07093`, 2026-10-13 |
+| `playalong-hub/design-tokens.json` | `playalong-hub` `docs/design-tokens.json` | commit `ff40477`, 2026-10-13 |
+| `playalong-hub/design-tokens.md` | `playalong-hub` `docs/design-tokens.md` | commit `ff40477`, 2026-10-13 |
 
 `design-tokens.json` is itself generated — from Figma, by the hub's own
 exporter. So a value here is three steps from where it was decided:
