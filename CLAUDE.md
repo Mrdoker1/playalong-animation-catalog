@@ -48,7 +48,10 @@ src/
     registry.ts           ENTRIES = foundations + demos + animations; SECTION_ORDER
     foundations.ts        Colour / Typography pages, rendered from the token JSON
     demos.ts              demo entries (iframes)
-    DemoCard.ts           demo page: frame, Restart / Open full screen, settings, controls, notes
+    DemoCard.ts           demo page: frame, actions, Restart / Open full screen, screen diagram,
+                          settings, controls, notes
+    FlowMap.ts            the "Screens" diagram every demo carries (SVG, clickable)
+    flows/auth.ts         the Auth demo — rebuilt screens, not an iframe
   components/
     Sidebar.ts            collapsible groups + filter
     AnimationCard.ts      animation page: stage, frames, controls, snippets, ticket
@@ -110,7 +113,19 @@ A self-contained build in `public/demos/` plus an entry in `catalog/demos.ts`.
 It runs in an iframe so its CSS and fonts can't leak either way. Optional fields:
 `controls` (key table), `notes` (HTML strings), `settings` (sliders — see below),
 `actions` (header buttons that call into the running demo, e.g. Stack It's
-*End timer* → `window.stackIt.endTimer()`).
+*End timer* → `window.stackIt.endTimer()`), `flow` (the screen diagram, below).
+
+**Every demo has a "Screens" diagram under the frame** (`FlowMap.ts`): screens as
+boxes placed by hand on a col/row grid (left to right is the order things
+happen), arrows labelled with the key or event that moves you on, dashed boxes
+for states of a screen. Clicking a box opens that screen and the current one is
+highlighted. For an iframe demo that works through **`window.catalogFlow =
+{ go(id), current() }`**, which the demo must expose — Stack It has it in its
+HTML, TV Game PoC and Web — Sign In get it from the build script. Keep labels
+short: the gap between columns is ~66px.
+
+All playable things live in **Demos** — Auth too (it used to be a separate
+*Flows* section).
 
 **The frame shows only the product; the card holds everything about it.** A demo
 carries no instruction panels, remotes or settings screens of its own — those
@@ -180,6 +195,9 @@ time by a wrapper Vite config the script writes to a temp dir:
 | Welcome screen | replaced by a 2 s **splash** (its artwork, logo baked in, + Figma "Loader Big", node `557:3037`, from `assets/tv-game-poc/loader-big.png`), then straight to the catalogue. Back on the catalogue does nothing |
 | Settings | the Welcome sliders (video volume `audio.videoVolume`, SFX `audio.sfxVolume`, lead-in `playback.roundLeadInSeconds`) are `settings` on the demo card; the PoC gets a `storage` listener so they apply live |
 | Web vs TV | Sign In / Reset Password are **web, not TV**: served by the same build under `?view=web` as the separate demo *Web — Sign In* |
+| Menu | the PoC's `SideMenu` is **replaced by the catalog's Menu** (PTV-858): rail 160 open or shut, labels over a 220ms ramp, one ring that slides, white = selected page only, focus = the ring. Same Figma geometry and icon set as the catalog component, the PoC's own props and keys. Restyling the PoC menu from outside with CSS was tried twice and broke something every round — don't go back to it |
+| Rail scroll | `GameSelectionScreen` computed rail scroll as if the open menu were 340 wide, which made *Featured Games* jump; patched to 160 |
+| Screen diagram | `App` and the web app expose `window.catalogFlow` so the card's diagram can switch screens |
 
 Rules of that script:
 
@@ -195,6 +213,12 @@ Rules of that script:
   Put new constants at the top of the script, not inside the wrapper text.
 - The build **empties the output folder first** — refreshing the demo during a
   rebuild gives a 404, and a failed build leaves it empty until the next good one.
+- The PoC's Babel injects `core-js` imports into **every module it compiles**,
+  and they only resolve inside the PoC's folder. So nothing from the catalog is
+  *imported* into its build — the replacement menu is generated as a file and
+  served via `load()` for `SideMenu.tsx`'s own id, with the icons and the
+  `menu-ptv858.css` numbers **inlined** (a CSS import from outside the PoC is
+  silently dropped).
 - It costs ~49 MB of images, audio and episode content in the repo.
 
 ## Deploying

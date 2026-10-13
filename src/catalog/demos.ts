@@ -8,6 +8,29 @@ export const DEMOS: DemoModule[] = [
     src: 'demos/stack-it.html',
     description:
       'The whole game loop, playable: answer selection, the timed stacking phase, results and Round Complete. Self-contained build, no backend.',
+    flow: {
+      nodes: [
+        { id: 'pick', label: 'Choose an answer', sub: '◀ ▶ ▲ ▼', col: 0, row: 0 },
+        { id: 'place', label: 'Place in a slot', sub: '▲ ▼ free slots', col: 1, row: 0 },
+        { id: 'full', label: 'Stack full', sub: 'choose a block', col: 2, row: 0 },
+        { id: 'move', label: 'Block picked up', sub: '▲ ▼ move', col: 3, row: 0 },
+        { id: 'results', label: 'Results', sub: 'Your stack revealed', col: 2, row: 1 },
+        { id: 'round', label: 'Round Complete', sub: 'rounds 1–2', col: 3, row: 1 },
+        { id: 'game', label: 'Game Complete', sub: 'after round 3', col: 4, row: 1 },
+      ],
+      edges: [
+        { from: 'pick', to: 'place', label: 'OK' },
+        { from: 'place', to: 'pick', label: 'OK lock · Back' },
+        { from: 'place', to: 'full', label: '6th auto' },
+        { from: 'full', to: 'move', label: 'OK' },
+        { from: 'move', to: 'full', label: 'OK drop · Back' },
+        { from: 'full', to: 'results', label: '0:00' },
+        { from: 'results', to: 'round', label: '3 s · OK' },
+        { from: 'round', to: 'pick', label: '6 s · OK — next round' },
+        { from: 'round', to: 'game', label: 'round 3' },
+        { from: 'game', to: 'pick', label: 'OK — new game' },
+      ],
+    },
     controls: [
       { keys: '← → ↑ ↓', does: 'Choose an answer' },
       { keys: 'OK / Enter', does: 'Move it to the first free slot from the top' },
@@ -35,6 +58,31 @@ export const DEMOS: DemoModule[] = [
     src: 'demos/tv-game-poc/index.html',
     description:
       'The original proof of concept: full episodes with video, the answer board, strikes and Fast Money. Most of the motion in this catalog was measured from here.',
+    flow: {
+      nodes: [
+        { id: 'splash', label: 'Splash', sub: '2 s · loader', col: 0, row: 0 },
+        { id: 'home', label: 'Home', sub: 'hero + rails', col: 1, row: 0 },
+        { id: 'menu', label: 'Menu', sub: 'rail · ramp · ring', col: 1, row: 1 },
+        { id: 'pages', label: 'Search · Profile · Legal', sub: 'menu pages', col: 1, row: 2 },
+        { id: 'ff', label: 'Family Feud', sub: 'episode', col: 2, row: 0 },
+        { id: 'fm', label: 'Fast Money', sub: 'episode', col: 2, row: 1 },
+        { id: 'cs', label: 'Card Sharks', sub: 'episode', col: 2, row: 2 },
+        { id: 'mg', label: 'Match Game', sub: 'episode', col: 2, row: 3 },
+        { id: 'mg2', label: 'Match Game', sub: 'Executive Edition', col: 2, row: 4 },
+        { id: 'pc', label: 'The 1% Club', sub: 'episode', col: 2, row: 5 },
+      ],
+      edges: [
+        { from: 'splash', to: 'home', label: '2 s' },
+        { from: 'home', to: 'menu', label: '◀' },
+        { from: 'menu', to: 'pages', label: 'OK' },
+        { from: 'home', to: 'ff', label: 'OK' },
+        { from: 'home', to: 'fm' },
+        { from: 'home', to: 'cs' },
+        { from: 'home', to: 'mg' },
+        { from: 'home', to: 'mg2' },
+        { from: 'home', to: 'pc' },
+      ],
+    },
     controls: [
       { keys: '↑ ↓ ← →', does: 'Navigate' },
       { keys: 'Enter', does: 'Select' },
@@ -51,7 +99,7 @@ export const DEMOS: DemoModule[] = [
       'It was built for a domain root, so it is rebuilt here with a base path; without that every asset 404s under a sub-path.',
       'Video came through <strong>Vercel rewrites</strong> proxying CloudFront, which GitHub Pages cannot do. The six stream prefixes now point straight at CloudFront, which already answers cross-origin.',
       'Three of those six are renamed on CloudFront — <code>/fastmoney/</code> is <code>/fast-money/</code>, <code>/matchgame/</code> is <code>/match-game/</code>, <code>/matchgameep2/</code> is <code>/match-game-andy/</code>. A prefix rule would have 404d.',
-      'Its menu was the <strong>superseded mechanic</strong> — its own CSS said so: <em>"Width animation pushes content right (in flow)."</em> PTV-858 replaced that, and the demo is corrected at build time: the rail stays 160 open or shut, the labels appear beside it over the dimming ramp, and the content never shifts. <code>src/shared/menu-ptv858.css</code> is the single source of those numbers, read by the <strong>Menu</strong> component here and linked into this build — one runtime component cannot span the iframe, but the rule can.',
+      'Its menu was the <strong>superseded mechanic</strong> — its own CSS said so: <em>"Width animation pushes content right (in flow)."</em> PTV-858 replaced that, so the PoC\'s SideMenu is <strong>replaced at build time by the catalog\'s Menu</strong>: same markup, Figma geometry, icons and motion, driven by the PoC\'s own keys. The rail stays 160 open or shut, the content never shifts, white is the selected page only and focus is the ring. <code>src/shared/menu-ptv858.css</code> holds the numbers both read.',
       'It carries 49 MB of images, audio and episode content.',
       'Opens on a 2 s splash with a loader, then the catalogue. The TV-simulation panel is dropped; its settings are the sliders here — they apply live. Sign In is web, not TV, and is shown separately — see <strong>Web — Sign In</strong>.',
     ],
@@ -63,6 +111,16 @@ export const DEMOS: DemoModule[] = [
     src: 'demos/tv-game-poc/index.html?view=web',
     description:
       'The web side of PlayAlong: Sign In and Reset Password. Separate from the TV app — this is where profiles are managed and a TV gets linked.',
+    flow: {
+      nodes: [
+        { id: 'signin', label: 'Sign In', sub: 'email + password', col: 0, row: 0 },
+        { id: 'reset', label: 'Reset Password', sub: 'email', col: 1, row: 0 },
+      ],
+      edges: [
+        { from: 'signin', to: 'reset', label: 'Forgot Password?' },
+        { from: 'reset', to: 'signin', label: 'Back' },
+      ],
+    },
     notes: [
       'Same build as the TV Game PoC, opened with <code>?view=web</code>, which renders only the web screens.',
       'There is no backend: Sign In accepts any non-empty pair and stays on the page. Forgot Password opens Reset Password; Back returns.',

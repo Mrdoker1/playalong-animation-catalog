@@ -338,6 +338,24 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-tv)}
     if(k==='ok'&&e.target.closest&&e.target.closest('button'))return; // native button click
     e.preventDefault();key(k);
   });
+  // The catalog's screen diagram (same origin): jump to a stage, report the stage.
+  function fillStack(){slots=RD().answers.map((_,i)=>i);slots.forEach((a,s)=>placed[a]=s);moving=-1;movingSlot=-1}
+  window.catalogFlow={
+    go(id){
+      if(id==='game')round=ROUNDS.length-1;
+      startRound();
+      if(id==='place'){startPlace(0)}
+      else if(id==='full'||id==='move'){fillStack();mode='review';rFocus=0;
+        if(id==='move'){rSel=0;rOrig=slots.slice();mode='reorder'}render()}
+      else if(id==='results'){fillStack();timeUp()}
+      else if(id==='round'||id==='game'){fillStack();timeUp();showComplete()}
+    },
+    current(){
+      return {pick:'pick',place:'place',review:'full',reorder:'move',result:'results',
+        complete:round<ROUNDS.length-1?'round':'game'}[mode];
+    }
+  };
+
   // Called by the catalog card (same origin): its End timer / Restart buttons.
   window.stackIt={
     endTimer(){if(['pick','place','review','reorder'].includes(mode))timeUp()},

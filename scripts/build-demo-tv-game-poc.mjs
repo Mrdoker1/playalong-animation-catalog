@@ -36,9 +36,12 @@
 // 6. Its menu is the superseded mechanic. Its own CSS says so: "Width animation
 //    pushes content right (in flow)." PTV-858 replaced that -- the rail stays 160
 //    open or shut and the labels appear over a dimming ramp, so the content never
-//    shifts. src/shared/menu-ptv858.css carries that rule for BOTH the catalog's
-//    Menu component and this demo, and is linked into the built index.html here.
-//    One runtime component cannot span the iframe; the numbers can.
+//    shifts. Restyling the PoC's menu from outside with CSS produced a new
+//    artefact every round, so its SideMenu is REPLACED at build time by the
+//    catalog's Menu: same markup, Figma geometry, icons (src/catalog/components/
+//    icons.ts) and motion, with the PoC's props and key handling. The numbers
+//    both read live in src/shared/menu-ptv858.css. The rail-scroll maths in
+//    GameSelectionScreen is patched to the 160 rail too.
 //
 // Nothing in tv-game-poc is modified: it is built from its own source into ours.
 import { execFileSync } from 'node:child_process';
@@ -47,7 +50,6 @@ import { globSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createHash } from 'node:crypto';
 
 const here = fileURLToPath(new URL('../', import.meta.url));
 const POC = process.env.POC ?? fileURLToPath(new URL('../../tv-game-poc/', import.meta.url));
@@ -56,6 +58,9 @@ const BASE = '/playalong-animation-catalog/demos/tv-game-poc/';
 // "Loader Big" from Figma (OTT TV Design, node 557:3037), copied into the build.
 const LOADER_SRC = `${here}assets/tv-game-poc/loader-big.png`;
 const LOADER_PATH = 'catalog/loader-big.png';
+// The menu's PlayAlong mark -- the catalog's own export of Figma `Subtract` (933:7845).
+const MARK_SRC = `${here}public/assets/flows/mark.svg`;
+const MARK_PATH = 'catalog/mark.svg';
 
 if (!existsSync(POC)) {
   console.error(`tv-game-poc not found at ${POC}`);
@@ -67,9 +72,89 @@ if (!existsSync(POC)) {
 // a pass-through. Vite bundles the wrapper together with the config it imports.
 const wrapperDir = mkdtempSync(join(tmpdir(), 'tv-game-poc-'));
 const wrapper = join(wrapperDir, 'vite.config.mjs');
+
+// One icon from src/catalog/components/icons.ts (the Figma set), at 40px.
+function iconSvg(name) {
+  const src = readFileSync(join(here, 'src/catalog/components/icons.ts'), 'utf8');
+  const m = src.match(new RegExp('"' + name + '": `([^`]*)`'));
+  if (!m) throw new Error('icon not found in the catalog set: ' + name);
+  return '<svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden="true">' + m[1] + '</svg>';
+}
+
+// The catalog's Menu, as the PoC's SideMenu. Plain createElement, so it needs
+// no JSX pass and can be written here as an ordinary string.
+const SIDE_MENU_FILE = join(wrapperDir, 'SideMenu.js');
+// The PTV-858 numbers are read from the catalog's file and inlined: a CSS import
+// from outside the PoC's folder is silently dropped by its build.
+const SIDE_MENU_CSS = [
+  readFileSync(join(here, 'src/shared/menu-ptv858.css'), 'utf8'),
+  '.cm{position:relative;flex-shrink:0;width:var(--menu-rail);height:1080px;z-index:20;color:#fff}',
+  '.cm__ramp{position:absolute;left:0;top:0;width:var(--menu-ramp-w);height:1080px;background:var(--menu-ramp);',
+  'opacity:0;transition:opacity 220ms ease;pointer-events:none}',
+  '.cm.is-open .cm__ramp{opacity:1}',
+  '.cm__logo{position:absolute;left:56px;top:96px;width:48px;height:50px;display:block}',
+  '.cm__item{position:absolute;left:32px;width:96px;height:64px;display:flex;align-items:center;',
+  'justify-content:center;opacity:.5;transition:opacity 180ms ease;color:#fff}',
+  '.cm__item.is-selected{opacity:1}',
+  '.cm__item svg{display:block}',
+  '.cm__label{position:absolute;left:var(--menu-label-x);height:var(--menu-ring-h);display:flex;align-items:center;',
+  "font-family:'Rubik',sans-serif;font-size:24px;font-weight:400;line-height:1;color:#fff;white-space:nowrap;",
+  'opacity:0;transform:translateX(-12px);transition:opacity 180ms ease,transform 180ms ease;pointer-events:none}',
+  '.cm.is-open .cm__label{opacity:.5;transform:none}',
+  '.cm.is-open .cm__label.is-selected{opacity:1}',
+  '.cm__ring{position:absolute;left:var(--menu-ring-x);width:var(--menu-ring-w);height:var(--menu-ring-h);',
+  'border-radius:var(--menu-ring-radius);box-shadow:inset 0 0 0 var(--menu-ring-weight) var(--menu-ring-color);',
+  'box-sizing:border-box;opacity:0;transition:opacity 180ms ease,top 160ms cubic-bezier(.2,.7,.3,1);pointer-events:none}',
+  '.cm.is-open .cm__ring{opacity:1}',
+].join('');
+writeFileSync(SIDE_MENU_FILE, [
+  "import { createElement as h, useState, useEffect } from 'react';",
+  // The four icons are copied out of the catalog's set rather than imported:
+  // the PoC's Babel injects core-js imports into every module it compiles, and
+  // core-js does not resolve from the catalog's folder.
+  `const ICON = ${JSON.stringify(Object.fromEntries(['Home', 'Search', 'Account', 'Shield'].map((n) => [n, iconSvg(n)])))};`,
+  'const icon = (n) => ICON[n];',
+  `const MARK = ${JSON.stringify(BASE + MARK_PATH)};`,
+  `const CSS = ${JSON.stringify(SIDE_MENU_CSS)};`,
+  "if (!document.getElementById('catalog-side-menu')) {",
+  "  const st = document.createElement('style'); st.id = 'catalog-side-menu'; st.textContent = CSS;",
+  '  document.head.appendChild(st);',
+  '}',
+  // The PoC's four pages, in its order; icons from the Figma set.
+  "const ITEMS = [{ id: 'home', label: 'Home', ico: 'Home' }, { id: 'search', label: 'Search', ico: 'Search' },",
+  "  { id: 'profile', label: 'Profile', ico: 'Account' }, { id: 'legal', label: 'Legal', ico: 'Shield' }];",
+  // Figma: first item at y 246, 64 tall, 88 apart -- the catalog's yOf().
+  'const Y = (i) => 246 + i * 88;',
+  'export const SideMenu = ({ currentPage, onNavigate, isFocused, onExitMenu }) => {',
+  '  const sel = Math.max(0, ITEMS.findIndex((it) => it.id === currentPage));',
+  '  const [at, setAt] = useState(sel);',
+  // Same keys as the PoC's own SideMenu.
+  '  useEffect(() => {',
+  '    if (!isFocused) return;',
+  '    const onKey = (e) => {',
+  "      if (e.key === 'ArrowUp') { e.preventDefault(); setAt((p) => Math.max(0, p - 1)); }",
+  "      else if (e.key === 'ArrowDown') { e.preventDefault(); setAt((p) => Math.min(ITEMS.length - 1, p + 1)); }",
+  "      else if (e.key === 'Enter') { e.preventDefault(); onNavigate(ITEMS[at].id); onExitMenu(); }",
+  "      else if (e.key === 'ArrowRight' || e.key === 'Escape' || e.key === 'Backspace') { e.preventDefault(); onExitMenu(); }",
+  '    };',
+  "    window.addEventListener('keydown', onKey);",
+  "    return () => window.removeEventListener('keydown', onKey);",
+  '  }, [isFocused, at, onNavigate, onExitMenu]);',
+  // White = the selected page only, icon and label together. Focus = the ring.
+  "  return h('aside', { className: 'cm' + (isFocused ? ' is-open' : '') },",
+  "    h('div', { className: 'cm__ramp' }),",
+  "    h('img', { className: 'cm__logo', src: MARK, alt: 'PlayAlong' }),",
+  "    ...ITEMS.map((it, i) => h('div', { key: it.id, className: 'cm__item' + (i === sel ? ' is-selected' : ''),",
+  "      style: { top: Y(i) + 'px' }, dangerouslySetInnerHTML: { __html: icon(it.ico, 40) } })),",
+  "    ...ITEMS.map((it, i) => h('span', { key: 'l-' + it.id, className: 'cm__label' + (i === sel ? ' is-selected' : ''),",
+  "      style: { top: Y(i) + 'px' } }, it.label)),",
+  "    h('span', { className: 'cm__ring', style: { top: Y(at) + 'px' } }));",
+  '};',
+].join('\n'));
 const component = (name) => JSON.stringify(join(POC, 'src/components', `${name}.tsx`));
 writeFileSync(wrapper, `
 import poc from ${JSON.stringify(join(POC, 'vite.config.ts'))};
+import { readFileSync } from 'node:fs';
 
 // Every patch must find its target; a silent miss would ship the unpatched app.
 function patch(code, from, to, what) {
@@ -79,11 +164,15 @@ function patch(code, from, to, what) {
 
 // Web: Sign In <-> Reset Password only. Plain createElement so no JSX pass is needed.
 const WEB_APP = \`
-import { createElement as h, useState } from 'react';
+import { createElement as h, useState, useEffect } from 'react';
 import { SignInScreen } from ${component('SignInScreen')};
 import { ResetPasswordScreen } from ${component('ResetPasswordScreen')};
 export default function WebApp() {
   const [screen, setScreen] = useState('signin');
+  // The catalog's screen diagram drives this through window.catalogFlow.
+  useEffect(() => {
+    window.catalogFlow = { go: (id) => setScreen(id === 'reset' ? 'reset' : 'signin'), current: () => screen };
+  }, [screen]);
   const stay = () => {};
   return screen === 'signin'
     ? h(SignInScreen, { onSignIn: stay, onJoin: stay, onBack: stay, onForgotPassword: () => setScreen('reset') })
@@ -112,6 +201,32 @@ export function WelcomeScreen({ onStartDemo }) {
 }
 \`;
 
+const CATALOG_FLOW_TV = [
+  '  useEffect(() => {',
+  '    const TO: Record<string, Screen> = { splash: "welcome", home: "home", menu: "home", pages: "search",',
+  '      ff: "family-feud-player", fm: "fast-money-player", cs: "card-sharks-player",',
+  '      mg: "match-game-player", mg2: "match-game-ep2-player", pc: "player" };',
+  '    const FROM: Record<string, string> = { welcome: "splash", search: "pages", profile: "pages", legal: "pages",',
+  '      "family-feud-player": "ff", "fast-money-player": "fm", "card-sharks-player": "cs",',
+  '      "match-game-player": "mg", "match-game-ep2-player": "mg2", player: "pc" };',
+  '    (window as any).catalogFlow = {',
+  '      go: (id: string) => {',
+  '        setPendingScreen(null);',
+  '        setCurrentScreen(TO[id] ?? "home");',
+  '        // The menu is not a screen: open it on Home the way a remote does.',
+  '        if (id === "menu") setTimeout(() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" })), 350);',
+  '        else if (id === "home" && document.querySelector(".cm.is-open")) window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));',
+  '      },',
+  '      current: () => {',
+  '        const s = (window as any).__catalogScreen as string;',
+  '        if (s === "home") return document.querySelector(".cm.is-open") ? "menu" : "home";',
+  '        return FROM[s] ?? s;',
+  '      },',
+  '    };',
+  '  }, []);',
+  '  useEffect(() => { (window as any).__catalogScreen = currentScreen; }, [currentScreen]);',
+].join('\\n');
+
 const catalogPatches = {
   name: 'catalog:tv-game-poc-patches',
   enforce: 'pre',
@@ -122,6 +237,9 @@ const catalogPatches = {
   load(id) {
     if (id === '\\0catalog-web-app') return WEB_APP;
     if (id === '\\0catalog-splash') return SPLASH;
+    if (id.split('?')[0].endsWith('/components/SideMenu.tsx')) {
+      return readFileSync(${JSON.stringify(SIDE_MENU_FILE)}, 'utf8');
+    }
     if (id.split('?')[0].endsWith('/components/PasswordGate.tsx')) {
       return 'export const PasswordGate = ({ children }) => children;';
     }
@@ -130,8 +248,18 @@ const catalogPatches = {
     const file = id.split('?')[0];
     if (file.endsWith('/src/App.tsx')) {
       code = patch(code, "import { WelcomeScreen } from './components/WelcomeScreen';", "import { WelcomeScreen } from 'virtual:catalog-splash';", 'App WelcomeScreen import');
+      // The catalog's screen diagram drives the app through window.catalogFlow:
+      // go(node) jumps to a screen, current() names the node that is up.
+      code = patch(code, "  const [pendingScreen, setPendingScreen] = useState<Screen | null>(null);",
+        "  const [pendingScreen, setPendingScreen] = useState<Screen | null>(null);\\n" + CATALOG_FLOW_TV, 'App catalogFlow');
       code = patch(code, "onStartDemo={() => setCurrentScreen('signin')}", "onStartDemo={() => setCurrentScreen('home')}", 'App splash → home');
       return patch(code, "onBack={() => setCurrentScreen('welcome')}", "onBack={() => {}}", 'App back to welcome');
+    }
+    if (file.endsWith('/src/components/GameSelectionScreen.tsx')) {
+      // PTV-858: the rail stays 160 open or shut, so the rail-scroll maths must
+      // not assume 340 when the menu has focus -- that is what made Featured
+      // Games jump when the menu opened.
+      return patch(code, 'const menuWidth = isMenuFocused ? 340 : 160;', 'const menuWidth = 160;', 'GameSelection menuWidth');
     }
     if (file.endsWith('/src/contexts/AudioSettingsContext.tsx')) {
       return patch(code, '  return (\\n    <AudioSettingsContext.Provider', \`  useEffect(() => {
@@ -168,25 +296,8 @@ try {
 mkdirSync(join(OUT, 'catalog'), { recursive: true });
 copyFileSync(LOADER_SRC, join(OUT, LOADER_PATH));
 
-// PTV-858: the menu must not push the content. See note 6 at the top.
-//
-// The filename carries a CONTENT HASH, like every asset Vite emits. Under a
-// fixed name a deploy serves whatever the browser and the CDN still hold, and
-// a fixed bug then looks unfixed -- which cost a round of chasing a stale file.
-{
-  const src = readFileSync(join(here, 'src/shared/menu-ptv858.css'), 'utf8');
-  const hash = createHash('sha256').update(src).digest('hex').slice(0, 8);
-  const MENU_CSS = `catalog/menu-ptv858.${hash}.css`;
-  for (const old of globSync(`${OUT}/catalog/menu-ptv858.*.css`)) rmSync(old);
-  writeFileSync(join(OUT, MENU_CSS), src);
-  const indexPath = join(OUT, 'index.html');
-  const html = readFileSync(indexPath, 'utf8');
-  // Last in <head> so it wins over the PoC's own SideMenu.css, and so a missing
-  // </head> fails the build rather than shipping the old mechanic silently.
-  writeFileSync(indexPath, patch(html, '</head>',
-    `  <link rel="stylesheet" href="${BASE}${MENU_CSS}">\n  </head>`, 'index.html </head> for the menu rule'));
-  console.log(`menu rule linked as ${MENU_CSS}`);
-}
+mkdirSync(join(OUT, 'catalog'), { recursive: true });
+copyFileSync(MARK_SRC, join(OUT, MARK_PATH));
 
 const gateLeft = globSync(`${OUT}/assets/*.js`).some((f) => readFileSync(f, 'utf8').includes('app_unlocked'));
 if (gateLeft) {

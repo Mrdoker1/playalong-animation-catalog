@@ -69,7 +69,8 @@ injectStyle('css-c-menu', `
 .c-overlay--live.is-open .c-overlay__ramp { opacity: 1; }
 /* A label slides the last few pixels in rather than appearing, so the eye can
    see WHERE it came from -- out of the rail, not from a widening of it. */
-.c-overlay--live .c-overlay__label {
+.c-overlay--live .c-overlay__label { height: var(--menu-ring-h); display: flex; align-items: center;
+  line-height: 1;
   opacity: 0; transform: translateX(-12px);
   transition: opacity 180ms ease, transform 180ms ease; }
 .c-overlay--live.is-open .c-overlay__label { opacity: .5; transform: none; }
@@ -121,20 +122,19 @@ export const Menu: ComponentModule = {
   },
   wide: true,
   variants: [
-    { label: '▶ Live — click the rail, then ↑ ↓ and Esc', el: liveMenu },
+    { label: '▶ Live — click the rail, then ↑ ↓, OK to select, Esc', el: liveMenu },
     { label: 'Collapsed Menu — 772:7012 · no ramp, this node has none', el: () => onScreen(menu(false, 0)) },
-    { label: 'Expanded Menu — 772:6986 · no ramp, this node has none', el: () => onScreen(menu(true, 0)) },
     { label: 'Overlay — 11561:15402 · the ramp lives here', el: drawnOverlay },
   ],
   notes: [
     '<strong><code>Expanded Menu</code> is 340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is the <em>collapsed</em> rail with the six labels as loose text beside it over the dimming ramp — so anything reserving 792 for the menu has read the wrong node.',
-    '<strong>Only <code>Overlay</code> carries the ramp</strong>, which is why the first two variants above are drawn without one. They are shown on the home screen anyway, because a menu drawn on nothing tells you nothing.',
+    '<strong>Only <code>Overlay</code> carries the ramp</strong>, which is why the collapsed variant above is drawn without one. They are shown on the home screen anyway, because a menu drawn on nothing tells you nothing.',
     '<strong>Both are used, and an earlier note here said otherwise.</strong> It claimed the expanded component "is not what the screen uses". Counted from the file: <code>Expanded Menu</code> is on <strong>14</strong> frames and <code>Overlay</code> on <strong>2</strong>. Two nodes describing one open menu, with the frames split between them. <strong>Worth reconciling in Figma.</strong>',
     'The rail is the <strong>same 160 wide open or shut</strong> — that is the whole of PTV-858, and why the content never shifts. The live variant is the only way to see it: watch the Home screen behind the ramp stay put.',
     'The ramp is a horizontal gradient, not a flat panel: opaque <code>#040810</code>, <code>rgb(2,5,9)</code> at 80% at 43% of its width, fully transparent at the end. Measured on a device during PTV-858 — content keeps 39.9% of its luminance at x = 450 and 100% from x = 792.',
     'The focus ring is a single 250 × 64 rectangle at x = 47, <strong>one size for every item</strong>, taken from the longest label (<code>Progression</code>, 134 wide). It does not hug its own text — a ring that resized per item would flicker as focus moved, and on a D-pad the moving ring is the only feedback there is.',
     'In the drawn <code>Overlay</code> frame the <strong>ring is on Home but the full-strength label is Trophies</strong> — the labels carry their own opacity and two of them disagree about where focus is. <strong>A file defect</strong>, kept in the drawn variant and corrected in the live one, which has a single focus.',
-    '<strong>Selected is white, not a blue pill</strong> (design, 2026-10-13). Being the current page means being at full strength while the rest sit at 50%; the blue is now only the focus ring. <strong>Figma has not caught up</strong> — its <code>Menu Item</code> component still fills <code>State=Focus</code> with the <code>Button/Primary</code> gradient, on 60 frames.',
+    '<strong>Selected is white, not a blue pill</strong> (design, 2026-10-13). White is the <strong>selected item only</strong> — the page you are on — <strong>icon and label together</strong>, open or shut; everything else sits at 50%. Focus is the blue ring and nothing else: the item under it stays at 50% until OK selects it. <strong>Figma has not caught up</strong> — its <code>Menu Item</code> component still fills <code>State=Focus</code> with the <code>Button/Primary</code> gradient, on 60 frames.',
     'In the collapsed rail the Sign In item is <strong>104 wide where the other five are 96</strong>. An 8px difference on an item whose label is hidden.',
     'The screen behind every variant is the real Home screen, captured from the TV Game PoC with its own rail hidden — it is context, not part of the component. On a dark card the ramp would otherwise show nothing at all.',
   ],
@@ -188,7 +188,7 @@ function liveMenu(): HTMLElement {
   const yOf = (i: number) => (i === ITEMS.length - 1 ? 920 : 246 + i * 88);
   const labels = ITEMS.map((m, i) => {
     const lab = h(`<span class="c-overlay__label">${m.label}</span>`);
-    lab.style.top = `${yOf(i) + 24 - 7}px`;
+    lab.style.top = `${yOf(i)}px`;
     el.appendChild(lab);
     return lab;
   });
@@ -197,17 +197,20 @@ function liveMenu(): HTMLElement {
 
   let open = false;
   let at = 0;
+  let sel = 0;
   const draw = () => {
     el.classList.toggle('is-open', open);
-    // White means SELECTED -- the page you are on -- open or shut. Focus is the
-    // ring and nothing else, so passing over an item does not brighten it.
-    railItems.forEach((it, i) => it.classList.toggle('is-selected', i === 0));
-    labels.forEach((l, i) => l.classList.toggle('is-on', open && i === at));
+    // White is the SELECTED item only -- the page you are on -- icon and label
+    // together, open or shut. Focus is the ring and nothing else: the item under
+    // it stays at 50% until OK makes it the selected one.
+    railItems.forEach((it, i) => it.classList.toggle('is-selected', i === sel));
+    labels.forEach((l, i) => l.classList.toggle('is-on', open && i === sel));
     ring.style.top = `${yOf(at)}px`;
   };
 
   const key = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowRight' || e.key === 'Enter') open = true;
+    if (e.key === 'Enter' && open) sel = at;
+    else if (e.key === 'ArrowRight' || e.key === 'Enter') open = true;
     else if (e.key === 'Escape' || e.key === 'ArrowLeft') open = false;
     else if (e.key === 'ArrowDown') { open = true; at = (at + 1) % ITEMS.length; }
     else if (e.key === 'ArrowUp') { open = true; at = (at - 1 + ITEMS.length) % ITEMS.length; }

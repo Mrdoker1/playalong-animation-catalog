@@ -1,3 +1,4 @@
+import type { FlowMapSpec } from './FlowMap';
 /**
  * The catalog started as one kind of thing — an animation. It is becoming a
  * library of several: demos you can play, screens, components, and the specs
@@ -64,6 +65,8 @@ export type DemoModule = {
    * exposes there.
    */
   actions?: { label: string; run: (win: Window) => void }[];
+  /** The demo's screens as a diagram, drawn under the frame. */
+  flow?: FlowMapSpec;
 };
 
 export type DemoSetting = {

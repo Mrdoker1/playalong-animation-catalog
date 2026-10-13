@@ -1,4 +1,5 @@
 import type { DemoModule, DemoSetting } from './types';
+import { createFlowMap } from './FlowMap';
 
 type WithDestroy = HTMLElement & { __destroy?: () => void };
 
@@ -60,6 +61,8 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
 
     ${stage}
 
+    ${demo.flow ? '<div class="demo__flow"><h2 class="demo__flow-title">Screens</h2><div data-role="flow"></div></div>' : ''}
+
     <div class="demo__side">
       ${settings ? `<div class="demo__block"><h2>Settings</h2><div class="demo__settings">${settings}</div></div>` : ''}
       ${controls ? `<div class="demo__block"><h2>Controls</h2><table class="demo__keys">${controls}</table></div>` : ''}
@@ -78,6 +81,22 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
   });
 
   const frame = root.querySelector<HTMLIFrameElement>('.demo__frame');
+
+  // The diagram drives the demo through `window.catalogFlow` -- `go(id)` to jump
+  // to a screen, `current()` to say which one is up. The frame is same-origin.
+  type CatalogFlow = { go(id: string): void; current(): string | undefined };
+  const flowApi = () => (frame?.contentWindow as (Window & { catalogFlow?: CatalogFlow }) | null)?.catalogFlow;
+  let flowPoll: number | undefined;
+  if (demo.flow) {
+    const map = createFlowMap(demo.flow, {
+      onPick: (id) => { flowApi()?.go(id); frame?.focus(); },
+    });
+    root.querySelector('[data-role="flow"]')!.appendChild(map);
+    flowPoll = window.setInterval(() => {
+      try { map.setCurrent(flowApi()?.current()); } catch { /* frame mid-reload */ }
+    }, 250);
+  }
+
   if (!frame) return root;
   root.querySelectorAll<HTMLButtonElement>('[data-action]').forEach((btn) => {
     const action = demo.actions![Number(btn.dataset.action)];
@@ -90,6 +109,6 @@ export function createDemoCard(demo: DemoModule): WithDestroy {
     ?.addEventListener('click', () => { frame.src = frame.src; });
 
   // The iframe keeps running — and keeps making noise — unless it is detached.
-  root.__destroy = () => { frame.src = 'about:blank'; };
+  root.__destroy = () => { frame.src = 'about:blank'; window.clearInterval(flowPoll); };
   return root;
 }

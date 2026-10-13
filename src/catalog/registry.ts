@@ -39,7 +39,6 @@ export const ENTRIES: CatalogEntry[] = [...FOUNDATIONS, ...COMPONENT_ENTRIES, ..
 export const SECTION_ORDER = [
   'Foundations',
   'Components',
-  'Flows',
   'Demos',
   'Family Feud',
   'Card Sharks',

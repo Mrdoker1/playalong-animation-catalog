@@ -1,3 +1,4 @@
+import { createFlowMap, type FlowMapSpec } from '../FlowMap';
 import { injectStyle } from '../../lib/injectStyle';
 import type { CatalogEntry } from '../types';
 import { icon } from '../components/icons';
@@ -58,11 +59,7 @@ injectStyle('css-flow-auth', `
   background: var(--tv-base-light); }
 .flow__qr img { width: 100%; height: 100%; display: block; }
 
-.flow__bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.flow__step { font-family: var(--mono); font-size: 11px; padding: 4px 10px;
-  border-radius: var(--radius-sm); border: 1px solid var(--border); color: var(--text-dim);
-  background: var(--bg-card); cursor: pointer; }
-.flow__step.is-here { border-color: var(--accent); color: var(--text); }
+.flow__map { margin-top: 6px; }
 .flow__hint { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin: 0; }
 .flow__notes { margin: 0; padding-left: 18px; display: grid; gap: 6px;
   font-size: 13px; line-height: 1.5; color: var(--text-dim); }
@@ -336,6 +333,47 @@ const NOTES = [
   'There is a second, narrower auth flow for web and mobile — <code>Digit Code</code>, <code>Mobile Login</code>, <code>Sign Up 16–20</code>. A separate set of frames, not in here.',
 ];
 
+/* ----------------------------------------------------------------- the map */
+
+/** Where each screen sits on the diagram: sign in along the top, reset through
+ *  the middle, sign up along the bottom; states of a screen are dashed. */
+const PLACE: Record<string, [col: number, row: number, state?: boolean]> = {
+  'signin-error': [1, 0, true], 'qr': [2, 0],
+  'signin-show': [0, 1, true], 'signin': [1, 1], 'signin-keyboard': [2, 1], 'signin-typed': [3, 1],
+  'entry': [0, 2], 'done': [4, 2],
+  'reset': [2, 3], 'reset-keyboard': [3, 3], 'reset-typed': [4, 3], 'reset-sent': [5, 3],
+  'signup': [1, 4], 'signup-keyboard': [2, 4], 'signup-typed': [3, 4],
+  'signup-error': [1, 5, true],
+};
+
+const AUTH_MAP: FlowMapSpec = {
+  nodes: SCREENS.map((sc) => {
+    const p = PLACE[sc.id];
+    if (!p) throw new Error(`auth map: no place for ${sc.id}`);
+    return { id: sc.id, label: sc.title, sub: sc.frame, col: p[0], row: p[1], state: p[2] };
+  }),
+  edges: [
+    { from: 'entry', to: 'signin', label: 'Sign In' },
+    { from: 'entry', to: 'signup', label: 'Sign Up' },
+    { from: 'entry', to: 'done', label: 'Guest', labelAt: 0.62 },
+    { from: 'signin', to: 'signin-error', dashed: true },
+    { from: 'signin', to: 'signin-show', dashed: true },
+    { from: 'signin', to: 'qr', label: 'QR' },
+    { from: 'signin', to: 'signin-keyboard', label: 'OK' },
+    { from: 'signin-keyboard', to: 'signin-typed', label: 'type' },
+    { from: 'signin-typed', to: 'done', label: 'Continue' },
+    { from: 'signin', to: 'reset', label: 'Forgot?', labelAt: 0.22 },
+    { from: 'reset', to: 'reset-keyboard', label: 'OK' },
+    { from: 'reset-keyboard', to: 'reset-typed', label: 'type' },
+    { from: 'reset-typed', to: 'reset-sent', label: 'Reset' },
+    { from: 'reset-sent', to: 'signin', label: 'Back to Sign In' },
+    { from: 'signup', to: 'signup-keyboard', label: 'OK' },
+    { from: 'signup-keyboard', to: 'signup-typed', label: 'type' },
+    { from: 'signup-typed', to: 'done', label: 'Continue' },
+    { from: 'signup', to: 'signup-error', dashed: true },
+  ],
+};
+
 /* ----------------------------------------------------------------- rendering */
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
@@ -416,30 +454,30 @@ function createAuthFlow(start?: string): HTMLElement & { __destroy?: () => void 
         Focus starts where Figma draws it; every other state is as drawn.</p>
     </div></header>
     <div class="flow">
-      <div class="flow__bar" data-role="bar"></div>
       <div class="flow__frame" data-role="frame"><div class="flow__stage" data-role="stage"></div></div>
       <p class="flow__hint" data-role="where"></p>
+      <div class="flow__map"><h2 class="demo__flow-title">Screens</h2><div data-role="map"></div></div>
       <ul class="flow__notes">${NOTES.map((n) => `<li>${n}</li>`).join('')}</ul>
     </div>`;
 
   const frame = root.querySelector<HTMLElement>('[data-role=frame]')!;
   const stage = root.querySelector<HTMLElement>('[data-role=stage]')!;
-  const bar = root.querySelector<HTMLElement>('[data-role=bar]')!;
+  const mapHost = root.querySelector<HTMLElement>('[data-role=map]')!;
   const where = root.querySelector<HTMLElement>('[data-role=where]')!;
 
   const byId = (id: string) => SCREENS.find((s) => s.id === id) ?? SCREENS[0];
   let current = start && SCREENS.some((s) => s.id === start) ? start : 'entry';
   let focus = byId(current).focus ?? -1;
+  // The screens as a diagram under the frame; a box opens its screen.
+  const map = createFlowMap(AUTH_MAP, { current, onPick: (id) => go(id) });
+  mapHost.appendChild(map);
 
   function draw() {
     const s = byId(current);
     stage.innerHTML = '';
     s.els.forEach((e, i) => stage.appendChild(elNode(e, i === focus)));
 
-    bar.innerHTML = SCREENS.map((x) =>
-      `<button type="button" class="flow__step${x.id === current ? ' is-here' : ''}" data-go="${x.id}">${x.title}</button>`).join('');
-    bar.querySelectorAll<HTMLElement>('[data-go]').forEach((b) =>
-      b.addEventListener('click', () => go(b.dataset.go!)));
+    map.setCurrent(current);
 
     where.textContent = `${s.frame} — ${s.node}`;
   }
@@ -501,8 +539,8 @@ function createAuthFlow(start?: string): HTMLElement & { __destroy?: () => void 
 }
 
 export const FLOWS: CatalogEntry[] = [
-  { id: 'flow-auth', title: 'Auth — sign in & sign up', kind: 'screen', section: 'Flows',
-    badge: { text: 'Flow', tone: 'demo' },
+  { id: 'flow-auth', title: 'Auth — sign in, sign up, reset', kind: 'demo', section: 'Demos',
+    badge: { text: 'Demo', tone: 'demo' },
     open: (host, arg) => {
       host.innerHTML = '';
       const el = createAuthFlow(arg);
