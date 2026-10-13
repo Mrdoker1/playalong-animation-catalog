@@ -12,6 +12,13 @@ import { Controller }  from './card-sharks/controller';
 import { InfoNote }    from './card-sharks/info-note';
 import { Card }        from './card-sharks/card';
 
+import { ChipPlace }     from './stack-it/chip-place';
+import { Focus }         from './stack-it/focus';
+import { Reorder }       from './stack-it/reorder';
+import { ClockPulse }    from './stack-it/clock-pulse';
+import { ResultsReveal } from './stack-it/results-reveal';
+import { RoundComplete } from './stack-it/round-complete';
+
 import { WrongFlash }       from './win-lose/wrong-flash';
 import { ConfettiBurstAnim } from './win-lose/confetti-burst';
 
@@ -30,6 +37,14 @@ export const ANIMATIONS: AnimationModule[] = [
   Controller,
   InfoNote,
   Card,
+
+  // Stack It
+  ChipPlace,
+  Focus,
+  Reorder,
+  ClockPulse,
+  ResultsReveal,
+  RoundComplete,
 
   // Win / Lose feedback
   WrongFlash,

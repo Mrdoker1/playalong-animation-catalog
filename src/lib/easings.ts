@@ -13,6 +13,7 @@ export const EASING_PRESETS: EasingPreset[] = [
   { id: 'ease-in-out',  label: 'Ease In Out',                  bezier: [0.4,  0,    0.2,  1],    description: 'Symmetric — good for ambient loops.' },
   { id: 'back-out',     label: 'Back Out (overshoot)',         bezier: [0.34, 1.56, 0.64, 1],    description: 'Overshoots past the end then settles — bouncy reveals.' },
   { id: 'material',     label: 'Material Standard',            bezier: [0.4,  0,    0.2,  1],    description: 'Material Design "standard" curve.' },
+  { id: 'glide',        label: 'Glide (Stack It)',             bezier: [0.3,  0.9,  0.3,  1],    description: 'Quick launch, long soft settle — Stack It chip and block moves.' },
 ];
 
 export function bezierToCss(b: [number, number, number, number]): string {

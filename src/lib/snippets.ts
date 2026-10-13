@@ -55,6 +55,7 @@ export function rokuEaseFunction(easing: EasingPreset): { name: string; note: st
     case 'ease-in-out':  return { name: 'inOutQuad',     note: '' };
     case 'back-out':     return { name: 'outBack',       note: 'Built-in overshoot curve.' };
     case 'material':     return { name: 'inOutQuad',     note: 'Material standard ≈ inOutQuad.' };
+    case 'glide':        return { name: 'outCubic',      note: 'Glide (0.3, 0.9, 0.3, 1) ≈ outCubic.' };
     default:             return { name: 'inOutQuad',     note: 'Custom cubic-bezier — use FloatFieldInterpolator with hand-tuned key points if precision matters.' };
   }
 }
