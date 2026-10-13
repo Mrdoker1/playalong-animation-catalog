@@ -110,7 +110,7 @@ button { font-family: inherit; }
   .sidebar__group-body, .sidebar__chevron { transition: none; }
 }
 .sidebar__item {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 8px 20px; cursor: pointer; font-size: 13px;
   border-left: 2px solid transparent;
   transition: background 120ms ease, border-color 120ms ease;
@@ -120,6 +120,10 @@ button { font-family: inherit; }
 .sidebar__badge {
   font-size: 10px; font-weight: 600; color: var(--text-muted);
   background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 999px;
+  /* A pill is one line. With a long item name beside it ("Controller with
+     Feedback" + "Card Sharks") it used to wrap into a two-line blob; the NAME
+     wraps instead. */
+  white-space: nowrap; flex-shrink: 0;
 }
 .sidebar__badge.is-tbd { color: #f0b042; background: rgba(240, 176, 66, 0.1); }
 
