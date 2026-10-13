@@ -59,13 +59,22 @@ function colourPage(): HTMLElement {
   };
 
   const grads = [...walk((tokens as Group).gradient)].map(([path, t]) => {
-    const v = t.$value as { type: string; stops: { color: string; position: number }[] };
-    const stops = v.stops.map((s) => `${s.color} ${Math.round(s.position * 100)}%`).join(', ');
-    const css = v.type === 'angular' ? `conic-gradient(from 0deg, ${stops})` : `linear-gradient(180deg, ${stops})`;
+    const v = t.$value as { type: string; angle?: number; stops: { color: string; position: number }[] };
+    // A position keeps its decimal when it has one: Gold's second stop is at 5.3%, not 5%.
+    const pct = (p: number) => `${+(p * 100).toFixed(1)}%`;
+    const stops = v.stops.map((s) => `${s.color} ${pct(s.position)}`).join(', ');
+    // Drawn at the token's own angle, as tokens.css writes it -- seven of the
+    // sixteen do not run top to bottom.
+    const css = v.type === 'angular' ? `conic-gradient(from 0deg, ${stops})` : `linear-gradient(${v.angle ?? 180}deg, ${stops})`;
+    const list = v.stops.map((s) => `<li class="swatch__stop">
+        <span class="swatch__stop-dot" style="--c:${s.color}"></span>
+        <span class="swatch__stop-hex">${esc(s.color)}</span>
+        <span class="swatch__stop-pos">${pct(s.position)}</span></li>`).join('');
     return `<div class="swatch" data-token="${esc(path.join('/'))}">
       <div class="swatch__chip" style="background:${css}"></div>
       <div class="swatch__meta"><div class="swatch__name">${esc(path.join('/'))}</div>
-      <div class="swatch__value">${v.stops.length} stops · ${v.type}</div></div></div>`;
+      <div class="swatch__value">${v.stops.length} stops · ${v.type}${v.type === 'angular' ? '' : ` · ${v.angle ?? 180}°`}</div>
+      <ol class="swatch__stops">${list}</ol></div></div>`;
   }).join('');
 
   return page('Colour',
