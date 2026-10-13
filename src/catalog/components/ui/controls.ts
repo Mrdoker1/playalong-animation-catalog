@@ -509,13 +509,19 @@ injectStyle('css-c-kb', `
 .c-kb__listen { width: 582px; height: 640px; display: grid; place-items: center; }
 .c-kb__mic { display: flex; flex-direction: column; align-items: center; gap: 12px;
   padding: 4px 0; width: 163px; }
-.c-kb__halo { width: 124px; height: 124px; border-radius: 50%; display: grid; place-items: center;
-  background: rgb(0 47 255 / .3); }
-.c-kb__halo > span { width: 106px; height: 106px; border-radius: 50%; display: grid;
-  place-items: center; background: rgb(0 47 255 / .5); }
-.c-kb__halo > span > span { width: 88px; height: 88px; border-radius: 100px;
+/* One colour at three strengths, which is what the file does: the same
+   Primary Solid blue at 30%, 50% and 100%. They are SIBLINGS, not nested --
+   nested opacity multiplies, and 30% x 50% x 100% is one flat disc. */
+.c-kb__halo { position: relative; width: 124px; height: 124px; display: grid;
+  place-items: center; }
+.c-kb__halo::before, .c-kb__halo::after { content: ''; position: absolute;
+  border-radius: 9999px; background: var(--tv-button-primary-solid); }
+.c-kb__halo::before { width: 124px; height: 124px; opacity: .3; }
+.c-kb__halo::after  { width: 106px; height: 106px; opacity: .5; }
+.c-kb__halo > span { position: relative; width: 88px; height: 88px; border-radius: 9999px;
   box-sizing: border-box; display: grid; place-items: center;
-  background: #0037ff; border: 2px solid var(--tv-button-primary-solid); }
+  background: var(--tv-button-primary-solid); border: 2px solid var(--tv-button-primary-solid); }
+.c-kb__halo > span > span { display: contents; }
 .c-kb__lt { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .c-kb__lt b { ${T('heading-m')}; font-weight: inherit; }
 .c-kb__lt i { ${T('body-m')}; font-style: normal; color: var(--tv-text-primary); }
@@ -590,7 +596,7 @@ export const Keyboard: ComponentModule = {
     'The <code>Done</code> key is the only filled one: <code>TV/Base/Light</code> with dark text.',
     'The icon keys are blank 44 × 44 frames in the file — no icon, no name. <code>Delete</code> and <code>Mic</code> are this rebuild\'s reading of their positions, not a measurement. <strong>Needs the real icons in the file.</strong>',
     'Keys carry a 2px <code>TV/Base/Dark</code> border each and sit on a 2px gap, so adjacent keys show a 6px seam. The focus ring is a <strong>6px</strong> <code>Primary Solid</code> border, drawn as a separate overlay frame on the first key.',
-    '<code>Listening</code> replaces the whole grid with the <code>Mic</code> component and keeps only the last row. Its two haloes are <strong>hardcoded <code>#002FFF</code> at 30% and 50%, and the core is <code>#0037FF</code></strong> — three blues bound to no token, none of them <code>Blue/500</code>. <strong>Needs tokenising.</strong>',
+    '<code>Listening</code> replaces the whole grid with the <code>Mic</code> component and keeps only the last row. Its haloes are the focus blue at 30% and 50% node opacity — one token, three strengths.',
   ],
 };
 
@@ -606,7 +612,7 @@ export const Mic: ComponentModule = {
         <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span></div>`) },
   ],
   notes: [
-    'The three blues are hardcoded — <code>#002FFF</code> at 30% and 50% for the haloes, <code>#0037FF</code> for the core — and only the 2px edge binds a token (<code>Primary Solid</code>, <code>#0090FF</code>). Four blues in one 124px circle. <strong>Needs tokenising.</strong>',
+    '<strong>Fully tokenised, and I said otherwise before.</strong> The halo, the ring and the core are <em>one</em> colour — <code>#0090FF</code> bound to <code>TV/Button/Primary Solid</code> — at node opacities 30%, 50% and 100%. An earlier note here claimed three hardcoded blues; that was a misreading, corrected 2026-10-13.',
     'The centre is a 44 icon in an 88 circle at radius 100 — a radius larger than the shape, which is how the file writes a pill.',
     'Static here. It is the one component in the set that obviously wants an animation: the haloes should pulse while the microphone is open.',
   ],
