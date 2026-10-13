@@ -557,3 +557,35 @@ a.token-chip:hover { color: var(--text); border-color: var(--accent); }
 .comp__block--usage { margin-top: 22px; }
 .comp__usage { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-dim); }
 .comp__usage code { font-family: var(--mono); font-size: .92em; }
+
+/* ===== Foundations — Geometry ===== */
+.geoms { display: grid; gap: 4px; }
+.geom {
+  display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: center;
+  padding: 18px 0; border-bottom: 1px solid var(--border);
+}
+.geom__name { font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--text); }
+.geom__value { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.geom__desc { font-size: 12px; line-height: 1.5; color: var(--text-muted); margin-top: 6px; max-width: 46ch; }
+.geom__demo { display: flex; align-items: center; min-height: 80px; }
+.geom__box {
+  display: block; width: 96px; height: 56px; box-sizing: border-box;
+  background: var(--tv-base-neutral); border: 1px solid var(--tv-border-white-20);
+}
+.geom__box--pad { width: auto; height: auto; display: inline-block;
+  background: var(--tv-surface-game-panel); }
+.geom__box--pad > i { display: block; width: 120px; height: 40px; border-radius: 4px;
+  background: var(--tv-button-secondary); }
+
+.geom__panel { margin-top: 14px; }
+.geom__panel-box {
+  max-width: 760px; box-sizing: border-box;
+  background: var(--tv-surface-game-panel);
+  border: 1px solid var(--tv-surface-game-panel-border);
+  border-radius: var(--tv-surface-game-panel-radius);
+  padding: 24px var(--tv-surface-game-panel-padding);
+}
+.geom__panel-inner {
+  display: block; color: var(--tv-text-primary);
+  font-family: var(--type-body-m-family); font-size: 18px; line-height: 1.6;
+}

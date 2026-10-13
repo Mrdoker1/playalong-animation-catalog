@@ -330,6 +330,30 @@
           "$value": "{primitives.color.Grey.600}"
         }
       },
+      "Radius": {
+        "Full": {
+          "$type": "dimension",
+          "$value": "9999px"
+        }
+      },
+      "Surface": {
+        "Game Panel": {
+          "$type": "color",
+          "$value": "{primitives.color.Black.80%}"
+        },
+        "Game Panel Border": {
+          "$type": "color",
+          "$value": "{primitives.color.White.20%}"
+        },
+        "Game Panel Padding": {
+          "$type": "dimension",
+          "$value": "40px"
+        },
+        "Game Panel Radius": {
+          "$type": "dimension",
+          "$value": "24px"
+        }
+      },
       "Tags": {
         "Primary": {
           "$type": "color",

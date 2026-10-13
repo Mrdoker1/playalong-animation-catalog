@@ -52,6 +52,11 @@
   --tv-game-ui-sand: #D9A671;
   --tv-game-ui-yellow: #CAA512;
   --tv-progress-track: #5C5E65;
+  --tv-radius-full: 9999px;
+  --tv-surface-game-panel: #000000CC;
+  --tv-surface-game-panel-border: #FFFFFF33;
+  --tv-surface-game-panel-padding: 40px;
+  --tv-surface-game-panel-radius: 24px;
   --tv-tags-primary: #000CB8;
   --tv-tags-secondary: #57053C;
   --tv-text-gain: #8CFF4F;

@@ -19,9 +19,12 @@
 
 ## The machine-readable copy
 
-[`design-tokens.json`](design-tokens.json) — the values, exported from Figma on
-2026-10-12. **131 tokens: 55 primitives, 43 semantic, 16 gradients, 17 type
-styles.** 104 alias references, all resolving.
+[`design-tokens.json`](design-tokens.json) — the values, re-exported from Figma
+on **2026-10-13**. **136 tokens: 55 primitives, 48 semantic, 16 gradients, 17
+type styles.** All alias references resolve, and `check` reports *in sync*.
+
+> The five added on 2026-10-13 are the four `TV/Surface/Game Panel` tokens and
+> `TV/Radius/Full` — see [the token pass](#the-token-pass-of-2026-10-13).
 
 **It is PlayAlong's own format, not DTCG** (design, 2026-10-12). It is
 *DTCG-shaped* — `$type` / `$value`, `{dot.path}` aliases — because that shape is
@@ -173,7 +176,7 @@ Read from the Figma file `OTT-TV Design` (`Gd6wyiODkYk46DjaeyqU9o`) on
 
 | | Count |
 | --- | --- |
-| Variables | **98** — `Primitives` 55, `Semantic` 43, one mode each (`Value`). Every one carries a description and a `codeSyntax` (WEB) name |
+| Variables | **103** — `Primitives` 55, `Semantic` 48, one mode each (`Value`). Five added on 2026-10-13: the four `TV/Surface/Game Panel` tokens and `TV/Radius/Full` |
 | Paint styles | **56** — 40 solid, **all 40 bound to a `Semantic` variable**, plus 16 gradients. `TV/` 45, `Web/` 11 |
 | Text styles | **17** — every one bound to the typography primitives |
 | Effect styles | **2** — `Keyboard`, `Shadow 1`; neither is tokenised, both are described |
@@ -408,6 +411,12 @@ nor a condensed cut at any size**, so the game layer uses weights the product
 family cannot supply — which is the reason for the second family, not an argument
 against it.
 
+> **The game layer is also uppercase, and the styles do not say so.**
+> `textCase: UPPER` is set on the nodes rather than in these three styles, so
+> `sleep` and `Higher` are stored lower case and render SLEEP and HIGHER.
+> Anything generated from the styles alone gets every game label's case wrong —
+> worked through in [Candidates](#candidates-for-the-next-token-pass) §8.
+
 > **A reversal, recorded rather than overwritten.** On 2026-10-07 this was first
 > decided the other way — Rubik everywhere, Roboto Condensed a defect to be
 > removed — and reversed the same day once the evidence above was assembled.
@@ -499,29 +508,68 @@ so a drift check fails when Figma and the repository disagree.
 
 | Token | Value | How it was established |
 | --- | --- | --- |
-| `TV/Focus/Ring Color` | `#0090FF` via `Blue/500` | measured — the Menu Item component binds it |
-| `TV/Focus/Ring Width` | 6 | PTV-858, now corroborated by sweep: stroke 6 occurs 26 times across the components |
-| `TV/Focus/Ring Radius` | 12 | PTV-858, now corroborated by sweep: radius 12 occurs 138 times |
+| `TV/Focus/Ring Color` | `#0090FF` via `Blue/500` | **bound by 31 strokes** as of 2026-10-13; declared and unused before that |
+| `TV/Focus/Ring Width` | 6 | PTV-858. **Now true of every ring** — the file drew 4, 6 and 8 until 2026-10-13 |
+| `TV/Focus/Ring Radius` | 12 | PTV-858, corroborated by sweep: radius 12 occurs 138 times |
 
-> **`Ring Color` is a separate name from `Button/Primary Solid`, deliberately**
-> (design, 2026-10-12). Both resolve to `Blue/500` and today they are the same
-> colour. They are not the same decision: focus is the primary interaction model
-> on TV, and recolouring the primary button must not move every focus ring in the
-> product as a side effect. One extra variable buys the right to disagree later.
+> **Both rows were wrong before 2026-10-13.** They read "measured — the Menu Item
+> component binds it" and "stroke 6 occurs 26 times". Re-measured across all 3,371
+> nodes on `❖ Components`, Menu Item bound `Button/Primary Solid` like everything
+> else, and 6 was one of three focus widths in use. Both are now true because the
+> file was changed to make them true, not because the sweep found them so.
 
-**A focus ring is one size for every item in its list, and that size comes from
-the longest label** (design, 2026-09-18). It does not hug its own text — a ring
-that resized per item would flicker as focus moved down the list, and on a D-pad
-the moving ring is the only feedback there is.
+### `Ring Color` was declared and unused — now it is bound
 
-That rule is a token-level decision and so it is here. **What size it produces on
-a given screen is that screen's** — for the PTV-858 menu, 250 × 64, in
-[its `ui-spec.md`](../specs/PTV-858-menu-no-content-shift/ui-spec.md).
+> **I got the reason wrong on 2026-10-13 and the correction matters.** This
+> section first said a semantic variable with no paint style in front of it is
+> "unreachable from the canvas". **It is not.** A node can bind a variable
+> straight to a paint — `setBoundVariableForPaint` — with no style involved. What
+> was true is narrower and still bad: **no style bound `Ring Color`, and neither
+> did any node.** The token was declared and nothing used it.
 
-Focus is the single most platform-divergent part of this file: the RN native TV
-engine, DOM focus on webOS/Tizen and Roku's SceneGraph are three different
-models. Nothing here says how focus should *move*, only what it looks like when
-it lands.
+So every blue focus ring took its colour from `TV/Button/Primary Solid` instead,
+which is exactly the coupling this token was created to break: recolouring the
+primary button would have moved every focus ring in the product.
+
+**Decided 2026-10-13 (design): do not add a paint style for it. Fewer styles is
+better.** The rings bind the variable directly. That keeps the style count at 56
+and still gives focus its own colour decision.
+
+**Done the same day: 31 strokes now bind `TV/Focus/Ring Color`** — Input ×3,
+Checkbox Message ×2, Reward ×6, Avatar Tile ×4, Horizontal Rail Card ×5, Vertical
+Rail Card, Search List Item ×3, Toggle, Email Keyboard ×5 and the menu's focus
+rectangle. The token is now the single source for the ring's colour, and nothing
+else reads it.
+
+### One width: 6, and the ring that is not a ring
+
+**Decided 2026-10-13 (design): one width everywhere.** The file drew 4, 6 and 8;
+all 31 rings above are now **6**, the value `TV/Focus/Ring Width` already held.
+What changed: Input, Checkbox Message and Reward from 4, and Avatar Tile from 8.
+
+**Three components keep a 1px blue edge, and that is correct.** On **Button**,
+**Menu Item** and **Tabs Item** focus is drawn by filling the element with the
+`TV/Button/Primary` gradient; the hairline is the filled button's own edge, not a
+focus ring. Two different focus treatments, and only one of them is a ring:
+
+| Treatment | Drawn by | Signal |
+| --- | --- | --- |
+| **Filled** | Button, Menu Item, Tabs Item | the `Button/Primary` gradient fills the element; a 1px `Primary Solid` edge finishes it |
+| **Ring** | Input, Checkbox Message, Reward, Avatar Tile, both rail cards, Search List Item, Toggle, Email Keyboard, the menu overlay | a **6px** `Focus/Ring Color` outline; the element keeps its own fill |
+
+Which of the two a component uses is a design decision per component and is not
+a token. **The width of the ring is.**
+
+> **Two things this pass did not settle, both about how the stroke is aligned
+> rather than how wide it is.** `Toggle` draws its 6 on `CENTER` and
+> `Avatar Tile / Type=Image` on `INSIDE`; every other ring is `OUTSIDE`. An
+> OUTSIDE ring leaves the element where it was, an INSIDE one eats 6px of the
+> picture and a CENTER one does half of each. **Worth a second pass** — it moves
+> pixels, so it is not a rename.
+>
+> **And one 4px blue stroke survives, deliberately**: the chosen key in the
+> in-game `Keyboard / Type=Multiselect`. It marks *selected*, not focused, and
+> that variant has no focus state to keep it paired with. Left as it is.
 
 ## Effects
 
@@ -536,6 +584,105 @@ Both of the file's effect styles, as of 2026-10-12.
 deliberately not adopted. It is listed because it exists, so that the next sweep
 does not find it and take the omission for an oversight. It was unnamed in
 September and has since been given this name in Figma.
+
+---
+
+## The token pass of 2026-10-13
+
+Measured across the 3,371 nodes on `❖ Components` while rebuilding every
+component in [`playalong-animation-catalog`](https://github.com/Mrdoker1/playalong-animation-catalog),
+then decided by design and applied the same day.
+
+**Variables 98 → 103. Paint styles 56 → 56** — nothing new was added there, by
+decision: *fewer styles is better*. Every new token is a variable, and the nodes
+bind it directly.
+
+### Done
+
+**1. The game panel has a name — 28 nodes.** `TV/Transparent/Dark 80` + 1px
+`TV/Border/White 20` + radius 24 + 40 of horizontal padding was the ground under
+Answer Box, Attempts Box, List of answer Options, Higher/Lower, its Note, Card
+Sharks Question, the in-game Keyboard, Score Box, Status Box and Notification
+Message — a convention nobody could check. Now four variables, bound on all 28:
+
+| Variable | Value | Note |
+| --- | --- | --- |
+| `TV/Surface/Game Panel` | alias → the same primitive as `Transparent/Dark 80` | a separate name, so the panel is a decision of its own |
+| `TV/Surface/Game Panel Border` | alias → `Border/White 20`'s primitive | the 1px edge |
+| `TV/Surface/Game Panel Radius` | 24 | |
+| `TV/Surface/Game Panel Padding` | 40 | **horizontal only** — the vertical padding is 40, 24 and 0 on different panels, so it is not a token |
+
+**No value changed.** Verified after binding: fill `#000000@80`, stroke
+`#ffffff@20` at 1, radius 24, padding 40 — the same numbers, now named.
+
+**2. One `TV/Radius/Full` replaces five numbers — 60 nodes.** `50`, `80`, `100`,
+`200` and `300` all meant *fully round*. Every node carrying them was checked
+first: all 60 already had a radius of at least half their shorter side, so the
+shape was already a circle or a pill and **nothing moved**.
+
+**3. Fifty text nodes now bind a style.** The rail cards' title was a loose
+24/28 Rubik Medium and their episode line a loose 20/24 Rubik Regular. Those are
+exactly `Heading/S` and `Body/M`. Family, weight, size and line height were
+checked to match before each bind; all 50 matched, so this was a bind and not a
+change.
+
+> **The text styles have been renamed to the semantic scale.** They now read
+> `Display/XL`, `Heading/S`, `Body/M`, `Game/M` and so on — the mapping the
+> [Library sheet](#a-semantic-scale-already-exists-drawn-on-the-library-sheet)
+> drew and which this file recorded as "not yet decided". **It has been decided.**
+> The typography tables above still use the old `Rubik Medium 24 (H5)` names and
+> need a pass.
+
+### Decided against
+
+**4. The confetti keeps its own six colours.** `#FFC700` `#018D10` `#018EFD`
+`#F74F9E` `#FF5257` `#FC76FF` match nothing in the product palette and stay
+untokenised — **design, 2026-10-13: it is confetti, and that is the end of it.**
+Recorded so the next sweep finds the decision rather than the anomaly.
+
+### Withdrawn — I had it wrong
+
+**5. The `Mic` component is not untokenised. I misread it.** This file said it
+carried three hardcoded blues, `#002FFF` at two opacities and `#0037FF`. It does
+not: the halo, the ring and the core are **one colour, `#0090FF` bound to
+`TV/Button/Primary Solid`**, at node opacities 30%, 50% and 100%. Re-read on
+2026-10-13 on both the component and its instance inside the keyboard's
+Listening state, with the style names printed.
+
+The claim also reached the component's description in Figma and the catalog's
+notes; both are corrected. **Left here rather than deleted** because the first
+reading was confident and wrong, and a withdrawn claim is worth more on the page
+than a quiet edit.
+
+### Still worth doing
+
+**6. Border weights 1 and 2 — 428 strokes, no token.** Every resting edge in the
+product is one of two weights. `Border/Hairline` 1 and `Border/Default` 2 would
+cost two variables and no pixels. **Design called it "possibly worth it" on
+2026-10-13 — not yet a yes, so nothing was created.** An unbound variable is the
+problem `Focus/Ring Color` just had.
+
+**7. What cannot be tokenised here, and needs an owner.** `Input (Web)` and
+`Input Field (Web)` take three colours from a **remote library** this file
+cannot edit: `Text/Secondary` `#C9CDD2`, `Text/Disabled` `#6E7277` and
+`Overlay/Pressed 16%`. Two of the web field's three colours are outside our
+control, and so is the per-show colour axis (`Life Today/Background`,
+`Hope/Background`, `OpenDoor/On Background`).
+
+**8. A rule to document rather than tokenise: the game layer is uppercase.**
+`textCase: UPPER` is set on the node *and* in the `Game/S` and `Game/M` styles,
+so a lower-case string renders in capitals. That is why `attemps`, `sleep`,
+`Higher` and `lower` are stored lower case and shown ATTEMPS, SLEEP, HIGHER and
+LOWER. **Anything generating from the font metrics alone gets the case wrong**,
+and anything reading the characters reads copy that is never shown — which also
+hides real defects, since `Higher` against `lower` is invisible on screen.
+
+**9. One measurement nobody has explained: radius 5.** 39 nodes, on no scale this
+file records, spread across Button, Icon, both rail cards, Toggle, Menu Item,
+Tag, Tabs Item, Answer Option, Status Box, both keyboards and Answer Box. The
+spread says *scaling artefact* rather than *decision*, like the fractional
+geometry above — but it has not been located node by node, so **this is a
+question, not a finding**.
 
 ---
 
@@ -568,6 +715,19 @@ above.
    banding rather than contrast.
 4. **The 24sp floor versus three tokens that break it** — see the constraints
    section above.
+5. ~~**How wide a focus ring is.**~~ **Answered 2026-10-13 (design): one width,
+   6, applied to all 31 rings, and bound to `TV/Focus/Ring Color` directly
+   rather than through a new style.** What is left is the stroke *alignment* —
+   see [Focus](#focus).
+6. ~~**Whether the celebration gets its own palette.**~~ **Answered 2026-10-13
+   (design): no. It is confetti; the six colours stay untokenised.**
+7. **Who owns the remote library.** Three of `Input (Web)`'s colours come from
+   it and cannot be changed here, and so does the per-show colour axis. **Not
+   design's — needs an owner naming.**
+8. **Whether border weights 1 and 2 become tokens.** 428 strokes, two values,
+   no pixels at stake. Design called it "possibly worth it" on 2026-10-13;
+   nothing was created, because an unbound variable is the problem
+   `Focus/Ring Color` just had. **Design's.**
 
 > **Do not let an agent close any of these.** A generated answer reads correctly,
 > nobody questions it, and a wrong colour is not a test failure.

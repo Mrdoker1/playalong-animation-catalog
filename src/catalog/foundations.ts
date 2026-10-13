@@ -114,9 +114,68 @@ const mount = (host: HTMLElement, el: HTMLElement, want?: string) => {
   return () => { /* static page, nothing to tear down */ };
 };
 
+
+/**
+ * Everything in the token file that is neither a colour nor a type style.
+ *
+ * It exists because `colourPage` filters on `$type === 'color'` and the type
+ * page reads `typography` — so until this page, five real tokens were in the
+ * JSON and rendered nowhere: both focus dimensions, the game panel's radius and
+ * padding, and the full radius.
+ */
+function geometryPage(): HTMLElement {
+  const dims = [...walk((tokens as Group).semantic)]
+    .filter(([, t]) => t.$type !== 'color')
+    .map(([path, t]) => ({ name: path.join('/'), value: String(deref(t.$value)), desc: t.$description }));
+
+  const demo = (name: string, value: string) => {
+    const n = parseFloat(value);
+    if (/Radius\/Full/i.test(name))
+      return `<span class="geom__box" style="border-radius:${value};width:140px"></span>`;
+    if (/Radius/i.test(name))
+      return `<span class="geom__box" style="border-radius:${value}"></span>`;
+    if (/Width/i.test(name))
+      return `<span class="geom__box" style="box-shadow:0 0 0 ${value} var(--tv-focus-ring-color);margin:${n}px"></span>`;
+    if (/Padding/i.test(name))
+      return `<span class="geom__box geom__box--pad" style="padding:${value}"><i></i></span>`;
+    return `<span class="geom__box"></span>`;
+  };
+
+  const rows = dims.map((d) => `
+    <div class="geom" data-token="${esc(d.name)}">
+      <div class="geom__meta">
+        <div class="geom__name">${esc(d.name)}</div>
+        <div class="geom__value">${esc(d.value)}</div>
+        ${d.desc ? `<div class="geom__desc">${esc(String(d.desc))}</div>` : ''}
+      </div>
+      <div class="geom__demo">${demo(d.name, d.value)}</div>
+    </div>`).join('');
+
+  // The four Surface tokens only mean anything together, so show the thing.
+  const panel = `
+    <h2 class="foundation__group-title">The game panel, assembled</h2>
+    <p class="foundation__note">Four tokens, one surface — and the reason to name
+      it: 28 nodes in Figma share exactly this and nothing could check that they
+      did. <strong>The padding token is horizontal only</strong>; the vertical
+      inset is 40, 24 and 0 on different panels, so it is not a token.</p>
+    <div class="geom__panel">
+      <div class="geom__panel-box">
+        <span class="geom__panel-inner">Answer Box · Attempts Box · the survey board ·
+          Higher/Lower · its Note · Card Sharks Question · the in-game Keyboard ·
+          Score Box · Status Box · Notification Message</span>
+      </div>
+    </div>`;
+
+  return page('Geometry',
+    'Radius, focus and the one named surface. These are the tokens that are not a colour and not a type style — and the ones a client is most likely to hardcode, because a number looks like a detail.',
+    `<div class="geoms">${rows}</div>${panel}`);
+}
+
 export const FOUNDATIONS: CatalogEntry[] = [
   { id: 'foundation-colour', title: 'Colour', kind: 'component', section: 'Foundations',
     badge: { text: 'Tokens', tone: 'ready' }, open: (h, arg) => mount(h, colourPage(), arg) },
   { id: 'foundation-type', title: 'Typography', kind: 'component', section: 'Foundations',
     badge: { text: 'Tokens', tone: 'ready' }, open: (h, arg) => mount(h, typePage(), arg) },
+  { id: 'foundation-geometry', title: 'Geometry', kind: 'component', section: 'Foundations',
+    badge: { text: 'Tokens', tone: 'ready' }, open: (h, arg) => mount(h, geometryPage(), arg) },
 ];
