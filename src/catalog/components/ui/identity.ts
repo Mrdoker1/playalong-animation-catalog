@@ -49,10 +49,14 @@ injectStyle('css-c-identity', `
 .c-ua__row + .c-ua__row { margin-top: 16px; }
 .c-ua__row > svg { flex: none; }
 
-/* AVATAR Label pill */
-.c-alabel { height: 28px; box-sizing: border-box; display: inline-flex; align-items: center;
-  padding: 4px 10px; border-radius: 50px; border: 4px solid #1E1E1E;
-  background: var(--gradient-tv-placeholder-light); ${T('label-m')}; color: #000; }
+/* AVATAR Label pill.
+   The 4px edge is OUTSIDE in Figma, so it adds to the box rather than eating
+   into it: content-box, not border-box. With border-box the pill came out 8px
+   narrower and 8px shorter and the text looked cramped. */
+.c-alabel { box-sizing: content-box; display: inline-flex; align-items: center;
+  justify-content: center; padding: 4px 10px; border-radius: 50px;
+  border: 4px solid #1E1E1E; background: var(--gradient-tv-placeholder-light);
+  ${T('label-m')}; color: #000; }
 
 /* Unlocked counter */
 .c-unlocked { display: flex; align-items: center; gap: 16px; height: 70px; }
@@ -179,12 +183,17 @@ export const UserAvatar: ComponentModule = {
 
 export const AvatarLabel: ComponentModule = {
   id: 'c-avatar-label', title: 'AVATAR Label', group: 'Identity', figma: '13502:18861',
-  description: 'A 28-high silver pill with a 4px dark edge, fully rounded. Sits at the foot of a Reward Type Icon.',
+  description: '89 × 28 for the word AVATAR, fully rounded, in Label/M on a white-to-grey vertical ramp. The 4px dark edge sits OUTSIDE the box, so the pill measures 97 × 36 on screen.',
   tokens: { colour: ['TV/Placeholder/Light'], type: ['Label/M'] },
   variants: [
-    { label: 'AVATAR', el: () => h(pill('AVATAR')) },
+    { label: 'AVATAR — 89 × 28', el: () => h(pill('AVATAR')) },
     { label: 'FRAME', el: () => h(pill('FRAME')) },
+    { label: 'BADGE', el: () => h(pill('BADGE')) },
     { label: 'TITLE', el: () => h(pill('TITLE')) },
+  ],
+  notes: [
+    'The edge is <code>#1E1E1E</code> — a raw value, not a token. Nothing in the palette carries it.',
+    'The ramp is vertical: white at the top, <code>#999999</code> at the foot. In Figma that is a gradient transform rather than an angle, which is why it reads as horizontal if you only look at the stops.',
   ],
 };
 
