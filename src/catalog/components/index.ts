@@ -13,6 +13,9 @@ import {
   CollapsedMenu, ExpandedMenu, MenuOverlay, Tabs, GameTypeTagsRow,
 } from './ui/navigation';
 import {
+  Reward, AvatarTile, RewardTrack, RewardTrackFirst,
+} from './ui/rewards';
+import {
   HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
   SectionTrending, SectionWatchMore,
 } from './ui/rails';
@@ -27,7 +30,8 @@ export const COMPONENTS: ComponentModule[] = [
   // Navigation
   MenuItem, CollapsedMenu, ExpandedMenu, MenuOverlay, TabsItem, Tabs, Dots,
   // Identity
-  AvatarPicture, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
+  AvatarPicture, AvatarTile, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
+  Reward, RewardTrackFirst, RewardTrack,
   // Content
   IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
   HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
