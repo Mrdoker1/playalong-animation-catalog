@@ -13,6 +13,10 @@ import {
   CollapsedMenu, ExpandedMenu, MenuOverlay, Tabs, GameTypeTagsRow,
 } from './ui/navigation';
 import {
+  HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
+  SectionTrending, SectionWatchMore,
+} from './ui/rails';
+import {
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox,
   AnswerOption, VideoPlayerButtons,
 } from './ui/game';
@@ -26,6 +30,8 @@ export const COMPONENTS: ComponentModule[] = [
   AvatarPicture, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
   // Content
   IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
+  HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
+  SectionTrending, SectionWatchMore,
   // Feedback
   InputMessages, Mic,
   // Game
