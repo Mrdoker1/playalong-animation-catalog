@@ -24,12 +24,20 @@ const fromDemos: CatalogEntry[] = DEMOS.map((d) => ({
   open: (host) => mount(host, createDemoCard(d)),
 }));
 
+/**
+ * One section, not one per game. Five game groups sat at the same level as
+ * Foundations and Components and made the sidebar read as if a show were a
+ * peer of the whole component set. The game moves into the badge, which is
+ * what Components already does with Controls / Navigation / Identity.
+ *
+ * Nothing is lost by dropping the Ready / TBD badge: no animation is TBD.
+ */
 const fromAnimations: CatalogEntry[] = ANIMATIONS.map((a) => ({
   id: a.id,
   title: a.title,
   kind: 'animation',
-  section: a.game,
-  badge: a.tbd ? { text: 'TBD', tone: 'tbd' } : { text: 'Ready', tone: 'ready' },
+  section: 'Animations',
+  badge: { text: a.game, tone: a.tbd ? 'tbd' : 'ready' },
   open: (host) => mount(host, createAnimationCard(a) as WithDestroy),
 }));
 
@@ -39,12 +47,8 @@ export const ENTRIES: CatalogEntry[] = [...FOUNDATIONS, ...COMPONENT_ENTRIES, ..
 export const SECTION_ORDER = [
   'Foundations',
   'Components',
+  'Animations',
   'Demos',
-  'Family Feud',
-  'Card Sharks',
-  'Stack It',
-  'Common',
-  'Win/Lose',
 ];
 
 export const SECTIONS = SECTION_ORDER

@@ -65,7 +65,10 @@ export function createSidebar(onSelect: (id: string) => void) {
       const item = document.createElement('div');
       item.className = 'sidebar__item';
       item.dataset.id = entry.id;
-      item.dataset.search = `${entry.title} ${entry.section}`.toLowerCase();
+      // The badge is a sub-group -- Controls, Family Feud -- so it has to be
+      // searchable, or filtering for a game finds nothing once the games stop
+      // being sections of their own.
+      item.dataset.search = `${entry.title} ${entry.section} ${entry.badge?.text ?? ''}`.toLowerCase();
       const badge = entry.badge;
       item.innerHTML = `
         <span class="sidebar__item-name">${entry.title}</span>
