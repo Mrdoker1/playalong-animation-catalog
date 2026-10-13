@@ -1,6 +1,7 @@
 import { injectStyle } from '../../../lib/injectStyle';
 import type { ComponentModule } from '../types';
-import { icon, ICON_NAMES } from '../icons';
+import { icon, ICONS, ICON_NAMES } from '../icons';
+import { copyToClipboard } from '../../../lib/copyClipboard';
 
 /** Shared helper: build an element from an HTML string. */
 const h = (html: string): HTMLElement => {
@@ -85,7 +86,7 @@ export const Tag: ComponentModule = {
     { label: 'Interactive', el: () => h(`<span class="c-tag">${icon('Gamepad', 16)}Interactive</span>`) },
     { label: 'New', el: () => h(`<span class="c-tag c-tag--new">NEW</span>`) },
     { label: 'Played', el: () => h(`<span class="c-tag">${icon('Check', 16)}PLAYED</span>`) },
-    { label: 'Prime Time', el: () => h(`<span class="c-tag c-tag--prime">${icon('Fire', 16)}PRIME TIME</span>`) },
+    { label: 'Prime Time', el: () => h(`<span class="c-tag c-tag--prime">${icon('Crown', 16)}PRIME TIME</span>`) },
     { label: 'Info', el: () => h(`<span class="c-tag c-tag--info">Guest</span>`) },
   ],
   notes: [
@@ -288,9 +289,19 @@ export const Dots: ComponentModule = {
 injectStyle('css-c-iconset', `
 .c-iconset { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
   gap: 14px; width: 100%; }
-.c-iconset__cell { display: flex; flex-direction: column; align-items: center; gap: 8px;
-  padding: 14px 6px; border-radius: 8px; border: 1px solid var(--tv-border-white-20);
-  color: var(--tv-base-light); }
+.c-iconset__cell { position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 14px 6px; border-radius: 8px; border: 1px solid var(--tv-border-white-20);
+  color: var(--tv-base-light); cursor: pointer; background: none;
+  font: inherit; transition: border-color .12s ease, background .12s ease; }
+.c-iconset__cell:hover { border-color: var(--tv-button-primary-solid);
+  background: var(--tv-button-secondary); }
+.c-iconset__cell:focus-visible { outline: var(--tv-focus-ring-width) solid var(--tv-focus-ring-color);
+  outline-offset: 2px; }
+.c-iconset__cell.is-copied { border-color: var(--tv-game-ui-green-1); }
+.c-iconset__hint { position: absolute; inset: auto 0 4px; font-size: 9px; opacity: 0;
+  color: var(--tv-text-primary); transition: opacity .12s ease; }
+.c-iconset__cell:hover .c-iconset__hint { opacity: .7; }
+.c-iconset__cell.is-copied .c-iconset__hint { opacity: 1; color: var(--tv-game-ui-green-1); }
 .c-iconset__name { font-family: var(--mono, monospace); font-size: 10px;
   color: var(--tv-text-primary); text-align: center; word-break: break-word; }
 `);
@@ -301,15 +312,32 @@ export const IconSet: ComponentModule = {
   tokens: { colour: ['TV/Base/Light'], type: [] },
   wide: true,
   variants: [
-    { label: `${ICON_NAMES.length} icons at 32`, el: () => {
+    { label: `${ICON_NAMES.length} icons at 32 — click one to copy its SVG`, el: () => {
       const grid = h('<div class="c-iconset"></div>');
       for (const name of ICON_NAMES) {
-        grid.appendChild(h(`<div class="c-iconset__cell">${icon(name)}<span class="c-iconset__name">${name}</span></div>`));
+        const cell = h(
+          `<button type="button" class="c-iconset__cell" title="Copy ${name} as SVG">
+             ${icon(name)}<span class="c-iconset__name">${name}</span>
+             <span class="c-iconset__hint">copy SVG</span>
+           </button>`) as HTMLButtonElement;
+        cell.addEventListener('click', async () => {
+          // A standalone file: the viewBox and currentColor are what make it
+          // drop straight into anything.
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" `
+            + `viewBox="0 0 32 32" fill="none">${ICONS[name]}</svg>`;
+          const hint = cell.querySelector('.c-iconset__hint')!;
+          await copyToClipboard(svg, cell, 'copy SVG');
+          cell.classList.add('is-copied');
+          hint.textContent = 'copied';
+          setTimeout(() => { cell.classList.remove('is-copied'); hint.textContent = 'copy SVG'; }, 1400);
+        });
+        grid.appendChild(cell);
       }
       return grid;
     } },
   ],
   notes: [
-    'Nine came back empty or degenerate in Figma — <code>Friends</code>, <code>Target</code>, <code>Motion Play</code>, <code>Focus</code>, <code>Focus Question</code>, <code>Crown</code>, <code>Avatar with Frame</code>, <code>Stacked-Avatar-StackStage2</code> — and <code>Processing</code> is a conic gradient rather than a path. They are left out rather than faked.',
+    'Three of the 55 are not here. <code>Avatar with Frame</code> and <code>Stacked-Avatar-StackStage2</code> are bare rectangles in the file — placeholders rather than icons — and <code>Processing</code> is a conic gradient, which belongs in CSS rather than in a path. Left out rather than faked.',
+    'Each is drawn in <code>currentColor</code>, so it takes the colour of whatever it sits in. The copied file carries a <code>viewBox</code> and no hard-coded fill, so it drops straight into anything.',
   ],
 };
