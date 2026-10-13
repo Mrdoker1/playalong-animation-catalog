@@ -49,4 +49,22 @@ export type DemoModule = {
   notes?: string[];
   /** Keyboard / remote mapping, shown beside the frame. */
   controls?: { keys: string; does: string }[];
+  /**
+   * Settings the demo reads from localStorage, shown as sliders under the frame.
+   * The frame is same-origin, so writing the key is enough; a demo that listens
+   * for `storage` events picks the change up live.
+   */
+  settings?: DemoSetting[];
+};
+
+export type DemoSetting = {
+  /** localStorage key the demo reads. */
+  key: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  /** Used when nothing is stored yet. */
+  fallback: number;
+  format: (value: number) => string;
 };

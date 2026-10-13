@@ -84,7 +84,7 @@ function typePage(): HTMLElement {
     const weight = WEIGHT[weightName.toLowerCase().replace(/[^a-z]/g, '')] ?? 400;
     const ls = v.letterSpacing as { unit: string; value: number };
     const tracking = ls.unit === 'percent' ? `${ls.value / 100}em` : `${ls.value}px`;
-    const style = `font-family:"${family}";font-weight:${weight};font-size:${size};line-height:${line};letter-spacing:${tracking};text-transform:${v.textCase === 'UPPER' ? 'uppercase' : 'none'}`;
+    const style = `font-family:'${family}';font-weight:${weight};font-size:${size};line-height:${line};letter-spacing:${tracking};text-transform:${v.textCase === 'UPPER' ? 'uppercase' : 'none'}`;
     return `<div class="specimen">
       <div class="specimen__meta">
         <div class="specimen__name">${esc(path.join('/'))}</div>

@@ -15,7 +15,6 @@ import { Card }        from './card-sharks/card';
 import { ChipPlace }     from './stack-it/chip-place';
 import { Focus }         from './stack-it/focus';
 import { Reorder }       from './stack-it/reorder';
-import { ClockPulse }    from './stack-it/clock-pulse';
 import { ResultsReveal } from './stack-it/results-reveal';
 import { RoundComplete } from './stack-it/round-complete';
 
@@ -42,7 +41,6 @@ export const ANIMATIONS: AnimationModule[] = [
   ChipPlace,
   Focus,
   Reorder,
-  ClockPulse,
   ResultsReveal,
   RoundComplete,
 
