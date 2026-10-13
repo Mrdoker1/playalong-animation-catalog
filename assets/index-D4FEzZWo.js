@@ -1,4 +1,4 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))a(r);new MutationObserver(r=>{for(const n of r)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function i(r){const n={};return r.integrity&&(n.integrity=r.integrity),r.referrerPolicy&&(n.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?n.credentials="include":r.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function a(r){if(r.ep)return;r.ep=!0;const n=i(r);fetch(r.href,n)}})();const Y=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'},{id:"glide",label:"Glide (Stack It)",bezier:[.3,.9,.3,1],description:"Quick launch, long soft settle — Stack It chip and block moves."}];function b(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function m(e,t){if(document.getElementById(e))return;const i=document.createElement("style");i.id=e,i.textContent=t,document.head.appendChild(i)}const Me=450,be=350,Rt=`
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))a(r);new MutationObserver(r=>{for(const o of r)if(o.type==="childList")for(const n of o.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&a(n)}).observe(document,{childList:!0,subtree:!0});function i(r){const o={};return r.integrity&&(o.integrity=r.integrity),r.referrerPolicy&&(o.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?o.credentials="include":r.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function a(r){if(r.ep)return;r.ep=!0;const o=i(r);fetch(r.href,o)}})();const Y=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'},{id:"glide",label:"Glide (Stack It)",bezier:[.3,.9,.3,1],description:"Quick launch, long soft settle — Stack It chip and block moves."}];function h(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function m(e,t){if(document.getElementById(e))return;const i=document.createElement("style");i.id=e,i.textContent=t,document.head.appendChild(i)}const ze=450,pe=350,Ct=`
 .preview-ff-board { display: flex; flex-direction: column; gap: 12px; width: 540px; perspective: 1000px; }
 .preview-ff-row {
   display: flex; align-items: center; gap: 20px;
@@ -27,7 +27,7 @@
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-`;let $=null,I=null,z=null;function he(e,t){e.innerHTML=`
+`;let $=null,A=null,I=null;function fe(e,t){e.innerHTML=`
     <div class="frame-ff-row" style="
       transform: rotateX(${t.rotateX}deg) scale(${t.scale});
       ${t.state==="hidden"?"background:linear-gradient(180deg,#1d4ed8 0%,#0a1f5a 100%); border:1.5px solid rgba(56,138,255,0.5);":"background:linear-gradient(180deg,#008e11 0%,#053800 100%); border:1.5px solid rgba(0,255,85,0.55);"}
@@ -37,7 +37,7 @@
       <span style="flex:1;font-size:13px;font-weight:600;letter-spacing:0.3px;opacity:${t.textOpacity};">FAST FOOD</span>
       <span style="font-size:18px;font-weight:600;opacity:${t.textOpacity};">28</span>
     </div>
-  `}const ge=`
+  `}const ue=`
 .frame-ff-row {
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
@@ -45,7 +45,7 @@
   font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
   transform-origin:center center;
 }
-`,Ot={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{m("css-ff-frame-row",ge),he(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{m("css-ff-frame-row",ge),he(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{m("css-ff-frame-row",ge),he(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{m("css-ff-frame-row",ge),he(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return m("css-ff-answer-board",Rt),e.innerHTML=`
+`,Ft={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return m("css-ff-answer-board",Ct),e.innerHTML=`
       <div class="preview-ff-board">
         <div class="preview-ff-row">
           <span class="preview-ff-row__num">1</span>
@@ -54,7 +54,7 @@
           <span class="preview-ff-row__pts">28</span>
         </div>
       </div>
-    `,$=e.querySelector(".preview-ff-row"),I=e.querySelector(".preview-ff-row__name"),z=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",$=null,I=null,z=null}},play({duration:e,easing:t}){if(!$||!I||!z)return;$.classList.remove("is-revealed"),$.style.animation="none",I.style.animation="none",z.style.animation="none",I.style.opacity="0",z.style.opacity="0",$.offsetWidth,$.classList.add("is-revealed"),$.style.animation=`ff-row-flip ${e}ms ${b(t.bezier)}`;const i=Math.round(be/700*e),a=`ff-text-fade-up ${Me}ms ease-out ${i}ms both`;I.style.animation=a,z.style.animation=a,setTimeout(()=>{!$||!I||!z||($.style.animation="none",I.style.animation="none",z.style.animation="none",I.style.opacity="0",z.style.opacity="0",$.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
+    `,$=e.querySelector(".preview-ff-row"),A=e.querySelector(".preview-ff-row__name"),I=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",$=null,A=null,I=null}},play({duration:e,easing:t}){if(!$||!A||!I)return;$.classList.remove("is-revealed"),$.style.animation="none",A.style.animation="none",I.style.animation="none",A.style.opacity="0",I.style.opacity="0",$.offsetWidth,$.classList.add("is-revealed"),$.style.animation=`ff-row-flip ${e}ms ${h(t.bezier)}`;const i=Math.round(pe/700*e),a=`ff-text-fade-up ${ze}ms ease-out ${i}ms both`;A.style.animation=a,I.style.animation=a,setTimeout(()=>{!$||!A||!I||($.style.animation="none",A.style.animation="none",I.style.animation="none",A.style.opacity="0",I.style.opacity="0",$.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
 @keyframes ff-row-flip {
   0%   { transform: rotateX(90deg) scale(0.85); }
   60%  { transform: rotateX(-15deg) scale(1.04); }
@@ -65,7 +65,7 @@
 .ff-board { perspective: 1000px; }
 
 .ff-board__row--revealed {
-  animation: ff-row-flip ${e}ms ${b(t.bezier)};
+  animation: ff-row-flip ${e}ms ${h(t.bezier)};
   transform-origin: center center;
 }
 
@@ -76,13 +76,13 @@
 
 .ff-board__row--revealed .ff-board__name,
 .ff-board__row--revealed .ff-board__points {
-  animation: ff-text-fade-up ${Me}ms ease-out ${be}ms both;
+  animation: ff-text-fade-up ${ze}ms ease-out ${pe}ms both;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.graphicsLayer
 
-val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${n.toFixed(2)}f)
+val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
 
 @Composable
 fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
@@ -116,10 +116,10 @@ fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
     ) { /* slot number / name / points */ }
 }
 
-// Text fade-up — separate animation, delayed ${be} ms.
+// Text fade-up — separate animation, delayed ${pe} ms.
 val textAlpha by animateFloatAsState(
     targetValue = if (revealed) 1f else 0f,
-    animationSpec = tween(${Me}, delayMillis = ${be})
+    animationSpec = tween(${ze}, delayMillis = ${pe})
 )`,ios:`// SwiftUI — tvOS
 import SwiftUI
 
@@ -137,7 +137,7 @@ struct AnswerRow: View {
             // chain three .withAnimation blocks (0→60%, 60%→85%, 85%→100%)
             // or use the new iOS 17 Animation.timeline API.
             .animation(
-                .timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}),
+                .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
                 value: revealed
             )
 
@@ -157,7 +157,7 @@ struct AnswerRow: View {
     <Rectangle id="bg" />
     <!-- slot number / name / points labels -->
 
-    <Animation id="flip" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="flip" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="bg.scale"
         keyValue="[ [0.85,0.85], [1.04,1.04], [0.99,0.99], [1,1] ]"
@@ -183,7 +183,7 @@ struct AnswerRow: View {
     end sub
   <\/script>
 </component>
-<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${i},${a},${r},${n}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
+<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${i},${a},${r},${o}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
 
 Trigger: player submits a guess that matches an unrevealed survey answer.
 
@@ -199,7 +199,7 @@ Timings:
 Acceptance criteria:
   · Only the matching row animates; other hidden rows stay still.
   · Once revealed, the row is permanent for the rest of the round (no idle loop).
-  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},Et=`
+  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},Tt=`
 .preview-ff-attempts {
   background: rgba(0,0,0,0.8);
   border: 1.5px solid rgba(255,255,255,0.12);
@@ -228,7 +228,7 @@ Acceptance criteria:
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
 }
-`;let we=null,j=0;const rt=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function at(e,t,i,a,r,n){e.innerHTML=`
+`;let me=null,W=0;const Qe=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function Je(e,t,i,a,r,o){e.innerHTML=`
     <div style="
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:18px;font-weight:600;
@@ -236,15 +236,15 @@ Acceptance criteria:
       opacity:${i};
       transform:translateY(${t}px);
       text-decoration:line-through;
-    ">${n}</div>
-  `}const Mt={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>at(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>at(e,0,1,"#c33",!0,"pizza")}],render(e){return m("css-ff-attempts",Et),e.innerHTML=`
+    ">${o}</div>
+  `}const At={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>Je(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>Je(e,0,1,"#c33",!0,"pizza")}],render(e){return m("css-ff-attempts",Tt),e.innerHTML=`
       <div class="preview-ff-attempts">
         <div class="preview-ff-attempts__title">Attempts</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
       </div>
-    `,we=e.querySelector(".preview-ff-attempts"),j=0,()=>{e.innerHTML="",we=null}},play({duration:e,easing:t}){if(!we)return;const i=rt[j%rt.length],a=we.querySelectorAll(".preview-ff-attempts__row"),r=a[j%a.length];j++,r.textContent=i.text,r.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),r.classList.add(`preview-ff-attempts__row--${i.kind}`),r.style.animation="none",r.offsetWidth,r.style.animation=`ff-attempt-slide-in ${e}ms ${b(t.bezier)}`,j%a.length===0&&setTimeout(()=>{a.forEach((n,o)=>{o!==(j-1)%a.length&&(n.textContent="_",n.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,me=e.querySelector(".preview-ff-attempts"),W=0,()=>{e.innerHTML="",me=null}},play({duration:e,easing:t}){if(!me)return;const i=Qe[W%Qe.length],a=me.querySelectorAll(".preview-ff-attempts__row"),r=a[W%a.length];W++,r.textContent=i.text,r.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),r.classList.add(`preview-ff-attempts__row--${i.kind}`),r.style.animation="none",r.offsetWidth,r.style.animation=`ff-attempt-slide-in ${e}ms ${h(t.bezier)}`,W%a.length===0&&setTimeout(()=>{a.forEach((o,n)=>{n!==(W-1)%a.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-attempt-slide-in {
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
@@ -252,12 +252,12 @@ Acceptance criteria:
 
 .ff-attempts__row--correct,
 .ff-attempts__row--incorrect {
-  animation: ff-attempt-slide-in ${e}ms ${b(t.bezier)};
+  animation: ff-attempt-slide-in ${e}ms ${h(t.bezier)};
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 
-val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${n.toFixed(2)}f)
+val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
 
 @Composable
 fun AttemptRow(attempt: Attempt) {
@@ -287,7 +287,7 @@ struct AttemptRow: View {
             .offset(y: appeared ? 0 : -18)
             .opacity(appeared ? 1 : 0)
             .onAppear {
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o})) {
+                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
                     appeared = true
                 }
             }
@@ -300,7 +300,7 @@ struct AttemptRow: View {
 
   <children>
     <Label id="label" />
-    <Animation id="slideIn" duration="${o}" easeFunction="outQuad" repeat="false">
+    <Animation id="slideIn" duration="${n}" easeFunction="outQuad" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="label.translation"
         keyValue="[ [0,-18], [0,0] ]"
@@ -332,7 +332,7 @@ Timings:
 Acceptance criteria:
   · Each new attempt instance plays this animation once on mount.
   · Existing attempts stay still — only the new row animates.
-  · After 3 strikes the panel locks; no further entries play.`}},Vt=`
+  · After 3 strikes the panel locks; no further entries play.`}},It=`
 .preview-ff-strikes {
   display: flex; gap: 32px; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.8);
@@ -357,7 +357,7 @@ Acceptance criteria:
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
   100% { transform: scale(1) rotate(0);       opacity: 1; }
 }
-`;let D=[],se=0;function Ve(e,t,i,a){e.innerHTML=`
+`;let N=[],re=0;function Le(e,t,i,a){e.innerHTML=`
     <div style="
       width:44px;height:44px;
       display:flex;align-items:center;justify-content:center;
@@ -367,13 +367,13 @@ Acceptance criteria:
       transform:scale(${t}) rotate(${i}deg);
       opacity:${a};
     ">✕</div>
-  `}const Bt={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>Ve(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>Ve(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>Ve(e,1,0,1)}],render(e){return m("css-ff-strikes",Vt),e.innerHTML=`
+  `}const zt={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>Le(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>Le(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>Le(e,1,0,1)}],render(e){return m("css-ff-strikes",It),e.innerHTML=`
       <div class="preview-ff-strikes">
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
       </div>
-    `,D=Array.from(e.querySelectorAll(".preview-ff-strike")),se=0,()=>{e.innerHTML="",D=[]}},play({duration:e,easing:t}){if(D.length===0)return;se>=D.length&&(D.forEach(a=>a.classList.remove("is-used")),se=0,D[0].offsetWidth);const i=D[se];i.classList.add("is-used"),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-strike-pop ${e}ms ${b(t.bezier)}`,se++},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,N=Array.from(e.querySelectorAll(".preview-ff-strike")),re=0,()=>{e.innerHTML="",N=[]}},play({duration:e,easing:t}){if(N.length===0)return;re>=N.length&&(N.forEach(a=>a.classList.remove("is-used")),re=0,N[0].offsetWidth);const i=N[re];i.classList.add("is-used"),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-strike-pop ${e}ms ${h(t.bezier)}`,re++},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-strike-pop {
   0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
@@ -381,7 +381,7 @@ Acceptance criteria:
 }
 
 .ff-strike-dot--used img {
-  animation: ff-strike-pop ${e}ms ${b(t.bezier)};
+  animation: ff-strike-pop ${e}ms ${h(t.bezier)};
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.ui.graphics.graphicsLayer
@@ -433,7 +433,7 @@ struct StrikeIcon: View {
             // exact match, chain two .withAnimation blocks (0→60% overshoot
             // and 60%→100% settle).
             .animation(
-                .timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}),
+                .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
                 value: used
             )
     }
@@ -445,7 +445,7 @@ struct StrikeIcon: View {
 
   <children>
     <Poster id="icon" />
-    <Animation id="pop" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="pop" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="icon.scale"
         keyValue="[ [0,0], [1.3,1.3], [1,1] ]"
@@ -481,7 +481,7 @@ Timings:
 Acceptance criteria:
   · Only the newly-added strike icon animates; previously-used strikes stay still.
   · After 3 strikes the round ends — no further pop animations until next round.
-  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},Ht=`
+  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},Lt=`
 .preview-ff-feedback-wrap { width: 800px; }
 .preview-ff-banner {
   position: relative;
@@ -528,7 +528,7 @@ Acceptance criteria:
   from { left: -45%; }
   to   { left: 100%; }
 }
-`;let q=null;function Be(e,t,i,a,r){e.innerHTML=`
+`;let q=null;function Re(e,t,i,a,r){e.innerHTML=`
     <div style="
       position:relative;
       width:100%;height:42px;border-radius:6px;
@@ -542,7 +542,7 @@ Acceptance criteria:
       <span style="display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 24px;background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);">Round Complete!</span>
       ${r!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${r}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
     </div>
-  `}const Nt={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>Be(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>Be(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>Be(e,0,1,1,null)}],render(e){return m("css-ff-feedback",Ht),e.innerHTML=`
+  `}const Rt={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>Re(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>Re(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>Re(e,0,1,1,null)}],render(e){return m("css-ff-feedback",Lt),e.innerHTML=`
       <div class="preview-ff-feedback-wrap">
         <div class="preview-ff-banner">
           <div class="preview-ff-banner__corner preview-ff-banner__corner--left">
@@ -557,14 +557,14 @@ Acceptance criteria:
           <div class="preview-ff-banner__sweep"></div>
         </div>
       </div>
-    `,q=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",q=null}},play({duration:e,easing:t}){if(!q)return;q.style.animation="none",q.offsetWidth,q.style.animation=`ff-banner-in ${e}ms ${b(t.bezier)} backwards`;const i=q.querySelector(".preview-ff-banner__sweep");if(i){const a=i.cloneNode(!0);i.replaceWith(a)}},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,q=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",q=null}},play({duration:e,easing:t}){if(!q)return;q.style.animation="none",q.offsetWidth,q.style.animation=`ff-banner-in ${e}ms ${h(t.bezier)} backwards`;const i=q.querySelector(".preview-ff-banner__sweep");if(i){const a=i.cloneNode(!0);i.replaceWith(a)}},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-banner-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .ff-banner {
-  animation: ff-banner-in ${e}ms ${b(t.bezier)} backwards;
+  animation: ff-banner-in ${e}ms ${h(t.bezier)} backwards;
 }
 
 @keyframes ff-banner-sweep {
@@ -589,7 +589,7 @@ import androidx.compose.animation.core.*
 
 @Composable
 fun RoundCompleteBanner(visible: Boolean) {
-    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${n.toFixed(2)}f)
+    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
@@ -627,7 +627,7 @@ struct RoundCompleteBanner: View {
             .offset(y: visible ? 0 : -40)
             .scaleEffect(visible ? 1.0 : 0.94)
             .opacity(visible ? 1.0 : 0.0)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}), value: visible)
+            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: visible)
             .overlay(SweepStrip(offset: sweepOffset))
             .brightness(pulse - 1.0)
             .onChange(of: visible) { v in
@@ -645,7 +645,7 @@ struct RoundCompleteBanner: View {
 
   <children>
     <Rectangle id="banner" />
-    <Animation id="dropIn" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="dropIn" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="banner.translation"
         keyValue="[ [0,-40], [0,0] ]"
@@ -702,7 +702,7 @@ Timings:
 Acceptance criteria:
   · Banner replaces the question without layout jump.
   · Sweep plays exactly once; pulse continues indefinitely.
-  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Dt=`
+  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Ot=`
 .preview-score {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   background: rgba(0,0,0,0.8);
@@ -728,18 +728,18 @@ Acceptance criteria:
   35%  { transform: scale(1.45); color: #6dd97a; }
   100% { transform: scale(1);    color: #caa512; }
 }
-`;let L=null,ve=86;function He(e,t,i,a){e.innerHTML=`
+`;let z=null,he=86;function Oe(e,t,i,a){e.innerHTML=`
     <div style="
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:32px;font-weight:800;color:${i};
       transform:scale(${t});transform-origin:center;
     ">${a}</div>
-  `}const qt={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>He(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>He(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>He(e,1,"#caa512","102")}],render(e){return m("css-common-score",Dt),ve=86,e.innerHTML=`
+  `}const Et={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>Oe(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>Oe(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>Oe(e,1,"#caa512","102")}],render(e){return m("css-common-score",Ot),he=86,e.innerHTML=`
       <div class="preview-score">
         <div class="preview-score__label">Score</div>
-        <div class="preview-score__value">${ve}</div>
+        <div class="preview-score__value">${he}</div>
       </div>
-    `,L=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",L=null}},play({duration:e,easing:t}){L&&(ve+=Math.floor(Math.random()*25)+5,L.textContent=String(ve),L.classList.remove("is-bumping"),L.style.animation="none",L.offsetWidth,L.style.animation=`game-timer-box-score-bump ${e}ms ${b(t.bezier)}`)},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
+    `,z=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",z=null}},play({duration:e,easing:t}){z&&(he+=Math.floor(Math.random()*25)+5,z.textContent=String(he),z.classList.remove("is-bumping"),z.style.animation="none",z.offsetWidth,z.style.animation=`game-timer-box-score-bump ${e}ms ${h(t.bezier)}`)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
 @keyframes game-timer-box-score-bump {
   0%   { transform: scale(1);    color: #caa512; }
   35%  { transform: scale(1.45); color: #6dd97a; }
@@ -749,7 +749,7 @@ Acceptance criteria:
 .game-timer-box__value--score-bump {
   display: inline-block;
   transform-origin: center;
-  animation: game-timer-box-score-bump ${e}ms ${b(t.bezier)};
+  animation: game-timer-box-score-bump ${e}ms ${h(t.bezier)};
 }
 
 /* Trigger by toggling the modifier class on every score change.
@@ -798,16 +798,16 @@ struct ScoreValue: View {
             .scaleEffect(scale)
             .foregroundColor(color)
             .onChange(of: score) { _ in
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o})) {
+                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
                     scale = 1.0  // ramps via spring-like back-ease
                 }
                 // Pulse via keyframe: scale 1 → 1.45 → 1
-                let half = ${o} / 2.85
+                let half = ${n} / 2.85
                 withAnimation(.easeOut(duration: half)) {
                     scale = 1.45; color = Color(red: 0.43, green: 0.85, blue: 0.48)
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + half) {
-                    withAnimation(.easeIn(duration: ${o} - half)) {
+                    withAnimation(.easeIn(duration: ${n} - half)) {
                         scale = 1.0
                         color = Color(red: 0.79, green: 0.65, blue: 0.07)
                     }
@@ -822,7 +822,7 @@ struct ScoreValue: View {
 
   <children>
     <Label id="label" font="font:LargeBoldSystemFont" color="0xCAA512FF" />
-    <Animation id="bump" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="bump" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="label.scale"
         keyValue="[ [1,1], [1.45,1.45], [1,1] ]"
@@ -855,7 +855,7 @@ Timings:
 
 Acceptance criteria:
   · Animation re-fires on every distinct score change (skip if score is unchanged).
-  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Gt=`
+  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Mt=`
 .preview-cs-timer {
   width: 418px;
   height: 86px;
@@ -895,7 +895,7 @@ Acceptance criteria:
   from { width: 100%; }
   to   { width: 0%; }
 }
-`;let S=null,X=null,C=null,R;function ye(e,t){if(t.timeUp){e.innerHTML=`
+`;let S=null,j=null,_=null,L;function be(e,t){if(t.timeUp){e.innerHTML=`
       <div style="
         width:100%;height:40px;
         background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
@@ -916,7 +916,7 @@ Acceptance criteria:
         <div style="height:100%;width:${t.fill}%;background:${i};border-radius:5px;"></div>
       </div>
     </div>
-  `}const Pt={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>ye(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>ye(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>ye(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>ye(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return m("css-cs-timer",Gt),e.innerHTML=`
+  `}const Vt={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>be(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>be(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>be(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>be(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return m("css-cs-timer",Mt),e.innerHTML=`
       <div class="preview-cs-timer">
         <div class="preview-cs-timer__row">
           <span class="preview-cs-timer__value">6s</span>
@@ -925,7 +925,7 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,S=e.querySelector(".preview-cs-timer__bar-fill"),X=e.querySelector(".preview-cs-timer__bar"),C=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",S=null,X=null,C=null,R!==void 0&&clearInterval(R)}},play({duration:e}){if(!S||!C||!X)return;R!==void 0&&clearInterval(R),S.classList.remove("is-critical"),X.classList.remove("is-hidden"),C.classList.remove("is-time-up"),S.style.animation="none",S.offsetWidth,S.style.animationDuration=`${e}ms`,S.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);C.textContent=`${t}s`;const i=performance.now();R=window.setInterval(()=>{const a=Math.max(0,e-(performance.now()-i));if(a<=0){C&&(C.textContent="Time's Up!",C.classList.add("is-time-up")),X&&X.classList.add("is-hidden"),R!==void 0&&(clearInterval(R),R=void 0);return}C&&(C.textContent=`${Math.ceil(a/1e3)}s`),S&&a<e*.25&&S.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
+    `,S=e.querySelector(".preview-cs-timer__bar-fill"),j=e.querySelector(".preview-cs-timer__bar"),_=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",S=null,j=null,_=null,L!==void 0&&clearInterval(L)}},play({duration:e}){if(!S||!_||!j)return;L!==void 0&&clearInterval(L),S.classList.remove("is-critical"),j.classList.remove("is-hidden"),_.classList.remove("is-time-up"),S.style.animation="none",S.offsetWidth,S.style.animationDuration=`${e}ms`,S.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);_.textContent=`${t}s`;const i=performance.now();L=window.setInterval(()=>{const a=Math.max(0,e-(performance.now()-i));if(a<=0){_&&(_.textContent="Time's Up!",_.classList.add("is-time-up")),j&&j.classList.add("is-hidden"),L!==void 0&&(clearInterval(L),L=void 0);return}_&&(_.textContent=`${Math.ceil(a/1e3)}s`),S&&a<e*.25&&S.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
 @keyframes game-timer-box-deplete {
   from { width: 100%; }
   to   { width: 0%; }
@@ -1047,7 +1047,7 @@ Timings:
 Acceptance criteria:
   · The animation restarts cleanly on each new question (state fully resets).
   · If the player answers before time runs out, the animation pauses immediately and "Time's Up!" is never shown.
-  · No bounce/easing at end — it's a literal countdown.`}},Ut=`
+  · No bounce/easing at end — it's a literal countdown.`}},Bt=`
 .preview-hl {
   display: flex; flex-direction: column; gap: 16px;
   padding: 32px;
@@ -1094,7 +1094,7 @@ Acceptance criteria:
   font-size: 32px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 1px; white-space: nowrap;
 }
-`;let le=null,ce=null,de=null,Ne=0;const ot=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function nt(e,t,i){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${i}`;const a=e.querySelector(".preview-hl-btn__label");a&&(i==="correct"?a.textContent="Correct!":i==="wrong"?a.textContent="Incorrect!":a.textContent=t==="up"?"Higher":"Lower")}function st(e,t,i){return`
+`;let ae=null,oe=null,ne=null,Ee=0;const Ze=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function et(e,t,i){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${i}`;const a=e.querySelector(".preview-hl-btn__label");a&&(i==="correct"?a.textContent="Correct!":i==="wrong"?a.textContent="Incorrect!":a.textContent=t==="up"?"Higher":"Lower")}function tt(e,t,i){return`
     <div style="
       width:100%;height:30px;
       background:${{idle:"#202228",locked:"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)",correct:"linear-gradient(180deg,#008e11 0%,#053800 100%)",wrong:"linear-gradient(180deg,#8e0000 0%,#380000 100%)"}[t]};
@@ -1105,14 +1105,14 @@ Acceptance criteria:
       text-transform:uppercase;letter-spacing:0.5px;
       opacity:${i?.35:1};
     ">${e}</div>
-  `}function xe(e,t,i){e.innerHTML=`
+  `}function ge(e,t,i){e.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:6px;width:100%;
                 background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);
                 border-radius:6px;padding:8px;box-sizing:border-box;">
-      ${st(t.label,t.state,t.dim)}
-      ${st(i.label,i.state,i.dim)}
+      ${tt(t.label,t.state,t.dim)}
+      ${tt(i.label,i.state,i.dim)}
     </div>
-  `}const Wt={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>xe(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>xe(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>xe(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>xe(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return m("css-cs-controller",Ut),Ne=0,e.innerHTML=`
+  `}const Ht={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>ge(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>ge(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>ge(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>ge(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return m("css-cs-controller",Bt),Ee=0,e.innerHTML=`
       <div class="preview-hl">
         <button class="preview-hl-btn preview-hl-btn--higher preview-hl-btn--idle">
           <span class="preview-hl-key"><span class="preview-hl-key__arrow"></span></span>
@@ -1123,7 +1123,7 @@ Acceptance criteria:
           <span class="preview-hl-btn__label">Lower</span>
         </button>
       </div>
-    `,le=e.querySelector(".preview-hl"),[ce,de]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",le=ce=de=null}},play({duration:e}){if(!le)return;const t=ot[Ne%ot.length];Ne++,le.style.setProperty("--hl-duration",`${e}ms`),le.classList.toggle("is-resolved",t.resolved),ce&&(ce.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),de&&(de.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),nt(ce,"up",t.higher),nt(de,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
+    `,ae=e.querySelector(".preview-hl"),[oe,ne]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",ae=oe=ne=null}},play({duration:e}){if(!ae)return;const t=Ze[Ee%Ze.length];Ee++,ae.style.setProperty("--hl-duration",`${e}ms`),ae.classList.toggle("is-resolved",t.resolved),oe&&(oe.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),ne&&(ne.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),et(oe,"up",t.higher),et(ne,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
 .hl-btn {
   background: #202228;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1309,7 +1309,7 @@ Behavior:
 Acceptance criteria:
   · Label text changes are instant; only the colour + opacity crossfade.
   · A button cannot be focused/highlighted independently — D-pad navigation just moves the focus visual outside the button.
-  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Yt=`
+  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Nt=`
 .preview-hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 32px 36px;
@@ -1351,7 +1351,7 @@ Acceptance criteria:
   0%   { opacity: 0; transform: translate(-30px, -16px) scale(0.96); }
   100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
-`;let O=null;function lt(e,t,i,a,r){e.innerHTML=`
+`;let R=null;function it(e,t,i,a,r){e.innerHTML=`
     <div style="
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       border-radius:6px;padding:8px 10px;
@@ -1360,7 +1360,7 @@ Acceptance criteria:
       opacity:${r};
       max-width:140px;
     ">Use ▲ / ▼ to make your selections.</div>
-  `}const jt={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>lt(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>lt(e,0,0,1,1)}],render(e){return m("css-cs-info-note",Yt),e.innerHTML=`
+  `}const qt={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>it(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>it(e,0,0,1,1)}],render(e){return m("css-cs-info-note",Nt),e.innerHTML=`
       <div class="preview-hl-note">
         <div class="preview-hl-note__line">
           <span>Use the</span>
@@ -1373,7 +1373,7 @@ Acceptance criteria:
           <span>your TV remote to make your selections.</span>
         </div>
       </div>
-    `,O=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",O=null}},play({duration:e,easing:t}){O&&(O.classList.remove("is-shown"),O.style.animation="none",O.style.opacity="0",O.offsetWidth,O.style.animation=`cs-stage-in ${e}ms ${b(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
+    `,R=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",R=null}},play({duration:e,easing:t}){R&&(R.classList.remove("is-shown"),R.style.animation="none",R.style.opacity="0",R.offsetWidth,R.style.animation=`cs-stage-in ${e}ms ${h(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
 .hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 40px;
@@ -1408,14 +1408,14 @@ Acceptance criteria:
 }
 
 .hl-note {
-  animation: cs-stage-in ${e}ms ${b(t.bezier)} backwards;
+  animation: cs-stage-in ${e}ms ${h(t.bezier)} backwards;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 
 @Composable
 fun HigherLowerNote(visible: Boolean) {
-    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${n.toFixed(2)}f)
+    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = (
@@ -1465,7 +1465,7 @@ struct HigherLowerNote: View {
         .scaleEffect(visible ? 1.0 : 0.96)
         .opacity(visible ? 1.0 : 0.0)
         .animation(
-            .timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}),
+            .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
             value: visible
         )
     }
@@ -1480,7 +1480,7 @@ struct HigherLowerNote: View {
       <Rectangle id="bg" color="0x000000CC" />
       <!-- text labels + key caps composed inside -->
     </Group>
-    <Animation id="slideIn" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="slideIn" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="note.translation"
         keyValue="[ [-30,-16], [0,0] ]"
@@ -1522,7 +1522,7 @@ Timings:
 Acceptance criteria:
   · Animation only plays on mount; toggling content inside the note must not re-trigger it.
   · The note persists across both the answering and result phases of Card Sharks.
-  · When dismissed, just remove from the tree — do not play an exit animation.`}},Xt=`
+  · When dismissed, just remove from the tree — do not play an exit animation.`}},Dt=`
 .preview-cs-card-stage {
   width: 334px; height: 398px;
   background: rgba(0,0,0,0.8);
@@ -1554,27 +1554,27 @@ Acceptance criteria:
   78%  { transform: translate(0, 8px)         rotate(3deg)   scale(1.04); }
   100% { transform: translate(0, 0)           rotate(0deg)   scale(1);    opacity: 1; }
 }
-`,ke=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let _=null,$e=0;function De(e,t,i,a,r,n){e.innerHTML=`
+`,we=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let C=null,ve=0;function Me(e,t,i,a,r,o){e.innerHTML=`
     <div style="
       width:50px;height:72px;border-radius:6px;border:2px solid #fff;
       background:linear-gradient(135deg,#f5f5f5 0%,#e0e0e0 100%);
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       font-family:Georgia,serif;color:#b91c1c;font-weight:700;
       transform:translate(${t}px, ${i}px) rotate(${a}deg) scale(${r});
-      opacity:${n};
+      opacity:${o};
       box-shadow:0 8px 18px rgba(0,0,0,0.45);
     ">
       <div style="font-size:24px;line-height:1;">Q</div>
       <div style="font-size:18px;line-height:1;margin-top:2px;">♦</div>
     </div>
-  `}const Kt={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>De(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>De(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>De(e,0,0,0,1,1)}],render(e){return m("css-cs-card",Xt),$e=0,e.innerHTML=`
+  `}const Gt={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>Me(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>Me(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>Me(e,0,0,0,1,1)}],render(e){return m("css-cs-card",Dt),ve=0,e.innerHTML=`
       <div class="preview-cs-card-stage">
         <div class="preview-cs-card">
-          <div class="preview-cs-card__rank">${ke[0][2]}</div>
-          <div class="preview-cs-card__suit">${ke[0][0]}</div>
+          <div class="preview-cs-card__rank">${we[0][2]}</div>
+          <div class="preview-cs-card__suit">${we[0][0]}</div>
         </div>
       </div>
-    `,_=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",_=null}},play({duration:e}){if(!_)return;$e=($e+1)%ke.length;const t=ke[$e],i=_.querySelector(".preview-cs-card__rank"),a=_.querySelector(".preview-cs-card__suit");i&&(i.textContent=t[2]),a&&(a.textContent=t[0]),_.classList.remove("is-flying"),_.style.animation="none",_.offsetWidth,_.classList.add("is-flying"),_.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+    `,C=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",C=null}},play({duration:e}){if(!C)return;ve=(ve+1)%we.length;const t=we[ve],i=C.querySelector(".preview-cs-card__rank"),a=C.querySelector(".preview-cs-card__suit");i&&(i.textContent=t[2]),a&&(a.textContent=t[0]),C.classList.remove("is-flying"),C.style.animation="none",C.offsetWidth,C.classList.add("is-flying"),C.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-card-fly-in {
   0%   { transform: translate(-380px, -160px) rotate(-26deg) scale(0.42); opacity: 0; }
   55%  {                                                                   opacity: 1; }
@@ -1651,11 +1651,11 @@ struct CardFlyIn: View {
 
     func restart() {
         stage = 0
-        withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o} * 0.78)) {
+        withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n} * 0.78)) {
             stage = 1
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + ${o} * 0.78) {
-            withAnimation(.easeOut(duration: ${o} * 0.22)) { stage = 2 }
+        DispatchQueue.main.asyncAfter(deadline: .now() + ${n} * 0.78) {
+            withAnimation(.easeOut(duration: ${n} * 0.22)) { stage = 2 }
         }
     }
 }`,roku:`<!-- Roku SceneGraph — components/CardFlyIn.xml -->
@@ -1668,7 +1668,7 @@ struct CardFlyIn: View {
     <Group id="card">
       <!-- card face -->
     </Group>
-    <Animation id="fly" duration="${o}" easeFunction="outBack" repeat="false">
+    <Animation id="fly" duration="${n}" easeFunction="outBack" repeat="false">
       <Vector2DFieldInterpolator
         fieldToInterp="card.translation"
         keyValue="[ [-380,-160], [0,8], [0,0] ]"
@@ -1710,29 +1710,29 @@ Timings:
 Acceptance criteria:
   · Re-fires cleanly when questionNumber changes — no stale frames from the previous card.
   · The card box itself never animates separately; this is purely the card-face element flying into it.
-  · No idle motion after the animation completes.`}};function xt(e){switch(e.id){case"linear":return{name:"linear",note:""};case"ease":return{name:"inOutQuad",note:"Closest match to CSS ease."};case"ease-out":return{name:"outQuad",note:"Closest match to CSS ease-out."};case"ease-in":return{name:"inQuad",note:"Closest match to CSS ease-in."};case"ease-in-out":return{name:"inOutQuad",note:""};case"back-out":return{name:"outBack",note:"Built-in overshoot curve."};case"material":return{name:"inOutQuad",note:"Material standard ≈ inOutQuad."};case"glide":return{name:"outCubic",note:"Glide (0.3, 0.9, 0.3, 1) ≈ outCubic."};default:return{name:"inOutQuad",note:"Custom cubic-bezier — use FloatFieldInterpolator with hand-tuned key points if precision matters."}}}const f={ink:"#0c1240",gold:"#d9a80b",goldHi:"#ffc928",lav:"#7b7fd6",win:"#7bff3c",miss:"#ff2a2a",mine:"#0090ff",chipBg:"linear-gradient(180deg,#f6f9ff 0%,#e2eafb 55%,#b7cbef 100%)",font:"'Rubik', 'Helvetica Neue', Arial, sans-serif"},ae=`
+  · No idle motion after the animation completes.`}};function ut(e){switch(e.id){case"linear":return{name:"linear",note:""};case"ease":return{name:"inOutQuad",note:"Closest match to CSS ease."};case"ease-out":return{name:"outQuad",note:"Closest match to CSS ease-out."};case"ease-in":return{name:"inQuad",note:"Closest match to CSS ease-in."};case"ease-in-out":return{name:"inOutQuad",note:""};case"back-out":return{name:"outBack",note:"Built-in overshoot curve."};case"material":return{name:"inOutQuad",note:"Material standard ≈ inOutQuad."};case"glide":return{name:"outCubic",note:"Glide (0.3, 0.9, 0.3, 1) ≈ outCubic."};default:return{name:"inOutQuad",note:"Custom cubic-bezier — use FloatFieldInterpolator with hand-tuned key points if precision matters."}}}const p={ink:"#0c1240",gold:"#d9a80b",goldHi:"#ffc928",lav:"#7b7fd6",win:"#7bff3c",miss:"#ff2a2a",mine:"#0090ff",chipBg:"linear-gradient(180deg,#f6f9ff 0%,#e2eafb 55%,#b7cbef 100%)",font:"'Rubik', 'Helvetica Neue', Arial, sans-serif"},de=`
 .preview-si-board {
   position: relative;
   background: radial-gradient(120% 140% at 50% 0%, #1b2a7a 0%, #0a1033 60%, #060b24 100%);
   border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   overflow: hidden;
-  font-family: ${f.font};
+  font-family: ${p.font};
 }
 .preview-si-chip {
   position: absolute;
   box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
   border-radius: 999px;
-  background: ${f.chipBg};
+  background: ${p.chipBg};
   border: 2px solid #fff;
   box-shadow: 0 3px 6px rgba(0,0,0,0.4);
-  color: ${f.ink};
+  color: ${p.ink};
   font-weight: 600; font-size: 13px; letter-spacing: .02em; text-transform: uppercase;
   white-space: nowrap;
 }
 .preview-si-chip.is-focus {
-  border: 3px solid ${f.gold};
+  border: 3px solid ${p.gold};
   box-shadow: 0 0 12px rgba(255,200,0,0.4), 0 3px 6px rgba(0,0,0,0.4);
   z-index: 4;
 }
@@ -1742,18 +1742,18 @@ Acceptance criteria:
   border-radius: 999px;
   border: 2px dashed rgba(163,168,204,0.6);
 }
-`;function B(e,t){const i=t.focus?`3px solid ${f.gold}`:"2px solid #fff",a=t.focus?"0 0 10px rgba(255,200,0,0.45),":"";e.innerHTML=`
+`;function V(e,t){const i=t.focus?`3px solid ${p.gold}`:"2px solid #fff",a=t.focus?"0 0 10px rgba(255,200,0,0.45),":"";e.innerHTML=`
     <div style="
       width:130px;height:30px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;
-      border-radius:999px;background:${f.chipBg};border:${i};
+      border-radius:999px;background:${p.chipBg};border:${i};
       box-shadow:${a}0 2px 4px rgba(0,0,0,0.4);
-      color:${f.ink};font-family:${f.font};font-weight:600;
+      color:${p.ink};font-family:${p.font};font-weight:600;
       font-size:${t.fontSize??10}px;letter-spacing:.02em;text-transform:uppercase;
       transform:scale(${t.scale??1});
       ${t.extra??""}
     ">${t.text}</div>
-  `}const Qt=`
+  `}const Ut=`
 .preview-si-place { width: 520px; height: 260px; }
 .preview-si-place__slot {
   position: absolute; left: 300px; width: 196px; height: 44px;
@@ -1764,13 +1764,13 @@ Acceptance criteria:
 }
 .preview-si-place .preview-si-ghost { left: 24px; top: 104px; width: 160px; height: 40px; opacity: 0; transition: opacity 200ms; }
 .preview-si-place .preview-si-chip.is-in-slot { font-size: 14px; }
-`,kt=[20,78,136,194],ct={left:24,top:104,width:160,height:40},Jt={left:300,top:kt[0],width:196,height:44};let w=null,pe=null,Ye=[];function dt(){Ye.forEach(clearTimeout),Ye=[]}function qe(e,t){Object.assign(e.style,{left:`${t.left}px`,top:`${t.top}px`,width:`${t.width}px`,height:`${t.height}px`})}const Zt={id:"si-chip-place",title:"Answer → Slot",game:"Stack It",description:"Pressing OK on an answer chip glides it from the answer tray into the first free slot of the stack. The chip morphs to the slot size on the way, keeps the gold ring while the player chooses a slot, and a dashed ghost marks the spot it left. When five answers are placed, the sixth fills the last slot automatically after 450 ms.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked",sublabel:"0% · in tray · gold ring",render:e=>B(e,{text:"Guitar",focus:!0})},{label:"Gliding",sublabel:"~40% · ~85% of the way (glide)",render:e=>B(e,{text:"Guitar",focus:!0,extra:"width:150px;transform:translateX(10px)"})},{label:"In slot",sublabel:"100% · slot size · font 13 → 14px",render:e=>B(e,{text:"Guitar",focus:!0,fontSize:11,extra:"width:160px"})},{label:"Locked",sublabel:"OK · ring → white · 200 ms",render:e=>B(e,{text:"Guitar",fontSize:11,extra:"width:160px"})}],render(e){return m("css-si-base",ae),m("css-si-chip-place",Qt),e.innerHTML=`
+`,mt=[20,78,136,194],rt={left:24,top:104,width:160,height:40},Pt={left:300,top:mt[0],width:196,height:44};let w=null,se=null,qe=[];function at(){qe.forEach(clearTimeout),qe=[]}function Ve(e,t){Object.assign(e.style,{left:`${t.left}px`,top:`${t.top}px`,width:`${t.width}px`,height:`${t.height}px`})}const Yt={id:"si-chip-place",title:"Answer → Slot",game:"Stack It",description:"Pressing OK on an answer chip glides it from the answer tray into the first free slot of the stack. The chip morphs to the slot size on the way, keeps the gold ring while the player chooses a slot, and a dashed ghost marks the spot it left. When five answers are placed, the sixth fills the last slot automatically after 450 ms.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked",sublabel:"0% · in tray · gold ring",render:e=>V(e,{text:"Guitar",focus:!0})},{label:"Gliding",sublabel:"~40% · ~85% of the way (glide)",render:e=>V(e,{text:"Guitar",focus:!0,extra:"width:150px;transform:translateX(10px)"})},{label:"In slot",sublabel:"100% · slot size · font 13 → 14px",render:e=>V(e,{text:"Guitar",focus:!0,fontSize:11,extra:"width:160px"})},{label:"Locked",sublabel:"OK · ring → white · 200 ms",render:e=>V(e,{text:"Guitar",fontSize:11,extra:"width:160px"})}],render(e){return m("css-si-base",de),m("css-si-chip-place",Ut),e.innerHTML=`
       <div class="preview-si-board preview-si-place">
-        ${kt.map(t=>`<div class="preview-si-place__slot" style="top:${t}px"></div>`).join("")}
+        ${mt.map(t=>`<div class="preview-si-place__slot" style="top:${t}px"></div>`).join("")}
         <div class="preview-si-ghost"></div>
         <div class="preview-si-chip is-focus">Guitar</div>
       </div>
-    `,w=e.querySelector(".preview-si-chip"),pe=e.querySelector(".preview-si-ghost"),w&&qe(w,ct),()=>{dt(),e.innerHTML="",w=null,pe=null}},play({duration:e,easing:t}){if(!w||!pe)return;dt();const i=b(t.bezier);w.style.transition="none",w.classList.add("is-focus"),w.classList.remove("is-in-slot"),pe.style.opacity="0",qe(w,ct),w.offsetWidth,w.style.transition=`left ${e}ms ${i}, top ${e}ms ${i}, width ${e}ms ease, height ${e}ms ease, font-size 200ms, border-color 200ms, box-shadow 200ms`,qe(w,Jt),w.classList.add("is-in-slot"),pe.style.opacity="1",Ye.push(window.setTimeout(()=>w==null?void 0:w.classList.remove("is-focus"),e+500))},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2),s=b(t.bezier),c=xt(t);return{web:`/* StackItOverlay.css
+    `,w=e.querySelector(".preview-si-chip"),se=e.querySelector(".preview-si-ghost"),w&&Ve(w,rt),()=>{at(),e.innerHTML="",w=null,se=null}},play({duration:e,easing:t}){if(!w||!se)return;at();const i=h(t.bezier);w.style.transition="none",w.classList.add("is-focus"),w.classList.remove("is-in-slot"),se.style.opacity="0",Ve(w,rt),w.offsetWidth,w.style.transition=`left ${e}ms ${i}, top ${e}ms ${i}, width ${e}ms ease, height ${e}ms ease, font-size 200ms, border-color 200ms, box-shadow 200ms`,Ve(w,Pt),w.classList.add("is-in-slot"),se.style.opacity="1",qe.push(window.setTimeout(()=>w==null?void 0:w.classList.remove("is-focus"),e+500))},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier),c=ut(t);return{web:`/* StackItOverlay.css
    Chips are absolutely positioned; JS writes left/top/width/height in % of
    the 16:9 stage (tray cell or slot rect). The transition does the glide. */
 .si-chip {
@@ -1780,14 +1780,14 @@ Acceptance criteria:
   border: .2cqw solid #fff;
   font-size: 1.2cqw;
   transition:
-    left   ${e}ms ${s},
-    top    ${e}ms ${s},
+    left   ${e}ms ${d},
+    top    ${e}ms ${d},
     width  ${e}ms ease,
     height ${e}ms ease,
     transform .2s, border-color .2s, box-shadow .2s, font-size .2s;
 }
 .si-chip--in-slot { font-size: 1.3cqw; }
-.si-chip--moving  { border: .32cqw solid ${f.gold}; box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006; z-index: 4; }
+.si-chip--moving  { border: .32cqw solid ${p.gold}; box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006; z-index: 4; }
 
 /* Dashed outline left behind in the tray */
 .si-ghost { border: .18cqw dashed #a3a8cc99; border-radius: 999px; transition: opacity .2s; }
@@ -1798,7 +1798,7 @@ import androidx.compose.ui.unit.*
 
 @Composable
 fun StackChip(text: String, target: DpRect, moving: Boolean) {
-    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)
+    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
     val pos by animateDpOffsetAsState(
         targetValue = DpOffset(target.left, target.top),
         animationSpec = tween(${e}, easing = glide), label = "chipPos"
@@ -1835,7 +1835,7 @@ struct StackChip: View {
             .overlay(Capsule().stroke(moving ? Color(red: 0.85, green: 0.66, blue: 0.04) : .white,
                                       lineWidth: moving ? 4 : 3))
             .position(x: frame.midX, y: frame.midY)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}), value: frame)
+            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: frame)
             .animation(.easeInOut(duration: 0.2), value: moving)
     }
 }`,roku:`<!-- Roku SceneGraph — components/StackChip.xml -->
@@ -1847,7 +1847,7 @@ struct StackChip: View {
   <children>
     <Poster id="bg" uri="pkg:/images/chip_9patch.png" />
     <Label  id="label" horizAlign="center" vertAlign="center" />
-    <Animation id="glide" duration="${o}" easeFunction="${c.name}" repeat="false">
+    <Animation id="glide" duration="${n}" easeFunction="${c.name}" repeat="false">
       <Vector2DFieldInterpolator id="move" fieldToInterp="m.top.translation" key="[ 0, 1 ]" />
     </Animation>
   </children>
@@ -1879,7 +1879,7 @@ Timings:
 Acceptance criteria:
   · Position and size animate together — no jump at the start or end.
   · Rapid ▲ ▼ presses retarget the glide from the chip's current spot (no snapping).
-  · Reduced-motion setting: chips jump instantly.`}},ei=`
+  · Reduced-motion setting: chips jump instantly.`}},Wt=`
 .preview-si-focus { width: 520px; height: 296px; }
 .preview-si-focus .preview-si-chip { left: 150px; width: 220px; height: 42px; }
 .preview-si-focus .preview-si-chip.is-big { transform: scale(1.09); font-size: 17px; z-index: 5; }
@@ -1889,10 +1889,10 @@ Acceptance criteria:
 }
 .preview-si-arrows[hidden] { display: none; }
 .preview-si-arrows i { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; }
-.preview-si-arrows i.up { border-bottom: 11px solid ${f.goldHi}; }
-.preview-si-arrows i.dn { border-top: 11px solid ${f.goldHi}; }
-.preview-si-arrows i.up.off { border-bottom-color: ${f.lav}; }
-.preview-si-arrows i.dn.off { border-top-color: ${f.lav}; }
+.preview-si-arrows i.up { border-bottom: 11px solid ${p.goldHi}; }
+.preview-si-arrows i.dn { border-top: 11px solid ${p.goldHi}; }
+.preview-si-arrows i.up.off { border-bottom-color: ${p.lav}; }
+.preview-si-arrows i.dn.off { border-top-color: ${p.lav}; }
 .preview-si-hint {
   position: absolute; left: 50%; top: 236px; height: 44px; transform: translateX(-50%);
   display: flex; align-items: center; gap: 8px; padding: 0 16px;
@@ -1904,23 +1904,23 @@ Acceptance criteria:
   width: 26px; height: 26px; border-radius: 4px; background: #fff; color: #000;
   box-shadow: inset 0 -3px 0 #c9c9d4; font-weight: 600; font-size: 12px;
 }
-`,fe=[18,70,122,174],pt=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet"],Ge=450,ti=300,ii="cubic-bezier(0.3, 0.9, 0.3, 1)";let x=[],y=null,ze=null,je=[];function ft(){je.forEach(clearTimeout),je=[]}function Se(e,t){ze&&(ze.innerHTML=`<span>${e}</span><span class="preview-si-key">▲</span><span class="preview-si-key">▼</span><span>${t}</span><span class="preview-si-key">Ok</span>`)}const ri={id:"si-focus",title:"Focus & Pick Up",game:"Stack It",description:'Remote focus on a chip. In the tray, focus is a gold ring with a soft glow. Once the stack is full, the focused block also grows to 109 % so it reads as "selectable". Pressing OK picks the block up: it shrinks back to 100 %, keeps the ring, and ▲ ▼ arrows appear next to it and travel with it. OK again drops the block: the arrows disappear and it grows back to the focused size.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"white 2px border",render:e=>B(e,{text:"Harp"})},{label:"Focus",sublabel:"tray · gold ring + glow",render:e=>B(e,{text:"Harp",focus:!0})},{label:"Focus (stack)",sublabel:"scale 1.09 · font 13 → 17px",render:e=>B(e,{text:"Harp",focus:!0,scale:1.09,fontSize:12})},{label:"Picked up",sublabel:"scale 1 · ring stays · ▲▼ shown",render:e=>B(e,{text:"Harp ▴▾",focus:!0})}],render(e){return m("css-si-base",ae),m("css-si-focus",ei),e.innerHTML=`
+`,le=[18,70,122,174],ot=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet"],Be=450,jt=300,Xt="cubic-bezier(0.3, 0.9, 0.3, 1)";let x=[],y=null,_e=null,De=[];function nt(){De.forEach(clearTimeout),De=[]}function ye(e,t){_e&&(_e.innerHTML=`<span>${e}</span><span class="preview-si-key">▲</span><span class="preview-si-key">▼</span><span>${t}</span><span class="preview-si-key">Ok</span>`)}const Kt={id:"si-focus",title:"Focus & Pick Up",game:"Stack It",description:'Remote focus on a chip. In the tray, focus is a gold ring with a soft glow. Once the stack is full, the focused block also grows to 109 % so it reads as "selectable". Pressing OK picks the block up: it shrinks back to 100 %, keeps the ring, and ▲ ▼ arrows appear next to it and travel with it. OK again drops the block: the arrows disappear and it grows back to the focused size.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"white 2px border",render:e=>V(e,{text:"Harp"})},{label:"Focus",sublabel:"tray · gold ring + glow",render:e=>V(e,{text:"Harp",focus:!0})},{label:"Focus (stack)",sublabel:"scale 1.09 · font 13 → 17px",render:e=>V(e,{text:"Harp",focus:!0,scale:1.09,fontSize:12})},{label:"Picked up",sublabel:"scale 1 · ring stays · ▲▼ shown",render:e=>V(e,{text:"Harp ▴▾",focus:!0})}],render(e){return m("css-si-base",de),m("css-si-focus",Wt),e.innerHTML=`
       <div class="preview-si-board preview-si-focus">
-        ${pt.map((t,i)=>`<div class="preview-si-chip" style="top:${fe[i]}px">${t}</div>`).join("")}
+        ${ot.map((t,i)=>`<div class="preview-si-chip" style="top:${le[i]}px">${t}</div>`).join("")}
         <div class="preview-si-arrows" hidden><i class="up"></i><i class="dn"></i></div>
         <div class="preview-si-hint"></div>
       </div>
-    `,x=Array.from(e.querySelectorAll(".preview-si-chip")),y=e.querySelector(".preview-si-arrows"),ze=e.querySelector(".preview-si-hint"),x[0].classList.add("is-focus","is-big"),Se("Choose a block","OK pick it up"),()=>{ft(),e.innerHTML="",x=[],y=null,ze=null}},play({duration:e,easing:t}){if(!x.length||!y)return;ft();const i=b(t.bezier),a=pt.map((l,u)=>u);let r=1;const n=()=>{a.forEach((l,u)=>{x[l].style.top=`${fe[u]}px`}),y&&(y.style.top=`${fe[r]+2}px`,y.children[0].classList.toggle("off",r<=0),y.children[1].classList.toggle("off",r>=fe.length-1))};x.forEach(l=>{l.style.transition="none",l.classList.remove("is-focus","is-big")}),y.style.transition="none",x[0].classList.add("is-focus","is-big"),y.hidden=!0,n(),Se("Choose a block","OK pick it up"),x[0].offsetWidth,x.forEach(l=>{l.style.transition=[...["transform","border-color","box-shadow","font-size"].map(u=>`${u} ${e}ms ${i}`),`top ${Ge}ms ${ii}`].join(", ")}),y.style.transition=`top ${ti}ms ease`;let o=150;const s=(l,u)=>{o+=l,je.push(window.setTimeout(u,o))};s(0,()=>{x[0].classList.remove("is-focus","is-big"),x[1].classList.add("is-focus","is-big")}),s(e+700,()=>{x[a[r]].classList.remove("is-big"),n(),y&&(y.hidden=!1),Se("Move","OK drop")});const c=()=>{r>=fe.length-1||([a[r],a[r+1]]=[a[r+1],a[r]],r+=1,n())};s(900,c),s(Ge+350,c),s(Ge+600,()=>{y&&(y.hidden=!0),x[a[r]].classList.add("is-big"),Se("Choose a block","OK pick it up")})},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2),s=b(t.bezier);return{web:`/* StackItOverlay.css */
+    `,x=Array.from(e.querySelectorAll(".preview-si-chip")),y=e.querySelector(".preview-si-arrows"),_e=e.querySelector(".preview-si-hint"),x[0].classList.add("is-focus","is-big"),ye("Choose a block","OK pick it up"),()=>{nt(),e.innerHTML="",x=[],y=null,_e=null}},play({duration:e,easing:t}){if(!x.length||!y)return;nt();const i=h(t.bezier),a=ot.map((s,u)=>u);let r=1;const o=()=>{a.forEach((s,u)=>{x[s].style.top=`${le[u]}px`}),y&&(y.style.top=`${le[r]+2}px`,y.children[0].classList.toggle("off",r<=0),y.children[1].classList.toggle("off",r>=le.length-1))};x.forEach(s=>{s.style.transition="none",s.classList.remove("is-focus","is-big")}),y.style.transition="none",x[0].classList.add("is-focus","is-big"),y.hidden=!0,o(),ye("Choose a block","OK pick it up"),x[0].offsetWidth,x.forEach(s=>{s.style.transition=[...["transform","border-color","box-shadow","font-size"].map(u=>`${u} ${e}ms ${i}`),`top ${Be}ms ${Xt}`].join(", ")}),y.style.transition=`top ${jt}ms ease`;let n=150;const d=(s,u)=>{n+=s,De.push(window.setTimeout(u,n))};d(0,()=>{x[0].classList.remove("is-focus","is-big"),x[1].classList.add("is-focus","is-big")}),d(e+700,()=>{x[a[r]].classList.remove("is-big"),o(),y&&(y.hidden=!1),ye("Move","OK drop")});const c=()=>{r>=le.length-1||([a[r],a[r+1]]=[a[r+1],a[r]],r+=1,o())};d(900,c),d(Be+350,c),d(Be+600,()=>{y&&(y.hidden=!0),x[a[r]].classList.add("is-big"),ye("Choose a block","OK pick it up")})},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier);return{web:`/* StackItOverlay.css */
 .si-chip {
   border: .2cqw solid #fff;
-  transition: transform ${e}ms ${s}, border-color ${e}ms ${s},
-              box-shadow ${e}ms ${s}, font-size ${e}ms ${s};
+  transition: transform ${e}ms ${d}, border-color ${e}ms ${d},
+              box-shadow ${e}ms ${d}, font-size ${e}ms ${d};
 }
 
 /* Remote focus (tray) and picked-up block (stack) share the gold ring */
 .si-chip--focus,
 .si-chip--moving {
-  border: .32cqw solid ${f.gold};
+  border: .32cqw solid ${p.gold};
   box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006;
   z-index: 4;
 }
@@ -1930,13 +1930,13 @@ Acceptance criteria:
 
 /* ▲ ▼ next to the picked-up block; lavender when that direction is blocked */
 .si-arrows      { transition: top .3s; }
-.si-arrows .up  { border-bottom: 1.1cqw solid ${f.goldHi}; }
-.si-arrows .dn  { border-top:    1.1cqw solid ${f.goldHi}; }
-.si-arrows .up.off { border-bottom-color: ${f.lav}; }
-.si-arrows .dn.off { border-top-color:    ${f.lav}; }`,android:`// Jetpack Compose — Android TV
+.si-arrows .up  { border-bottom: 1.1cqw solid ${p.goldHi}; }
+.si-arrows .dn  { border-top:    1.1cqw solid ${p.goldHi}; }
+.si-arrows .up.off { border-bottom-color: ${p.lav}; }
+.si-arrows .dn.off { border-top-color:    ${p.lav}; }`,android:`// Jetpack Compose — Android TV
 @Composable
 fun StackBlock(text: String, focused: Boolean, stackFull: Boolean, pickedUp: Boolean) {
-    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)
+    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
     val spec = tween<Float>(${e}, easing = easing)
     val ringOn = focused || pickedUp
     val scale by animateFloatAsState(if (focused && stackFull && !pickedUp) 1.09f else 1f, spec, label = "scale")
@@ -1964,8 +1964,8 @@ struct StackBlock: View {
             .overlay(Capsule().stroke(ringOn ? gold : .white, lineWidth: ringOn ? 4 : 3))
             .shadow(color: ringOn ? Color(red: 1, green: 0.78, blue: 0).opacity(0.4) : .clear, radius: 12)
             .scaleEffect(focused && stackFull && !pickedUp ? 1.09 : 1)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}), value: focused)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}), value: pickedUp)
+            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: focused)
+            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: pickedUp)
     }
 }`,roku:`<!-- Roku SceneGraph — components/StackBlock.xml -->
 <component name="StackBlock" extends="Group">
@@ -1975,7 +1975,7 @@ struct StackBlock: View {
   <children>
     <Poster id="ring" uri="pkg:/images/chip_ring_gold.png" opacity="0" />
     <Poster id="bg"   uri="pkg:/images/chip_9patch.png" />
-    <Animation id="anim" duration="${o}" easeFunction="inOutQuad">
+    <Animation id="anim" duration="${n}" easeFunction="inOutQuad">
       <Vector2DFieldInterpolator id="sc" fieldToInterp="m.top.scale" key="[0, 1]" />
       <FloatFieldInterpolator   id="rg" fieldToInterp="ring.opacity" key="[0, 1]" />
     </Animation>
@@ -2013,7 +2013,7 @@ Timings:
 Acceptance criteria:
   · Only one element carries the gold ring at a time.
   · Scale grows from the block centre; neighbours don't shift.
-  · Back while a block is picked up restores the stack order from before the pick-up.`}},ai=`
+  · Back while a block is picked up restores the stack order from before the pick-up.`}},Qt=`
 .preview-si-reorder { width: 520px; height: 236px; }
 .preview-si-reorder .preview-si-chip { left: 150px; width: 220px; height: 42px; }
 .preview-si-reorder .preview-si-arrows {
@@ -2021,30 +2021,30 @@ Acceptance criteria:
   display: flex; flex-direction: column; justify-content: space-between; align-items: center;
 }
 .preview-si-reorder .preview-si-arrows i { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; }
-.preview-si-reorder .preview-si-arrows i.up { border-bottom: 11px solid ${f.goldHi}; }
-.preview-si-reorder .preview-si-arrows i.dn { border-top: 11px solid ${f.goldHi}; }
-.preview-si-reorder .preview-si-arrows i.up.off { border-bottom-color: ${f.lav}; }
-.preview-si-reorder .preview-si-arrows i.dn.off { border-top-color: ${f.lav}; }
-`,Ae=[20,72,124,176],Pe=["Harp","Guitar","Trumpet","Bagpipes"],ut=300/450;let W=[],T=null,H=[],A=0,Xe=[];function mt(){Xe.forEach(clearTimeout),Xe=[]}function Ke(){H.forEach((e,t)=>{W[e].style.top=`${Ae[t]}px`}),W.forEach((e,t)=>e.classList.toggle("is-focus",t===H[A])),T&&(T.style.top=`${Ae[A]+2}px`,T.children[0].classList.toggle("off",A<=0),T.children[1].classList.toggle("off",A>=Ae.length-1))}function oi(e){const t=A+e;t<0||t>=Ae.length||([H[A],H[t]]=[H[t],H[A]],A=t,Ke())}function Ue(e,t,i){const a=(r,n,o)=>`
+.preview-si-reorder .preview-si-arrows i.up { border-bottom: 11px solid ${p.goldHi}; }
+.preview-si-reorder .preview-si-arrows i.dn { border-top: 11px solid ${p.goldHi}; }
+.preview-si-reorder .preview-si-arrows i.up.off { border-bottom-color: ${p.lav}; }
+.preview-si-reorder .preview-si-arrows i.dn.off { border-top-color: ${p.lav}; }
+`,Se=[20,72,124,176],He=["Harp","Guitar","Trumpet","Bagpipes"],st=300/450;let P=[],F=null,B=[],T=0,Ge=[];function lt(){Ge.forEach(clearTimeout),Ge=[]}function Ue(){B.forEach((e,t)=>{P[e].style.top=`${Se[t]}px`}),P.forEach((e,t)=>e.classList.toggle("is-focus",t===B[T])),F&&(F.style.top=`${Se[T]+2}px`,F.children[0].classList.toggle("off",T<=0),F.children[1].classList.toggle("off",T>=Se.length-1))}function Jt(e){const t=T+e;t<0||t>=Se.length||([B[T],B[t]]=[B[t],B[T]],T=t,Ue())}function Ne(e,t,i){const a=(r,o,n)=>`
     <div style="
-      position:absolute;left:10px;top:${n}px;width:120px;height:24px;box-sizing:border-box;
+      position:absolute;left:10px;top:${o}px;width:120px;height:24px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;border-radius:999px;
-      background:${f.chipBg};border:${o?`2.5px solid ${f.gold}`:"1.5px solid #fff"};
-      box-shadow:${o?"0 0 8px rgba(255,200,0,0.45),":""}0 2px 4px rgba(0,0,0,0.4);
-      color:${f.ink};font-family:${f.font};font-weight:600;font-size:9px;text-transform:uppercase;
-      z-index:${o?2:1};
+      background:${p.chipBg};border:${n?`2.5px solid ${p.gold}`:"1.5px solid #fff"};
+      box-shadow:${n?"0 0 8px rgba(255,200,0,0.45),":""}0 2px 4px rgba(0,0,0,0.4);
+      color:${p.ink};font-family:${p.font};font-weight:600;font-size:9px;text-transform:uppercase;
+      z-index:${n?2:1};
     ">${r}</div>`;e.innerHTML=`
     <div style="position:relative;width:160px;height:58px;">
       ${a("Guitar",t[1],!1)}
       ${a("Harp",t[0],!0)}
-      <div style="position:absolute;left:138px;top:${i}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:7px solid ${f.goldHi};"></div>
-      <div style="position:absolute;left:138px;top:${i+15}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid ${f.goldHi};"></div>
-    </div>`}const ni={id:"si-reorder",title:"Block Swap",game:"Stack It",description:"While the timer runs, the player can pick up a block and move it with ▲ ▼. Each press swaps the block with its neighbour: both blocks glide past each other at the same time, and the ▲ ▼ arrows follow a bit faster. An arrow turns lavender at the top or bottom of the stack.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked up",sublabel:"slot 1 · gold ring · ▲▼",render:e=>Ue(e,[4,32],6)},{label:"Crossing",sublabel:"~40% · blocks pass each other",render:e=>Ue(e,[26,10],26)},{label:"Swapped",sublabel:"100% · slot 2 · arrows land at 67%",render:e=>Ue(e,[32,4],34)}],render(e){return m("css-si-base",ae),m("css-si-reorder",ai),e.innerHTML=`
+      <div style="position:absolute;left:138px;top:${i}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:7px solid ${p.goldHi};"></div>
+      <div style="position:absolute;left:138px;top:${i+15}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid ${p.goldHi};"></div>
+    </div>`}const Zt={id:"si-reorder",title:"Block Swap",game:"Stack It",description:"While the timer runs, the player can pick up a block and move it with ▲ ▼. Each press swaps the block with its neighbour: both blocks glide past each other at the same time, and the ▲ ▼ arrows follow a bit faster. An arrow turns lavender at the top or bottom of the stack.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked up",sublabel:"slot 1 · gold ring · ▲▼",render:e=>Ne(e,[4,32],6)},{label:"Crossing",sublabel:"~40% · blocks pass each other",render:e=>Ne(e,[26,10],26)},{label:"Swapped",sublabel:"100% · slot 2 · arrows land at 67%",render:e=>Ne(e,[32,4],34)}],render(e){return m("css-si-base",de),m("css-si-reorder",Qt),e.innerHTML=`
       <div class="preview-si-board preview-si-reorder">
-        ${Pe.map(t=>`<div class="preview-si-chip">${t}</div>`).join("")}
+        ${He.map(t=>`<div class="preview-si-chip">${t}</div>`).join("")}
         <div class="preview-si-arrows"><i class="up"></i><i class="dn"></i></div>
       </div>
-    `,W=Array.from(e.querySelectorAll(".preview-si-chip")),T=e.querySelector(".preview-si-arrows"),H=Pe.map((t,i)=>i),A=0,Ke(),()=>{mt(),e.innerHTML="",W=[],T=null}},play({duration:e,easing:t}){if(!W.length||!T)return;mt();const i=b(t.bezier);W.forEach(r=>{r.style.transition="none"}),T.style.transition="none",H=Pe.map((r,n)=>n),A=0,Ke(),T.offsetWidth,W.forEach(r=>{r.style.transition=`top ${e}ms ${i}, border-color 200ms, box-shadow 200ms`}),T.style.transition=`top ${Math.round(e*ut)}ms ease`;const a=e+350;[1,1,-1].forEach((r,n)=>{Xe.push(window.setTimeout(()=>oi(r),150+n*a))})},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2),s=Math.round(e*ut),c=b(t.bezier),l=xt(t);return{web:`/* StackItOverlay.css
+    `,P=Array.from(e.querySelectorAll(".preview-si-chip")),F=e.querySelector(".preview-si-arrows"),B=He.map((t,i)=>i),T=0,Ue(),()=>{lt(),e.innerHTML="",P=[],F=null}},play({duration:e,easing:t}){if(!P.length||!F)return;lt();const i=h(t.bezier);P.forEach(r=>{r.style.transition="none"}),F.style.transition="none",B=He.map((r,o)=>o),T=0,Ue(),F.offsetWidth,P.forEach(r=>{r.style.transition=`top ${e}ms ${i}, border-color 200ms, box-shadow 200ms`}),F.style.transition=`top ${Math.round(e*st)}ms ease`;const a=e+350;[1,1,-1].forEach((r,o)=>{Ge.push(window.setTimeout(()=>Jt(r),150+o*a))})},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=Math.round(e*st),c=h(t.bezier),s=ut(t);return{web:`/* StackItOverlay.css
    Swap = exchange the two blocks' slot indices and re-write their "top".
    Both blocks transition at once, so they glide past each other. */
 .si-chip {
@@ -2054,7 +2054,7 @@ Acceptance criteria:
 }
 .si-chip--moving { z-index: 4; } /* picked-up block passes over its neighbour */
 
-.si-arrows { position: absolute; transition: top ${s}ms ease; }
+.si-arrows { position: absolute; transition: top ${d}ms ease; }
 
 // StackIt.ts
 function moveBlock(dir: -1 | 1) {
@@ -2066,7 +2066,7 @@ function moveBlock(dir: -1 | 1) {
 }`,android:`// Jetpack Compose — Android TV
 @Composable
 fun StackColumn(order: List<String>, picked: Int, slotTops: List<Dp>) {
-    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)
+    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
     Box {
         order.forEachIndexed { slot, answer ->
             key(answer) {   // stable key → each block animates to its new slot
@@ -2077,7 +2077,7 @@ fun StackColumn(order: List<String>, picked: Int, slotTops: List<Dp>) {
                 )
             }
         }
-        val arrowY by animateDpAsState(slotTops[picked], tween(${s}), label = "arrows")
+        val arrowY by animateDpAsState(slotTops[picked], tween(${d}), label = "arrows")
         MoveArrows(Modifier.offset(y = arrowY), upEnabled = picked > 0, downEnabled = picked < 5)
     }
 }`,ios:`// SwiftUI — tvOS
@@ -2095,9 +2095,9 @@ struct StackColumn: View {
             }
             MoveArrows(upEnabled: picked > 0, downEnabled: picked < 5)
                 .offset(y: slotTops[picked])
-                .animation(.easeInOut(duration: ${(s/1e3).toFixed(2)}), value: picked)
+                .animation(.easeInOut(duration: ${(d/1e3).toFixed(2)}), value: picked)
         }
-        .animation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}), value: order)
+        .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: order)
     }
 }`,roku:`' Roku SceneGraph — StackColumn.brs
 ' One Animation with two interpolators: picked block and its neighbour swap Y.
@@ -2108,15 +2108,15 @@ sub moveBlock(dir as integer)
   m.blocks[m.sel] = b : m.blocks[toSlot] = a
 
   anim = createObject("roSGNode", "Animation")
-  anim.duration = ${o}
-  anim.easeFunction = "${l.name}"   ' ${l.note||"matches catalog preset"}
+  anim.duration = ${n}
+  anim.easeFunction = "${s.name}"   ' ${s.note||"matches catalog preset"}
   anim.appendChild(slideTo(a, m.slotY[toSlot]))
   anim.appendChild(slideTo(b, m.slotY[m.sel]))
   m.top.appendChild(anim)
   anim.control = "start"
 
   m.sel = toSlot
-  m.arrowAnim.duration = ${(s/1e3).toFixed(2)}
+  m.arrowAnim.duration = ${(d/1e3).toFixed(2)}
   m.arrowMove.keyValue = [ m.arrows.translation, [m.arrows.translation[0], m.slotY[toSlot]] ]
   m.arrowAnim.control = "start"
 end sub
@@ -2145,122 +2145,10 @@ Timings:
 Acceptance criteria:
   · Holding ▼ retargets smoothly — no block snaps to a slot mid-move.
   · Only the two swapped blocks move; the rest of the stack stays still.
-  · When the timer hits 0:00 during a move, the current order is what gets scored.`}},si=`
-.preview-si-clock { width: 320px; height: 150px; display: flex; align-items: center; justify-content: center; }
-.preview-si-clock__value {
-  font-weight: 600; font-size: 64px; line-height: 1; color: #fff;
-  font-variant-numeric: tabular-nums;
-  transition: color 200ms;
-}
-.preview-si-clock__value.is-low { color: #ffd5d5; }
-@keyframes si-clock-pulse { 50% { transform: scale(1.08); } }
-`,bt=13,li=10;let F=null,Ie;function ht(e){return`${Math.floor(e/60)}:${String(e%60).padStart(2,"0")}`}function We(){Ie!==void 0&&(clearInterval(Ie),Ie=void 0)}function Ce(e,t,i,a){e.innerHTML=`
-    <div style="
-      font-family:${f.font};font-weight:600;font-size:32px;line-height:1;
-      color:${i?"#ffd5d5":"#fff"};font-variant-numeric:tabular-nums;
-      transform:scale(${a});
-    ">${t}</div>
-  `}const ci={id:"si-clock-pulse",title:"Timer Low Pulse",game:"Stack It",description:"The round clock at the top of the screen counts down from 1:00. In the last 10 seconds the digits turn pale red and breathe: they scale up to 108 % and back once per second. At 0:00 the pulse stops and the results screen opens.",defaults:{duration:1e3,easingId:"ease-in-out"},slowFactor:2,frames:[{label:"Normal",sublabel:"> 0:10 · white · no motion",render:e=>Ce(e,"0:24",!1,1)},{label:"Low",sublabel:"≤ 0:10 · #FFD5D5 · scale 1",render:e=>Ce(e,"0:09",!0,1)},{label:"Peak",sublabel:"50% of cycle · scale 1.08",render:e=>Ce(e,"0:09",!0,1.08)},{label:"Time up",sublabel:"0:00 · pulse stops",render:e=>Ce(e,"0:00",!1,1)}],render(e){return m("css-si-base",ae),m("css-si-clock",si),e.innerHTML=`
-      <div class="preview-si-board preview-si-clock">
-        <div class="preview-si-clock__value">${ht(bt)}</div>
-      </div>
-    `,F=e.querySelector(".preview-si-clock__value"),()=>{We(),e.innerHTML="",F=null}},play({duration:e,easing:t}){if(!F)return;We();const i=b(t.bezier);let a=bt;const r=()=>{if(!F)return;F.textContent=ht(a);const n=a<=li&&a>0;n!==F.classList.contains("is-low")&&(F.classList.toggle("is-low",n),F.style.animation=n?`si-clock-pulse ${e}ms ${i} infinite`:"none")};F.classList.remove("is-low"),F.style.animation="none",r(),Ie=window.setInterval(()=>{a-=1,r(),a<=0&&We()},1e3)},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2),s=(e/2e3).toFixed(2),c=b(t.bezier);return{web:`/* StackItOverlay.css */
-.si-clock {
-  position: absolute; left: 50.45%; top: 7.4%;
-  transform: translate(-50%, -50%);
-  font-weight: 600; font-size: 4cqw; color: #fff;
-  font-variant-numeric: tabular-nums;
-}
-/* Added while 0 < secondsLeft <= 10 */
-.si-clock--low {
-  color: #ffd5d5;
-  animation: si-clock-pulse ${e}ms ${c} infinite;
-}
-/* Keep the centering translate inside the keyframe */
-@keyframes si-clock-pulse {
-  50% { transform: translate(-50%, -50%) scale(1.08); }
-}
-@media (prefers-reduced-motion: reduce) { .si-clock--low { animation: none; } }`,android:`// Jetpack Compose — Android TV
-@Composable
-fun RoundClock(secondsLeft: Int) {
-    val low = secondsLeft in 1..10
-    val pulse by rememberInfiniteTransition(label = "pulse").animateFloat(
-        initialValue = 1f, targetValue = 1.08f,
-        animationSpec = infiniteRepeatable(
-            tween(${Math.round(e/2)}, easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)),
-            RepeatMode.Reverse
-        ), label = "scale"
-    )
-    val scale = if (low) pulse else 1f
-    Text(
-        "%d:%02d".format(secondsLeft / 60, secondsLeft % 60),
-        color = if (low) Color(0xFFFFD5D5) else Color.White,
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.graphicsLayer { scaleX = scale; scaleY = scale }
-    )
-}`,ios:`// SwiftUI — tvOS
-struct RoundClock: View {
-    let secondsLeft: Int
-    @State private var pulse = false
-    var low: Bool { (1...10).contains(secondsLeft) }
-
-    var body: some View {
-        Text(String(format: "%d:%02d", secondsLeft / 60, secondsLeft % 60))
-            .font(.custom("Rubik-SemiBold", size: 64)).monospacedDigit()
-            .foregroundColor(low ? Color(red: 1, green: 0.84, blue: 0.84) : .white)
-            .scaleEffect(low && pulse ? 1.08 : 1)
-            .animation(low ? .timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${s}).repeatForever(autoreverses: true)
-                           : .default, value: pulse)
-            .onChange(of: low) { pulse = $0 }
-    }
-}`,roku:`<!-- Roku SceneGraph — components/RoundClock.xml -->
-<component name="RoundClock" extends="Group">
-  <interface>
-    <field id="secondsLeft" type="integer" onChange="onTick" />
-  </interface>
-  <children>
-    <Label id="value" font="font:LargeBoldSystemFont" horizAlign="center" />
-    <Animation id="pulse" duration="${o}" repeat="true" easeFunction="inOutQuad">
-      <Vector2DFieldInterpolator fieldToInterp="value.scale"
-        key="[0, 0.5, 1]" keyValue="[[1,1], [1.08,1.08], [1,1]]" />
-    </Animation>
-  </children>
-  <script type="text/brightscript">
-    sub onTick()
-      s = m.top.secondsLeft
-      lbl = m.top.findNode("value")
-      lbl.text = (s \\ 60).toStr() + ":" + Right("0" + (s MOD 60).toStr(), 2)
-      low = s > 0 and s <= 10
-      pulse = m.top.findNode("pulse")
-      if low then
-        lbl.color = "0xFFD5D5FF"
-        if pulse.state <> "running" then pulse.control = "start"
-      else
-        lbl.color = "0xFFFFFFFF"
-        pulse.control = "stop"
-        lbl.scale = [1, 1]
-      end if
-    end sub
-  <\/script>
-</component>`}},pmTicket(){return`Title: Stack It — Round clock "last 10 seconds" pulse
-
-Trigger: round timer (60 s per round) reaches 0:10.
-
-Visual behavior:
-  · Clock digits change from white to pale red (#FFD5D5).
-  · Digits pulse continuously: scale 1 → 1.08 → 1, one cycle per second, anchored at the clock centre.
-  · At 0:00 the pulse stops, digits return to white, and the results screen fades in.
-
-Timings:
-  · Pulse cycle: 1000 ms, ease-in-out, infinite (peak at 50%).
-  · Countdown updates every second (tabular digits — no width jitter).
-
-Acceptance criteria:
-  · Pulse starts exactly at 0:10 and runs through 0:01.
-  · Pressing "End timer" / time-out stops the pulse immediately.
-  · Reduced-motion setting: colour change only, no scaling.`}},di=`
+  · When the timer hits 0:00 during a move, the current order is what gets scored.`}},ei=`
 .preview-si-results { width: 600px; height: 330px; }
 .preview-si-results__screen { position: absolute; inset: 0; opacity: 0; }
+.preview-si-results__show { position: absolute; left: 0; top: 0; width: 396px; height: 290px; opacity: .55; }
 .preview-si-results__head {
   position: absolute; top: 12px; width: 180px; text-align: center;
   font-weight: 700; font-size: 14px; color: #c3e1ff; text-shadow: 0 2px 4px #070d3a;
@@ -2274,170 +2162,165 @@ Acceptance criteria:
 }
 .preview-si-results__cell.su,
 .preview-si-results__cell.key { background: rgba(30,44,140,0.75); }
-.preview-si-results__cell.su { border: 3px solid transparent; }
-.preview-si-results__cell.su.match { border-color: ${f.win}; box-shadow: 0 0 10px #7bff3c88, inset 0 0 6px #7bff3c55; }
-.preview-si-results__cell.su.miss  { border-color: ${f.miss}; box-shadow: 0 0 10px #ff2a2a88, inset 0 0 6px #ff2a2a55; }
-.preview-si-results__cell.mine { background: ${f.mine}; border: 4px solid #fff; }
+.preview-si-results__cell.mine { background: ${p.mine}; border: 4px solid #fff; }
 .preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(20px); }
-.preview-si-results__cell.mine.match { border-color: ${f.win}; box-shadow: 0 0 10px #7bff3c66; }
-.preview-si-results__cell.mine.miss  { border-color: ${f.miss}; box-shadow: 0 0 10px #ff2a2a66; }
+.preview-si-results__cell.mine.match { border-color: ${p.win}; box-shadow: 0 0 10px #7bff3c66; }
+.preview-si-results__cell.mine.miss  { border-color: ${p.miss}; box-shadow: 0 0 10px #ff2a2a66; }
 .preview-si-results__count {
   position: absolute; left: 50%; top: 298px; transform: translateX(-50%);
   font-weight: 700; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; color: #fff;
   white-space: nowrap; opacity: 0;
 }
 .preview-si-results__count b { color: #f2c230; }
-`,re=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet","Harp","Bagpipes"],Le=["Piano/Keyboard","Guitar","Violin/Fiddle","Trumpet","Bagpipes","Harp"],Re=["Guitar","Piano/Keyboard","Trumpet","Violin/Fiddle","Harp","Bagpipes"],K={su:16,key:210,mine:404},pi=e=>44+e*41,d={screenFade:500,suStart:500,mineStart:700,stagger:350,step:350,countFade:400};let E=null,Q=[],J=[],M=null,me=[];function gt(){me.forEach(clearTimeout),me=[]}function _e(e,t){const i=(r,n,o,s="")=>`
-    <div style="height:12px;border-radius:999px;background:${r};border:${n};box-sizing:border-box;
-      font:600 6px ${f.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${s}">${o}</div>`,a=[0,1,2].map(r=>{const n=r<t.su?`1.5px solid ${Le[r]===re[r]?f.win:f.miss}`:"1.5px solid transparent",o=r<t.mine,s=o?`1.5px solid ${Re[r]===re[r]?f.win:f.miss}`:"1.5px solid #fff";return`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
-      ${i("rgba(30,44,140,0.75)",n,Le[r])}
-      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",re[r])}
-      ${i(f.mine,s,Re[r],o?"":"opacity:0;transform:translateX(6px);")}
+`,Ce=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet","Harp","Bagpipes"],ht=["Piano/Keyboard","Guitar","Violin/Fiddle","Trumpet","Bagpipes","Harp"],Fe=["Guitar","Piano/Keyboard","Trumpet","Violin/Fiddle","Harp","Bagpipes"],X={su:16,key:210,mine:404},ti=e=>44+e*41,f={screenFade:500,mineStart:700,stagger:350,step:350,countFade:400};let O=null,K=[],E=null,Te=[];function ct(){Te.forEach(clearTimeout),Te=[]}function xe(e,t){const i=(r,o,n,d="")=>`
+    <div style="height:12px;border-radius:999px;background:${r};border:${o};box-sizing:border-box;
+      font:600 6px ${p.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${d}">${n}</div>`,a=[0,1,2].map(r=>{const o=r<t.mine,n=o?`1.5px solid ${Fe[r]===Ce[r]?p.win:p.miss}`:"1.5px solid #fff";return`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",ht[r],"opacity:.45;")}
+      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",Ce[r],"opacity:.45;")}
+      ${i(p.mine,n,Fe[r],o?"":"opacity:0;transform:translateX(6px);")}
     </div>`}).join("");e.innerHTML=`
     <div style="width:170px;display:flex;flex-direction:column;gap:3px;opacity:${t.screen};">
       ${a}
-      <div style="font:700 7px ${f.font};color:#fff;text-align:center;text-transform:uppercase;opacity:${t.count?1:0};">
+      <div style="font:700 7px ${p.font};color:#fff;text-align:center;text-transform:uppercase;opacity:${t.count?1:0};">
         <b style="color:#f2c230">4 of 6</b> in the right spot</div>
-    </div>`}const fi={id:"si-results-reveal",title:"Results Reveal",game:"Stack It",description:'At 0:00 the results screen fades in with three columns: Su’s stack, the correct stack and the player’s stack. Row by row, top to bottom, Su’s answers get a green (right slot) or red (wrong slot) ring, and the player’s blocks slide in from the right with their own green/red ring. The "N of 6 in the right spot" line fades in last.',defaults:{duration:350,easingId:"ease"},slowFactor:3,frames:[{label:"Fade in",sublabel:"0–500 ms · screen opacity 0 → 1",render:e=>_e(e,{screen:.5,su:0,mine:0,count:!1})},{label:"Row 1",sublabel:"500 ms Su ring · 700 ms yours slides",render:e=>_e(e,{screen:1,su:1,mine:1,count:!1})},{label:"Cascade",sublabel:"+350 ms per row",render:e=>_e(e,{screen:1,su:3,mine:2,count:!1})},{label:"Count",sublabel:"2800 ms · score line fades in",render:e=>_e(e,{screen:1,su:3,mine:3,count:!0})}],render(e){m("css-si-base",ae),m("css-si-results",di);const t=(i,a,r)=>r.map((n,o)=>`<div class="preview-si-results__cell ${i}" style="left:${a}px;top:${pi(o)}px">${n}</div>`).join("");return e.innerHTML=`
+    </div>`}const ii={id:"si-results-reveal",title:"Results Reveal",game:"Stack It",description:'At 0:00 the results screen fades in. Su’s stack and the correct stack are part of the show video (the show rings Su’s answers green / red itself), so only YOUR STACK is ours: row by row, top to bottom, the player’s blocks slide in from the right with a green (right slot) or red (wrong slot) ring. The "N of 6 in the right spot" line fades in last.',defaults:{duration:350,easingId:"ease"},slowFactor:3,frames:[{label:"Fade in",sublabel:"0–500 ms · screen opacity 0 → 1",render:e=>xe(e,{screen:.5,mine:0,count:!1})},{label:"Row 1",sublabel:"700 ms · slide in + ring",render:e=>xe(e,{screen:1,mine:1,count:!1})},{label:"Cascade",sublabel:"+350 ms per row",render:e=>xe(e,{screen:1,mine:2,count:!1})},{label:"Count",sublabel:"2800 ms · score line fades in",render:e=>xe(e,{screen:1,mine:3,count:!0})}],render(e){m("css-si-base",de),m("css-si-results",ei);const t=(i,a,r)=>r.map((o,n)=>`<div class="preview-si-results__cell ${i}" style="left:${a}px;top:${ti(n)}px">${o}</div>`).join("");return e.innerHTML=`
       <div class="preview-si-board preview-si-results">
         <div class="preview-si-results__screen">
-          <div class="preview-si-results__head" style="left:${K.su}px">SU’S STACK</div>
-          <div class="preview-si-results__head" style="left:${K.key}px">CORRECT STACK</div>
-          <div class="preview-si-results__head" style="left:${K.mine}px">YOUR STACK</div>
-          ${t("su",K.su,Le)}
-          ${t("key",K.key,re)}
-          ${t("mine hide",K.mine,Re)}
+          <div class="preview-si-results__show">
+            <div class="preview-si-results__head" style="left:${X.su}px">SU’S STACK</div>
+            <div class="preview-si-results__head" style="left:${X.key}px">CORRECT STACK</div>
+            ${t("su",X.su,ht)}
+            ${t("key",X.key,Ce)}
+          </div>
+          <div class="preview-si-results__head" style="left:${X.mine}px">YOUR STACK</div>
+          ${t("mine hide",X.mine,Fe)}
           <div class="preview-si-results__count"><b>4 of 6</b> in the right spot</div>
         </div>
       </div>
-    `,E=e.querySelector(".preview-si-results__screen"),Q=Array.from(e.querySelectorAll(".preview-si-results__cell.su")),J=Array.from(e.querySelectorAll(".preview-si-results__cell.mine")),M=e.querySelector(".preview-si-results__count"),()=>{gt(),e.innerHTML="",E=null,Q=[],J=[],M=null}},play({duration:e,easing:t}){if(!E||!M)return;gt();const i=b(t.bezier),a=e/d.step,r=o=>Math.round(o*a);[E,M,...Q,...J].forEach(o=>{o.style.transition="none"}),E.style.opacity="0",M.style.opacity="0",Q.forEach(o=>o.classList.remove("match","miss")),J.forEach(o=>{o.classList.remove("match","miss"),o.classList.add("hide")}),E.offsetWidth,E.style.transition=`opacity ${r(d.screenFade)}ms ${i}`,M.style.transition=`opacity ${r(d.countFade)}ms ${i}`,Q.forEach(o=>{o.style.transition=`border-color ${e}ms ${i}, box-shadow ${e}ms ${i}`}),J.forEach(o=>{o.style.transition=["opacity","transform","border-color","box-shadow"].map(s=>`${s} ${e}ms ${i}`).join(", ")}),E.style.opacity="1",Q.forEach((o,s)=>me.push(window.setTimeout(()=>{o.classList.add(Le[s]===re[s]?"match":"miss")},r(d.suStart+s*d.stagger)))),J.forEach((o,s)=>me.push(window.setTimeout(()=>{o.classList.remove("hide"),o.classList.add(Re[s]===re[s]?"match":"miss")},r(d.mineStart+s*d.stagger)))),me.push(window.setTimeout(()=>{M&&(M.style.opacity="1")},r(d.mineStart+6*d.stagger)))},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=b(t.bezier),s=e/d.step,c=u=>Math.round(u*s),l=u=>(c(u)/1e3).toFixed(2);return{web:`/* StackItResults.css */
-.si-screen        { opacity: 0; transition: opacity ${c(d.screenFade)}ms ${o}; pointer-events: none; }
+    `,O=e.querySelector(".preview-si-results__screen"),K=Array.from(e.querySelectorAll(".preview-si-results__cell.mine")),E=e.querySelector(".preview-si-results__count"),()=>{ct(),e.innerHTML="",O=null,K=[],E=null}},play({duration:e,easing:t}){if(!O||!E)return;ct();const i=h(t.bezier),a=e/f.step,r=o=>Math.round(o*a);[O,E,...K].forEach(o=>{o.style.transition="none"}),O.style.opacity="0",E.style.opacity="0",K.forEach(o=>{o.classList.remove("match","miss"),o.classList.add("hide")}),O.offsetWidth,O.style.transition=`opacity ${r(f.screenFade)}ms ${i}`,E.style.transition=`opacity ${r(f.countFade)}ms ${i}`,K.forEach(o=>{o.style.transition=["opacity","transform","border-color","box-shadow"].map(n=>`${n} ${e}ms ${i}`).join(", ")}),O.style.opacity="1",K.forEach((o,n)=>Te.push(window.setTimeout(()=>{o.classList.remove("hide"),o.classList.add(Fe[n]===Ce[n]?"match":"miss")},r(f.mineStart+n*f.stagger)))),Te.push(window.setTimeout(()=>{E&&(E.style.opacity="1")},r(f.mineStart+6*f.stagger)))},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=h(t.bezier),d=e/f.step,c=u=>Math.round(u*d),s=u=>(c(u)/1e3).toFixed(2);return{web:`/* StackItResults.css — only YOUR STACK is ours; Su's column comes from the show video. */
+.si-screen        { opacity: 0; transition: opacity ${c(f.screenFade)}ms ${n}; pointer-events: none; }
 .si-screen--show  { opacity: 1; pointer-events: auto; }
 
-.si-su            { border: .5cqw solid transparent; border-radius: 999px;
-                    transition: border-color ${e}ms ${o}, box-shadow ${e}ms ${o}; }
-.si-su--match     { border-color: ${f.win};  box-shadow: 0 0 1cqw #7bff3c88, inset 0 0 .6cqw #7bff3c55; }
-.si-su--miss      { border-color: ${f.miss}; box-shadow: 0 0 1cqw #ff2a2a88, inset 0 0 .6cqw #ff2a2a55; }
-
-.si-mine          { background: ${f.mine}; border: .63cqw solid #fff; border-radius: 999px;
-                    transition: opacity ${e}ms ${o}, transform ${e}ms ${o}, border-color ${e}ms ${o}; }
+.si-mine          { background: ${p.mine}; border: .63cqw solid #fff; border-radius: 999px;
+                    transition: opacity ${e}ms ${n}, transform ${e}ms ${n},
+                                border-color ${e}ms ${n}, box-shadow ${e}ms ${n}; }
 .si-mine--hide    { opacity: 0; transform: translateX(2cqw); }
-.si-mine--match   { border-color: ${f.win};  box-shadow: 0 0 1cqw #7bff3c66; }
-.si-mine--miss    { border-color: ${f.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
+.si-mine--match   { border-color: ${p.win};  box-shadow: 0 0 1cqw #7bff3c66; }
+.si-mine--miss    { border-color: ${p.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
 
-.si-count         { opacity: 0; transition: opacity ${c(d.countFade)}ms ${o}; }
+.si-count         { opacity: 0; transition: opacity ${c(f.countFade)}ms ${n}; }
 .si-count--on     { opacity: 1; }
 
-// StackItResults.ts — staggered reveal
+// StackItResults.ts — staggered reveal (synced to the show ringing Su's rows)
 screen.classList.add('si-screen--show');
 for (let r = 0; r < 6; r++) {
-  later(() => su[r].classList.add(suStack[r] === key[r] ? 'si-su--match' : 'si-su--miss'), ${c(d.suStart)} + r * ${c(d.stagger)});
   later(() => {
     mine[r].classList.remove('si-mine--hide');
     if (yours[r]) mine[r].classList.add(yours[r] === key[r] ? 'si-mine--match' : 'si-mine--miss');
-  }, ${c(d.mineStart)} + r * ${c(d.stagger)});
+  }, ${c(f.mineStart)} + r * ${c(f.stagger)});
 }
-later(() => count.classList.add('si-count--on'), ${c(d.mineStart+6*d.stagger)});
-later(showRoundComplete, ${c(d.mineStart+6*d.stagger)} + 3000);`,android:`// Jetpack Compose — Android TV
+later(() => count.classList.add('si-count--on'), ${c(f.mineStart+6*f.stagger)});
+later(showRoundComplete, ${c(f.mineStart+6*f.stagger)} + 3000);`,android:`// Jetpack Compose — Android TV
 @Composable
-fun ResultsReveal(su: List<String>, key: List<String>, yours: List<String?>, onDone: () -> Unit) {
-    val ez = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)
-    var step by remember { mutableIntStateOf(-1) }   // ms elapsed bucket
+fun YourStackReveal(key: List<String>, yours: List<String?>, onDone: () -> Unit) {
+    val ez = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    var elapsed by remember { mutableIntStateOf(-1) }
     LaunchedEffect(Unit) {
         val start = withFrameMillis { it }
         while (true) {
-            step = (withFrameMillis { it } - start).toInt()
-            if (step > ${c(d.mineStart+6*d.stagger)} + 3000) { onDone(); break }
+            elapsed = (withFrameMillis { it } - start).toInt()
+            if (elapsed > ${c(f.mineStart+6*f.stagger)} + 3000) { onDone(); break }
         }
     }
-    val screenAlpha by animateFloatAsState(if (step >= 0) 1f else 0f, tween(${c(d.screenFade)}, easing = ez), label = "screen")
-    Box(Modifier.alpha(screenAlpha)) {
+    val screenAlpha by animateFloatAsState(if (elapsed >= 0) 1f else 0f, tween(${c(f.screenFade)}, easing = ez), label = "screen")
+    Column(Modifier.alpha(screenAlpha)) {
         repeat(6) { r ->
-            val suOn = step >= ${c(d.suStart)} + r * ${c(d.stagger)}
-            val mineOn = step >= ${c(d.mineStart)} + r * ${c(d.stagger)}
-            val suRing by animateColorAsState(
-                when { !suOn -> Color.Transparent; su[r] == key[r] -> Color(0xFF7BFF3C); else -> Color(0xFFFF2A2A) },
-                tween(${e}, easing = ez), label = "su$r")
-            val mineAlpha by animateFloatAsState(if (mineOn) 1f else 0f, tween(${e}, easing = ez), label = "ma$r")
-            val mineDx by animateDpAsState(if (mineOn) 0.dp else 24.dp, tween(${e}, easing = ez), label = "mx$r")
-            ResultRow(r, suRing, mineAlpha, mineDx, su[r], key[r], yours[r])
+            val on = elapsed >= ${c(f.mineStart)} + r * ${c(f.stagger)}
+            val alpha by animateFloatAsState(if (on) 1f else 0f, tween(${e}, easing = ez), label = "a$r")
+            val dx by animateDpAsState(if (on) 0.dp else 24.dp, tween(${e}, easing = ez), label = "x$r")
+            val ring by animateColorAsState(
+                when { !on || yours[r] == null -> Color.White; yours[r] == key[r] -> Color(0xFF7BFF3C); else -> Color(0xFFFF2A2A) },
+                tween(${e}, easing = ez), label = "r$r")
+            YourBlock(yours[r] ?: "—", ring, Modifier.alpha(alpha).offset(x = dx))
         }
-        val countOn = step >= ${c(d.mineStart+6*d.stagger)}
-        val countAlpha by animateFloatAsState(if (countOn) 1f else 0f, tween(${c(d.countFade)}), label = "count")
+        val countAlpha by animateFloatAsState(
+            if (elapsed >= ${c(f.mineStart+6*f.stagger)}) 1f else 0f, tween(${c(f.countFade)}), label = "count")
         CountLine(Modifier.alpha(countAlpha))
     }
 }`,ios:`// SwiftUI — tvOS
-struct ResultsReveal: View {
-    let su: [String], key: [String], yours: [String?]
+struct YourStackReveal: View {
+    let key: [String], yours: [String?]
     @State private var shown = false
-    @State private var suRows = 0
-    @State private var mineRows = 0
+    @State private var rows = 0
     @State private var countOn = false
-    private let curve = Animation.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${l(d.step)})
+    private let curve = Animation.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${s(f.step)})
 
     var body: some View {
-        ResultsGrid(su: su, key: key, yours: yours, suRows: suRows, mineRows: mineRows, countOn: countOn)
-            .opacity(shown ? 1 : 0)
-            .task {
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${l(d.screenFade)})) { shown = true }
-                for r in 0..<6 {
-                    after(${l(d.suStart)} + Double(r) * ${l(d.stagger)}) { withAnimation(curve) { suRows = r + 1 } }
-                    after(${l(d.mineStart)} + Double(r) * ${l(d.stagger)}) { withAnimation(curve) { mineRows = r + 1 } }
-                }
-                after(${l(d.mineStart+6*d.stagger)}) { withAnimation(.easeInOut(duration: ${l(d.countFade)})) { countOn = true } }
+        VStack {
+            ForEach(0..<6, id: \\.self) { r in
+                YourBlock(text: yours[r] ?? "—",
+                          ring: r < rows ? (yours[r] == key[r] ? .green : .red) : .white)
+                    .opacity(r < rows ? 1 : 0)
+                    .offset(x: r < rows ? 0 : 24)
             }
+            CountLine().opacity(countOn ? 1 : 0)
+        }
+        .opacity(shown ? 1 : 0)
+        .task {
+            withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${s(f.screenFade)})) { shown = true }
+            for r in 0..<6 {
+                after(${s(f.mineStart)} + Double(r) * ${s(f.stagger)}) { withAnimation(curve) { rows = r + 1 } }
+            }
+            after(${s(f.mineStart+6*f.stagger)}) { withAnimation(.easeInOut(duration: ${s(f.countFade)})) { countOn = true } }
+        }
     }
     private func after(_ s: Double, _ f: @escaping () -> Void) {
         DispatchQueue.main.asyncAfter(deadline: .now() + s, execute: f)
     }
-}
-// In ResultsGrid: mine row r → .opacity(r < mineRows ? 1 : 0).offset(x: r < mineRows ? 0 : 24)
-//                 su row r   → ring colour green/red when r < suRows, clear otherwise.`,roku:`' Roku SceneGraph — StackItResults.brs
-' Build one Animation per row; set its delay so rows cascade.
+}`,roku:`' Roku SceneGraph — StackItResults.brs
+' Only YOUR STACK is animated; Su's column is in the show video.
 sub revealResults()
-  m.top.findNode("screenFade").control = "start"     ' opacity 0 → 1, ${l(d.screenFade)} s
+  m.top.findNode("screenFade").control = "start"     ' opacity 0 → 1, ${s(f.screenFade)} s
   for r = 0 to 5
-    su = m.suRows[r]
-    su.findNode("ring").blendColor = iifColor(m.su[r] = m.key[r])
-    suAnim = fadeAnim(su.findNode("ring"), ${l(d.step)})
-    suAnim.delay = ${l(d.suStart)} + r * ${l(d.stagger)}
-    suAnim.control = "start"
-
     mine = m.mineRows[r]
-    mine.findNode("ring").blendColor = iifColor(m.yours[r] = m.key[r])
-    mineAnim = slideFadeAnim(mine, 24, ${l(d.step)})   ' translation x +24 → 0, opacity 0 → 1
-    mineAnim.delay = ${l(d.mineStart)} + r * ${l(d.stagger)}
-    mineAnim.control = "start"
+    if m.yours[r] <> invalid then mine.findNode("ring").blendColor = ringColor(m.yours[r] = m.key[r])
+    anim = slideFadeAnim(mine, 24, ${s(f.step)})   ' translation x +24 → 0, opacity 0 → 1
+    anim.delay = ${s(f.mineStart)} + r * ${s(f.stagger)}
+    anim.control = "start"
   end for
-  countAnim = fadeAnim(m.top.findNode("count"), ${l(d.countFade)})
-  countAnim.delay = ${l(d.mineStart+6*d.stagger)}
+  countAnim = fadeAnim(m.top.findNode("count"), ${s(f.countFade)})
+  countAnim.delay = ${s(f.mineStart+6*f.stagger)}
   countAnim.control = "start"
 end sub
 
-function iifColor(ok as boolean) as string
+function ringColor(ok as boolean) as string
   if ok then return "0x7BFF3CFF"
   return "0xFF2A2AFF"
-end function`}},pmTicket(){return`Title: Stack It — Results screen staggered reveal
+end function`}},pmTicket(){return`Title: Stack It — "Your stack" reveal on the results screen
 
 Trigger: round timer reaches 0:00 (or the host presses "End timer").
 
+Scope:
+  · SU’S STACK and CORRECT STACK are part of the show video — the show rings Su’s answers green / red itself. We do not animate them.
+  · We animate only the YOUR STACK column and the count line.
+
 Visual behavior:
-  · The results screen cross-fades over the game screen.
-  · Three columns: SU’S STACK (left), CORRECT STACK (centre, static), YOUR STACK (right).
-  · Row by row, top to bottom: Su’s answer gets a green ring (#7BFF3C, right slot) or red ring (#FF2A2A, wrong slot).
-  · 200 ms after Su’s ring, the player’s block in the same row slides in from the right (+2 cqw → 0) while fading in, with its own green/red ring. Empty slots show "—" without a ring.
+  · The results overlay fades in over the game screen.
+  · Row by row, top to bottom, the player’s block slides in from the right (+2 cqw → 0) while fading in, with a green ring (#7BFF3C, right slot) or red ring (#FF2A2A, wrong slot). Empty slots show "—" with no ring.
+  · Each row lands 200 ms after the show rings Su’s answer in the same row.
   · After the last row, "N of 6 in the right spot" fades in at the bottom (N in yellow #F2C230).
   · 3 s later the Round Complete screen appears automatically; OK skips ahead.
 
 Timings:
-  · Screen fade: 500 ms. Rings and block slide-in: 350 ms each.
-  · Su row r: 500 + 350·r ms. Your row r: 700 + 350·r ms.
+  · Overlay fade: 500 ms. Block slide-in + ring: 350 ms each.
+  · Your row r: 700 + 350·r ms after the results start.
   · Count line: at 2800 ms, 400 ms fade. Auto-advance: 5800 ms.
 
 Acceptance criteria:
+  · Our rows stay in sync with the show’s Su rings (start from the same 0:00 cue).
   · Scoring is final before the reveal starts — animation is presentational only.
-  · OK during the reveal jumps straight to Round Complete (no half-revealed state lingers).
-  · Reduced-motion setting: all rows appear at once with their rings.`}},Je="linear-gradient(90deg,#030308 0%,#030308 26%,#121a78 40%,#2a33dc 50%,#121a78 60%,#030308 74%,#030308 100%)",Ze="linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%)",G=500,v=200,U=300,V=1100,Z=2600,ui=`
+  · OK during the reveal jumps straight to Round Complete.
+  · Reduced-motion setting: all rows appear at once with their rings.`}},Ye="linear-gradient(90deg,#030308 0%,#030308 26%,#121a78 40%,#2a33dc 50%,#121a78 60%,#030308 74%,#030308 100%)",We="linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%)",D=500,v=200,U=300,M=1100,Q=2600,ri=`
 .preview-si-round { width: 600px; height: 280px; }
 .preview-si-round__under {
   position: absolute; inset: 0;
@@ -2453,7 +2336,7 @@ Acceptance criteria:
   border-radius: 8px; box-sizing: border-box; padding: 0 22px; overflow: hidden;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif; color: #fff;
-  background: ${Je};
+  background: ${Ye};
   opacity: 0;
 }
 .preview-si-round__side { font-weight: 600; font-size: 14px; letter-spacing: .03em; text-transform: uppercase; }
@@ -2463,10 +2346,10 @@ Acceptance criteria:
 .preview-si-round__sweep { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .preview-si-round__sweep::after {
   content: ''; position: absolute; top: 0; bottom: 0; left: -45%; width: 45%;
-  background: ${Ze};
+  background: ${We};
 }
 .preview-si-round__sweep.is-on::after {
-  animation: si-round-sweep ${V}ms cubic-bezier(0.4, 0, 0.2, 1) var(--sweep-delay, ${U}ms) both;
+  animation: si-round-sweep ${M}ms cubic-bezier(0.4, 0, 0.2, 1) var(--sweep-delay, ${U}ms) both;
 }
 @keyframes si-round-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
@@ -2480,20 +2363,20 @@ Acceptance criteria:
   0%, 100% { filter: brightness(1); }
   50%      { filter: brightness(1.3); }
 }
-`;let P=null,ee=null,te=null;function ue(e,t){const{mid:i="Round Complete!",round:a="1/3",score:r=4}=t;e.innerHTML=`
+`;let G=null,J=null,Z=null;function ce(e,t){const{mid:i="Round Complete!",round:a="1/3",score:r=4}=t;e.innerHTML=`
     <div style="
       position:relative;overflow:hidden;
       width:170px;height:30px;border-radius:4px;box-sizing:border-box;padding:0 6px;
       display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
       font-family:'Roboto Condensed','Arial Narrow',sans-serif;color:#fff;
-      background:${Je};
+      background:${Ye};
       transform:translateY(${t.y}px) scale(${t.scale});opacity:${t.opacity};
     ">
       <span style="font-size:7px;font-weight:600;text-transform:uppercase;">Round <b style="color:#f2c230">${a}</b></span>
       <span style="font-size:10px;font-weight:500;">${i}</span>
       <span style="font-size:7px;font-weight:600;text-transform:uppercase;text-align:right;">Score <b style="color:#f2c230">${r}</b></span>
-      ${t.sweep!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${t.sweep}%;background:${Ze};"></div>`:""}
-    </div>`}const mi={id:"si-round-complete",title:"Round Complete",game:"Stack It",description:'Three seconds after the results count appears, the Round Complete background fades over the results and the score bar drops in from above with a soft overshoot — the same banner motion as Family Feud. A light band sweeps across the bar once, then the bar keeps a slow brightness pulse. After the final round the centre reads "Game Complete!". The next round starts automatically after 6 s; OK skips ahead.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"bg fade 500 ms · bar hidden",render:e=>ue(e,{y:-14,scale:.94,opacity:.15,sweep:null})},{label:"Drop-in",sublabel:"+200 ms · translateY −40 → 0 · .94 → 1",render:e=>ue(e,{y:-6,scale:.97,opacity:.6,sweep:null})},{label:"Sweep",sublabel:"+300 ms · light band 1100 ms",render:e=>ue(e,{y:0,scale:1,opacity:1,sweep:30})},{label:"Idle",sublabel:"brightness pulse 2.6 s loop",render:e=>ue(e,{y:0,scale:1,opacity:1,sweep:null})},{label:"Final",sublabel:"round 3 · no auto-advance",render:e=>ue(e,{y:0,scale:1,opacity:1,sweep:null,mid:"Game Complete!",round:"3/3",score:39})}],render(e){return m("css-si-base",ae),m("css-si-round",ui),e.innerHTML=`
+      ${t.sweep!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${t.sweep}%;background:${We};"></div>`:""}
+    </div>`}const ai={id:"si-round-complete",title:"Round Complete",game:"Stack It",description:'Three seconds after the results count appears, the Round Complete background fades over the results and the score bar drops in from above with a soft overshoot — the same banner motion as Family Feud. A light band sweeps across the bar once, then the bar keeps a slow brightness pulse. After the final round the centre reads "Game Complete!". The next round starts automatically after 6 s; OK skips ahead.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"bg fade 500 ms · bar hidden",render:e=>ce(e,{y:-14,scale:.94,opacity:.15,sweep:null})},{label:"Drop-in",sublabel:"+200 ms · translateY −40 → 0 · .94 → 1",render:e=>ce(e,{y:-6,scale:.97,opacity:.6,sweep:null})},{label:"Sweep",sublabel:"+300 ms · light band 1100 ms",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:30})},{label:"Idle",sublabel:"brightness pulse 2.6 s loop",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:null})},{label:"Final",sublabel:"round 3 · no auto-advance",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:null,mid:"Game Complete!",round:"3/3",score:39})}],render(e){return m("css-si-base",de),m("css-si-round",ri),e.innerHTML=`
       <div class="preview-si-board preview-si-round">
         <div class="preview-si-round__under">results screen (mocked)</div>
         <div class="preview-si-round__screen">
@@ -2505,11 +2388,11 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,P=e.querySelector(".preview-si-round__screen"),ee=e.querySelector(".preview-si-round__bar"),te=e.querySelector(".preview-si-round__sweep"),()=>{e.innerHTML="",P=null,ee=null,te=null}},play({duration:e,easing:t}){if(!P||!ee||!te)return;const i=b(t.bezier);P.style.transition="none",P.style.opacity="0",ee.style.animation="none",te.classList.remove("is-on"),ee.offsetWidth,P.style.transition=`opacity ${G}ms ease`,P.style.opacity="1",ee.style.animation=`si-round-in ${e}ms ${i} ${v}ms both, si-round-pulse ${Z}ms ease-in-out ${v+e+V}ms infinite`,te.style.setProperty("--sweep-delay",`${v+U}ms`),te.classList.add("is-on")},snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2),s=b(t.bezier),c=v+e+V;return{web:`/* StackItOverlay.css — Round Complete screen (banner motion shared with Family Feud) */
+    `,G=e.querySelector(".preview-si-round__screen"),J=e.querySelector(".preview-si-round__bar"),Z=e.querySelector(".preview-si-round__sweep"),()=>{e.innerHTML="",G=null,J=null,Z=null}},play({duration:e,easing:t}){if(!G||!J||!Z)return;const i=h(t.bezier);G.style.transition="none",G.style.opacity="0",J.style.animation="none",Z.classList.remove("is-on"),J.offsetWidth,G.style.transition=`opacity ${D}ms ease`,G.style.opacity="1",J.style.animation=`si-round-in ${e}ms ${i} ${v}ms both, si-round-pulse ${Q}ms ease-in-out ${v+e+M}ms infinite`,Z.style.setProperty("--sweep-delay",`${v+U}ms`),Z.classList.add("is-on")},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier),c=v+e+M;return{web:`/* StackItOverlay.css — Round Complete screen (banner motion shared with Family Feud) */
 .si-screen {
   position: absolute; inset: 0; z-index: 10;
   opacity: 0; pointer-events: none;
-  transition: opacity ${G}ms;
+  transition: opacity ${D}ms;
 }
 .si-screen--show { opacity: 1; pointer-events: auto; }
 
@@ -2518,12 +2401,12 @@ Acceptance criteria:
   border-radius: .9cqw; padding: 0 2.4cqw; overflow: hidden;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   font-family: "Roboto Condensed", "Arial Narrow", sans-serif; color: #fff;
-  background: ${Je};
+  background: ${Ye};
 }
 .si-screen--show .si-round-bar {
   animation:
-    si-round-in    ${e}ms ${s} ${v}ms both,
-    si-round-pulse ${Z}ms ease-in-out ${c}ms infinite;
+    si-round-in    ${e}ms ${d} ${v}ms both,
+    si-round-pulse ${Q}ms ease-in-out ${c}ms infinite;
 }
 @keyframes si-round-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
@@ -2537,10 +2420,10 @@ Acceptance criteria:
 /* One-shot light band across the bar */
 .si-round-bar::after {
   content: ''; position: absolute; top: 0; bottom: 0; left: -45%; width: 45%;
-  background: ${Ze};
+  background: ${We};
 }
 .si-screen--show .si-round-bar::after {
-  animation: si-round-sweep ${V}ms cubic-bezier(0.4, 0, 0.2, 1) ${v+U}ms both;
+  animation: si-round-sweep ${M}ms cubic-bezier(0.4, 0, 0.2, 1) ${v+U}ms both;
 }
 @keyframes si-round-sweep { from { left: -45%; } to { left: 100%; } }
 
@@ -2553,8 +2436,8 @@ roundScreen.classList.add('si-screen--show');
 if (!isLastRound) later(nextRound, 6000);`,android:`// Jetpack Compose — Android TV
 @Composable
 fun RoundCompleteScreen(visible: Boolean, round: Int, total: Int, score: Int, onNextRound: () -> Unit) {
-    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${n}f)
-    AnimatedVisibility(visible, enter = fadeIn(tween(${G})), exit = fadeOut(tween(${G}))) {
+    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    AnimatedVisibility(visible, enter = fadeIn(tween(${D})), exit = fadeOut(tween(${D}))) {
         Box(Modifier.fillMaxSize().paint(painterResource(R.drawable.si_round_bg), contentScale = ContentScale.FillBounds)) {
             val shown = remember { MutableTransitionState(false) }.apply { targetState = true }
             AnimatedVisibility(
@@ -2563,8 +2446,8 @@ fun RoundCompleteScreen(visible: Boolean, round: Int, total: Int, score: Int, on
                         scaleIn(tween(${e}, ${v}, easing), initialScale = 0.94f) +
                         fadeIn(tween(${e}, ${v}, easing))
             ) {
-                // Sweep: gradient strip x −45% → 100%, ${V} ms, delay ${v+U} ms.
-                // Pulse: brightness 1 → 1.3 → 1, ${Z} ms loop, starts at ${c} ms.
+                // Sweep: gradient strip x −45% → 100%, ${M} ms, delay ${v+U} ms.
+                // Pulse: brightness 1 → 1.3 → 1, ${Q} ms loop, starts at ${c} ms.
                 RoundBar(
                     left = "ROUND $round/$total",
                     mid = if (round == total) "Game Complete!" else "Round Complete!",
@@ -2593,11 +2476,11 @@ struct RoundCompleteScreen: View {
                 .scaleEffect(barIn ? 1 : 0.94)
                 .opacity(barIn ? 1 : 0)
         }
-        .transition(.opacity.animation(.easeInOut(duration: ${(G/1e3).toFixed(2)})))
+        .transition(.opacity.animation(.easeInOut(duration: ${(D/1e3).toFixed(2)})))
         .onAppear {
-            withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o}).delay(${(v/1e3).toFixed(2)})) { barIn = true }
-            withAnimation(.timingCurve(0.4, 0, 0.2, 1, duration: ${(V/1e3).toFixed(2)}).delay(${((v+U)/1e3).toFixed(2)})) { sweep = 1 }
-            withAnimation(.easeInOut(duration: ${(Z/2e3).toFixed(2)}).repeatForever(autoreverses: true).delay(${(c/1e3).toFixed(2)})) { pulse = 1.3 }
+            withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}).delay(${(v/1e3).toFixed(2)})) { barIn = true }
+            withAnimation(.timingCurve(0.4, 0, 0.2, 1, duration: ${(M/1e3).toFixed(2)}).delay(${((v+U)/1e3).toFixed(2)})) { sweep = 1 }
+            withAnimation(.easeInOut(duration: ${(Q/2e3).toFixed(2)}).repeatForever(autoreverses: true).delay(${(c/1e3).toFixed(2)})) { pulse = 1.3 }
         }
     }
 }`,roku:`<!-- Roku SceneGraph — components/RoundComplete.xml -->
@@ -2611,18 +2494,18 @@ struct RoundCompleteScreen: View {
       <Poster uri="pkg:/images/si_round_bar.png" />
       <Poster id="sweepStrip" uri="pkg:/images/sweep_band.png" translation="[-780, 0]" />
     </Group>
-    <Animation id="fade" duration="${(G/1e3).toFixed(2)}" easeFunction="inOutQuad">
+    <Animation id="fade" duration="${(D/1e3).toFixed(2)}" easeFunction="inOutQuad">
       <FloatFieldInterpolator fieldToInterp="bg.opacity" key="[0, 1]" keyValue="[0, 1]" />
     </Animation>
-    <Animation id="dropIn" duration="${o}" delay="${(v/1e3).toFixed(2)}" easeFunction="outBack">
+    <Animation id="dropIn" duration="${n}" delay="${(v/1e3).toFixed(2)}" easeFunction="outBack">
       <Vector2DFieldInterpolator fieldToInterp="bar.translation" key="[0, 1]" keyValue="[[91, 435], [91, 475]]" />
       <Vector2DFieldInterpolator fieldToInterp="bar.scale" key="[0, 1]" keyValue="[[0.94, 0.94], [1, 1]]" />
       <FloatFieldInterpolator   fieldToInterp="bar.opacity" key="[0, 1]" keyValue="[0, 1]" />
     </Animation>
-    <Animation id="sweep" duration="${(V/1e3).toFixed(2)}" delay="${((v+U)/1e3).toFixed(2)}" easeFunction="inOutQuad">
+    <Animation id="sweep" duration="${(M/1e3).toFixed(2)}" delay="${((v+U)/1e3).toFixed(2)}" easeFunction="inOutQuad">
       <Vector2DFieldInterpolator fieldToInterp="sweepStrip.translation" key="[0, 1]" keyValue="[[-780, 0], [1730, 0]]" />
     </Animation>
-    <Animation id="pulse" duration="${(Z/1e3).toFixed(1)}" delay="${(c/1e3).toFixed(2)}" easeFunction="inOutQuad" repeat="true">
+    <Animation id="pulse" duration="${(Q/1e3).toFixed(1)}" delay="${(c/1e3).toFixed(2)}" easeFunction="inOutQuad" repeat="true">
       <FloatFieldInterpolator fieldToInterp="bar.opacity" key="[0, 0.5, 1]" keyValue="[1.0, 0.85, 1.0]" />
     </Animation>
     <Timer id="advance" duration="6" repeat="false" />
@@ -2649,17 +2532,17 @@ Visual behavior:
   · Rounds 1–2: the next round starts automatically after 6 s; OK skips immediately.
 
 Timings:
-  · Background fade: ${G} ms.
+  · Background fade: ${D} ms.
   · Bar drop-in: 620 ms, ease-out, starts ${v} ms after the fade begins.
-  · Sweep: ${V} ms, cubic-bezier(0.4, 0, 0.2, 1), ${U} ms after the drop-in starts.
-  · Pulse: ${Z/1e3} s ease-in-out loop (brightness 1 → 1.3 → 1), after the sweep.
+  · Sweep: ${M} ms, cubic-bezier(0.4, 0, 0.2, 1), ${U} ms after the drop-in starts.
+  · Pulse: ${Q/1e3} s ease-in-out loop (brightness 1 → 1.3 → 1), after the sweep.
   · Auto-advance: 6000 ms after the screen appears.
 
 Acceptance criteria:
   · Score shown is the running total including the round just finished.
   · Sweep plays exactly once per screen; pulse loops.
   · Pressing OK during the entrance advances right away — no double transitions.
-  · Reduced-motion setting: plain fade, no drop / sweep / pulse.`}},bi=`
+  · Reduced-motion setting: plain fade, no drop / sweep / pulse.`}},oi=`
 .preview-cs-flash-stage {
   position: relative;
   width: 100%; height: 220px;
@@ -2686,12 +2569,12 @@ Acceptance criteria:
   0%   { opacity: 1; }
   100% { opacity: 0; }
 }
-`;let ie=null;const hi={id:"wl-wrong-flash",title:"Wrong Flash",game:"Win/Lose",description:"Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.",defaults:{duration:600,easingId:"ease-out"},render(e){return m("css-wl-wrong-flash",bi),e.innerHTML=`
+`;let ee=null;const ni={id:"wl-wrong-flash",title:"Wrong Flash",game:"Win/Lose",description:"Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.",defaults:{duration:600,easingId:"ease-out"},render(e){return m("css-wl-wrong-flash",oi),e.innerHTML=`
       <div class="preview-cs-flash-stage">
         <div class="preview-cs-flash-stage__label">player view (mocked)</div>
         <div class="preview-cs-flash"></div>
       </div>
-    `,ie=e.querySelector(".preview-cs-flash"),()=>{e.innerHTML="",ie=null}},play({duration:e,easing:t}){ie&&(ie.style.animation="none",ie.offsetWidth,ie.style.animation=`cs-flash ${e}ms ${b(t.bezier)} forwards`)},frames:[{label:"Idle",sublabel:"no overlay",render:e=>{e.innerHTML=`
+    `,ee=e.querySelector(".preview-cs-flash"),()=>{e.innerHTML="",ee=null}},play({duration:e,easing:t}){ee&&(ee.style.animation="none",ee.offsetWidth,ee.style.animation=`cs-flash ${e}ms ${h(t.bezier)} forwards`)},frames:[{label:"Idle",sublabel:"no overlay",render:e=>{e.innerHTML=`
           <div style="
             width:100%;height:64px;
             background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);
@@ -2710,7 +2593,7 @@ Acceptance criteria:
             background:rgba(220,30,30,0.2);
             border-radius:6px;
           "></div>
-        `}},{label:"Settled",sublabel:"100% · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">overlay invisible</div>'}}],snippets({duration:e,easing:t}){const[i,a,r,n]=t.bezier,o=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+        `}},{label:"Settled",sublabel:"100% · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">overlay invisible</div>'}}],snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-flash {
   0%   { opacity: 1; }
   100% { opacity: 0; }
@@ -2720,7 +2603,7 @@ Acceptance criteria:
   position: absolute;
   inset: 0;
   background: rgba(220, 30, 30, 0.4);
-  animation: cs-flash ${e}ms ${b(t.bezier)} forwards;
+  animation: cs-flash ${e}ms ${h(t.bezier)} forwards;
   z-index: 51;
   pointer-events: none;
 }
@@ -2743,7 +2626,7 @@ fun WrongFlash(trigger: Int) {
         if (trigger == 0) return@LaunchedEffect
         alpha = 1f
         val anim = Animatable(1f)
-        anim.animateTo(0f, tween(${e}, easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${n.toFixed(2)}f)))
+        anim.animateTo(0f, tween(${e}, easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)))
         alpha = anim.value
     }
     Box(
@@ -2763,7 +2646,7 @@ struct WrongFlash: View {
             .allowsHitTesting(false)
             .onChange(of: trigger) { _ in
                 alpha = 1
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${n}, duration: ${o})) {
+                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
                     alpha = 0
                 }
             }
@@ -2776,7 +2659,7 @@ struct WrongFlash: View {
 
   <children>
     <Rectangle id="flash" color="0xDC1E1E66" width="1920" height="1080" opacity="0" />
-    <Animation id="flashAnim" duration="${o}" easeFunction="outQuad" repeat="false">
+    <Animation id="flashAnim" duration="${n}" easeFunction="outQuad" repeat="false">
       <FloatFieldInterpolator
         fieldToInterp="flash.opacity"
         keyValue="[ 1, 0 ]"
@@ -2805,10 +2688,10 @@ Timings:
 Acceptance criteria:
   · Animation replays on every distinct wrong answer (remount node by key).
   · The flash must not block touches / D-pad presses.
-  · Tonally subdued — strong enough to register peripherally, not aggressive.`}},gi=40,wt=["#facc15","#22c55e","#3b82f6","#ec4899","#f97316","#a855f7","#06b6d4","#fb7185"],Oe=260,$t=5e-4,vt=1800,St="cubic-bezier(0.33, 0.67, 0.67, 1)",Ct="cubic-bezier(0.33, 0, 0.67, 0.33)",_t="cubic-bezier(0.2, 0.6, 0.4, 1)",wi=`
+  · Tonally subdued — strong enough to register peripherally, not aggressive.`}},si=40,dt=["#facc15","#22c55e","#3b82f6","#ec4899","#f97316","#a855f7","#06b6d4","#fb7185"],Ae=260,bt=5e-4,pt=1800,gt="cubic-bezier(0.33, 0.67, 0.67, 1)",wt="cubic-bezier(0.33, 0, 0.67, 0.33)",vt="cubic-bezier(0.2, 0.6, 0.4, 1)",li=`
 .preview-confetti-stage {
   position: relative;
-  width: 100%; height: ${Oe}px;
+  width: 100%; height: ${Ae}px;
   background: linear-gradient(135deg, #1a1f2e 0%, #06080d 100%);
   border-radius: 12px;
   overflow: hidden;
@@ -2832,13 +2715,13 @@ Acceptance criteria:
    outer = horizontal drift, middle = rise + gravity fall, inner = tumble. */
 .preview-confetti__p {
   position: absolute;
-  animation: pc-drift calc(var(--tu) + var(--td)) ${_t} var(--delay) both;
+  animation: pc-drift calc(var(--tu) + var(--td)) ${vt} var(--delay) both;
 }
 .preview-confetti__y {
   display: block;
   animation:
-    pc-rise var(--tu) ${St}   var(--delay) both,
-    pc-fall var(--td) ${Ct} calc(var(--delay) + var(--tu)) forwards;
+    pc-rise var(--tu) ${gt}   var(--delay) both,
+    pc-fall var(--td) ${wt} calc(var(--delay) + var(--tu)) forwards;
 }
 .preview-confetti__s {
   display: block;
@@ -2856,7 +2739,7 @@ Acceptance criteria:
   from { transform: rotate(var(--r0)) rotateX(0deg); }
   to   { transform: rotate(calc(var(--r0) + 360deg * var(--dir))) rotateX(360deg); }
 }
-`;function vi(e){const t=$t/(e*e),i=[];for(let a=0;a<gi;a++){const r=4+Math.random()*92,n=2+Math.random()*12,o=n/100*Oe,s=110+Math.random()*120,c=-Math.min(s,Oe-o-12),l=o+24,u=Math.sqrt(2*-c/t),N=Math.sqrt(2*(-c+l)/t),k=(r-50)*1.4+(Math.random()-.5)*90,g=5+Math.random()*4,oe=a%3===0?"streamer":a%2===0?"rect":"square";i.push({left:r,bottom:n,delay:Math.random()*300*e,dx:k,peak:c,drop:l,tu:u,td:N,spin:(500+Math.random()*700)*e,dir:Math.random()<.5?1:-1,r0:Math.round(Math.random()*360),w:g,h:oe==="rect"?g*1.6:oe==="streamer"?g*2.4:g,color:wt[a%wt.length]})}return i}let Fe=null;function yi(e,t){e.innerHTML=vi(t).map(i=>`
+`;function ci(e){const t=bt/(e*e),i=[];for(let a=0;a<si;a++){const r=4+Math.random()*92,o=2+Math.random()*12,n=o/100*Ae,d=110+Math.random()*120,c=-Math.min(d,Ae-n-12),s=n+24,u=Math.sqrt(2*-c/t),H=Math.sqrt(2*(-c+s)/t),k=(r-50)*1.4+(Math.random()-.5)*90,g=5+Math.random()*4,te=a%3===0?"streamer":a%2===0?"rect":"square";i.push({left:r,bottom:o,delay:Math.random()*300*e,dx:k,peak:c,drop:s,tu:u,td:H,spin:(500+Math.random()*700)*e,dir:Math.random()<.5?1:-1,r0:Math.round(Math.random()*360),w:g,h:te==="rect"?g*1.6:te==="streamer"?g*2.4:g,color:dt[a%dt.length]})}return i}let ke=null;function di(e,t){e.innerHTML=ci(t).map(i=>`
     <span class="preview-confetti__p" style="
       left:${i.left}%; bottom:${i.bottom}%;
       --dx:${i.dx.toFixed(1)}px; --peak:${i.peak.toFixed(1)}px; --drop:${i.drop.toFixed(1)}px;
@@ -2864,16 +2747,16 @@ Acceptance criteria:
       --spin:${Math.round(i.spin)}ms; --dir:${i.dir}; --r0:${i.r0}deg;
     "><span class="preview-confetti__y"><span class="preview-confetti__s" style="
       width:${i.w.toFixed(1)}px; height:${i.h.toFixed(1)}px; background:${i.color};
-    "></span></span></span>`).join("")}function Te(e,t){e.innerHTML=`
+    "></span></span></span>`).join("")}function $e(e,t){e.innerHTML=`
     <div style="position:relative;width:100%;height:64px;background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);border-radius:6px;overflow:hidden;">
       ${t.map(i=>`<span style="position:absolute;left:${i.l}%;bottom:${i.b}%;width:6px;height:10px;background:${i.c};border-radius:1px;transform:rotate(${i.r}deg);"></span>`).join("")}
     </div>
-  `}const xi={id:"wl-confetti-burst",title:"Confetti Burst",game:"Win/Lose",description:"Celebratory confetti fired from the bottom of the screen on a correct answer. Each piece is tossed up, slows to a stop at its apex, then falls back down under gravity and leaves through the bottom edge while tumbling. Higher tosses hang in the air longer — rise and fall times follow t = √(2h / g).",defaults:{duration:1800,easingId:"ease-out"},slowFactor:2,render(e){return m("css-wl-confetti",wi),e.innerHTML=`
+  `}const pi={id:"wl-confetti-burst",title:"Confetti Burst",game:"Win/Lose",description:"Celebratory confetti fired from the bottom of the screen on a correct answer. Each piece is tossed up, slows to a stop at its apex, then falls back down under gravity and leaves through the bottom edge while tumbling. Higher tosses hang in the air longer — rise and fall times follow t = √(2h / g).",defaults:{duration:1800,easingId:"ease-out"},slowFactor:2,render(e){return m("css-wl-confetti",li),e.innerHTML=`
       <div class="preview-confetti-stage">
         <div class="preview-confetti-stage__label">player view (mocked)</div>
         <div class="preview-confetti"></div>
       </div>
-    `,Fe=e.querySelector(".preview-confetti"),()=>{e.innerHTML="",Fe=null}},play({duration:e}){Fe&&yi(Fe,e/vt)},frames:[{label:"Spawn",sublabel:"0 ms · bottom edge · opacity 0 → 1",render:e=>Te(e,[{l:18,b:6,c:"#facc15",r:10},{l:34,b:10,c:"#22c55e",r:-20},{l:50,b:4,c:"#3b82f6",r:40},{l:66,b:8,c:"#ec4899",r:-60},{l:82,b:5,c:"#f97316",r:15}])},{label:"Rise",sublabel:"ease-out-quad · slowing down",render:e=>Te(e,[{l:14,b:48,c:"#facc15",r:90},{l:31,b:58,c:"#22c55e",r:-30},{l:50,b:40,c:"#3b82f6",r:180},{l:69,b:62,c:"#ec4899",r:-120},{l:86,b:44,c:"#f97316",r:60},{l:40,b:30,c:"#a855f7",r:-90}])},{label:"Apex",sublabel:"~45% · vertical speed 0",render:e=>Te(e,[{l:10,b:78,c:"#facc15",r:200},{l:28,b:86,c:"#22c55e",r:-150},{l:48,b:70,c:"#3b82f6",r:300},{l:72,b:88,c:"#ec4899",r:-260},{l:90,b:74,c:"#f97316",r:160},{l:38,b:64,c:"#a855f7",r:-210}])},{label:"Fall",sublabel:"ease-in-quad · gravity · exits bottom",render:e=>Te(e,[{l:6,b:34,c:"#facc15",r:320},{l:24,b:18,c:"#22c55e",r:-280},{l:46,b:4,c:"#3b82f6",r:420},{l:76,b:26,c:"#ec4899",r:-380},{l:94,b:10,c:"#f97316",r:300},{l:36,b:42,c:"#a855f7",r:-330}])}],snippets({duration:e}){const t=e/vt,i=$t*1080/Oe/(t*t),a=Math.round(i*1e6);return{web:`/* ConfettiBurst.css
+    `,ke=e.querySelector(".preview-confetti"),()=>{e.innerHTML="",ke=null}},play({duration:e}){ke&&di(ke,e/pt)},frames:[{label:"Spawn",sublabel:"0 ms · bottom edge · opacity 0 → 1",render:e=>$e(e,[{l:18,b:6,c:"#facc15",r:10},{l:34,b:10,c:"#22c55e",r:-20},{l:50,b:4,c:"#3b82f6",r:40},{l:66,b:8,c:"#ec4899",r:-60},{l:82,b:5,c:"#f97316",r:15}])},{label:"Rise",sublabel:"ease-out-quad · slowing down",render:e=>$e(e,[{l:14,b:48,c:"#facc15",r:90},{l:31,b:58,c:"#22c55e",r:-30},{l:50,b:40,c:"#3b82f6",r:180},{l:69,b:62,c:"#ec4899",r:-120},{l:86,b:44,c:"#f97316",r:60},{l:40,b:30,c:"#a855f7",r:-90}])},{label:"Apex",sublabel:"~45% · vertical speed 0",render:e=>$e(e,[{l:10,b:78,c:"#facc15",r:200},{l:28,b:86,c:"#22c55e",r:-150},{l:48,b:70,c:"#3b82f6",r:300},{l:72,b:88,c:"#ec4899",r:-260},{l:90,b:74,c:"#f97316",r:160},{l:38,b:64,c:"#a855f7",r:-210}])},{label:"Fall",sublabel:"ease-in-quad · gravity · exits bottom",render:e=>$e(e,[{l:6,b:34,c:"#facc15",r:320},{l:24,b:18,c:"#22c55e",r:-280},{l:46,b:4,c:"#3b82f6",r:420},{l:76,b:26,c:"#ec4899",r:-380},{l:94,b:10,c:"#f97316",r:300},{l:36,b:42,c:"#a855f7",r:-330}])}],snippets({duration:e}){const t=e/pt,i=bt*1080/Ae/(t*t),a=Math.round(i*1e6);return{web:`/* ConfettiBurst.css
    Three nested spans so each axis has its own curve:
      .cf       — horizontal drift (ease-out, air drag)
      .cf__y    — rise (ease-out-quad) then gravity fall (ease-in-quad)
@@ -2883,13 +2766,13 @@ Acceptance criteria:
 
 .cf {
   position: absolute;
-  animation: cf-drift calc(var(--tu) + var(--td)) ${_t} var(--delay) both;
+  animation: cf-drift calc(var(--tu) + var(--td)) ${vt} var(--delay) both;
 }
 .cf__y {
   display: block;
   animation:
-    cf-rise var(--tu) ${St}   var(--delay) both,
-    cf-fall var(--td) ${Ct} calc(var(--delay) + var(--tu)) forwards;
+    cf-rise var(--tu) ${gt}   var(--delay) both,
+    cf-fall var(--td) ${wt} calc(var(--delay) + var(--tu)) forwards;
 }
 .cf__spin {
   display: block; border-radius: 2px;
@@ -3038,22 +2921,22 @@ Timings:
 Acceptance criteria:
   · No piece "fades out" mid-air — every piece visibly falls out of frame.
   · Re-spawns on every correct answer (remount the layer by key).
-  · No layout reflow; the layer does not block input.`}},Qe=[Ot,Mt,Bt,Nt,qt,Pt,Wt,jt,Kt,Zt,ri,ni,ci,fi,mi,hi,xi],Ft="sidebar:collapsed";function ki(){try{return new Set(JSON.parse(localStorage.getItem(Ft)??"[]"))}catch{return new Set}}function $i(e){try{localStorage.setItem(Ft,JSON.stringify([...e]))}catch{}}function Si(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
+  · No layout reflow; the layer does not block input.`}},Pe=[Ft,At,zt,Rt,Et,Vt,Ht,qt,Gt,Yt,Kt,Zt,ii,ai,ni,pi],yt="sidebar:collapsed";function fi(){try{return new Set(JSON.parse(localStorage.getItem(yt)??"[]"))}catch{return new Set}}function ui(e){try{localStorage.setItem(yt,JSON.stringify([...e]))}catch{}}function mi(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
     <div class="sidebar__brand">
       <p class="sidebar__title">PlayAlong TV</p>
       <p class="sidebar__subtitle">Animation Catalog</p>
     </div>
-  `;const i=ki(),a=[];function r(s,c,l,u){c.classList.toggle("is-collapsed",u),l.setAttribute("aria-expanded",String(!u)),u?i.add(s):i.delete(s),$i(i)}const n=["Family Feud","Card Sharks","Stack It","Common","Win/Lose"];for(const s of n){const c=Qe.filter(k=>k.game===s);if(c.length===0)continue;const l=document.createElement("div");l.className="sidebar__group",l.innerHTML=`
+  `;const i=fi(),a=[];function r(d,c,s,u){c.classList.toggle("is-collapsed",u),s.setAttribute("aria-expanded",String(!u)),u?i.add(d):i.delete(d),ui(i)}const o=["Family Feud","Card Sharks","Stack It","Common","Win/Lose"];for(const d of o){const c=Pe.filter(k=>k.game===d);if(c.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`
       <button type="button" class="sidebar__group-title" aria-expanded="true">
         <span class="sidebar__chevron" aria-hidden="true"></span>
-        <span class="sidebar__group-name">${s}</span>
+        <span class="sidebar__group-name">${d}</span>
         <span class="sidebar__group-count">${c.length}</span>
       </button>
       <div class="sidebar__group-body"><div class="sidebar__group-items"></div></div>
-    `;const u=l.querySelector(".sidebar__group-title"),N=l.querySelector(".sidebar__group-items");u.addEventListener("click",()=>{r(s,l,u,!l.classList.contains("is-collapsed"))}),i.has(s)&&(l.classList.add("is-collapsed"),u.setAttribute("aria-expanded","false")),a.push({game:s,el:l,toggle:u});for(const k of c){const g=document.createElement("div");g.className="sidebar__item",g.dataset.id=k.id,g.innerHTML=`
+    `;const u=s.querySelector(".sidebar__group-title"),H=s.querySelector(".sidebar__group-items");u.addEventListener("click",()=>{r(d,s,u,!s.classList.contains("is-collapsed"))}),i.has(d)&&(s.classList.add("is-collapsed"),u.setAttribute("aria-expanded","false")),a.push({game:d,el:s,toggle:u});for(const k of c){const g=document.createElement("div");g.className="sidebar__item",g.dataset.id=k.id,g.innerHTML=`
         <span>${k.title}</span>
         ${k.tbd?'<span class="sidebar__badge is-tbd">TBD</span>':'<span class="sidebar__badge">Ready</span>'}
-      `,g.addEventListener("click",()=>e(k.id)),N.appendChild(g)}t.appendChild(l)}function o(s){t.querySelectorAll(".sidebar__item").forEach(u=>{u.classList.toggle("is-active",u.dataset.id===s)});const c=t.querySelector(".sidebar__item.is-active"),l=a.find(u=>u.el.contains(c));l&&l.el.classList.contains("is-collapsed")&&r(l.game,l.el,l.toggle,!1)}return{root:t,setActive:o}}async function yt(e,t,i){try{await navigator.clipboard.writeText(e)}catch{const a=document.createElement("textarea");a.value=e,a.style.position="fixed",a.style.opacity="0",document.body.appendChild(a),a.select(),document.execCommand("copy"),document.body.removeChild(a)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=i},1400)}const Ci=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function _i(e){const t=Y.find(p=>p.id===e.defaults.easingId)??Y[0],i={duration:e.defaults.duration,easing:t};let a="web";const r=document.createElement("div");r.innerHTML=`
+      `,g.addEventListener("click",()=>e(k.id)),H.appendChild(g)}t.appendChild(s)}function n(d){t.querySelectorAll(".sidebar__item").forEach(u=>{u.classList.toggle("is-active",u.dataset.id===d)});const c=t.querySelector(".sidebar__item.is-active"),s=a.find(u=>u.el.contains(c));s&&s.el.classList.contains("is-collapsed")&&r(s.game,s.el,s.toggle,!1)}return{root:t,setActive:n}}async function ft(e,t,i){try{await navigator.clipboard.writeText(e)}catch{const a=document.createElement("textarea");a.value=e,a.style.position="fixed",a.style.opacity="0",document.body.appendChild(a),a.select(),document.execCommand("copy"),document.body.removeChild(a)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=i},1400)}const hi=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function bi(e){const t=Y.find(l=>l.id===e.defaults.easingId)??Y[0],i={duration:e.defaults.duration,easing:t};let a="web";const r=document.createElement("div");r.innerHTML=`
     <header class="page-header">
       <div class="page-header__eyebrow">${e.game}</div>
       <h1 class="page-header__title">${e.title}</h1>
@@ -3065,11 +2948,11 @@ Acceptance criteria:
 
       ${e.frames&&e.frames.length>0?`
         <div class="frames-grid" data-role="frames">
-          ${e.frames.map((p,h)=>`
+          ${e.frames.map((l,b)=>`
             <div class="frame">
-              <div class="frame__slot" data-frame-idx="${h}"></div>
-              <div class="frame__label">${p.label}</div>
-              ${p.sublabel?`<div class="frame__sublabel">${p.sublabel}</div>`:""}
+              <div class="frame__slot" data-frame-idx="${b}"></div>
+              <div class="frame__label">${l.label}</div>
+              ${l.sublabel?`<div class="frame__sublabel">${l.sublabel}</div>`:""}
             </div>
           `).join("")}
         </div>
@@ -3103,14 +2986,14 @@ Acceptance criteria:
             <div class="control">
               <div class="control__label">Easing preset</div>
               <select data-role="easing-preset" style="width:100%">
-                ${Y.map(p=>`<option value="${p.id}" ${p.id===i.easing.id?"selected":""}>${p.label}</option>`).join("")}
+                ${Y.map(l=>`<option value="${l.id}" ${l.id===i.easing.id?"selected":""}>${l.label}</option>`).join("")}
               </select>
             </div>
 
             <div class="control">
               <div class="control__label">Custom cubic-bezier</div>
               <div class="bezier-inputs">
-                ${i.easing.bezier.map((p,h)=>`<input type="number" step="0.01" value="${p}" data-role="bezier-${h}" />`).join("")}
+                ${i.easing.bezier.map((l,b)=>`<input type="number" step="0.01" value="${l}" data-role="bezier-${b}" />`).join("")}
               </div>
               <div class="control__hint" data-role="easing-desc">${i.easing.description}</div>
             </div>
@@ -3120,8 +3003,8 @@ Acceptance criteria:
 
       <div class="tabs-row">
         <div class="tabs" role="tablist">
-          ${Ci.map(p=>`
-            <button type="button" class="tab ${p.id===a?"is-active":""}" role="tab" data-platform="${p.id}">${p.label}</button>
+          ${hi.map(l=>`
+            <button type="button" class="tab ${l.id===a?"is-active":""}" role="tab" data-platform="${l.id}">${l.label}</button>
           `).join("")}
         </div>
         <button class="btn btn--small" data-role="copy-snippet">Copy code</button>
@@ -3129,4 +3012,4 @@ Acceptance criteria:
 
       <div class="code-block" data-role="snippet-output"></div>
     </div>
-  `;const n=r.querySelector("[data-role=stage]"),o=r.querySelector("[data-role=play]"),s=r.querySelector("[data-role=slow]"),c=r.querySelector("[data-role=reset]"),l=r.querySelector("[data-role=copy-snippet]"),u=r.querySelector("[data-role=copy-pm]"),N=r.querySelector("[data-role=duration]"),k=r.querySelector("[data-role=duration-value]"),g=r.querySelector("[data-role=easing-preset]"),oe=r.querySelector("[data-role=easing-desc]"),Ee=[0,1,2,3].map(p=>r.querySelector(`[data-role=bezier-${p}]`)),Tt=r.querySelector("[data-role=snippet-output]"),At=r.querySelector("[data-role=pm-output]"),et=Array.from(r.querySelectorAll(".tab")),It=e.render(n);function zt(){i.easing.bezier.forEach((p,h)=>{Ee[h].value=String(p)})}function ne(){const p=e.snippets(i);Tt.textContent=p[a],At.textContent=e.pmTicket(),et.forEach(h=>{h.classList.toggle("is-active",h.dataset.platform===a)})}function tt(p){i.easing={...p},oe.textContent=p.description,zt(),ne(),e.tbd||e.play(i)}function Lt(){const p=Ee.map(h=>Number(h.value));if(!p.some(h=>Number.isNaN(h))){if(i.easing={id:"custom",label:`Custom (${p.join(", ")})`,bezier:p,description:`cubic-bezier(${p.join(", ")})`},!g.querySelector('option[value="custom"]')){const h=document.createElement("option");h.value="custom",h.textContent="Custom…",g.appendChild(h)}g.value="custom",oe.textContent=`cubic-bezier(${p.join(", ")}) — ${b(p)}`,ne(),e.tbd||e.play(i)}}return e.frames&&e.frames.length>0&&e.frames.forEach((p,h)=>{const it=r.querySelector(`[data-frame-idx="${h}"]`);it&&p.render(it)}),o.addEventListener("click",()=>{e.tbd||e.play(i)}),s.addEventListener("click",()=>{if(e.tbd)return;const p=e.slowFactor??4,h={...i,duration:i.duration*p};e.play(h)}),c.addEventListener("click",()=>{const p=Y.find(h=>h.id===e.defaults.easingId)??Y[0];i.duration=e.defaults.duration,N.value=String(i.duration),k.textContent=`${i.duration} ms`,g.value=p.id,tt(p)}),N.addEventListener("input",()=>{i.duration=Number(N.value),k.textContent=`${i.duration} ms`,ne(),e.tbd||e.play(i)}),g.addEventListener("change",()=>{const p=Y.find(h=>h.id===g.value);p&&tt(p)}),Ee.forEach(p=>p.addEventListener("change",Lt)),et.forEach(p=>{p.addEventListener("click",()=>{a=p.dataset.platform,ne()})}),l.addEventListener("click",()=>{const p=e.snippets(i)[a];yt(p,l,"Copy current snippet")}),u.addEventListener("click",()=>{yt(e.pmTicket(),u,"Copy description")}),ne(),e.tbd||requestAnimationFrame(()=>e.play(i)),r.__destroy=()=>{It()},r}function Fi(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let i=null;function a(o){const s=Qe.find(c=>c.id===o);s&&(i!=null&&i.__destroy&&i.__destroy(),t.innerHTML="",i=_i(s),t.appendChild(i),r.setActive(o),location.hash=o)}const r=Si(a);e.appendChild(r.root),e.appendChild(t);const n=location.hash.replace(/^#/,"")||Qe[0].id;a(n),window.addEventListener("hashchange",()=>{const o=location.hash.replace(/^#/,"");o&&a(o)})}Fi();
+  `;const o=r.querySelector("[data-role=stage]"),n=r.querySelector("[data-role=play]"),d=r.querySelector("[data-role=slow]"),c=r.querySelector("[data-role=reset]"),s=r.querySelector("[data-role=copy-snippet]"),u=r.querySelector("[data-role=copy-pm]"),H=r.querySelector("[data-role=duration]"),k=r.querySelector("[data-role=duration-value]"),g=r.querySelector("[data-role=easing-preset]"),te=r.querySelector("[data-role=easing-desc]"),Ie=[0,1,2,3].map(l=>r.querySelector(`[data-role=bezier-${l}]`)),xt=r.querySelector("[data-role=snippet-output]"),kt=r.querySelector("[data-role=pm-output]"),je=Array.from(r.querySelectorAll(".tab")),$t=e.render(o);function St(){i.easing.bezier.forEach((l,b)=>{Ie[b].value=String(l)})}function ie(){const l=e.snippets(i);xt.textContent=l[a],kt.textContent=e.pmTicket(),je.forEach(b=>{b.classList.toggle("is-active",b.dataset.platform===a)})}function Xe(l){i.easing={...l},te.textContent=l.description,St(),ie(),e.tbd||e.play(i)}function _t(){const l=Ie.map(b=>Number(b.value));if(!l.some(b=>Number.isNaN(b))){if(i.easing={id:"custom",label:`Custom (${l.join(", ")})`,bezier:l,description:`cubic-bezier(${l.join(", ")})`},!g.querySelector('option[value="custom"]')){const b=document.createElement("option");b.value="custom",b.textContent="Custom…",g.appendChild(b)}g.value="custom",te.textContent=`cubic-bezier(${l.join(", ")}) — ${h(l)}`,ie(),e.tbd||e.play(i)}}return e.frames&&e.frames.length>0&&e.frames.forEach((l,b)=>{const Ke=r.querySelector(`[data-frame-idx="${b}"]`);Ke&&l.render(Ke)}),n.addEventListener("click",()=>{e.tbd||e.play(i)}),d.addEventListener("click",()=>{if(e.tbd)return;const l=e.slowFactor??4,b={...i,duration:i.duration*l};e.play(b)}),c.addEventListener("click",()=>{const l=Y.find(b=>b.id===e.defaults.easingId)??Y[0];i.duration=e.defaults.duration,H.value=String(i.duration),k.textContent=`${i.duration} ms`,g.value=l.id,Xe(l)}),H.addEventListener("input",()=>{i.duration=Number(H.value),k.textContent=`${i.duration} ms`,ie(),e.tbd||e.play(i)}),g.addEventListener("change",()=>{const l=Y.find(b=>b.id===g.value);l&&Xe(l)}),Ie.forEach(l=>l.addEventListener("change",_t)),je.forEach(l=>{l.addEventListener("click",()=>{a=l.dataset.platform,ie()})}),s.addEventListener("click",()=>{const l=e.snippets(i)[a];ft(l,s,"Copy current snippet")}),u.addEventListener("click",()=>{ft(e.pmTicket(),u,"Copy description")}),ie(),e.tbd||requestAnimationFrame(()=>e.play(i)),r.__destroy=()=>{$t()},r}function gi(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let i=null;function a(n){const d=Pe.find(c=>c.id===n);d&&(i!=null&&i.__destroy&&i.__destroy(),t.innerHTML="",i=bi(d),t.appendChild(i),r.setActive(n),location.hash=n)}const r=mi(a);e.appendChild(r.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||Pe[0].id;a(o),window.addEventListener("hashchange",()=>{const n=location.hash.replace(/^#/,"");n&&a(n)})}gi();
