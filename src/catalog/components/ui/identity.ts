@@ -27,16 +27,20 @@ injectStyle('css-c-identity', `
   border: 1px solid var(--tv-border-white-20); ${T('label-m')}; color: var(--tv-base-light); }
 .c-gtt > svg { flex: none; }
 
-/* Avatar Picture — 140 round. Guest is a grey ring over a black disc; logged in
-   is the photo. The edit button is a real Secondary Button, 48 with radius 12. */
-.c-av { width: 140px; height: 140px; border-radius: 50%; box-sizing: border-box;
-  position: relative; display: grid; place-items: center; }
-.c-av--photo { border: 4px solid var(--tv-button-secondary);
-  background: linear-gradient(160deg, #3a4a6b, #16203a); }
-.c-av--guest { border: 4px solid var(--tv-border-white-20);
-  background: var(--tv-border-white-20); }
-.c-av__disc { width: 111px; height: 111px; border-radius: 50%; background: #000; }
-.c-av__edit { position: absolute; right: -6px; bottom: -2px; width: 48px; height: 48px;
+/* Avatar Picture — 140 round. Both states take a 4px white-at-20% edge that
+   sits OUTSIDE the box, so content-box rather than border-box. Guest fills the
+   circle with the same 20% white and lays a black silhouette over it; logged in
+   carries the picture. */
+.c-av { width: 140px; height: 140px; border-radius: 50%; box-sizing: content-box;
+  position: relative; display: grid; place-items: center; overflow: visible;
+  border: 4px solid var(--tv-border-white-20); }
+.c-av--guest { background: var(--tv-border-white-20); }
+.c-av--photo { background: var(--tv-base-dark) center/cover no-repeat; }
+.c-av__mask { width: 140px; height: 140px; border-radius: 50%; overflow: hidden;
+  display: grid; place-items: end center; }
+.c-av__sil { width: 111px; height: 111px; display: block; color: #000; }
+.c-av__photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+.c-av__edit { position: absolute; right: -8px; bottom: -4px; width: 48px; height: 48px;
   border-radius: 12px; box-sizing: border-box; display: grid; place-items: center;
   background: var(--tv-base-neutral); border: 1px solid var(--tv-border-white-20);
   color: var(--tv-base-light); }
@@ -137,15 +141,19 @@ export const GameTypeTag: ComponentModule = {
   ],
 };
 
+const SILHOUETTE = `M0.013317 108.755C0.017507 109.054 0.0805988 109.349 0.198989 109.624C0.31738 109.899 0.48875 110.148 0.703313 110.356C0.917875 110.565 1.17143 110.729 1.44949 110.84C1.72755 110.95 2.02468 111.005 2.32389 111.001H108.672C108.971 111.005 109.269 110.951 109.547 110.841C109.825 110.73 110.079 110.566 110.294 110.357C110.509 110.149 110.681 109.9 110.799 109.625C110.918 109.35 110.981 109.054 110.985 108.755V106.073C111.038 105.264 111.146 101.233 108.488 96.7722C106.811 93.9592 104.378 91.5318 101.255 89.5513C97.4782 87.156 92.673 85.4238 86.86 84.381C83.909 83.967 80.9819 83.3976 78.0909 82.6751C70.4026 80.7121 69.7308 78.9741 69.725 78.9565C69.6796 78.7852 69.6149 78.6196 69.5322 78.4629C69.4679 78.1416 69.3131 76.9206 69.611 73.6519C70.3647 65.3472 74.8193 60.4398 78.3977 56.4963C79.5252 55.2549 80.5914 54.0777 81.4122 52.9268C84.9555 47.9609 85.2827 42.3086 85.2973 41.9581C85.3106 41.337 85.2248 40.7178 85.0431 40.1237C84.6926 39.0429 84.0412 38.371 83.5621 37.8744C83.4489 37.7606 83.3388 37.6438 83.232 37.5239C83.197 37.483 83.1035 37.372 83.1882 36.8141C83.4747 35.0168 83.6726 33.2064 83.7812 31.3896C83.9448 28.4627 84.0704 24.0869 83.3138 19.8251C83.2031 19.011 83.0352 18.2057 82.8114 17.4152C82.0169 14.4805 80.7316 11.9781 78.9556 9.90799C78.6489 9.57207 71.2059 1.72896 49.5987 0.122365C46.6104 -0.0996375 43.6572 0.0201277 40.7478 0.169103C39.8874 0.188424 39.0311 0.294113 38.1919 0.484579C35.9602 1.06003 35.3643 2.47384 35.2094 3.26545C34.9495 4.57994 35.4052 5.59647 35.706 6.27416C35.7498 6.37056 35.8053 6.49033 35.709 6.8058C35.2094 7.58281 34.4178 8.28387 33.6145 8.94696C33.3808 9.14267 27.9652 13.8164 27.6672 19.9185C26.8639 24.5601 26.9223 31.7898 27.8717 36.7878C27.9301 37.0653 28.009 37.4743 27.8775 37.7518C26.8551 38.666 25.6984 39.703 25.7013 42.0691C25.713 42.3086 26.0431 47.958 29.5864 52.9268C30.4043 54.0777 31.4705 55.252 32.5951 56.4934L32.6009 56.4963C36.1792 60.4398 40.6339 65.3472 41.3875 73.6489C41.6826 76.9206 41.5277 78.1386 41.4664 78.4629C41.3826 78.6195 41.317 78.7851 41.2707 78.9565C41.2678 78.9741 40.5988 80.7063 32.9456 82.6663C28.5289 83.7968 24.1824 84.3752 24.0509 84.3898C18.4015 85.345 13.6256 87.0363 9.85445 89.4169C6.74349 91.3828 4.30439 93.819 2.61016 96.6525C-0.100605 101.18 -0.0275794 105.305 0.0103947 106.058L0.013317 108.755Z`;
+
 const avatarPicture = (kind: 'photo' | 'guest', edit = false) => h(
   `<div class="c-av c-av--${kind}">
-     ${kind === 'guest' ? '<span class="c-av__disc"></span>' : ''}
+     <span class="c-av__mask">${kind === 'guest'
+       ? `<svg class="c-av__sil" viewBox="0 0 111 111" fill="none" aria-hidden="true"><path d="${SILHOUETTE}" fill="currentColor"/></svg>`
+       : `<img class="c-av__photo" src="${import.meta.env.BASE_URL}assets/components/avatar-sample.png" alt="" />`}</span>
      ${edit ? `<span class="c-av__edit">${icon('Edit', 32)}</span>` : ''}
    </div>`);
 
 export const AvatarPicture: ComponentModule = {
   id: 'c-avatar-picture', title: 'Avatar Picture', group: 'Identity', figma: '8717:11254',
-  description: '140 round with a 4px edge. Guest is a grey ring over a black 111 disc; logged in is the photo. The edit button is a real Secondary Button — 48, radius 12, carrying the Edit icon.',
+  description: '140 round. Guest is the circle at 20% white with a black 111 silhouette sitting on its foot; logged in carries the picture. The 4px edge is OUTSIDE the box in both. The edit button is a real Secondary Button — 48, radius 12, with the Edit icon.',
   tokens: { colour: ['TV/Base/Light', 'TV/Base/Neutral', 'TV/Border/White 20', 'TV/Button/Secondary'], type: [] },
   variants: [
     { label: 'Guest', el: () => avatarPicture('guest') },
@@ -154,8 +162,10 @@ export const AvatarPicture: ComponentModule = {
     { label: 'Logged in · edit', el: () => avatarPicture('photo', true) },
   ],
   notes: [
-    'The two states take their edge from <strong>different tokens</strong>: logged in uses <code>TV/Button/Secondary</code>, guest uses <code>TV/Border/White 20</code>. Same 4px, different colour.',
-    'In the file the guest variant lays its disc and button out in a column with a 28 top pad, summing to 201 inside a 140 box — so the button overhangs. Positioned here rather than laid out, to the same effect.',
+    'The guest silhouette is a <strong>2311-character path</strong> exported from the file, not an icon stood in for it — head and shoulders, flush to the bottom of the circle.',
+    'The picture is the file\'s own image fill, downloaded rather than approximated with a gradient.',
+    'The 4px edge is <code>strokeAlign: OUTSIDE</code>, so it adds to the 140 rather than eating into it: 148 on screen.',
+    'The edit button overhangs the circle, which is why the preview slot does not clip.',
   ],
 };
 

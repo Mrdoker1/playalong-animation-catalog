@@ -116,6 +116,11 @@ function fit(host: HTMLElement) {
       scalers[i].style.width = `${w}px`;
       scalers[i].style.height = `${h}px`;
       slot.style.height = `${Math.ceil(h * factor)}px`;
+      // Only a scaled slot clips: a transform leaves its old box behind, and
+      // without this the next variant is pushed sideways. An unscaled slot must
+      // NOT clip — several components deliberately overhang, like the avatar's
+      // edit button.
+      slot.style.overflow = 'hidden';
       const label = slot.nextElementSibling as HTMLElement | null;
       if (label) {
         label.dataset.base ??= label.textContent ?? '';
@@ -123,6 +128,7 @@ function fit(host: HTMLElement) {
       }
     } else {
       slot.style.height = '';
+      slot.style.overflow = '';
       const label = slot.nextElementSibling as HTMLElement | null;
       if (label?.dataset.base) label.textContent = label.dataset.base;
     }
