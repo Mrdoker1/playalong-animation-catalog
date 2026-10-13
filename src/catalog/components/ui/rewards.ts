@@ -37,7 +37,7 @@ injectStyle('css-c-reward', `
 .c-reward::after { content: ''; position: absolute; inset: 0; border-radius: inherit;
   pointer-events: none; box-shadow: inset 0 0 0 1px var(--tv-border-white-20); }
 .c-reward.is-focus::after, .c-reward.is-selected::after {
-  box-shadow: inset 0 0 0 4px var(--tv-button-primary-solid); }
+  box-shadow: inset 0 0 0 6px var(--tv-focus-ring-color); }
 /* Every position below is measured from the tile's outer edge, as in the file. */
 .c-reward__glow { position: absolute; left: 99px; top: -25px; width: 337.781px; height: 337.781px;
   object-fit: cover; display: block; }
@@ -190,7 +190,7 @@ export const AvatarTile: ComponentModule = {
   notes: [
     '<strong>Selected is the badge alone</strong> — a 54 blue check on the top-right, with no ring; the 8px <code>Primary Solid</code> ring belongs to focus. <em>Selected and focus</em> carries both. The badge\'s white is only inside the tick: there is no white edge around it.',
     '<strong>The two sizes carry different rings</strong>: M rests on a 1px <code>Button/Secondary</code> edge, L on a 9px <code>Border/White 20</code> one. Not one ring scaled — two decisions.',
-    'Focus is an <strong>8px</strong> <code>Primary Solid</code> ring, where the product\'s focus-ring token is 6. <strong>A third focus width in the file</strong>, after the 6 on cards and the 4 on inputs.',
+    'Focus was an <strong>8px</strong> ring here, against 6 on cards and 4 on inputs. <strong>Unified to 6 on 2026-10-13</strong> (design) and bound to <code>TV/Focus/Ring Color</code>, so the whole product now focuses at one width.',
     'Size L exists only in <code>Default</code> — there is no focused or selected 300 tile, so the large one cannot be picked. It is the display size.',
     'This is the <strong>picked</strong> avatar — a choice, not a reward. The earned kind is post-MVP and is a set of its own; see the hub glossary, which splits the word deliberately.',
   ],

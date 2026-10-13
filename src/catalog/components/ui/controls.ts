@@ -384,10 +384,10 @@ injectStyle('css-c-input', `
 }
 .c-input__ico { opacity: .5; flex: none; display: flex; }
 .c-input__ph  { opacity: .5; }
-.c-input.is-focus  .c-input__box { box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+.c-input.is-focus  .c-input__box { box-shadow: 0 0 0 6px var(--tv-focus-ring-color); }
 .c-input.is-typing .c-input__box { box-shadow: 0 0 0 2px var(--tv-text-primary); }
 .c-input.is-alert  .c-input__box { background: var(--tv-transparent-red-50); box-shadow: none; }
-.c-input.is-alert.is-focus .c-input__box { box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+.c-input.is-alert.is-focus .c-input__box { box-shadow: 0 0 0 6px var(--tv-focus-ring-color); }
 .c-input.is-disabled .c-input__box { opacity: .5; }
 .c-input__caret { display: inline-block; width: 2px; height: 31px; margin-left: 2px;
   background: var(--tv-base-light); animation: c-input-caret 1s step-end infinite; }
@@ -446,7 +446,7 @@ export const Input: ComponentModule = {
     { label: 'Alert with Focus', el: () => input('alert-focus', 'Email Address', 'Message text') },
   ],
   notes: [
-    '<strong>Three rings, not two.</strong> Idle is <code>Border/White 20</code> at 2, <strong>Typing is <code>Text/Primary</code> at 2</strong> — not blue — and focus is <code>Primary Solid</code> at 4. So a field being typed into is not drawn as a focused one, which is why the set carries <code>Typing</code> and <code>Typing Focus</code> separately.',
+    '<strong>Three rings, not two.</strong> Idle is <code>Border/White 20</code> at 2, <strong>Typing is <code>Text/Primary</code> at 2</strong> — not blue — and focus is the focus-ring token at 6. So a field being typed into is not drawn as a focused one, which is why the set carries <code>Typing</code> and <code>Typing Focus</code> separately.',
     'A <strong>placeholder is drawn at 50%</strong> and a typed value at full strength. Same node, same token, different opacity — so the two do read differently, and the caret is a 2 × 31 white rule.',
     '<code>Disabled</code> dims the whole field to 50%, including its ring. It is the only state that does.',
     'Every variant carries the <code>Input messages</code> row, so the component is <strong>114 high whether or not there is a message</strong> — the box is 72 and the row is 32 with a 10 gap. The auth screens hide the row, which is why a field there measures 72.',
@@ -463,7 +463,7 @@ injectStyle('css-c-chkmsg', `
 .c-chkmsg { display: inline-flex; align-items: center; gap: 12px; box-sizing: border-box;
   ${T('label-m')}; color: var(--tv-base-light); text-transform: none; white-space: nowrap; }
 .c-chkmsg.is-focus { padding: 4px; border-radius: 8px;
-  box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+  box-shadow: 0 0 0 6px var(--tv-focus-ring-color); }
 .c-chkmsg .c-check { width: 32px; height: 32px; }
 `);
 
@@ -485,7 +485,7 @@ export const CheckboxMessage: ComponentModule = {
     { label: 'Focus Selected', el: () => checkboxMessage(true, true) },
   ],
   notes: [
-    '<strong>Focus is on the pair, not on the box.</strong> The whole row takes 4 of padding and a 4px <code>Primary Solid</code> ring at radius 8, and the plain <code>Checkbox</code> component\'s own 44 focus halo is not used here. Two controls, two different focus treatments for the same box. <strong>Worth reconciling.</strong>',
+    '<strong>Focus is on the pair, not on the box.</strong> The whole row takes 4 of padding and the focus ring at radius 8, and the plain <code>Checkbox</code> component\'s own 44 focus halo is not used here. Two controls, two different focus treatments for the same box. <strong>Worth reconciling.</strong>',
     'The unfocused variants are <strong>278 wide and the focused ones 206</strong>, for the same 154-wide label. The number is whatever the frame was last left at rather than a measurement — the control hugs its content.',
     'The label binds <code>Label/M</code>, which is <code>Rubik Medium 18 CAPS</code> in the file — but it is drawn as <em>Show Password</em>, in sentence case. Either the style or the binding is wrong. <strong>Needs a decision.</strong> Drawn here without the caps transform, as the file renders it.',
   ],

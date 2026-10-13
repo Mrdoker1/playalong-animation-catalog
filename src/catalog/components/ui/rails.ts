@@ -27,7 +27,7 @@ injectStyle('css-c-rail', `
 .c-card__art { position: relative; border-radius: 12px; overflow: hidden;
   background: var(--tv-base-neutral); box-shadow: 0 0 0 1px var(--tv-border-white-20); }
 .c-card__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.c-card.is-focus .c-card__art { box-shadow: 0 0 0 6px var(--tv-button-primary-solid); }
+.c-card.is-focus .c-card__art { box-shadow: 0 0 0 6px var(--tv-focus-ring-color); }
 .c-card.is-prime .c-card__art { box-shadow: 0 0 0 1px var(--tv-game-ui-yellow); }
 .c-card.is-skeleton .c-card__art { background: var(--tv-button-secondary); }
 .c-card__title { ${T('heading-s')}; font-size: 24px; line-height: 28px; color: var(--tv-base-light); }
@@ -59,7 +59,7 @@ injectStyle('css-c-rail', `
 .c-sli { width: 812px; box-sizing: border-box; display: flex; gap: 20px; padding: 20px;
   border-radius: 12px; }
 .c-sli.is-focus { background: var(--tv-button-secondary);
-  box-shadow: 0 0 0 6px var(--tv-button-primary-solid); }
+  box-shadow: 0 0 0 6px var(--tv-focus-ring-color); }
 .c-sli__art { width: 169px; height: 92px; position: relative; flex: none;
   border-radius: 4px; overflow: hidden; }
 .c-sli__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
