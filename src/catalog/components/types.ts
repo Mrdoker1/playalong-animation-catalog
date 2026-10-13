@@ -29,4 +29,6 @@ export type ComponentModule = {
   notes?: string[];
   /** Variants are laid out on a dark product ground unless this says otherwise. */
   ground?: 'dark' | 'neutral';
+  /** Full-bleed components (Status Box is 1704 wide) get a column each and scroll. */
+  wide?: boolean;
 };

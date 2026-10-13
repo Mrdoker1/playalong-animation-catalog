@@ -14,13 +14,14 @@ function init() {
   main.className = 'main';
   let cleanup: (() => void) | null = null;
 
-  function open(id: string) {
+  function open(route: string) {
+    const [id, arg] = route.split('~');
     const entry = ENTRIES.find((e) => e.id === id);
     if (!entry) return;
     cleanup?.();
-    cleanup = entry.open(main);
+    cleanup = entry.open(main, arg);
     sidebar.setActive(id);
-    if (location.hash.replace(/^#/, '') !== id) location.hash = id;
+    if (location.hash.replace(/^#/, '') !== route) location.hash = route;
   }
 
   const sidebar = createSidebar(open);

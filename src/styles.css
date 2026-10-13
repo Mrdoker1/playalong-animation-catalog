@@ -513,3 +513,16 @@ select:focus, input:focus { border-color: var(--accent); }
 .token-chip--colour { border-left: 3px solid var(--accent); }
 .token-chip--type { border-left: 3px solid #2da66b; }
 .token-chip--none { opacity: .5; }
+.variants--wide { grid-template-columns: 1fr; }
+.variants--wide .variant__slot { display: block; overflow-x: auto; max-width: 100%; padding-bottom: 6px; }
+.variants--wide .variant { width: 100%; align-items: stretch; }
+.variants--wide .variant__slot > * { width: 100%; }
+
+/* A token arrived at from a component's chip */
+.swatch.is-hit, .specimen.is-hit {
+  outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--radius);
+  animation: token-hit 1.6s ease-out 1;
+}
+@keyframes token-hit { 0%, 60% { background: var(--accent-soft); } 100% { background: none; } }
+a.token-chip { text-decoration: none; transition: border-color .12s ease, color .12s ease; }
+a.token-chip:hover { color: var(--text); border-color: var(--accent); }

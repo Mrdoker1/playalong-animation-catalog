@@ -6,9 +6,15 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
   const root = document.createElement('section');
   root.className = 'card';
 
-  const chips = (list: string[], kind: string) =>
+  // A colour chip links into the Colour page at that token; a type chip into
+  // Typography. Reading "which token is this" and then hunting for it by eye was
+  // the slow half of using this page.
+  const chips = (list: string[], kind: 'colour' | 'type') =>
     list.length
-      ? list.map((t) => `<span class="token-chip token-chip--${kind}">${t}</span>`).join('')
+      ? list.map((t) => {
+          const page = kind === 'colour' ? 'foundation-colour' : 'foundation-type';
+          return `<a class="token-chip token-chip--${kind}" href="#${page}~${t}">${t}</a>`;
+        }).join('')
       : '<span class="token-chip token-chip--none">none</span>';
 
   root.innerHTML = `
@@ -21,7 +27,7 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
          href="https://www.figma.com/design/${FILE}/OTT-TV-Design?node-id=${c.figma.replace(':', '-')}">Open in Figma</a>
     </header>
 
-    <div class="variants variants--${c.ground ?? 'dark'}" data-role="variants"></div>
+    <div class="variants variants--${c.ground ?? 'dark'}${c.wide ? ' variants--wide' : ''}" data-role="variants"></div>
 
     <div class="comp__meta">
       <div class="comp__block">

@@ -48,7 +48,7 @@ function colourPage(): HTMLElement {
         const value = deref(t.$value);
         const alias = showAlias && typeof t.$value === 'string' && t.$value.startsWith('{')
           ? `<div class="swatch__alias">→ ${esc(t.$value.slice(1, -1).split('.').slice(-2).join('/'))}</div>` : '';
-        return `<div class="swatch">
+        return `<div class="swatch" data-token="${esc(showAlias ? path.join('/') : path.join('/'))}">
           <div class="swatch__chip" style="background:${value}"></div>
           <div class="swatch__meta">
             <div class="swatch__name">${esc(path.join('/'))}</div>
@@ -62,7 +62,7 @@ function colourPage(): HTMLElement {
     const v = t.$value as { type: string; stops: { color: string; position: number }[] };
     const stops = v.stops.map((s) => `${s.color} ${Math.round(s.position * 100)}%`).join(', ');
     const css = v.type === 'angular' ? `conic-gradient(from 0deg, ${stops})` : `linear-gradient(180deg, ${stops})`;
-    return `<div class="swatch">
+    return `<div class="swatch" data-token="${esc(path.join('/'))}">
       <div class="swatch__chip" style="background:${css}"></div>
       <div class="swatch__meta"><div class="swatch__name">${esc(path.join('/'))}</div>
       <div class="swatch__value">${v.stops.length} stops · ${v.type}</div></div></div>`;
@@ -85,7 +85,7 @@ function typePage(): HTMLElement {
     const ls = v.letterSpacing as { unit: string; value: number };
     const tracking = ls.unit === 'percent' ? `${ls.value / 100}em` : `${ls.value}px`;
     const style = `font-family:'${family}';font-weight:${weight};font-size:${size};line-height:${line};letter-spacing:${tracking};text-transform:${v.textCase === 'UPPER' ? 'uppercase' : 'none'}`;
-    return `<div class="specimen">
+    return `<div class="specimen" data-token="${esc(path.join('/'))}">
       <div class="specimen__meta">
         <div class="specimen__name">${esc(path.join('/'))}</div>
         ${esc(family)} ${esc(weightName)}<br>${esc(size)} / ${esc(line)} · ${esc(tracking)}
@@ -100,15 +100,23 @@ function typePage(): HTMLElement {
     `<div class="specimens">${rows}</div>`);
 }
 
-const mount = (host: HTMLElement, el: HTMLElement) => {
+const mount = (host: HTMLElement, el: HTMLElement, want?: string) => {
   host.innerHTML = '';
   host.appendChild(el);
+  if (want) {
+    // Tokens arrive as `TV/Base/Dark`; the swatch carries the same string.
+    const hit = el.querySelector<HTMLElement>(`[data-token="${CSS.escape(want)}"]`);
+    if (hit) {
+      hit.classList.add('is-hit');
+      hit.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
   return () => { /* static page, nothing to tear down */ };
 };
 
 export const FOUNDATIONS: CatalogEntry[] = [
   { id: 'foundation-colour', title: 'Colour', kind: 'component', section: 'Foundations',
-    badge: { text: 'Tokens', tone: 'ready' }, open: (h) => mount(h, colourPage()) },
+    badge: { text: 'Tokens', tone: 'ready' }, open: (h, arg) => mount(h, colourPage(), arg) },
   { id: 'foundation-type', title: 'Typography', kind: 'component', section: 'Foundations',
-    badge: { text: 'Tokens', tone: 'ready' }, open: (h) => mount(h, typePage()) },
+    badge: { text: 'Tokens', tone: 'ready' }, open: (h, arg) => mount(h, typePage(), arg) },
 ];

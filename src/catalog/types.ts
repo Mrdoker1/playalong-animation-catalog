@@ -17,8 +17,11 @@ export type CatalogEntry = {
   section: string;
   /** Small pill on the sidebar row. */
   badge?: { text: string; tone?: 'ready' | 'tbd' | 'demo' };
-  /** Paint into `host`; return a cleanup that runs before the next entry opens. */
-  open: (host: HTMLElement) => () => void;
+  /**
+   * Paint into `host`; return a cleanup that runs before the next entry opens.
+   * `arg` is whatever followed `~` in the hash — used to deep-link a token.
+   */
+  open: (host: HTMLElement, arg?: string) => () => void;
 };
 
 /**

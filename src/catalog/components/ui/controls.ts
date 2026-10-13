@@ -1,5 +1,6 @@
 import { injectStyle } from '../../../lib/injectStyle';
 import type { ComponentModule } from '../types';
+import { icon, ICON_NAMES } from '../icons';
 
 /** Shared helper: build an element from an HTML string. */
 const h = (html: string): HTMLElement => {
@@ -20,8 +21,7 @@ injectStyle('css-c-button', `
   padding: 20px 32px; box-sizing: border-box; border: 1px solid transparent;
   ${T('body-l')}; color: var(--tv-base-light); white-space: nowrap;
 }
-.c-btn__icon { width: 32px; height: 32px; flex: none; border-radius: 50%;
-  background: currentColor; opacity: .9; }
+.c-btn > svg { flex: none; }
 .c-btn--primary   { background: var(--tv-base-light); color: var(--tv-base-dark); }
 .c-btn--secondary { background: var(--tv-button-secondary); border-color: var(--tv-border-white-20); }
 .c-btn--ghost     { background: none; }
@@ -30,9 +30,9 @@ injectStyle('css-c-button', `
 .c-btn.is-disabled { opacity: .4; }
 `);
 
-const button = (type: string, state?: 'focus' | 'disabled', text = 'Play Now') =>
+const button = (type: string, state?: 'focus' | 'disabled', text = 'Play Now', ico = 'Play') =>
   h(`<div class="c-btn c-btn--${type}${state ? ` is-${state}` : ''}">
-       <span class="c-btn__icon"></span><span>${text}</span>
+       ${icon(ico)}<span>${text}</span>
      </div>`);
 
 export const Button: ComponentModule = {
@@ -46,18 +46,18 @@ export const Button: ComponentModule = {
     { label: 'Primary · Default', el: () => button('primary') },
     { label: 'Primary · Focus', el: () => button('primary', 'focus') },
     { label: 'Primary · Disabled', el: () => button('primary', 'disabled') },
-    { label: 'Secondary · Default', el: () => button('secondary', undefined, 'Episodes') },
-    { label: 'Secondary · Focus', el: () => button('secondary', 'focus', 'Episodes') },
-    { label: 'Ghost · Default', el: () => button('ghost', undefined, 'Home') },
-    { label: 'Ghost · Focus', el: () => button('ghost', 'focus', 'Home') },
-    { label: 'Outline · Default', el: () => button('outline', undefined, 'Log Out') },
-    { label: 'Outline · Focus', el: () => button('outline', 'focus', 'Log Out') },
+    { label: 'Secondary · Default', el: () => button('secondary', undefined, 'Episodes', 'List') },
+    { label: 'Secondary · Focus', el: () => button('secondary', 'focus', 'Episodes', 'List') },
+    { label: 'Ghost · Default', el: () => button('ghost', undefined, 'Home', 'Home') },
+    { label: 'Ghost · Focus', el: () => button('ghost', 'focus', 'Home', 'Home') },
+    { label: 'Outline · Default', el: () => button('outline', undefined, 'Log Out', 'Logout') },
+    { label: 'Outline · Focus', el: () => button('outline', 'focus', 'Log Out', 'Logout') },
   ],
   notes: [
     'Every <strong>Focus</strong> variant is the same in the file whatever the type: the <code>TV/Button/Primary</code> gradient with a 1px <code>Primary Solid</code> edge. Type only decides how it rests.',
     'Six variants in Figma carry padding <code>20px 335px</code> on a 240-wide box, which cannot be right — a leftover from a wider frame. The <code>20px 32px</code> from the Focus and Secondary variants is used here. <strong>Worth fixing in the file.</strong>',
     'The <strong>Disabled</strong> variants read identical to Default in the file — same fills, same border, same text colour. The 40% dim here is this rebuild\'s guess, not a measurement. <strong>Needs a decision.</strong>',
-    'The icon is a filled circle standing in for the <code>Icon</code> component set (55 types), which is not rebuilt yet.',
+    'The icons are the real set, exported from the <code>Icon</code> component.',
   ],
 };
 
@@ -67,7 +67,7 @@ injectStyle('css-c-tag', `
 .c-tag { display: inline-flex; align-items: center; gap: 6px; border-radius: 4px;
   padding: 4px 8px; box-sizing: border-box; ${T('label-s')};
   color: var(--tv-base-light); background: var(--tv-base-dark); }
-.c-tag__dot { width: 16px; height: 16px; border-radius: 3px; background: currentColor; flex: none; }
+.c-tag > svg { flex: none; }
 .c-tag--new   { background: var(--tv-tags-primary); }
 .c-tag--prime { background: var(--tv-game-ui-yellow); color: var(--tv-base-dark); }
 .c-tag--info  { background: none; border: 2px solid var(--tv-game-ui-green-1);
@@ -82,15 +82,15 @@ export const Tag: ComponentModule = {
     type: ['Body/M', 'Label/S'],
   },
   variants: [
-    { label: 'Interactive', el: () => h(`<span class="c-tag"><span class="c-tag__dot"></span>Interactive</span>`) },
+    { label: 'Interactive', el: () => h(`<span class="c-tag">${icon('Gamepad', 16)}Interactive</span>`) },
     { label: 'New', el: () => h(`<span class="c-tag c-tag--new">NEW</span>`) },
-    { label: 'Played', el: () => h(`<span class="c-tag"><span class="c-tag__dot"></span>PLAYED</span>`) },
-    { label: 'Prime Time', el: () => h(`<span class="c-tag c-tag--prime"><span class="c-tag__dot"></span>PRIME TIME</span>`) },
+    { label: 'Played', el: () => h(`<span class="c-tag">${icon('Check', 16)}PLAYED</span>`) },
+    { label: 'Prime Time', el: () => h(`<span class="c-tag c-tag--prime">${icon('Fire', 16)}PRIME TIME</span>`) },
     { label: 'Info', el: () => h(`<span class="c-tag c-tag--info">Guest</span>`) },
   ],
   notes: [
     '<strong>Game Type</strong> is the sixth type and is not here: in the file it is an empty wrapper around the separate <code>Game Type Tag</code> component, so it has no appearance of its own.',
-    '<code>Interactive</code> uses a Material icon ligature in the file (<code>gamepad</code>, 16px) rather than the icon component. Stood in with a square.',
+    '<code>Interactive</code> uses a Material icon ligature in the file (<code>gamepad</code>, 16px) rather than the icon component; the set\'s own <code>Gamepad</code> is used here.',
   ],
 };
 
@@ -100,13 +100,15 @@ injectStyle('css-c-toggle', `
 .c-toggle { width: 280px; height: 72px; border-radius: 12px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 19px 16px; background: var(--tv-button-secondary);
-  border: 1px solid var(--tv-border-white-20); ${T('body-l')}; color: var(--tv-base-light); }
+  border: 1px solid var(--tv-border-white-20); ${T('body-l')}; color: var(--tv-base-light);
+  white-space: nowrap; cursor: default; }
 .c-toggle.is-focus { border: var(--tv-focus-ring-width) solid var(--tv-focus-ring-color); }
-.c-toggle__track { width: 70px; height: 35px; border-radius: 8px; flex: none;
-  border: 2px solid var(--tv-base-light); display: flex; align-items: center; }
-.c-toggle__knob { width: 40px; height: 35px; background: var(--tv-base-light); }
-.c-toggle--on  .c-toggle__track { justify-content: flex-end; }
-.c-toggle--off .c-toggle__track { justify-content: flex-start; }
+.c-toggle__track { width: 70px; height: 35px; border-radius: 8px; flex: none; box-sizing: border-box;
+  border: 2px solid var(--tv-base-light); display: flex; align-items: center; padding: 2px; }
+.c-toggle__knob { width: 36px; height: 100%; border-radius: 5px; background: var(--tv-base-light);
+  transition: transform .18s cubic-bezier(.3,.9,.3,1); transform: translateX(0); }
+.c-toggle--on .c-toggle__knob { transform: translateX(26px); }
+.c-toggle--live { cursor: pointer; }
 `);
 
 const toggle = (on: boolean, focus = false) =>
@@ -114,6 +116,26 @@ const toggle = (on: boolean, focus = false) =>
        <span>PlayAlong ${on ? 'ON' : 'OFF'}</span>
        <span class="c-toggle__track"><span class="c-toggle__knob"></span></span>
      </div>`);
+
+/** The one you can click. The knob slides; the label follows the state. */
+const liveToggle = (): HTMLElement => {
+  const el = toggle(false);
+  el.classList.add('c-toggle--live');
+  el.setAttribute('role', 'switch');
+  el.setAttribute('aria-checked', 'false');
+  el.tabIndex = 0;
+  const flip = () => {
+    const on = el.classList.toggle('c-toggle--on');
+    el.classList.toggle('c-toggle--off', !on);
+    el.setAttribute('aria-checked', String(on));
+    el.querySelector('span')!.textContent = `PlayAlong ${on ? 'ON' : 'OFF'}`;
+  };
+  el.addEventListener('click', flip);
+  el.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); flip(); }
+  });
+  return el;
+};
 
 export const Toggle: ComponentModule = {
   id: 'c-toggle', title: 'Toggle', group: 'Controls', figma: '701:11494',
@@ -126,6 +148,7 @@ export const Toggle: ComponentModule = {
     { label: 'Off', el: () => toggle(false) },
     { label: 'On', el: () => toggle(true) },
     { label: 'Focus', el: () => toggle(true, true) },
+    { label: '▶ Live — click or press Enter', el: liveToggle },
   ],
   notes: [
     'Focus is a <strong>6px</strong> <code>Primary Solid</code> edge here, which is the focus-ring token — so the border grows 5px inward and the content shifts. In the file it is drawn the same way.',
@@ -156,6 +179,20 @@ export const TabsItem: ComponentModule = {
     { label: 'Default', el: () => h(`<span class="c-tab">Season 3</span>`) },
     { label: 'Selected', el: () => h(`<span class="c-tab is-selected">Season 4</span>`) },
     { label: 'Focus', el: () => h(`<span class="c-tab is-focus">Season 4</span>`) },
+    { label: '▶ Live — click a season', el: () => {
+      const row = h(`<div style="display:flex;gap:8px">
+        <span class="c-tab is-selected">Season 4</span>
+        <span class="c-tab">Season 3</span>
+        <span class="c-tab">Season 2</span></div>`);
+      row.querySelectorAll<HTMLElement>('.c-tab').forEach((t) => {
+        t.style.cursor = 'pointer';
+        t.addEventListener('click', () => {
+          row.querySelectorAll('.c-tab').forEach((o) => o.classList.remove('is-selected'));
+          t.classList.add('is-selected');
+        });
+      });
+      return row;
+    } },
   ],
   notes: [
     'The label is <strong>not bound to a text style</strong> in the file — it is a loose Rubik 24/32. Every other control here binds one.',
@@ -181,6 +218,25 @@ const check = (selected: boolean, focus: boolean) =>
        <span class="c-check__box">${selected ? '<span class="c-check__tick"></span>' : ''}</span>
      </span>`);
 
+const liveCheck = (): HTMLElement => {
+  const el = check(false, false);
+  el.style.cursor = 'pointer';
+  el.tabIndex = 0;
+  el.setAttribute('role', 'checkbox');
+  const flip = () => {
+    const on = el.classList.toggle('is-selected');
+    el.setAttribute('aria-checked', String(on));
+    el.querySelector('.c-check__box')!.innerHTML = on ? '<span class="c-check__tick"></span>' : '';
+  };
+  el.addEventListener('click', flip);
+  el.addEventListener('focus', () => el.classList.add('is-focusring'));
+  el.addEventListener('blur', () => el.classList.remove('is-focusring'));
+  el.addEventListener('keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') { e.preventDefault(); flip(); }
+  });
+  return el;
+};
+
 export const Checkbox: ComponentModule = {
   id: 'c-checkbox', title: 'Checkbox', group: 'Controls', figma: '10432:15304',
   description: '24 × 24 box in a 32 frame. Focus is a 44 circle behind it — which is exactly the ten-foot focus-target floor.',
@@ -190,6 +246,7 @@ export const Checkbox: ComponentModule = {
     { label: 'Selected', el: () => check(true, false) },
     { label: 'Focus', el: () => check(false, true) },
     { label: 'Focus Selected', el: () => check(true, true) },
+    { label: '▶ Live — click or tab to it', el: liveCheck },
   ],
   notes: [
     'The focus halo binds <code>Web/Transparent/White 25</code> — a <strong>web</strong> token on a TV control. Either the control is web, or the binding is wrong.',
@@ -218,5 +275,37 @@ export const Dots: ComponentModule = {
   ],
   notes: [
     'All three dots are <code>TV/Base/Light</code> in the file with no opacity recorded on the inactive ones; the 40% here is a rebuild choice so the active dot reads. <strong>Needs confirming.</strong>',
+  ],
+};
+
+
+/* ------------------------------------------------------------------- Icons */
+
+injectStyle('css-c-iconset', `
+.c-iconset { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 14px; width: 100%; }
+.c-iconset__cell { display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 6px; border-radius: 8px; border: 1px solid var(--tv-border-white-20);
+  color: var(--tv-base-light); }
+.c-iconset__name { font-family: var(--mono, monospace); font-size: 10px;
+  color: var(--tv-text-primary); text-align: center; word-break: break-word; }
+`);
+
+export const IconSet: ComponentModule = {
+  id: 'c-icons', title: 'Icons', group: 'Content', figma: '629:1861',
+  description: `The product icon set — ${ICON_NAMES.length} of the 55 in Figma, exported as SVG and drawn in currentColor, so an icon takes the colour of whatever it sits in.`,
+  tokens: { colour: ['TV/Base/Light'], type: [] },
+  wide: true,
+  variants: [
+    { label: `${ICON_NAMES.length} icons at 32`, el: () => {
+      const grid = h('<div class="c-iconset"></div>');
+      for (const name of ICON_NAMES) {
+        grid.appendChild(h(`<div class="c-iconset__cell">${icon(name)}<span class="c-iconset__name">${name}</span></div>`));
+      }
+      return grid;
+    } },
+  ],
+  notes: [
+    'Nine came back empty or degenerate in Figma — <code>Friends</code>, <code>Target</code>, <code>Motion Play</code>, <code>Focus</code>, <code>Focus Question</code>, <code>Crown</code>, <code>Avatar with Frame</code>, <code>Stacked-Avatar-StackStage2</code> — and <code>Processing</code> is a conic gradient rather than a path. They are left out rather than faked.',
   ],
 };
