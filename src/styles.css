@@ -483,7 +483,11 @@ select:focus, input:focus { border-color: var(--accent); }
 .disclosure--inline > .disclosure__head { padding: 8px 0; }
 .disclosure--inline[open] > .disclosure__head { border-bottom: 0; }
 .disclosure--inline > *:not(.disclosure__head) { padding: 0 0 4px; }
-.disclosure--wide { margin-top: 18px; }
+/* The card insets everything else by 24 -- .actions and .info-grid both do.
+   Without the same inset this one runs full-bleed, and a bordered box flush
+   against a bordered card reads as a seam rather than a panel. The bottom
+   margin is the card's closing gap, which it also had none of. */
+.disclosure--wide { margin: 18px 24px 24px; }
 .disclosure--wide > .tabs-row { padding: 12px 14px 0; }
 .disclosure--wide > .code-block { padding: 14px; }
 
