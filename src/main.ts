@@ -1,9 +1,7 @@
+import './tokens/tokens.css';
 import './styles.css';
 import { createSidebar } from './components/Sidebar';
-import { createAnimationCard } from './components/AnimationCard';
-import { ANIMATIONS } from './animations';
-
-type WithDestroy = HTMLElement & { __destroy?: () => void };
+import { ENTRIES } from './catalog/registry';
 
 function init() {
   const app = document.getElementById('app');
@@ -14,26 +12,22 @@ function init() {
 
   const main = document.createElement('main');
   main.className = 'main';
-  let currentCard: WithDestroy | null = null;
+  let cleanup: (() => void) | null = null;
 
   function open(id: string) {
-    const anim = ANIMATIONS.find((a) => a.id === id);
-    if (!anim) return;
-    if (currentCard?.__destroy) currentCard.__destroy();
-    main.innerHTML = '';
-    currentCard = createAnimationCard(anim) as WithDestroy;
-    main.appendChild(currentCard);
+    const entry = ENTRIES.find((e) => e.id === id);
+    if (!entry) return;
+    cleanup?.();
+    cleanup = entry.open(main);
     sidebar.setActive(id);
-    location.hash = id;
+    if (location.hash.replace(/^#/, '') !== id) location.hash = id;
   }
 
   const sidebar = createSidebar(open);
   app.appendChild(sidebar.root);
   app.appendChild(main);
 
-  // Open from hash or default to first animation.
-  const initialId = location.hash.replace(/^#/, '') || ANIMATIONS[0].id;
-  open(initialId);
+  open(location.hash.replace(/^#/, '') || ENTRIES[0].id);
 
   window.addEventListener('hashchange', () => {
     const next = location.hash.replace(/^#/, '');

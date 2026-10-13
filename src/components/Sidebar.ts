@@ -1,5 +1,4 @@
-import type { AnimationModule } from '../types';
-import { ANIMATIONS } from '../animations';
+import { SECTIONS } from '../catalog/registry';
 
 const COLLAPSED_KEY = 'sidebar:collapsed';
 
@@ -22,72 +21,87 @@ function saveCollapsed(collapsed: Set<string>) {
 export function createSidebar(onSelect: (id: string) => void) {
   const root = document.createElement('aside');
   root.className = 'sidebar';
-
   root.innerHTML = `
     <div class="sidebar__brand">
       <p class="sidebar__title">PlayAlong TV</p>
-      <p class="sidebar__subtitle">Animation Catalog</p>
+      <p class="sidebar__subtitle">Catalog</p>
     </div>
+    <input class="sidebar__search" type="search" placeholder="Filter…" aria-label="Filter the catalog" />
   `;
 
   const collapsed = loadCollapsed();
-  const groups: { game: string; el: HTMLElement; toggle: HTMLButtonElement }[] = [];
+  const groups: { name: string; el: HTMLElement; toggle: HTMLButtonElement }[] = [];
 
-  function setCollapsed(game: string, el: HTMLElement, toggle: HTMLButtonElement, value: boolean) {
+  function setCollapsed(name: string, el: HTMLElement, toggle: HTMLButtonElement, value: boolean) {
     el.classList.toggle('is-collapsed', value);
     toggle.setAttribute('aria-expanded', String(!value));
-    if (value) collapsed.add(game); else collapsed.delete(game);
+    if (value) collapsed.add(name); else collapsed.delete(name);
     saveCollapsed(collapsed);
   }
 
-  const games: AnimationModule['game'][] = ['Family Feud', 'Card Sharks', 'Stack It', 'Common', 'Win/Lose'];
-  for (const game of games) {
-    const items = ANIMATIONS.filter((a) => a.game === game);
-    if (items.length === 0) continue;
-
+  for (const section of SECTIONS) {
     const group = document.createElement('div');
     group.className = 'sidebar__group';
     group.innerHTML = `
       <button type="button" class="sidebar__group-title" aria-expanded="true">
         <span class="sidebar__chevron" aria-hidden="true"></span>
-        <span class="sidebar__group-name">${game}</span>
-        <span class="sidebar__group-count">${items.length}</span>
+        <span class="sidebar__group-name">${section.name}</span>
+        <span class="sidebar__group-count">${section.items.length}</span>
       </button>
       <div class="sidebar__group-body"><div class="sidebar__group-items"></div></div>
     `;
     const toggle = group.querySelector<HTMLButtonElement>('.sidebar__group-title')!;
     const list = group.querySelector<HTMLElement>('.sidebar__group-items')!;
     toggle.addEventListener('click', () => {
-      setCollapsed(game, group, toggle, !group.classList.contains('is-collapsed'));
+      setCollapsed(section.name, group, toggle, !group.classList.contains('is-collapsed'));
     });
-    if (collapsed.has(game)) {
+    if (collapsed.has(section.name)) {
       group.classList.add('is-collapsed');
       toggle.setAttribute('aria-expanded', 'false');
     }
-    groups.push({ game, el: group, toggle });
+    groups.push({ name: section.name, el: group, toggle });
 
-    for (const a of items) {
+    for (const entry of section.items) {
       const item = document.createElement('div');
       item.className = 'sidebar__item';
-      item.dataset.id = a.id;
+      item.dataset.id = entry.id;
+      item.dataset.search = `${entry.title} ${entry.section}`.toLowerCase();
+      const badge = entry.badge;
       item.innerHTML = `
-        <span>${a.title}</span>
-        ${a.tbd ? '<span class="sidebar__badge is-tbd">TBD</span>' : '<span class="sidebar__badge">Ready</span>'}
+        <span class="sidebar__item-name">${entry.title}</span>
+        ${badge ? `<span class="sidebar__badge is-${badge.tone ?? 'ready'}">${badge.text}</span>` : ''}
       `;
-      item.addEventListener('click', () => onSelect(a.id));
+      item.addEventListener('click', () => onSelect(entry.id));
       list.appendChild(item);
     }
     root.appendChild(group);
   }
 
+  // Filter: hide rows that do not match, and any group left with nothing.
+  const search = root.querySelector<HTMLInputElement>('.sidebar__search')!;
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    for (const g of groups) {
+      let shown = 0;
+      g.el.querySelectorAll<HTMLElement>('.sidebar__item').forEach((el) => {
+        const hit = !q || (el.dataset.search ?? '').includes(q);
+        el.hidden = !hit;
+        if (hit) shown++;
+      });
+      g.el.hidden = shown === 0;
+      if (q && shown > 0 && g.el.classList.contains('is-collapsed')) {
+        setCollapsed(g.name, g.el, g.toggle, false);
+      }
+    }
+  });
+
   function setActive(id: string) {
     root.querySelectorAll('.sidebar__item').forEach((el) => {
       el.classList.toggle('is-active', (el as HTMLElement).dataset.id === id);
     });
-    // Never hide the animation that's open: expand its group.
     const active = root.querySelector<HTMLElement>('.sidebar__item.is-active');
     const g = groups.find((x) => x.el.contains(active));
-    if (g && g.el.classList.contains('is-collapsed')) setCollapsed(g.game, g.el, g.toggle, false);
+    if (g && g.el.classList.contains('is-collapsed')) setCollapsed(g.name, g.el, g.toggle, false);
   }
 
   return { root, setActive };

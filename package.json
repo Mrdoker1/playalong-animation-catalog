@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Interactive animation catalog for PlayAlong TV game overlays",
+  "description": "PlayAlong TV catalog \u2014 animations, demos, screens and components, wired to the design tokens",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "npm run tokens:build && vite",
+    "build": "npm run tokens:build && tsc && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "tokens:build": "node scripts/tokens-to-css.mjs",
+    "external:sync": "node scripts/sync-external.mjs && npm run tokens:build"
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",

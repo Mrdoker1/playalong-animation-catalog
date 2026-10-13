@@ -48,11 +48,13 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
 
       <div class="info-grid">
         <div class="info-grid__col">
-          <h3 class="section__title">Description</h3>
-          <div class="pm-block-wrap">
-            <div class="pm-block" data-role="pm-output"></div>
-            <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
-          </div>
+          <details class="disclosure">
+            <summary class="disclosure__head">Ticket description</summary>
+            <div class="pm-block-wrap">
+              <div class="pm-block" data-role="pm-output"></div>
+              <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
+            </div>
+          </details>
         </div>
         <div class="info-grid__col">
           <h3 class="section__title">Controls</h3>
@@ -72,17 +74,20 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
               </select>
             </div>
 
-            <div class="control">
-              <div class="control__label">Custom cubic-bezier</div>
+            <div class="control__hint" data-role="easing-desc">${state.easing.description}</div>
+
+            <details class="disclosure disclosure--inline">
+              <summary class="disclosure__head">Custom cubic-bezier</summary>
               <div class="bezier-inputs">
                 ${state.easing.bezier.map((v, i) => `<input type="number" step="0.01" value="${v}" data-role="bezier-${i}" />`).join('')}
               </div>
-              <div class="control__hint" data-role="easing-desc">${state.easing.description}</div>
-            </div>
+            </details>
           </div>
         </div>
       </div>
 
+      <details class="disclosure disclosure--wide">
+        <summary class="disclosure__head">Implementation code</summary>
       <div class="tabs-row">
         <div class="tabs" role="tablist">
           ${PLATFORMS.map((p) => `
@@ -93,6 +98,7 @@ export function createAnimationCard(anim: AnimationModule): HTMLElement {
       </div>
 
       <div class="code-block" data-role="snippet-output"></div>
+      </details>
     </div>
   `;
 
