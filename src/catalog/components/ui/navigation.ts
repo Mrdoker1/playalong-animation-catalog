@@ -6,6 +6,7 @@
  * `specs/PTV-858-menu-no-content-shift/ui-spec.md` in the hub exactly — the
  * 250 x 64 focus ring at x = 47, the 160 rail, the 96 top padding.
  */
+import '../../../shared/menu-ptv858.css';   // the single source of the PTV-858 numbers
 import { injectStyle } from '../../../lib/injectStyle';
 import type { ComponentModule } from '../types';
 import { icon } from '../icons';
@@ -24,7 +25,7 @@ const T = (n: string) =>
 injectStyle('css-c-menu', `
 .c-menu { height: 1080px; box-sizing: border-box; padding: 96px 0; position: relative;
   display: flex; flex-direction: column; color: var(--tv-base-light); }
-.c-menu--collapsed { width: 160px; }
+.c-menu--collapsed { width: var(--menu-rail); }
 .c-menu--expanded  { width: 340px; }
 .c-menu__logo { align-self: flex-start; margin-left: 56px; display: flex; }
 .c-menu--expanded .c-menu__logo { margin-left: 58px; }
@@ -39,19 +40,19 @@ injectStyle('css-c-menu', `
   background: var(--gradient-tv-button-primary);
   box-shadow: inset 0 0 0 1px var(--tv-button-primary-solid); }
 
-.c-overlay { width: 792px; height: 1080px; position: relative; overflow: hidden; }
+.c-overlay { width: var(--menu-ramp-w); height: 1080px; position: relative; overflow: hidden; }
 /* The real Home screen the menu sits on — captured from the TV Game PoC at
    1920 x 1080 with its own rail hidden, so only this rail is drawn. Without real
    content the ramp is invisible on a dark card, and dimming is its whole job. */
 .c-overlay__behind { position: absolute; inset: 0;
   background: var(--tv-base-dark) url('assets/components/home-screen.jpg') left top / 1920px 1080px no-repeat; }
-.c-overlay__ramp { position: absolute; inset: 0;
-  background: linear-gradient(90deg, #040810 0%, rgb(2 5 9 / .8) 43%, rgb(0 0 0 / 0) 100%); }
+.c-overlay__ramp { position: absolute; inset: 0; background: var(--menu-ramp); }
 .c-overlay .c-menu { position: absolute; left: 0; top: 0; }
-.c-overlay__label { position: absolute; left: 123px; font-family: var(--type-body-l-family);
+.c-overlay__label { position: absolute; left: var(--menu-label-x); font-family: var(--type-body-l-family);
   font-size: 24px; color: var(--tv-base-light); opacity: .5; }
 .c-overlay__label.is-on { opacity: 1; }
-.c-overlay__ring { position: absolute; left: 47px; top: 246px; width: 250px; height: 64px;
+.c-overlay__ring { position: absolute; left: var(--menu-ring-x); top: 246px;
+  width: var(--menu-ring-w); height: var(--menu-ring-h);
   border-radius: 12px; box-shadow: inset 0 0 0 6px var(--tv-focus-ring-color); }
 /* Collapsed until it has focus. The ramp and the labels fade in; the rail does
    not move, which is the whole point of PTV-858. */

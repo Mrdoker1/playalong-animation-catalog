@@ -33,6 +33,13 @@
 //    keys; the catalog writes them and the POC is given a `storage` listener so a
 //    change applies live, without reloading the demo.
 //
+// 6. Its menu is the superseded mechanic. Its own CSS says so: "Width animation
+//    pushes content right (in flow)." PTV-858 replaced that -- the rail stays 160
+//    open or shut and the labels appear over a dimming ramp, so the content never
+//    shifts. src/shared/menu-ptv858.css carries that rule for BOTH the catalog's
+//    Menu component and this demo, and is linked into the built index.html here.
+//    One runtime component cannot span the iframe; the numbers can.
+//
 // Nothing in tv-game-poc is modified: it is built from its own source into ours.
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync, rmSync, mkdtempSync, readdirSync, mkdirSync, copyFileSync } from 'node:fs';
@@ -159,6 +166,19 @@ try {
 
 mkdirSync(join(OUT, 'catalog'), { recursive: true });
 copyFileSync(LOADER_SRC, join(OUT, LOADER_PATH));
+
+// PTV-858: the menu must not push the content. See note 6 at the top.
+const MENU_CSS = 'catalog/menu-ptv858.css';
+copyFileSync(join(here, 'src/shared/menu-ptv858.css'), join(OUT, MENU_CSS));
+{
+  const indexPath = join(OUT, 'index.html');
+  const html = readFileSync(indexPath, 'utf8');
+  // Last in <head> so it wins over the PoC's own SideMenu.css without !important
+  // doing all the work, and so a missing </head> fails the build rather than
+  // shipping the old mechanic silently.
+  writeFileSync(indexPath, patch(html, '</head>',
+    `  <link rel="stylesheet" href="${BASE}${MENU_CSS}">\n  </head>`, 'index.html </head> for the menu rule'));
+}
 
 const gateLeft = globSync(`${OUT}/assets/*.js`).some((f) => readFileSync(f, 'utf8').includes('app_unlocked'));
 if (gateLeft) {

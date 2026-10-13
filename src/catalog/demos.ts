@@ -51,6 +51,7 @@ export const DEMOS: DemoModule[] = [
       'It was built for a domain root, so it is rebuilt here with a base path; without that every asset 404s under a sub-path.',
       'Video came through <strong>Vercel rewrites</strong> proxying CloudFront, which GitHub Pages cannot do. The six stream prefixes now point straight at CloudFront, which already answers cross-origin.',
       'Three of those six are renamed on CloudFront — <code>/fastmoney/</code> is <code>/fast-money/</code>, <code>/matchgame/</code> is <code>/match-game/</code>, <code>/matchgameep2/</code> is <code>/match-game-andy/</code>. A prefix rule would have 404d.',
+      'Its menu was the <strong>superseded mechanic</strong> — its own CSS said so: <em>"Width animation pushes content right (in flow)."</em> PTV-858 replaced that, and the demo is corrected at build time: the rail stays 160 open or shut, the labels appear beside it over the dimming ramp, and the content never shifts. <code>src/shared/menu-ptv858.css</code> is the single source of those numbers, read by the <strong>Menu</strong> component here and linked into this build — one runtime component cannot span the iframe, but the rule can.',
       'It carries 49 MB of images, audio and episode content.',
       'Opens on a 2 s splash with a loader, then the catalogue. The TV-simulation panel is dropped; its settings are the sliders here — they apply live. Sign In is web, not TV, and is shown separately — see <strong>Web — Sign In</strong>.',
     ],

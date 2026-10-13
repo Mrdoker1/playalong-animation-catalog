@@ -1,0 +1,101 @@
+/**
+ * PTV-858 — the menu expands OVER the content, it does not push it.
+ *
+ * One file, two consumers: the catalog's `Menu` component and the vendored
+ * `tv-game-poc` demo, which runs in an iframe and so cannot share a runtime
+ * module. What it can share is the rule, and the rule is a handful of numbers.
+ *
+ * Source: specs/PTV-858-menu-no-content-shift/{spec,ui-spec}.md in the hub.
+ * The ramp's stops were measured on a device; everything else was read from
+ * Figma node by node.
+ */
+:root {
+  /* The rail is this wide OPEN OR SHUT. That is the whole feature. */
+  --menu-rail: 160px;
+  /* Where a label starts, measured from the rail's left edge. */
+  --menu-label-x: 123px;
+  /* One ring for every item, sized from the longest label (Progression, 134). */
+  --menu-ring-x: 47px;
+  --menu-ring-w: 250px;
+  --menu-ring-h: 64px;
+  /* The dimming ramp over the content. NOT a flat panel: opaque at the left,
+     80% at 43% of its width, gone by its end. 792 is where it reaches zero. */
+  --menu-ramp-w: 792px;
+  --menu-ramp: linear-gradient(90deg,
+    #040810 0%,
+    rgb(2 5 9 / .8) 43%,
+    rgb(2 5 9 / 0) 100%);
+  /* The PoC's item list is inset by this much inside the rail, which is what
+     every offset below is measured from. Set by this file, so it is known. */
+  --menu-items-pad: 16px;
+}
+
+/* ---------------------------------------------------------- tv-game-poc ---
+ * Its own CSS says, accurately: "Width animation pushes content right (in
+ * flow)." That is the behaviour PTV-858 removed. These rules override it
+ * without touching the PoC's source, which this catalog builds verbatim.
+ */
+.side-menu { overflow: visible !important; }
+
+/* 1. The rail no longer grows. */
+.side-menu--expanded { width: var(--menu-rail) !important; }
+
+/* 2. Icons stay exactly where they were, so nothing under them moves either. */
+.side-menu--expanded .side-menu__items { padding: 0 16px !important; }
+.side-menu--expanded .side-menu__item {
+  justify-content: center !important;
+  padding: 12px 8px !important;
+  position: relative;
+  overflow: visible;
+}
+
+/* 3. The label leaves the rail instead of widening it. */
+.side-menu--expanded .side-menu__item-label {
+  position: absolute;
+  left: calc(var(--menu-label-x) - var(--menu-items-pad));
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* 4. One ring for every item, not one that hugs its own text. A ring that
+ *    resized per item would flicker as focus moved, and on a D-pad the moving
+ *    ring is the only feedback there is. */
+/* The item's own pill is replaced by the ring, so its background AND its
+   border go -- otherwise a 128-wide outline sits behind the 250-wide one. */
+.side-menu--expanded .side-menu__item--focused {
+  background: none !important;
+  border-color: transparent !important;
+}
+.side-menu--expanded .side-menu__item--focused::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--menu-ring-x) - var(--menu-items-pad));
+  top: 50%;
+  margin-top: calc(var(--menu-ring-h) / -2);
+  width: var(--menu-ring-w);
+  height: var(--menu-ring-h);
+  border-radius: 12px;
+  background: linear-gradient(90deg, #0090ff 0%, #0022ab 100%);
+  border: 1px solid #0090ff;
+  box-sizing: border-box;
+  z-index: 0;
+}
+.side-menu--expanded .side-menu__item-icon { position: relative; z-index: 2; }
+
+/* 5. The ramp that dims the content behind the labels. */
+.side-menu--expanded::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: var(--menu-ramp-w);
+  height: 100%;
+  background: var(--menu-ramp);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The wordmark belongs to a rail that is wide enough for it, and this one is
+   never wide enough. The mark stays in both states. */
+.side-menu--expanded .side-menu__logo { width: 48px !important; }
+.side-menu--expanded .side-menu__logo-wordmark { opacity: 0 !important; }
+.side-menu--expanded .side-menu__logo-mark { opacity: 1 !important; }
