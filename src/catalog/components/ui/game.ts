@@ -18,6 +18,15 @@ injectStyle('css-c-game', `
 .c-boxc { display: flex; align-items: center; gap: 16px; height: 38px; }
 .c-boxc__n { ${T('game-m')}; color: var(--tv-game-ui-yellow); white-space: nowrap; }
 .c-boxc__word { ${T('game-s')}; color: var(--tv-base-light); white-space: nowrap; }
+/* The question counter binds no text style in Figma: raw 32 and 40, Roboto
+   Condensed like the rest of the game layer. Reproduced rather than snapped to
+   Game/S and Game/M, which are 32/38 and 40/38 — close but not the same. */
+.c-boxc__q { font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
+  font-size: 32px; line-height: 38px; text-transform: uppercase; color: var(--tv-base-light);
+  white-space: nowrap; }
+.c-boxc__of { font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
+  font-size: 40px; line-height: 38px; text-transform: uppercase;
+  color: var(--tv-game-ui-yellow); white-space: nowrap; }
 .c-boxc__bar { height: 16px; border-radius: 12px; background: var(--tv-button-secondary);
   overflow: hidden; display: block; flex: none; }
 /* display:block matters: the fill is a span, and height:100% does nothing on an
@@ -90,16 +99,21 @@ injectStyle('css-c-game', `
   background: var(--tv-base-dark); }
 `);
 
-const bar = (pct: number, out = false) =>
-  `<span class="c-boxc__bar"><span class="c-boxc__fill${out ? ' c-boxc__fill--out' : ''}" style="width:${pct}%"></span></span>`;
+/** Track and fill are both PIXEL widths in Figma, not a percentage. */
+const bar = (track: number, fill: number, out = false) =>
+  `<span class="c-boxc__bar" style="width:${track}px"><span class="c-boxc__fill${
+    out ? ' c-boxc__fill--out' : ''}" style="width:${fill}px"></span></span>`;
 
 export const BoxContent: ComponentModule = {
   id: 'c-box-content', title: 'Box Content', group: 'Game', figma: '3608:15061',
   description: 'The readout inside a Score or Status box: a timer with its bar, or the question counter. 38 high.',
   tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Secondary', 'TV/Game UI/Yellow', 'TV/Status/Failure'], type: ['Game/M'] },
+  notes: [
+    'The <strong>Question Text</strong> readout binds no text style in Figma — it is a loose 32 and 40. Everything else in this component is on Game/M.',
+  ],
   variants: [
-    { label: 'Question Timer', el: () => h(`<div class="c-boxc"><span class="c-boxc__n">32s</span>${bar(76)}</div>`) },
-    { label: "Time's Up", el: () => h(`<div class="c-boxc"><span class="c-boxc__n">3s</span>${bar(18, true)}</div>`) },
+    { label: 'Question Timer', el: () => h(`<div class="c-boxc"><span class="c-boxc__n">32s</span>${bar(205, 155)}</div>`) },
+    { label: "Time's Up", el: () => h(`<div class="c-boxc"><span class="c-boxc__n">3s</span>${bar(225, 40, true)}</div>`) },
     { label: 'Question Text', el: () => h(`<div class="c-boxc"><span class="c-boxc__q">Question</span><span class="c-boxc__of">1/3</span></div>`) },
   ],
 };
