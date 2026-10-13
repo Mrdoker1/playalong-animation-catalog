@@ -32,13 +32,20 @@ injectStyle('css-c-menu', `
 .c-menu__group { padding: 0 32px; display: flex; flex-direction: column; gap: 24px;
   margin-top: 100px; }
 .c-menu__foot { padding: 0 32px; margin-top: auto; }
+/* 96 x 64 collapsed, 276 x 64 expanded -- both measured. Padding alone gave
+   32 + 40 + 32 = 104, which pushed the icon 4px right of the rail's centre
+   while every other icon in the stack sat on it. */
 .c-menu__item { height: 64px; box-sizing: border-box; border-radius: 80px; opacity: .5;
-  display: flex; align-items: center; gap: 8px; padding: 12px 32px;
+  display: flex; align-items: center; gap: 8px;
   font-family: var(--type-body-l-family); font-size: 24px; white-space: nowrap; }
+.c-menu--collapsed .c-menu__item { width: 96px; padding: 12px 0; justify-content: center; }
+.c-menu--expanded .c-menu__item { width: 276px; padding: 12px 32px; }
 .c-menu__item > svg { flex: none; }
-.c-menu__item.is-selected { opacity: 1; border-radius: 12px;
-  background: var(--gradient-tv-button-primary);
-  box-shadow: inset 0 0 0 1px var(--tv-button-primary-solid); }
+/* Selected is WHITE, not a blue pill (design, 2026-10-13). The item carries no
+   fill at all: being current means being at full strength while everything
+   else sits at 50%. The blue is now only the focus ring, which is the thing
+   the D-pad moves. */
+.c-menu__item.is-selected { opacity: 1; }
 
 .c-overlay { width: var(--menu-ramp-w); height: 1080px; position: relative; overflow: hidden; }
 /* The real Home screen the menu sits on — captured from the TV Game PoC at
@@ -53,13 +60,23 @@ injectStyle('css-c-menu', `
 .c-overlay__label.is-on { opacity: 1; }
 .c-overlay__ring { position: absolute; left: var(--menu-ring-x); top: 246px;
   width: var(--menu-ring-w); height: var(--menu-ring-h);
-  border-radius: 12px; box-shadow: inset 0 0 0 6px var(--tv-focus-ring-color); }
+  border-radius: var(--menu-ring-radius);
+  box-shadow: inset 0 0 0 var(--menu-ring-weight) var(--menu-ring-color); }
 /* Collapsed until it has focus. The ramp and the labels fade in; the rail does
    not move, which is the whole point of PTV-858. */
 .c-overlay--live { outline: none; cursor: pointer; }
-.c-overlay--live .c-overlay__ramp { opacity: 0; transition: opacity 180ms ease; }
+.c-overlay--live .c-overlay__ramp { opacity: 0; transition: opacity 220ms ease; }
 .c-overlay--live.is-open .c-overlay__ramp { opacity: 1; }
-.c-overlay--live .c-overlay__label { transition: opacity 180ms ease; }
+/* A label slides the last few pixels in rather than appearing, so the eye can
+   see WHERE it came from -- out of the rail, not from a widening of it. */
+.c-overlay--live .c-overlay__label {
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 180ms ease, transform 180ms ease; }
+.c-overlay--live.is-open .c-overlay__label { opacity: .5; transform: none; }
+.c-overlay--live.is-open .c-overlay__label.is-on { opacity: 1; }
+.c-overlay--live .c-overlay__ring { opacity: 0;
+  transition: opacity 180ms ease, top 160ms cubic-bezier(.2,.7,.3,1); }
+.c-overlay--live.is-open .c-overlay__ring { opacity: 1; }
 .c-overlay--live:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 `);
 
@@ -115,7 +132,7 @@ export const Menu: ComponentModule = {
     'The ramp is a horizontal gradient, not a flat panel: opaque <code>#040810</code>, <code>rgb(2,5,9)</code> at 80% at 43% of its width, fully transparent at the end. Measured on a device during PTV-858 — content keeps 39.9% of its luminance at x = 450 and 100% from x = 792.',
     'The focus ring is a single 250 × 64 rectangle at x = 47, <strong>one size for every item</strong>, taken from the longest label (<code>Progression</code>, 134 wide). It does not hug its own text — a ring that resized per item would flicker as focus moved, and on a D-pad the moving ring is the only feedback there is.',
     'In the drawn <code>Overlay</code> frame the <strong>ring is on Home but the full-strength label is Trophies</strong> — the labels carry their own opacity and two of them disagree about where focus is. <strong>A file defect</strong>, kept in the drawn variant and corrected in the live one, which has a single focus.',
-    'The unselected items sit at <strong>50% opacity and radius 80</strong>; the selected one at full strength and radius 12 — so selecting an item turns its corner from a pill into a rounded rectangle. The same unintended corner move the <code>Tabs Item</code> has.',
+    '<strong>Selected is white, not a blue pill</strong> (design, 2026-10-13). Being the current page means being at full strength while the rest sit at 50%; the blue is now only the focus ring. <strong>Figma has not caught up</strong> — its <code>Menu Item</code> component still fills <code>State=Focus</code> with the <code>Button/Primary</code> gradient, on 60 frames.',
     'In the collapsed rail the Sign In item is <strong>104 wide where the other five are 96</strong>. An 8px difference on an item whose label is hidden.',
     'The screen behind every variant is the real Home screen, captured from the TV Game PoC with its own rail hidden — it is context, not part of the component. On a dark card the ramp would otherwise show nothing at all.',
   ],
@@ -149,33 +166,47 @@ function drawnOverlay(): HTMLElement {
   return el;
 }
 
-/** Collapsed until it has focus; then the labels and the ramp come in. */
+/**
+ * Collapsed until it has focus; then the labels and the ramp come in.
+ *
+ * The DOM is built ONCE and only classes and the ring's offset change after
+ * that. Rebuilding it per keystroke -- which this did at first -- means every
+ * element is brand new, has no previous value to transition from, and nothing
+ * animates however many transitions are declared.
+ */
 function liveMenu(): HTMLElement {
+  const ITEMS = [...MENU, MENU_FOOT];
   const el = h(`<div class="c-overlay c-overlay--live" tabindex="0" role="navigation"
       aria-label="Menu"><div class="c-overlay__behind"></div>
       <div class="c-overlay__ramp"></div></div>`);
+  const rail = menu(false, 0);
+  el.appendChild(rail);
+  const railItems = [...rail.querySelectorAll<HTMLElement>('.c-menu__item')];
+
+  const yOf = (i: number) => (i === ITEMS.length - 1 ? 920 : 246 + i * 88);
+  const labels = ITEMS.map((m, i) => {
+    const lab = h(`<span class="c-overlay__label">${m.label}</span>`);
+    lab.style.top = `${yOf(i) + 24 - 7}px`;
+    el.appendChild(lab);
+    return lab;
+  });
+  const ring = h(`<span class="c-overlay__ring"></span>`);
+  el.appendChild(ring);
+
   let open = false;
   let at = 0;
-  const ITEMS = [...MENU, MENU_FOOT];
-
   const draw = () => {
-    el.querySelectorAll('.c-menu, .c-overlay__label, .c-overlay__ring').forEach((n) => n.remove());
     el.classList.toggle('is-open', open);
-    el.appendChild(menu(false, open ? -1 : 0));
-    if (!open) return;
-    ITEMS.forEach((m, i) => {
-      const lab = h(`<span class="c-overlay__label${i === at ? ' is-on' : ''}">${m.label}</span>`);
-      lab.style.top = `${(i === ITEMS.length - 1 ? 943 : 270 + i * 88) - 7}px`;
-      el.appendChild(lab);
-    });
-    const ring = h(`<span class="c-overlay__ring"></span>`);
-    ring.style.top = `${at === ITEMS.length - 1 ? 920 : 246 + at * 88}px`;
-    el.appendChild(ring);
+    // White means SELECTED -- the page you are on -- open or shut. Focus is the
+    // ring and nothing else, so passing over an item does not brighten it.
+    railItems.forEach((it, i) => it.classList.toggle('is-selected', i === 0));
+    labels.forEach((l, i) => l.classList.toggle('is-on', open && i === at));
+    ring.style.top = `${yOf(at)}px`;
   };
 
   const key = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowRight' || e.key === 'Enter') { open = true; }
-    else if (e.key === 'Escape' || e.key === 'ArrowLeft') { open = false; }
+    if (e.key === 'ArrowRight' || e.key === 'Enter') open = true;
+    else if (e.key === 'Escape' || e.key === 'ArrowLeft') open = false;
     else if (e.key === 'ArrowDown') { open = true; at = (at + 1) % ITEMS.length; }
     else if (e.key === 'ArrowUp') { open = true; at = (at - 1 + ITEMS.length) % ITEMS.length; }
     else return;
