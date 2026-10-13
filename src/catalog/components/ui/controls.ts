@@ -30,9 +30,11 @@ injectStyle('css-c-button', `
 .c-btn.is-disabled { opacity: .4; }
 `);
 
-const button = (type: string, state?: 'focus' | 'disabled', text = 'Play Now', ico = 'Play') =>
+export const button = (
+  type: string, state?: 'focus' | 'disabled', text = 'Play Now', ico: string | null = 'Play',
+) =>
   h(`<div class="c-btn c-btn--${type}${state ? ` is-${state}` : ''}">
-       ${icon(ico)}<span>${text}</span>
+       ${ico ? icon(ico) : ''}${text ? `<span>${text}</span>` : ''}
      </div>`);
 
 export const Button: ComponentModule = {
@@ -364,5 +366,127 @@ export const IconSet: ComponentModule = {
     'Three of the 55 are not here. <code>Avatar with Frame</code> and <code>Stacked-Avatar-StackStage2</code> are bare rectangles in the file — placeholders rather than icons — and <code>Processing</code> is a conic gradient, which belongs in CSS rather than in a path. Left out rather than faked.',
     'Each is drawn in <code>currentColor</code>, so it takes the colour of whatever it sits in, and carries a <code>viewBox</code> rather than a fixed size.',
     'Click downloads a real <code>.svg</code>; <strong>shift-click copies the markup</strong>. A browser cannot put a file on the clipboard — <code>ClipboardItem</code> only accepts sanitised types and <code>image/svg+xml</code> is not one — and pasting the markup as text is what makes Figma rebuild it as vectors anyway.',
+  ],
+};
+
+/* -------------------------------------------------------------------- Input */
+
+injectStyle('css-c-input', `
+.c-input { width: 710px; display: flex; flex-direction: column; gap: 10px; }
+.c-input__box {
+  height: 72px; box-sizing: border-box; border-radius: 12px;
+  display: flex; align-items: center; gap: 10px; padding: 20px 32px;
+  background: var(--tv-transparent-dark-25);
+  /* the file strokes OUTSIDE, so the box keeps its 72 whatever the ring weighs */
+  box-shadow: 0 0 0 2px var(--tv-border-white-20);
+  ${T('body-l')}; color: var(--tv-base-light);
+}
+.c-input.is-focus   .c-input__box { box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+.c-input.is-alert   .c-input__box { background: var(--tv-transparent-red-50); box-shadow: none; }
+.c-input.is-alert.is-focus .c-input__box { box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+.c-input__caret { display: inline-block; width: 2px; height: 28px; margin-left: 2px;
+  background: var(--tv-base-light); animation: c-input-caret 1s step-end infinite; }
+@keyframes c-input-caret { 50% { opacity: 0; } }
+.c-input__msg { display: flex; align-items: center; gap: 12px; min-height: 32px;
+  ${T('body-m')}; color: var(--tv-base-light); }
+.c-input__msg > svg { color: var(--tv-game-ui-red-1); flex: none; }
+`);
+
+export type InputState = 'default' | 'focus' | 'typing' | 'typed' | 'alert' | 'alert-focus';
+
+/**
+ * 710 x 72, radius 12, padding 20/32, label Body/L. The state decides two
+ * things and nothing else: the fill (Dark 25, or Red 50 when alert) and the
+ * ring (White 20 at 2, or Primary Solid at 4 when focused).
+ */
+export const input = (state: InputState, text: string, msg?: string) => {
+  const alert = state === 'alert' || state === 'alert-focus';
+  const focus = state === 'focus' || state === 'alert-focus' || state === 'typing';
+  return h(`<div class="c-input${focus ? ' is-focus' : ''}${alert ? ' is-alert' : ''}">
+      <div class="c-input__box"><span>${text}</span>${state === 'typing' ? '<i class="c-input__caret"></i>' : ''}</div>
+      ${msg !== undefined ? `<div class="c-input__msg">${icon('Alert', 32)}<span>${msg}</span></div>` : ''}
+    </div>`);
+};
+
+export const Input: ComponentModule = {
+  id: 'c-input', title: 'Input', group: 'Controls', figma: '7252:8011',
+  description: '710 × 72, radius 12, padding 20/32, Body/L. Six states, read off the auth screens — the file has no Input component set, only instances.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 25', 'TV/Transparent/Red 50', 'TV/Border/White 20', 'TV/Button/Primary Solid', 'TV/Base/Light', 'TV/Game UI/Red 1'],
+    type: ['Body/L', 'Body/M'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Default', el: () => input('default', 'Email Address') },
+    { label: 'Focus', el: () => input('focus', 'Email Address') },
+    { label: 'Typing', el: () => input('typing', 'abc') },
+    { label: 'Typed', el: () => input('typed', 'alexunder@gmail.com') },
+    { label: 'Alert', el: () => input('alert', 'Password', 'Message text') },
+    { label: 'Alert with Focus', el: () => input('alert-focus', 'Email Address', 'This e-mail address is already in use') },
+  ],
+  notes: [
+    'The placeholder and a typed value are <strong>the same node in the same colour</strong> — <code>TV/Base/Light</code>, Body/L. Nothing in the file dims a placeholder, so an empty field and a filled one read identically. <strong>Needs a decision.</strong>',
+    'Both rings are drawn <code>OUTSIDE</code> in Figma, so the box stays 72 high whether the ring weighs 2 or 4. Rebuilt as a <code>box-shadow</code> for the same reason — a CSS border would eat the padding.',
+    'The alert fill <code>TV/Transparent/Red 50</code> replaces the ring rather than joining it: an alert that is not focused has <strong>no border at all</strong>.',
+    'The message copy on the Sign In screens is the literal string <code>Message text</code> — the file never fills it. Only Sign Up — 12 carries real sentences.',
+    'The caret is this rebuild\'s: the file draws Typing as a static frame, and a caret is the one thing a still cannot show.',
+  ],
+};
+
+/* ----------------------------------------------------------------- Keyboard */
+
+injectStyle('css-c-kb', `
+.c-kb { width: 582px; box-sizing: border-box; border-radius: 12px; overflow: hidden;
+  background: var(--tv-base-neutral); display: flex; flex-wrap: wrap; gap: 2px; }
+.c-kb__k { width: 95px; height: 90px; box-sizing: border-box; flex: none;
+  border: 2px solid var(--tv-base-dark); display: grid; place-items: center;
+  font-family: var(--type-heading-m-family); font-weight: var(--type-heading-m-weight);
+  font-size: var(--type-heading-m-size); color: var(--tv-base-light); }
+.c-kb__k--wide { width: 192px; }
+.c-kb__k--done { background: var(--tv-base-light); color: var(--tv-base-dark); }
+.c-kb__k.is-focus { border: 6px solid var(--tv-button-primary-solid); }
+.c-kb__k > svg { color: currentColor; }
+`);
+
+const KB_ROWS = [
+  ['a', 'b', 'c', 'd', 'e', 'f'],
+  ['g', 'h', 'i', 'j', 'k', 'l'],
+  ['m', 'n', 'o', 'p', 'q', 'r'],
+  ['s', 't', 'u', 'v', 'w', 'x'],
+  ['y', 'z', '@', '.', '-', '_'],
+  ['!', '#', '$', '%', '&', '*'],
+];
+
+/** The email keyboard: 582 x 734, 6 columns of 95 x 90 on a 2px gap, then two wide rows. */
+export const keyboard = (focusKey = 'a') => {
+  const keys = KB_ROWS.flat()
+    .map((k) => `<div class="c-kb__k${k === focusKey ? ' is-focus' : ''}">${k}</div>`).join('');
+  const wide = [
+    `<div class="c-kb__k c-kb__k--wide">${icon('Delete', 44)}</div>`,
+    `<div class="c-kb__k c-kb__k--wide">?123</div>`,
+    `<div class="c-kb__k c-kb__k--wide">${icon('Mic', 44)}</div>`,
+    `<div class="c-kb__k c-kb__k--wide">Clear</div>`,
+    `<div class="c-kb__k c-kb__k--wide">.com</div>`,
+    `<div class="c-kb__k c-kb__k--wide c-kb__k--done">Done</div>`,
+  ].join('');
+  return h(`<div class="c-kb">${keys}${wide}</div>`);
+};
+
+export const Keyboard: ComponentModule = {
+  id: 'c-keyboard', title: 'Email Keyboard', group: 'Controls', figma: '7252:8259',
+  description: '582 × 734 on TV/Base/Neutral. Six columns of 95 × 90 keys with a 2px gap, then two rows of three 192-wide keys.',
+  tokens: {
+    colour: ['TV/Base/Neutral', 'TV/Base/Dark', 'TV/Base/Light', 'TV/Button/Primary Solid'],
+    type: ['Heading/M'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Letters', el: () => keyboard('a') },
+    { label: 'Letters · focus on @', el: () => keyboard('@') },
+  ],
+  notes: [
+    'The focus ring is a <strong>6px</strong> <code>Primary Solid</code> border drawn as a separate overlay frame in the file, sitting on the first key. It is the focus-ring width token.',
+    'The two icon keys are blank 44 × 44 frames in the file — no icon, no name. <code>Delete</code> and <code>Mic</code> are this rebuild\'s reading of their positions, not a measurement. <strong>Needs the real icons in the file.</strong>',
+    'Keys are separated by a 2px <code>TV/Base/Dark</code> border on each key, so adjacent keys share a 4px seam. The gap between keys is a further 2.',
   ],
 };

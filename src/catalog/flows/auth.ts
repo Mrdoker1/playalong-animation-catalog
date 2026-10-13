@@ -1,20 +1,24 @@
 import { injectStyle } from '../../lib/injectStyle';
 import type { CatalogEntry } from '../types';
 import { icon } from '../components/icons';
+import { button, input, keyboard, type InputState } from '../components/ui/controls';
 
 /**
- * The auth flow, assembled from the TV screens rather than drawn fresh.
+ * The auth flow, rebuilt from the TV screens node by node.
  *
- * The shape comes from the file's own map (node 7135:6513):
- *   Auth / Entry ├─ Welcome ├─ Sign In Flow ├─ Forgot Password ├─ Guest Mode └─ Profile Select
+ * Fourteen frames on page `0:1`, read on 2026-10-13. Every string below is the
+ * file's own; every x and y is measured. Where the file is empty or carries a
+ * placeholder, so does this — see NOTES at the bottom of the card.
  *
- * Layout is the one every one of those screens uses: a 710-wide column at
- * x = 140, controls 710 x 72 on a 96 pitch, headline in Display/XL, subhead in
- * Heading/M, footnote in Body/L.
+ * **Absolutely positioned, deliberately.** A column layout would be shorter, and
+ * it would quietly normalise away the fact that the same Sign In column sits at
+ * y = 142 on Login- 6, y = 100 on Login- 7 and y = 110 on Login- 12. That drift
+ * is a real finding about the file, so the rebuild keeps it visible instead of
+ * averaging it away.
  *
- * It is driven by a REMOTE: up and down move focus, OK activates, Back goes
- * where the screen says. That is the point of assembling it — a flow of
- * screenshots cannot tell you whether the focus order makes sense.
+ * Driven by a remote: arrows move focus, Enter activates, Esc goes back. The
+ * screen's own focus state — the `State=Focus` variant in Figma — is where focus
+ * starts; every other state (typed, alert, disabled) stays as drawn.
  */
 
 const T = (n: string) =>
@@ -22,163 +26,376 @@ const T = (n: string) =>
 
 injectStyle('css-flow-auth', `
 .flow { display: flex; flex-direction: column; gap: 14px; }
-.flow__stage {
-  width: 1920px; height: 1080px; transform-origin: left top;
-  background: var(--tv-base-dark); border-radius: 12px; overflow: hidden;
-  position: relative; color: var(--tv-base-light);
-}
 .flow__frame { position: relative; overflow: hidden; border: 1px solid var(--border);
   border-radius: 12px; background: var(--tv-base-dark); }
-.flow__art { position: absolute; inset: 0 0 0 50%;
-  background: var(--gradient-tv-background-stacked); opacity: .18; }
-.flow__col { position: absolute; left: 140px; top: 0; width: 710px; }
-.flow__logo { margin-top: 170px; display: flex; align-items: center; gap: 12px;
-  ${T('heading-l')}; }
-.flow__h1 { ${T('display-xl')}; margin: 46px 0 0; }
-.flow__sub { ${T('heading-m')}; color: var(--tv-text-primary); margin: 28px 0 0; }
-.flow__stack { margin-top: 64px; display: flex; flex-direction: column; gap: 24px; }
-.flow__note { ${T('body-l')}; color: var(--tv-text-primary); margin: 42px 0 0; }
+.flow__stage {
+  width: 1920px; height: 1080px; transform-origin: left top; position: absolute;
+  background: var(--tv-base-dark) url('assets/flows/auth-bg.jpg') center / cover no-repeat;
+  color: var(--tv-base-light);
+}
+.flow__el { position: absolute; }
+.flow__logo { width: 200px; height: 45px; }
+.flow__logo img { width: 100%; height: 100%; display: block; }
 
-.flow__ctl { width: 710px; height: 72px; box-sizing: border-box; border-radius: 12px;
-  display: flex; align-items: center; gap: 16px; padding: 20px 32px;
-  ${T('body-l')}; border: 1px solid transparent; }
-.flow__ctl--primary   { background: var(--tv-base-light); color: var(--tv-base-dark); justify-content: center; }
-.flow__ctl--secondary { background: var(--tv-button-secondary); border-color: var(--tv-border-white-20); justify-content: center; }
-.flow__ctl--outline   { border-color: var(--tv-base-light); justify-content: center; }
-.flow__ctl--input     { background: var(--tv-transparent-dark-25); border-color: var(--tv-border-white-20); }
-.flow__ctl.is-focus   { background: var(--gradient-tv-button-primary);
-  border-color: var(--tv-button-primary-solid); color: var(--tv-base-light); }
-.flow__ctl.is-disabled { opacity: .4; }
-.flow__ctl__ph { color: var(--tv-text-primary); }
-.flow__ctl__val { color: var(--tv-base-light); }
+.flow__d-xl { ${T('display-xl')}; margin: 0; }
+.flow__d-l  { ${T('display-l')}; margin: 0; }
+.flow__h-l  { ${T('heading-l')}; margin: 0; white-space: pre-line; }
+.flow__h-m  { ${T('heading-m')}; margin: 0; color: var(--tv-base-light); }
+.flow__b-l  { ${T('body-l')}; margin: 0; color: var(--tv-base-light); }
 
-.flow__msg { display: flex; align-items: center; gap: 12px; margin-top: -8px;
-  ${T('body-m')}; color: var(--tv-base-light); }
-.flow__msg > svg { color: var(--tv-game-ui-red-1); flex: none; }
+.flow__tabs { display: flex; gap: 24px; }
+.flow__tabs .c-tab { width: 343px; }
+.flow__btn .c-btn { width: 100%; }
+.flow__chk { display: flex; align-items: center; gap: 12px; height: 40px; ${T('body-l')}; }
 
-.flow__spin { width: 96px; height: 96px; border-radius: 50%; margin-top: 64px;
-  border: 8px solid var(--tv-button-secondary); border-top-color: var(--tv-button-primary-solid);
-  animation: flow-spin 900ms linear infinite; }
-@keyframes flow-spin { to { transform: rotate(360deg); } }
+.flow__qr { width: 320px; height: 320px; border-radius: 12px; overflow: hidden;
+  background: var(--tv-base-light); }
+.flow__qr img { width: 100%; height: 100%; display: block; }
 
-.flow__bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.flow__bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .flow__step { font-family: var(--mono); font-size: 11px; padding: 4px 10px;
   border-radius: var(--radius-sm); border: 1px solid var(--border); color: var(--text-dim);
   background: var(--bg-card); cursor: pointer; }
 .flow__step.is-here { border-color: var(--accent); color: var(--text); }
-.flow__hint { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+.flow__hint { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin: 0; }
+.flow__notes { margin: 0; padding-left: 18px; display: grid; gap: 6px;
+  font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.flow__notes code { font-family: var(--mono); font-size: .92em; }
 `);
 
-type Ctl =
-  | { kind: 'button'; look: 'primary' | 'secondary' | 'outline'; label: string; go?: string; disabled?: boolean }
-  | { kind: 'input'; label: string; value?: string; secret?: boolean }
-  | { kind: 'message'; text: string };
+/* ------------------------------------------------------------------ the model */
+
+type El =
+  | { t: 'logo'; x: number; y: number }
+  | { t: 'text'; x: number; y: number; w: number; cls: string; s: string }
+  | { t: 'input'; x: number; y: number; state: InputState; s: string; msg?: string; go?: string }
+  | { t: 'btn'; x: number; y: number; w: number; look: string; dis?: boolean; s: string; go?: string }
+  | { t: 'tabs'; x: number; y: number; sel: 0 | 1; go: [string, string] }
+  | { t: 'chk'; x: number; y: number; s: string }
+  | { t: 'kb'; x: number; y: number; go: string }
+  | { t: 'qr'; x: number; y: number }
+  | { t: 'icon'; x: number; y: number; size: number; name: string };
 
 type Screen = {
   id: string;
+  /** What the frame is called in Figma, and its node id. */
+  frame: string;
+  node: string;
+  /** Short label for the step bar. */
   title: string;
-  logo?: boolean;
-  h1?: string;
-  sub?: string;
-  controls?: Ctl[];
-  note?: string;
-  spinner?: boolean;
-  /** Where Back goes. */
+  els: El[];
+  /** Index into `els` of the element Figma draws focused. */
+  focus?: number;
   back?: string;
-  /** Auto-advance after a moment, for the processing screens. */
-  thenAfter?: { ms: number; go: string };
 };
 
-const SCREENS: Screen[] = [
-  { id: 'entry', title: 'Entry', logo: true,
-    h1: 'Play the shows you love.', sub: 'Sign in or play as a guest.',
-    controls: [
-      { kind: 'button', look: 'primary', label: 'Sign In', go: 'signin' },
-      { kind: 'button', look: 'secondary', label: 'Sign Up', go: 'signup' },
-      { kind: 'button', look: 'outline', label: 'Play as a guest', go: 'guest' },
-    ],
-    note: 'Create an account to save progress. Visit playalong.tv/start on your phone.' },
+/** Shared copy, so a typo cannot make two screens disagree where the file does not. */
+const SIGNIN_SUB = 'Access your profiles, groups, and leaderboard progress. Pick up where you left off.';
+const SIGNUP_SUB = 'Sign up on this device or use the link playalong.net/{code}';
+const SIGNUP_FOOT = 'Terms & Privacy Policy are available at playalong.net/{code}';
+const RESET_SUB = 'Provide your account email address and we’ll send you an email with a link to reset your password.';
 
-  { id: 'signin', title: 'Sign In', logo: true, back: 'entry',
-    h1: 'Sign In', sub: 'Enter the address you signed up with.',
-    controls: [
-      { kind: 'input', label: 'Email Address', value: 'example@gmail.com' },
-      { kind: 'input', label: 'Password', secret: true, value: '••••••••' },
-      { kind: 'button', look: 'primary', label: 'Sign In', go: 'signin-processing' },
-      { kind: 'button', look: 'outline', label: 'Forgot password?', go: 'reset' },
-    ] },
-
-  { id: 'signin-processing', title: 'Signing in', logo: true, spinner: true,
-    h1: 'Signing you in…', back: 'signin', thenAfter: { ms: 1600, go: 'signin-error' } },
-
-  { id: 'signin-error', title: 'Sign-in error', logo: true, back: 'signin',
-    h1: 'Sign In', sub: 'Enter the address you signed up with.',
-    controls: [
-      { kind: 'input', label: 'Email Address', value: 'example@gmail.com' },
-      { kind: 'message', text: 'That password does not match this address.' },
-      { kind: 'input', label: 'Password', secret: true, value: '••••••' },
-      { kind: 'button', look: 'primary', label: 'Try again', go: 'signin-processing' },
-      { kind: 'button', look: 'outline', label: 'Forgot password?', go: 'reset' },
-    ] },
-
-  { id: 'reset', title: 'Reset password', logo: true, back: 'signin',
-    h1: 'Reset Password', sub: 'We will send a link to your address.',
-    controls: [
-      { kind: 'input', label: 'Email Address', value: 'example@gmail.com' },
-      { kind: 'button', look: 'primary', label: 'Send the link', go: 'reset-sent' },
-    ] },
-
-  { id: 'reset-sent', title: 'Link sent', logo: true, back: 'entry',
-    h1: 'Check your email', sub: 'The link expires in 30 minutes.',
-    controls: [{ kind: 'button', look: 'primary', label: 'Back to sign in', go: 'signin' }],
-    note: 'Nothing arrived? Look in spam, or try again in a minute.' },
-
-  { id: 'signup', title: 'Sign Up', logo: true, back: 'entry',
-    h1: 'Sign Up', sub: 'Sign up on this device or use the link on your phone.',
-    controls: [
-      { kind: 'input', label: 'Email Address' },
-      { kind: 'input', label: 'Password', secret: true },
-      { kind: 'button', look: 'primary', label: 'Create account', go: 'signup-processing', disabled: true },
-    ],
-    note: 'Terms & Privacy Policy are available at playalong.tv/legal.' },
-
-  { id: 'signup-processing', title: 'Creating', logo: true, spinner: true,
-    h1: 'Creating your account…', back: 'signup', thenAfter: { ms: 1600, go: 'done' } },
-
-  { id: 'guest', title: 'Guest', logo: true, back: 'entry',
-    h1: 'Playing as a guest.', sub: 'Progress is kept on this device only.',
-    controls: [
-      { kind: 'button', look: 'primary', label: 'Start playing', go: 'done' },
-      { kind: 'button', look: 'outline', label: 'Create an account instead', go: 'signup' },
-    ] },
-
-  { id: 'done', title: 'Done', logo: true, back: 'entry',
-    h1: 'You are in.', sub: 'Everything you play from here is saved.',
-    controls: [{ kind: 'button', look: 'primary', label: 'Start over', go: 'entry' }] },
+/** The Sign In head: logo, title, subhead and the QR/Email tabs. They slide together. */
+const signInHead = (top: number, tabSel: 0 | 1, tabGo: [string, string]): El[] => [
+  { t: 'logo', x: 140, y: top },
+  { t: 'text', x: 140, y: top + 89, w: 710, cls: 'flow__d-xl', s: 'Sign In' },
+  { t: 'text', x: 140, y: top + 200, w: 710, cls: 'flow__h-m', s: SIGNIN_SUB },
+  { t: 'tabs', x: 140, y: top + 316, sel: tabSel, go: tabGo },
 ];
 
-const byId = (id: string) => SCREENS.find((s) => s.id === id)!;
+const SCREENS: Screen[] = [
+  {
+    id: 'entry', title: 'Entry', frame: 'Login -1', node: '7144:6579', focus: 3,
+    els: [
+      { t: 'logo', x: 140, y: 170 },
+      { t: 'text', x: 140, y: 259, w: 710, cls: 'flow__d-xl', s: 'Play the shows you love.' },
+      { t: 'text', x: 140, y: 458, w: 710, cls: 'flow__h-m', s: 'Sign in or play as a guest.' },
+      { t: 'btn', x: 140, y: 558, w: 710, look: 'primary', s: 'Sign In', go: 'signin' },
+      { t: 'btn', x: 140, y: 650, w: 710, look: 'secondary', s: 'Sign Up', go: 'signup' },
+      { t: 'btn', x: 140, y: 742, w: 710, look: 'outline', s: 'Continue as Guest', go: 'done' },
+      { t: 'text', x: 140, y: 854, w: 710, cls: 'flow__b-l',
+        s: 'Create an account to save progress. Visit playalong.net/activate on your device.' },
+    ],
+  },
 
-function render(screen: Screen, focus: number): string {
-  const ctls = (screen.controls ?? []).map((c, i) => {
-    if (c.kind === 'message')
-      return `<div class="flow__msg">${icon('Alert', 32)}${c.text}</div>`;
-    const focused = i === focus;
-    if (c.kind === 'input')
-      return `<div class="flow__ctl flow__ctl--input${focused ? ' is-focus' : ''}">
-        ${icon('Account', 32)}<span class="${c.value ? 'flow__ctl__val' : 'flow__ctl__ph'}">${c.value ?? c.label}</span></div>`;
-    return `<div class="flow__ctl flow__ctl--${c.look}${focused ? ' is-focus' : ''}${c.disabled ? ' is-disabled' : ''}">${c.label}</div>`;
-  }).join('');
+  {
+    id: 'signin', title: 'Sign In', frame: 'Login- 6', node: '7252:8011', focus: 4, back: 'entry',
+    els: [
+      ...signInHead(142, 1, ['qr', 'signin']),
+      { t: 'input', x: 140, y: 578, state: 'focus', s: 'Email Address', go: 'signin-keyboard' },
+      { t: 'input', x: 140, y: 674, state: 'default', s: 'Password', go: 'signin-keyboard' },
+      { t: 'btn', x: 140, y: 770, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'btn', x: 140, y: 866, w: 710, look: 'ghost', s: 'Forgot Password?', go: 'reset' },
+    ],
+  },
 
-  return `<div class="flow__art"></div><div class="flow__col">
-    ${screen.logo ? `<div class="flow__logo">${icon('Play', 44)}PlayAlong</div>` : ''}
-    ${screen.h1 ? `<h1 class="flow__h1">${screen.h1}</h1>` : ''}
-    ${screen.sub ? `<p class="flow__sub">${screen.sub}</p>` : ''}
-    ${screen.spinner ? '<div class="flow__spin"></div>' : ''}
-    ${ctls ? `<div class="flow__stack">${ctls}</div>` : ''}
-    ${screen.note ? `<p class="flow__note">${screen.note}</p>` : ''}
-  </div>`;
+  {
+    id: 'signin-keyboard', title: 'Sign In · keyboard', frame: 'Login- 8 — React Native',
+    node: '7252:8259', focus: 8, back: 'signin',
+    els: [
+      ...signInHead(142, 1, ['qr', 'signin']),
+      { t: 'input', x: 140, y: 578, state: 'typing', s: 'abc' },
+      { t: 'input', x: 140, y: 674, state: 'default', s: 'Password' },
+      { t: 'btn', x: 140, y: 770, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'btn', x: 140, y: 866, w: 710, look: 'ghost', s: 'Forgot Password?', go: 'reset' },
+      { t: 'kb', x: 1198, y: 173, go: 'signin-typed' },
+    ],
+  },
+
+  {
+    id: 'signin-typed', title: 'Sign In · filled', frame: 'Login- Processing - 1',
+    node: '7585:7594', focus: 6, back: 'signin',
+    els: [
+      ...signInHead(142, 1, ['qr', 'signin']),
+      { t: 'input', x: 140, y: 578, state: 'typed', s: 'alexunder@gmail.com' },
+      { t: 'input', x: 140, y: 674, state: 'typed', s: '************' },
+      { t: 'btn', x: 140, y: 770, w: 710, look: 'primary', s: 'Continue', go: 'done' },
+      { t: 'btn', x: 140, y: 866, w: 710, look: 'ghost', s: 'Forgot Password?', go: 'reset' },
+    ],
+  },
+
+  {
+    id: 'signin-error', title: 'Sign In · alert', frame: 'Login- 7', node: '7252:8139',
+    focus: 4, back: 'signin',
+    els: [
+      ...signInHead(100, 1, ['qr', 'signin']),
+      { t: 'input', x: 140, y: 536, state: 'alert-focus', s: 'Email Address', msg: 'Message text' },
+      { t: 'input', x: 140, y: 674, state: 'alert', s: 'Password', msg: 'Message text' },
+      { t: 'btn', x: 140, y: 812, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'btn', x: 140, y: 908, w: 710, look: 'ghost', s: 'Forgot Password?', go: 'reset' },
+    ],
+  },
+
+  {
+    id: 'signin-show', title: 'Sign In · show password', frame: 'Login- 12', node: '10432:14776',
+    focus: 6, back: 'signin',
+    els: [
+      ...signInHead(110, 1, ['qr', 'signin']),
+      { t: 'input', x: 140, y: 546, state: 'default', s: 'Email Address' },
+      { t: 'input', x: 140, y: 642, state: 'typed', s: '******' },
+      { t: 'chk', x: 140, y: 738, s: 'Show Password' },
+      { t: 'btn', x: 140, y: 802, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'btn', x: 140, y: 898, w: 710, look: 'ghost', s: 'Forgot Password?', go: 'reset' },
+    ],
+  },
+
+  {
+    id: 'qr', title: 'Sign In · QR', frame: 'Sign Up - 14', node: '7252:9291',
+    focus: 3, back: 'signin',
+    els: [
+      { t: 'logo', x: 140, y: 144 },
+      { t: 'text', x: 140, y: 233, w: 710, cls: 'flow__d-xl', s: 'Sign In' },
+      { t: 'text', x: 140, y: 344, w: 710, cls: 'flow__h-m',
+        s: 'Scan the QR code (with your mobile device) or use web-address below to manually authenticate with your TV device' },
+      { t: 'tabs', x: 140, y: 496, sel: 0, go: ['qr', 'signin'] },
+      { t: 'qr', x: 140, y: 616 },
+      { t: 'text', x: 652, y: 669, w: 532, cls: 'flow__h-l',
+        s: 'Visit\nplayalong.net/authenticate\nand enter the code below' },
+      { t: 'text', x: 540, y: 767, w: 32, cls: 'flow__b-l', s: 'OR' },
+      { t: 'text', x: 652, y: 815, w: 511, cls: 'flow__d-xl', s: '698102' },
+    ],
+  },
+
+  {
+    id: 'reset', title: 'Reset', frame: 'Reset Pass - 1', node: '7252:8596', focus: 3, back: 'signin',
+    els: [
+      { t: 'logo', x: 140, y: 226 },
+      { t: 'text', x: 140, y: 315, w: 899, cls: 'flow__d-xl', s: 'Reset your password' },
+      { t: 'text', x: 140, y: 514, w: 710, cls: 'flow__h-m', s: RESET_SUB },
+      { t: 'input', x: 140, y: 686, state: 'focus', s: 'Email Address', go: 'reset-keyboard' },
+      { t: 'btn', x: 140, y: 782, w: 710, look: 'primary', dis: true, s: 'Reset password' },
+    ],
+  },
+
+  {
+    id: 'reset-keyboard', title: 'Reset · keyboard', frame: 'Reset Pass - 3', node: '9038:11487',
+    focus: 4, back: 'reset',
+    els: [
+      { t: 'logo', x: 140, y: 226 },
+      { t: 'text', x: 140, y: 315, w: 899, cls: 'flow__d-xl', s: 'Reset your password' },
+      { t: 'text', x: 140, y: 514, w: 710, cls: 'flow__h-m', s: RESET_SUB },
+      { t: 'input', x: 140, y: 686, state: 'typing', s: 'abc' },
+      { t: 'btn', x: 140, y: 782, w: 710, look: 'primary', s: 'Reset password', go: 'reset-typed' },
+      { t: 'kb', x: 1198, y: 173, go: 'reset-typed' },
+    ],
+  },
+
+  {
+    id: 'reset-typed', title: 'Reset · filled', frame: 'Reset Pass - 4', node: '9613:12767',
+    focus: 4, back: 'reset',
+    els: [
+      { t: 'logo', x: 140, y: 226 },
+      { t: 'text', x: 140, y: 315, w: 899, cls: 'flow__d-xl', s: 'Reset your password' },
+      { t: 'text', x: 140, y: 514, w: 710, cls: 'flow__h-m', s: RESET_SUB },
+      { t: 'input', x: 140, y: 686, state: 'typed', s: 'abc' },
+      // The label really is missing on this frame — see NOTES.
+      { t: 'btn', x: 140, y: 782, w: 710, look: 'primary', s: '', go: 'reset-sent' },
+    ],
+  },
+
+  {
+    id: 'reset-sent', title: 'Link sent', frame: 'Reset Pass - 2', node: '7252:8781',
+    focus: 4, back: 'signin',
+    els: [
+      { t: 'logo', x: 140, y: 292 },
+      { t: 'icon', x: 140, y: 400, size: 64, name: 'Check Filled' },
+      { t: 'text', x: 228, y: 410, w: 546, cls: 'flow__d-l', s: 'Link has been sent!' },
+      { t: 'text', x: 140, y: 508, w: 710, cls: 'flow__h-m',
+        s: 'An email containing a link to reset your password will be sent to the address on record. If you do not receive one shortly, please try again.' },
+      { t: 'btn', x: 140, y: 716, w: 710, look: 'primary', s: 'Back to Sign In', go: 'signin' },
+    ],
+  },
+
+  {
+    id: 'signup', title: 'Sign Up', frame: 'Sign Up - 11 (with links)', node: '7252:8930',
+    focus: 3, back: 'entry',
+    els: [
+      { t: 'logo', x: 140, y: 212 },
+      { t: 'text', x: 140, y: 300, w: 710, cls: 'flow__d-xl', s: 'Sign Up' },
+      { t: 'text', x: 140, y: 411, w: 710, cls: 'flow__h-m', s: SIGNUP_SUB },
+      { t: 'input', x: 140, y: 547, state: 'focus', s: 'Email Address', go: 'signup-keyboard' },
+      { t: 'input', x: 140, y: 643, state: 'default', s: 'Password', go: 'signup-keyboard' },
+      { t: 'btn', x: 140, y: 739, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'text', x: 140, y: 851, w: 710, cls: 'flow__b-l', s: SIGNUP_FOOT },
+    ],
+  },
+
+  {
+    id: 'signup-keyboard', title: 'Sign Up · keyboard', frame: 'Sign Up - 15 — React Native',
+    node: '7524:22828', focus: 6, back: 'signup',
+    els: [
+      { t: 'logo', x: 140, y: 212 },
+      { t: 'text', x: 140, y: 300, w: 710, cls: 'flow__d-xl', s: 'Sign Up' },
+      { t: 'text', x: 140, y: 411, w: 710, cls: 'flow__h-m', s: SIGNUP_SUB },
+      { t: 'input', x: 140, y: 547, state: 'typing', s: 'abc' },
+      { t: 'input', x: 140, y: 643, state: 'default', s: 'Password' },
+      { t: 'btn', x: 140, y: 739, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'text', x: 140, y: 851, w: 710, cls: 'flow__b-l', s: SIGNUP_FOOT },
+      { t: 'kb', x: 1198, y: 173, go: 'signup-typed' },
+    ],
+  },
+
+  {
+    id: 'signup-error', title: 'Sign Up · alert', frame: 'Sign Up - 12', node: '7252:9045',
+    focus: 3, back: 'signup',
+    els: [
+      { t: 'logo', x: 140, y: 162 },
+      { t: 'text', x: 140, y: 250, w: 710, cls: 'flow__d-xl', s: 'Sign Up' },
+      { t: 'text', x: 140, y: 361, w: 710, cls: 'flow__h-m', s: SIGNUP_SUB },
+      { t: 'input', x: 140, y: 497, state: 'alert-focus', s: 'Email Address',
+        msg: 'This e-mail address is already in use' },
+      { t: 'input', x: 140, y: 635, state: 'alert', s: 'Password',
+        msg: 'Password must be at least 8 characters long and contain at least 1 lower case letter, 1 upper case letter and 1 digit' },
+      { t: 'btn', x: 140, y: 789, w: 710, look: 'primary', dis: true, s: 'Continue' },
+      { t: 'text', x: 140, y: 901, w: 710, cls: 'flow__b-l', s: SIGNUP_FOOT },
+    ],
+  },
+
+  {
+    id: 'signup-typed', title: 'Sign Up · filled', frame: 'Sign Up - Processing - 1',
+    node: '7585:7679', focus: 5, back: 'signup',
+    els: [
+      { t: 'logo', x: 140, y: 212 },
+      { t: 'text', x: 140, y: 300, w: 710, cls: 'flow__d-xl', s: 'Sign Up' },
+      { t: 'text', x: 140, y: 411, w: 710, cls: 'flow__h-m', s: SIGNUP_SUB },
+      { t: 'input', x: 140, y: 547, state: 'typed', s: 'alexunder@gmail.com' },
+      { t: 'input', x: 140, y: 643, state: 'typed', s: '************' },
+      { t: 'btn', x: 140, y: 739, w: 710, look: 'primary', s: 'Continue', go: 'done' },
+      { t: 'text', x: 140, y: 851, w: 710, cls: 'flow__b-l', s: SIGNUP_FOOT },
+    ],
+  },
+
+  {
+    id: 'done', title: 'Let’s Play!', frame: 'Sign Up - 13', node: '7252:9177',
+    focus: 4, back: 'entry',
+    els: [
+      { t: 'logo', x: 140, y: 328 },
+      { t: 'icon', x: 140, y: 436, size: 64, name: 'Check Filled' },
+      { t: 'text', x: 228, y: 446, w: 287, cls: 'flow__d-l', s: 'Let\'s Play!' },
+      { t: 'text', x: 140, y: 544, w: 710, cls: 'flow__h-m',
+        s: 'You\'re all set!  Track your progress, earn badges, join challenges.  Let\'s go!' },
+      { t: 'btn', x: 140, y: 680, w: 710, look: 'primary', s: 'PlayAlong!', go: 'entry' },
+    ],
+  },
+];
+
+const NOTES = [
+  'Every string, every x and every y is read out of the file on 2026-10-13. Nothing here is written to fill a gap — where the file is empty, so is this.',
+  'The alert copy on <strong>Login- 7</strong> is the literal placeholder <code>Message text</code>, twice. The file never writes the real sign-in errors; only <strong>Sign Up - 12</strong> carries sentences. <strong>Needs the copy.</strong>',
+  'The button on <strong>Reset Pass - 4</strong> has <strong>no label at all</strong> — its text node is gone, while the same button reads <code>Reset password</code> on frames 1 and 3. Drawn empty here. <strong>A file defect.</strong>',
+  'The Sign In column sits at a different height on every frame that uses it: y = 142 on Login- 6 and on the processing frame, 110 on Login- 12, 100 on Login- 7. The tabs, inputs and buttons all move with it. <strong>Probably unintended.</strong>',
+  'Only <strong>Sign Up - 14</strong> draws the QR tab, and it is a Sign Up frame titled <em>Sign In</em>. The Email tab is selected on every other frame, so this rebuild wires the two tabs together — which the file does not.',
+  'The background is the <code>Splash Screen</code> component exported flat, because it is a collage of more than twenty posters under four gradients. A picture here; a component in a client.',
+  'The keyboard’s two icon keys are blank 44 × 44 frames in the file. <code>Delete</code> and <code>Mic</code> are read from their positions, not measured.',
+  'There is a second, narrower auth flow for web and mobile — <code>Digit Code</code>, <code>Mobile Login</code>, <code>Sign Up 16–20</code>. A separate set of frames, not in here.',
+];
+
+/* ----------------------------------------------------------------- rendering */
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+/** Which elements a remote can land on, in the order the D-pad walks them. */
+const focusable = (s: Screen) =>
+  s.els.map((e, i) => ((e.t === 'btn' && !e.dis) || e.t === 'input' || e.t === 'tabs' || e.t === 'kb' ? i : -1))
+    .filter((i) => i >= 0);
+
+/** Focus composes onto the content state rather than replacing it. */
+const focusState = (s: InputState): InputState =>
+  s === 'alert' || s === 'alert-focus' ? 'alert-focus' : s === 'typing' ? 'typing' : 'focus';
+const restState = (s: InputState): InputState =>
+  s === 'alert' || s === 'alert-focus' ? 'alert' : s === 'focus' ? 'default' : s;
+
+function elNode(e: El, focused: boolean): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'flow__el';
+  wrap.style.left = `${e.x}px`;
+  wrap.style.top = `${e.y}px`;
+
+  switch (e.t) {
+    case 'logo':
+      wrap.classList.add('flow__logo');
+      wrap.innerHTML = `<img src="assets/flows/logo.svg" alt="PlayAlong">`;
+      break;
+    case 'text':
+      wrap.style.width = `${e.w}px`;
+      wrap.innerHTML = `<p class="${e.cls}">${esc(e.s)}</p>`;
+      break;
+    case 'icon':
+      wrap.innerHTML = icon(e.name, e.size);
+      break;
+    case 'input':
+      wrap.appendChild(input(focused ? focusState(e.state) : restState(e.state), esc(e.s), e.msg));
+      break;
+    case 'btn':
+      wrap.classList.add('flow__btn');
+      wrap.style.width = `${e.w}px`;
+      wrap.appendChild(button(e.look, e.dis ? 'disabled' : focused ? 'focus' : undefined, esc(e.s), null));
+      break;
+    case 'tabs':
+      wrap.classList.add('flow__tabs');
+      wrap.innerHTML = ['QR Code', 'Email'].map((label, i) => {
+        const on = i === e.sel;
+        return `<span class="c-tab${focused && on ? ' is-focus' : on ? ' is-selected' : ''}">${label}</span>`;
+      }).join('');
+      break;
+    case 'chk':
+      wrap.classList.add('flow__chk');
+      // The real control, not a tick glyph: Figma draws `Checkbox Message` here,
+      // focused and unselected — the password below it is still masked.
+      wrap.innerHTML = `<span class="c-check is-focusring"><span class="c-check__box"></span></span><span>${esc(e.s)}</span>`;
+      break;
+    case 'kb':
+      wrap.appendChild(keyboard('a'));
+      break;
+    case 'qr':
+      wrap.classList.add('flow__qr');
+      wrap.innerHTML = `<img src="assets/flows/qr.png" alt="QR code">`;
+      break;
+  }
+  return wrap;
 }
+
+/* ------------------------------------------------------------------- the card */
 
 function createAuthFlow(start?: string): HTMLElement & { __destroy?: () => void } {
   const root: HTMLElement & { __destroy?: () => void } = document.createElement('section');
@@ -186,69 +403,77 @@ function createAuthFlow(start?: string): HTMLElement & { __destroy?: () => void 
   root.innerHTML = `
     <header class="card__head"><div>
       <h1 class="card__title">Auth — sign in, sign up, reset</h1>
-      <p class="card__desc">The TV flow assembled from its screens and driven by a remote: <kbd>↑</kbd> <kbd>↓</kbd> move focus, <kbd>Enter</kbd> activates, <kbd>Esc</kbd> goes back. Built from the catalog's own tokens, not from screenshots.</p>
+      <p class="card__desc">Fourteen frames rebuilt from the file and wired together:
+        <kbd>↑</kbd> <kbd>↓</kbd> move focus, <kbd>Enter</kbd> activates, <kbd>Esc</kbd> goes back.
+        Focus starts where Figma draws it; every other state is as drawn.</p>
     </div></header>
     <div class="flow">
       <div class="flow__bar" data-role="bar"></div>
       <div class="flow__frame" data-role="frame"><div class="flow__stage" data-role="stage"></div></div>
-      <p class="flow__hint">The file's own map: Auth / Entry ├─ Welcome ├─ Sign In Flow ├─ Forgot Password ├─ Guest Mode └─ Profile Select</p>
+      <p class="flow__hint" data-role="where"></p>
+      <ul class="flow__notes">${NOTES.map((n) => `<li>${n}</li>`).join('')}</ul>
     </div>`;
 
   const frame = root.querySelector<HTMLElement>('[data-role=frame]')!;
   const stage = root.querySelector<HTMLElement>('[data-role=stage]')!;
   const bar = root.querySelector<HTMLElement>('[data-role=bar]')!;
+  const where = root.querySelector<HTMLElement>('[data-role=where]')!;
 
+  const byId = (id: string) => SCREENS.find((s) => s.id === id) ?? SCREENS[0];
   let current = start && SCREENS.some((s) => s.id === start) ? start : 'entry';
-  let focus = 0;
-  let timer: number | undefined;
-
-  const focusable = (s: Screen) =>
-    (s.controls ?? []).map((c, i) => (c.kind === 'message' ? -1 : i)).filter((i) => i >= 0);
+  let focus = byId(current).focus ?? -1;
 
   function draw() {
     const s = byId(current);
-    stage.innerHTML = render(s, focus);
+    stage.innerHTML = '';
+    s.els.forEach((e, i) => stage.appendChild(elNode(e, i === focus)));
+
     bar.innerHTML = SCREENS.map((x) =>
       `<button type="button" class="flow__step${x.id === current ? ' is-here' : ''}" data-go="${x.id}">${x.title}</button>`).join('');
     bar.querySelectorAll<HTMLElement>('[data-go]').forEach((b) =>
       b.addEventListener('click', () => go(b.dataset.go!)));
-    if (timer) { clearTimeout(timer); timer = undefined; }
-    if (s.thenAfter) timer = window.setTimeout(() => go(s.thenAfter!.go), s.thenAfter.ms);
+
+    where.textContent = `${s.frame} — ${s.node}`;
   }
 
   function go(id: string) {
     current = id;
-    const list = focusable(byId(id));
-    focus = list.length ? list[0] : -1;
+    const s = byId(id);
+    const list = focusable(s);
+    focus = s.focus !== undefined && list.includes(s.focus) ? s.focus : (list[0] ?? -1);
     draw();
   }
 
   function move(step: number) {
     const list = focusable(byId(current));
     if (!list.length) return;
-    const at = Math.max(0, list.indexOf(focus));
-    focus = list[(at + step + list.length) % list.length];
+    const at = list.indexOf(focus);
+    focus = list[(Math.max(0, at) + step + list.length) % list.length];
     draw();
   }
 
   function activate() {
-    const s = byId(current);
-    const c = (s.controls ?? [])[focus];
-    if (c && c.kind === 'button' && c.go && !c.disabled) go(c.go);
+    const e = byId(current).els[focus];
+    if (!e) return;
+    if (e.t === 'btn' && e.go && !e.dis) go(e.go);
+    else if (e.t === 'input' && e.go) go(e.go);
+    else if (e.t === 'kb') go(e.go);
+    else if (e.t === 'tabs') go(e.go[e.sel === 0 ? 1 : 0]);
   }
 
-  const onKey = (e: KeyboardEvent) => {
+  const onKey = (ev: KeyboardEvent) => {
     if (!root.isConnected) return;
-    if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
-    else if (e.key === 'Enter') { e.preventDefault(); activate(); }
-    else if (e.key === 'Escape' || e.key === 'Backspace') {
-      const b = byId(current).back; if (b) { e.preventDefault(); go(b); }
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowRight') { ev.preventDefault(); move(1); }
+    else if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') { ev.preventDefault(); move(-1); }
+    else if (ev.key === 'Enter') { ev.preventDefault(); activate(); }
+    else if (ev.key === 'Escape' || ev.key === 'Backspace') {
+      const b = byId(current).back;
+      if (b) { ev.preventDefault(); go(b); }
     }
   };
   window.addEventListener('keydown', onKey);
 
-  // The stage is 1920 wide; scale it to whatever room the card has.
+  // The stage is 1920 wide; scale it into whatever room the card has.
   const fit = () => {
     const room = frame.clientWidth || root.clientWidth;
     if (!room) return;
@@ -261,7 +486,6 @@ function createAuthFlow(start?: string): HTMLElement & { __destroy?: () => void 
 
   draw();
   root.__destroy = () => {
-    if (timer) clearTimeout(timer);
     window.removeEventListener('keydown', onKey);
     window.removeEventListener('resize', fit);
   };

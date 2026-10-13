@@ -1,7 +1,7 @@
 import type { CatalogEntry } from '../types';
 import type { ComponentModule } from './types';
 import { createComponentCard } from './ComponentCard';
-import { Button, Tag, Toggle, TabsItem, Checkbox, Dots, IconSet } from './ui/controls';
+import { Button, Tag, Toggle, TabsItem, Checkbox, Dots, IconSet, Input, Keyboard } from './ui/controls';
 import {
   MenuItem, GameTypeTag, AvatarPicture, UserAvatar, AvatarLabel, UnlockedCounter,
   SelectionRadio, InputMessages, StrikeBox, Attempt, RewardTypeIcon, PlayerThumbnail,
@@ -13,7 +13,7 @@ import {
 
 export const COMPONENTS: ComponentModule[] = [
   // Controls
-  Button, Toggle, Checkbox, SelectionRadio,
+  Button, Input, Keyboard, Toggle, Checkbox, SelectionRadio,
   // Navigation
   MenuItem, TabsItem, Dots,
   // Identity
