@@ -1,4 +1,4 @@
-(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))a(r);new MutationObserver(r=>{for(const o of r)if(o.type==="childList")for(const n of o.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&a(n)}).observe(document,{childList:!0,subtree:!0});function i(r){const o={};return r.integrity&&(o.integrity=r.integrity),r.referrerPolicy&&(o.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?o.credentials="include":r.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function a(r){if(r.ep)return;r.ep=!0;const o=i(r);fetch(r.href,o)}})();const Y=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'},{id:"glide",label:"Glide (Stack It)",bezier:[.3,.9,.3,1],description:"Quick launch, long soft settle — Stack It chip and block moves."}];function h(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function m(e,t){if(document.getElementById(e))return;const i=document.createElement("style");i.id=e,i.textContent=t,document.head.appendChild(i)}const ze=450,pe=350,Ct=`
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))o(a);new MutationObserver(a=>{for(const r of a)if(r.type==="childList")for(const n of r.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&o(n)}).observe(document,{childList:!0,subtree:!0});function i(a){const r={};return a.integrity&&(r.integrity=a.integrity),a.referrerPolicy&&(r.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?r.credentials="include":a.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function o(a){if(a.ep)return;a.ep=!0;const r=i(a);fetch(a.href,r)}})();const Y=[{id:"linear",label:"Linear",bezier:[0,0,1,1],description:"Constant speed, no acceleration."},{id:"ease",label:"Ease (browser default)",bezier:[.25,.1,.25,1],description:"Generic browser default."},{id:"ease-out",label:"Ease Out",bezier:[0,0,.2,1],description:"Fast start, soft landing — good for entrances."},{id:"ease-in",label:"Ease In",bezier:[.4,0,1,1],description:"Slow start, fast end — good for exits."},{id:"ease-in-out",label:"Ease In Out",bezier:[.4,0,.2,1],description:"Symmetric — good for ambient loops."},{id:"back-out",label:"Back Out (overshoot)",bezier:[.34,1.56,.64,1],description:"Overshoots past the end then settles — bouncy reveals."},{id:"material",label:"Material Standard",bezier:[.4,0,.2,1],description:'Material Design "standard" curve.'},{id:"glide",label:"Glide (Stack It)",bezier:[.3,.9,.3,1],description:"Quick launch, long soft settle — Stack It chip and block moves."}];function b(e){return`cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`}function h(e,t){if(document.getElementById(e))return;const i=document.createElement("style");i.id=e,i.textContent=t,document.head.appendChild(i)}const Be=450,me=350,Rt=`
 .preview-ff-board { display: flex; flex-direction: column; gap: 12px; width: 540px; perspective: 1000px; }
 .preview-ff-row {
   display: flex; align-items: center; gap: 20px;
@@ -27,7 +27,7 @@
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-`;let $=null,A=null,I=null;function fe(e,t){e.innerHTML=`
+`;let S=null,z=null,L=null;function he(e,t){e.innerHTML=`
     <div class="frame-ff-row" style="
       transform: rotateX(${t.rotateX}deg) scale(${t.scale});
       ${t.state==="hidden"?"background:linear-gradient(180deg,#1d4ed8 0%,#0a1f5a 100%); border:1.5px solid rgba(56,138,255,0.5);":"background:linear-gradient(180deg,#008e11 0%,#053800 100%); border:1.5px solid rgba(0,255,85,0.55);"}
@@ -37,7 +37,7 @@
       <span style="flex:1;font-size:13px;font-weight:600;letter-spacing:0.3px;opacity:${t.textOpacity};">FAST FOOD</span>
       <span style="font-size:18px;font-weight:600;opacity:${t.textOpacity};">28</span>
     </div>
-  `}const ue=`
+  `}const be=`
 .frame-ff-row {
   display:flex;align-items:center;gap:10px;
   width:100%;height:40px;padding:0 12px;
@@ -45,7 +45,7 @@
   font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
   transform-origin:center center;
 }
-`,Ft={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{m("css-ff-frame-row",ue),fe(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return m("css-ff-answer-board",Ct),e.innerHTML=`
+`,Et={id:"ff-answer-board",title:"Answer Board",game:"Family Feud",description:'When the player guesses correctly, the matching row flips open on the X-axis, swapping its blue "hidden" skin for the green "revealed" skin. Back-ease curve overshoots past the end then settles. The answer text fades up from beneath after the row lands.',defaults:{duration:700,easingId:"back-out"},frames:[{label:"Hidden",sublabel:"idle · blue · slot number only",render:e=>{h("css-ff-frame-row",be),he(e,{state:"hidden",rotateX:0,scale:1,textOpacity:0})}},{label:"Start",sublabel:"0% · rotateX 90° · scale .85",render:e=>{e.innerHTML='<div class="frame-ghost">edge · row on its side</div>'}},{label:"Overshoot",sublabel:"60% · rotateX −15° · scale 1.04",render:e=>{h("css-ff-frame-row",be),he(e,{state:"revealed",rotateX:-15,scale:1.04,textOpacity:0})}},{label:"Counter",sublabel:"85% · rotateX 6° · scale .99",render:e=>{h("css-ff-frame-row",be),he(e,{state:"revealed",rotateX:6,scale:.99,textOpacity:.6})}},{label:"Settled",sublabel:"100% · rotateX 0 · scale 1",render:e=>{h("css-ff-frame-row",be),he(e,{state:"revealed",rotateX:0,scale:1,textOpacity:1})}}],render(e){return h("css-ff-answer-board",Rt),e.innerHTML=`
       <div class="preview-ff-board">
         <div class="preview-ff-row">
           <span class="preview-ff-row__num">1</span>
@@ -54,7 +54,7 @@
           <span class="preview-ff-row__pts">28</span>
         </div>
       </div>
-    `,$=e.querySelector(".preview-ff-row"),A=e.querySelector(".preview-ff-row__name"),I=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",$=null,A=null,I=null}},play({duration:e,easing:t}){if(!$||!A||!I)return;$.classList.remove("is-revealed"),$.style.animation="none",A.style.animation="none",I.style.animation="none",A.style.opacity="0",I.style.opacity="0",$.offsetWidth,$.classList.add("is-revealed"),$.style.animation=`ff-row-flip ${e}ms ${h(t.bezier)}`;const i=Math.round(pe/700*e),a=`ff-text-fade-up ${ze}ms ease-out ${i}ms both`;A.style.animation=a,I.style.animation=a,setTimeout(()=>{!$||!A||!I||($.style.animation="none",A.style.animation="none",I.style.animation="none",A.style.opacity="0",I.style.opacity="0",$.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
+    `,S=e.querySelector(".preview-ff-row"),z=e.querySelector(".preview-ff-row__name"),L=e.querySelector(".preview-ff-row__pts"),()=>{e.innerHTML="",S=null,z=null,L=null}},play({duration:e,easing:t}){if(!S||!z||!L)return;S.classList.remove("is-revealed"),S.style.animation="none",z.style.animation="none",L.style.animation="none",z.style.opacity="0",L.style.opacity="0",S.offsetWidth,S.classList.add("is-revealed"),S.style.animation=`ff-row-flip ${e}ms ${b(t.bezier)}`;const i=Math.round(me/700*e),o=`ff-text-fade-up ${Be}ms ease-out ${i}ms both`;z.style.animation=o,L.style.animation=o,setTimeout(()=>{!S||!z||!L||(S.style.animation="none",z.style.animation="none",L.style.animation="none",z.style.opacity="0",L.style.opacity="0",S.classList.remove("is-revealed"))},e+1200)},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* Drop into FamilyFeudBoard.css */
 @keyframes ff-row-flip {
   0%   { transform: rotateX(90deg) scale(0.85); }
   60%  { transform: rotateX(-15deg) scale(1.04); }
@@ -65,7 +65,7 @@
 .ff-board { perspective: 1000px; }
 
 .ff-board__row--revealed {
-  animation: ff-row-flip ${e}ms ${h(t.bezier)};
+  animation: ff-row-flip ${e}ms ${b(t.bezier)};
   transform-origin: center center;
 }
 
@@ -76,13 +76,13 @@
 
 .ff-board__row--revealed .ff-board__name,
 .ff-board__row--revealed .ff-board__points {
-  animation: ff-text-fade-up ${ze}ms ease-out ${pe}ms both;
+  animation: ff-text-fade-up ${Be}ms ease-out ${me}ms both;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.graphicsLayer
 
-val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
+val easing = CubicBezierEasing(${i.toFixed(2)}f, ${o.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f)
 
 @Composable
 fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
@@ -116,10 +116,10 @@ fun AnswerRow(revealed: Boolean, modifier: Modifier = Modifier) {
     ) { /* slot number / name / points */ }
 }
 
-// Text fade-up — separate animation, delayed ${pe} ms.
+// Text fade-up — separate animation, delayed ${me} ms.
 val textAlpha by animateFloatAsState(
     targetValue = if (revealed) 1f else 0f,
-    animationSpec = tween(${ze}, delayMillis = ${pe})
+    animationSpec = tween(${Be}, delayMillis = ${me})
 )`,ios:`// SwiftUI — tvOS
 import SwiftUI
 
@@ -137,7 +137,7 @@ struct AnswerRow: View {
             // chain three .withAnimation blocks (0→60%, 60%→85%, 85%→100%)
             // or use the new iOS 17 Animation.timeline API.
             .animation(
-                .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
+                .timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}),
                 value: revealed
             )
 
@@ -183,7 +183,7 @@ struct AnswerRow: View {
     end sub
   <\/script>
 </component>
-<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${i},${a},${r},${o}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
+<!-- Note: Roku's outBack easeFunction approximates cubic-bezier(${i},${o},${a},${r}). -->`}},pmTicket(){return`Title: Family Feud — Answer Board row reveal animation
 
 Trigger: player submits a guess that matches an unrevealed survey answer.
 
@@ -199,7 +199,7 @@ Timings:
 Acceptance criteria:
   · Only the matching row animates; other hidden rows stay still.
   · Once revealed, the row is permanent for the rest of the round (no idle loop).
-  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},Tt=`
+  · On platforms without true 3D rotation, fall back to a scaleY 0 → 1 reveal — the overshoot must remain visible.`}},Bt=`
 .preview-ff-attempts {
   background: rgba(0,0,0,0.8);
   border: 1.5px solid rgba(255,255,255,0.12);
@@ -228,23 +228,23 @@ Acceptance criteria:
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
 }
-`;let me=null,W=0;const Qe=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function Je(e,t,i,a,r,o){e.innerHTML=`
+`;let ge=null,j=0;const tt=[{text:"pizza",kind:"incorrect"},{text:"burger",kind:"correct"},{text:"tacos",kind:"incorrect"}];function it(e,t,i,o,a,r){e.innerHTML=`
     <div style="
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:18px;font-weight:600;
-      color:${a};
+      color:${o};
       opacity:${i};
       transform:translateY(${t}px);
       text-decoration:line-through;
-    ">${o}</div>
-  `}const At={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>Je(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>Je(e,0,1,"#c33",!0,"pizza")}],render(e){return m("css-ff-attempts",Tt),e.innerHTML=`
+    ">${r}</div>
+  `}const Ot={id:"ff-attempts",title:"Attempts",game:"Family Feud",description:"When the player submits a guess, a new row slides into the Attempts column from above. Correct rows render in green, incorrect rows render in red with a strike-through.",defaults:{duration:400,easingId:"ease-out"},frames:[{label:"Start",sublabel:"0% · translateY −18 · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Mid",sublabel:"50% · translateY −9 · opacity .5",render:e=>it(e,-9,.5,"#c33",!0,"pizza")},{label:"Settled",sublabel:"100% · translateY 0 · opacity 1",render:e=>it(e,0,1,"#c33",!0,"pizza")}],render(e){return h("css-ff-attempts",Bt),e.innerHTML=`
       <div class="preview-ff-attempts">
         <div class="preview-ff-attempts__title">Attempts</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
         <div class="preview-ff-attempts__row preview-ff-attempts__row--empty">_</div>
       </div>
-    `,me=e.querySelector(".preview-ff-attempts"),W=0,()=>{e.innerHTML="",me=null}},play({duration:e,easing:t}){if(!me)return;const i=Qe[W%Qe.length],a=me.querySelectorAll(".preview-ff-attempts__row"),r=a[W%a.length];W++,r.textContent=i.text,r.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),r.classList.add(`preview-ff-attempts__row--${i.kind}`),r.style.animation="none",r.offsetWidth,r.style.animation=`ff-attempt-slide-in ${e}ms ${h(t.bezier)}`,W%a.length===0&&setTimeout(()=>{a.forEach((o,n)=>{n!==(W-1)%a.length&&(o.textContent="_",o.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,ge=e.querySelector(".preview-ff-attempts"),j=0,()=>{e.innerHTML="",ge=null}},play({duration:e,easing:t}){if(!ge)return;const i=tt[j%tt.length],o=ge.querySelectorAll(".preview-ff-attempts__row"),a=o[j%o.length];j++,a.textContent=i.text,a.classList.remove("preview-ff-attempts__row--empty","preview-ff-attempts__row--correct","preview-ff-attempts__row--incorrect"),a.classList.add(`preview-ff-attempts__row--${i.kind}`),a.style.animation="none",a.offsetWidth,a.style.animation=`ff-attempt-slide-in ${e}ms ${b(t.bezier)}`,j%o.length===0&&setTimeout(()=>{o.forEach((r,n)=>{n!==(j-1)%o.length&&(r.textContent="_",r.className="preview-ff-attempts__row preview-ff-attempts__row--empty")})},e+800)},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-attempt-slide-in {
   0%   { transform: translateY(-18px); opacity: 0; }
   100% { transform: translateY(0);     opacity: 1; }
@@ -252,12 +252,12 @@ Acceptance criteria:
 
 .ff-attempts__row--correct,
 .ff-attempts__row--incorrect {
-  animation: ff-attempt-slide-in ${e}ms ${h(t.bezier)};
+  animation: ff-attempt-slide-in ${e}ms ${b(t.bezier)};
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 
-val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
+val easing = CubicBezierEasing(${i.toFixed(2)}f, ${o.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f)
 
 @Composable
 fun AttemptRow(attempt: Attempt) {
@@ -287,7 +287,7 @@ struct AttemptRow: View {
             .offset(y: appeared ? 0 : -18)
             .opacity(appeared ? 1 : 0)
             .onAppear {
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
+                withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n})) {
                     appeared = true
                 }
             }
@@ -332,7 +332,7 @@ Timings:
 Acceptance criteria:
   · Each new attempt instance plays this animation once on mount.
   · Existing attempts stay still — only the new row animates.
-  · After 3 strikes the panel locks; no further entries play.`}},It=`
+  · After 3 strikes the panel locks; no further entries play.`}},Mt=`
 .preview-ff-strikes {
   display: flex; gap: 32px; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.8);
@@ -357,7 +357,7 @@ Acceptance criteria:
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
   100% { transform: scale(1) rotate(0);       opacity: 1; }
 }
-`;let N=[],re=0;function Le(e,t,i,a){e.innerHTML=`
+`;let D=[],re=0;function Oe(e,t,i,o){e.innerHTML=`
     <div style="
       width:44px;height:44px;
       display:flex;align-items:center;justify-content:center;
@@ -365,15 +365,15 @@ Acceptance criteria:
       color:#ef4444;font-size:26px;font-weight:700;
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       transform:scale(${t}) rotate(${i}deg);
-      opacity:${a};
+      opacity:${o};
     ">✕</div>
-  `}const zt={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>Le(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>Le(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>Le(e,1,0,1)}],render(e){return m("css-ff-strikes",It),e.innerHTML=`
+  `}const Vt={id:"ff-strikes",title:"Strikes",game:"Family Feud",description:'On a wrong answer, the next strike X icon pops in with a rotation and scale overshoot. Back-ease curve gives the X a satisfying "punch" landing.',defaults:{duration:550,easingId:"back-out"},frames:[{label:"Start",sublabel:"idle · faint X · opacity .2",render:e=>Oe(e,.9,0,.2)},{label:"Overshoot",sublabel:"60% · scale 1.3 · rotate +8°",render:e=>Oe(e,1.3,8,1)},{label:"Settled",sublabel:"100% · scale 1 · rotate 0",render:e=>Oe(e,1,0,1)}],render(e){return h("css-ff-strikes",Mt),e.innerHTML=`
       <div class="preview-ff-strikes">
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
         <span class="preview-ff-strike">✕</span>
       </div>
-    `,N=Array.from(e.querySelectorAll(".preview-ff-strike")),re=0,()=>{e.innerHTML="",N=[]}},play({duration:e,easing:t}){if(N.length===0)return;re>=N.length&&(N.forEach(a=>a.classList.remove("is-used")),re=0,N[0].offsetWidth);const i=N[re];i.classList.add("is-used"),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-strike-pop ${e}ms ${h(t.bezier)}`,re++},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,D=Array.from(e.querySelectorAll(".preview-ff-strike")),re=0,()=>{e.innerHTML="",D=[]}},play({duration:e,easing:t}){if(D.length===0)return;re>=D.length&&(D.forEach(o=>o.classList.remove("is-used")),re=0,D[0].offsetWidth);const i=D[re];i.classList.add("is-used"),i.style.animation="none",i.offsetWidth,i.style.animation=`ff-strike-pop ${e}ms ${b(t.bezier)}`,re++},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-strike-pop {
   0%   { transform: scale(0) rotate(-30deg); opacity: 0; }
   60%  { transform: scale(1.3) rotate(8deg);  opacity: 1; }
@@ -381,7 +381,7 @@ Acceptance criteria:
 }
 
 .ff-strike-dot--used img {
-  animation: ff-strike-pop ${e}ms ${h(t.bezier)};
+  animation: ff-strike-pop ${e}ms ${b(t.bezier)};
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.core.*
 import androidx.compose.ui.graphics.graphicsLayer
@@ -433,7 +433,7 @@ struct StrikeIcon: View {
             // exact match, chain two .withAnimation blocks (0→60% overshoot
             // and 60%→100% settle).
             .animation(
-                .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
+                .timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}),
                 value: used
             )
     }
@@ -481,7 +481,7 @@ Timings:
 Acceptance criteria:
   · Only the newly-added strike icon animates; previously-used strikes stay still.
   · After 3 strikes the round ends — no further pop animations until next round.
-  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},Lt=`
+  · On platforms without simultaneous transform interpolation, prioritize the scale overshoot over the rotation.`}},Ht=`
 .preview-ff-feedback-wrap { width: 800px; }
 .preview-ff-banner {
   position: relative;
@@ -528,7 +528,7 @@ Acceptance criteria:
   from { left: -45%; }
   to   { left: 100%; }
 }
-`;let q=null;function Re(e,t,i,a,r){e.innerHTML=`
+`;let G=null;function Me(e,t,i,o,a){e.innerHTML=`
     <div style="
       position:relative;
       width:100%;height:42px;border-radius:6px;
@@ -537,12 +537,12 @@ Acceptance criteria:
       overflow:hidden;
       color:#fff;font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;font-size:13px;font-weight:600;
       transform:translateY(${t}px) scale(${i});
-      opacity:${a};
+      opacity:${o};
     ">
       <span style="display:inline-flex;align-items:center;justify-content:center;height:100%;padding:0 24px;background:linear-gradient(90deg,rgba(0,47,255,0) 0%,#002fff 50%,rgba(0,47,255,0) 100%);">Round Complete!</span>
-      ${r!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${r}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
+      ${a!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${a}%;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%);"></div>`:""}
     </div>
-  `}const Rt={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>Re(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>Re(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>Re(e,0,1,1,null)}],render(e){return m("css-ff-feedback",Lt),e.innerHTML=`
+  `}const Nt={id:"ff-feedback",title:"Feedback",game:"Family Feud",description:'When the round wraps up, a Round-Complete banner drops in from above with a back-ease overshoot. A soft light band sweeps left-to-right across the banner once, signalling "phase complete, moving on". A slow brightness pulse keeps the band alive afterwards.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"drop · translateY −40 · scale .94",render:e=>{e.innerHTML='<div class="frame-ghost">hidden</div>'}},{label:"Settled",sublabel:"drop done · translateY 0 · scale 1",render:e=>Me(e,0,1,1,null)},{label:"Sweep",sublabel:"light band mid-traversal",render:e=>Me(e,0,1,1,30)},{label:"Idle",sublabel:"brightness pulse loop",render:e=>Me(e,0,1,1,null)}],render(e){return h("css-ff-feedback",Ht),e.innerHTML=`
       <div class="preview-ff-feedback-wrap">
         <div class="preview-ff-banner">
           <div class="preview-ff-banner__corner preview-ff-banner__corner--left">
@@ -557,14 +557,14 @@ Acceptance criteria:
           <div class="preview-ff-banner__sweep"></div>
         </div>
       </div>
-    `,q=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",q=null}},play({duration:e,easing:t}){if(!q)return;q.style.animation="none",q.offsetWidth,q.style.animation=`ff-banner-in ${e}ms ${h(t.bezier)} backwards`;const i=q.querySelector(".preview-ff-banner__sweep");if(i){const a=i.cloneNode(!0);i.replaceWith(a)}},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
+    `,G=e.querySelector(".preview-ff-banner"),()=>{e.innerHTML="",G=null}},play({duration:e,easing:t}){if(!G)return;G.style.animation="none",G.offsetWidth,G.style.animation=`ff-banner-in ${e}ms ${b(t.bezier)} backwards`;const i=G.querySelector(".preview-ff-banner__sweep");if(i){const o=i.cloneNode(!0);i.replaceWith(o)}},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* FamilyFeudOverlay.css */
 @keyframes ff-banner-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .ff-banner {
-  animation: ff-banner-in ${e}ms ${h(t.bezier)} backwards;
+  animation: ff-banner-in ${e}ms ${b(t.bezier)} backwards;
 }
 
 @keyframes ff-banner-sweep {
@@ -589,7 +589,7 @@ import androidx.compose.animation.core.*
 
 @Composable
 fun RoundCompleteBanner(visible: Boolean) {
-    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
+    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${o.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
@@ -627,7 +627,7 @@ struct RoundCompleteBanner: View {
             .offset(y: visible ? 0 : -40)
             .scaleEffect(visible ? 1.0 : 0.94)
             .opacity(visible ? 1.0 : 0.0)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: visible)
+            .animation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}), value: visible)
             .overlay(SweepStrip(offset: sweepOffset))
             .brightness(pulse - 1.0)
             .onChange(of: visible) { v in
@@ -702,7 +702,7 @@ Timings:
 Acceptance criteria:
   · Banner replaces the question without layout jump.
   · Sweep plays exactly once; pulse continues indefinitely.
-  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Ot=`
+  · Keyboard / interactive elements behind the banner dim and become non-interactive.`}},Dt=`
 .preview-score {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   background: rgba(0,0,0,0.8);
@@ -728,18 +728,18 @@ Acceptance criteria:
   35%  { transform: scale(1.45); color: #6dd97a; }
   100% { transform: scale(1);    color: #caa512; }
 }
-`;let z=null,he=86;function Oe(e,t,i,a){e.innerHTML=`
+`;let R=null,ve=86;function Ve(e,t,i,o){e.innerHTML=`
     <div style="
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;
       font-size:32px;font-weight:800;color:${i};
       transform:scale(${t});transform-origin:center;
-    ">${a}</div>
-  `}const Et={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>Oe(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>Oe(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>Oe(e,1,"#caa512","102")}],render(e){return m("css-common-score",Ot),he=86,e.innerHTML=`
+    ">${o}</div>
+  `}const Gt={id:"common-score",title:"Score",game:"Common",description:"When the player earns points, the Score value briefly scales up and flashes green before settling back to its resting gold colour. Used by both Family Feud and Card Sharks game timers.",defaults:{duration:600,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · scale 1 · #CAA512",render:e=>Ve(e,1,"#caa512","86")},{label:"Peak",sublabel:"35% · scale 1.45 · #6DD97A",render:e=>Ve(e,1.45,"#6dd97a","102")},{label:"Settled",sublabel:"100% · scale 1 · #CAA512",render:e=>Ve(e,1,"#caa512","102")}],render(e){return h("css-common-score",Dt),ve=86,e.innerHTML=`
       <div class="preview-score">
         <div class="preview-score__label">Score</div>
-        <div class="preview-score__value">${he}</div>
+        <div class="preview-score__value">${ve}</div>
       </div>
-    `,z=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",z=null}},play({duration:e,easing:t}){z&&(he+=Math.floor(Math.random()*25)+5,z.textContent=String(he),z.classList.remove("is-bumping"),z.style.animation="none",z.offsetWidth,z.style.animation=`game-timer-box-score-bump ${e}ms ${h(t.bezier)}`)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
+    `,R=e.querySelector(".preview-score__value"),()=>{e.innerHTML="",R=null}},play({duration:e,easing:t}){R&&(ve+=Math.floor(Math.random()*25)+5,R.textContent=String(ve),R.classList.remove("is-bumping"),R.style.animation="none",R.offsetWidth,R.style.animation=`game-timer-box-score-bump ${e}ms ${b(t.bezier)}`)},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css — shared between Family Feud, Card Sharks, Fast Money */
 @keyframes game-timer-box-score-bump {
   0%   { transform: scale(1);    color: #caa512; }
   35%  { transform: scale(1.45); color: #6dd97a; }
@@ -749,7 +749,7 @@ Acceptance criteria:
 .game-timer-box__value--score-bump {
   display: inline-block;
   transform-origin: center;
-  animation: game-timer-box-score-bump ${e}ms ${h(t.bezier)};
+  animation: game-timer-box-score-bump ${e}ms ${b(t.bezier)};
 }
 
 /* Trigger by toggling the modifier class on every score change.
@@ -798,7 +798,7 @@ struct ScoreValue: View {
             .scaleEffect(scale)
             .foregroundColor(color)
             .onChange(of: score) { _ in
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
+                withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n})) {
                     scale = 1.0  // ramps via spring-like back-ease
                 }
                 // Pulse via keyframe: scale 1 → 1.45 → 1
@@ -855,7 +855,7 @@ Timings:
 
 Acceptance criteria:
   · Animation re-fires on every distinct score change (skip if score is unchanged).
-  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Mt=`
+  · Used identically in Family Feud, Card Sharks, and Fast Money game-timer boxes.`}},Pt=`
 .preview-cs-timer {
   width: 418px;
   height: 86px;
@@ -895,7 +895,7 @@ Acceptance criteria:
   from { width: 100%; }
   to   { width: 0%; }
 }
-`;let S=null,j=null,_=null,L;function be(e,t){if(t.timeUp){e.innerHTML=`
+`;let _=null,X=null,F=null,E;function ye(e,t){if(t.timeUp){e.innerHTML=`
       <div style="
         width:100%;height:40px;
         background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
@@ -916,7 +916,7 @@ Acceptance criteria:
         <div style="height:100%;width:${t.fill}%;background:${i};border-radius:5px;"></div>
       </div>
     </div>
-  `}const Vt={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>be(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>be(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>be(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>be(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return m("css-cs-timer",Mt),e.innerHTML=`
+  `}const qt={id:"cs-timer",title:"Timer",game:"Card Sharks",description:'Countdown bar that depletes linearly from full to empty over the question window. The blue gradient switches to red once the remaining time crosses a "critical" threshold (last 25%).',defaults:{duration:6e3,easingId:"linear"},slowFactor:2,frames:[{label:"Start",sublabel:"0% · 6s · blue full",render:e=>ye(e,{label:"6s",fill:100,critical:!1})},{label:"Mid",sublabel:"50% · 3s · blue half",render:e=>ye(e,{label:"3s",fill:50,critical:!1})},{label:"Critical",sublabel:"85% · 1s · red 15%",render:e=>ye(e,{label:"1s",fill:15,critical:!0})},{label:"Time’s Up",sublabel:"100% · bar removed · label centred",render:e=>ye(e,{label:"",fill:0,critical:!1,timeUp:!0})}],render(e){return h("css-cs-timer",Pt),e.innerHTML=`
       <div class="preview-cs-timer">
         <div class="preview-cs-timer__row">
           <span class="preview-cs-timer__value">6s</span>
@@ -925,7 +925,7 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,S=e.querySelector(".preview-cs-timer__bar-fill"),j=e.querySelector(".preview-cs-timer__bar"),_=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",S=null,j=null,_=null,L!==void 0&&clearInterval(L)}},play({duration:e}){if(!S||!_||!j)return;L!==void 0&&clearInterval(L),S.classList.remove("is-critical"),j.classList.remove("is-hidden"),_.classList.remove("is-time-up"),S.style.animation="none",S.offsetWidth,S.style.animationDuration=`${e}ms`,S.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);_.textContent=`${t}s`;const i=performance.now();L=window.setInterval(()=>{const a=Math.max(0,e-(performance.now()-i));if(a<=0){_&&(_.textContent="Time's Up!",_.classList.add("is-time-up")),j&&j.classList.add("is-hidden"),L!==void 0&&(clearInterval(L),L=void 0);return}_&&(_.textContent=`${Math.ceil(a/1e3)}s`),S&&a<e*.25&&S.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
+    `,_=e.querySelector(".preview-cs-timer__bar-fill"),X=e.querySelector(".preview-cs-timer__bar"),F=e.querySelector(".preview-cs-timer__value"),()=>{e.innerHTML="",_=null,X=null,F=null,E!==void 0&&clearInterval(E)}},play({duration:e}){if(!_||!F||!X)return;E!==void 0&&clearInterval(E),_.classList.remove("is-critical"),X.classList.remove("is-hidden"),F.classList.remove("is-time-up"),_.style.animation="none",_.offsetWidth,_.style.animationDuration=`${e}ms`,_.style.animation=`cs-timer-deplete ${e}ms linear forwards`;const t=Math.ceil(e/1e3);F.textContent=`${t}s`;const i=performance.now();E=window.setInterval(()=>{const o=Math.max(0,e-(performance.now()-i));if(o<=0){F&&(F.textContent="Time's Up!",F.classList.add("is-time-up")),X&&X.classList.add("is-hidden"),E!==void 0&&(clearInterval(E),E=void 0);return}F&&(F.textContent=`${Math.ceil(o/1e3)}s`),_&&o<e*.25&&_.classList.add("is-critical")},100)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* GameTimerBox.css */
 @keyframes game-timer-box-deplete {
   from { width: 100%; }
   to   { width: 0%; }
@@ -1047,7 +1047,7 @@ Timings:
 Acceptance criteria:
   · The animation restarts cleanly on each new question (state fully resets).
   · If the player answers before time runs out, the animation pauses immediately and "Time's Up!" is never shown.
-  · No bounce/easing at end — it's a literal countdown.`}},Bt=`
+  · No bounce/easing at end — it's a literal countdown.`}},Wt=`
 .preview-hl {
   display: flex; flex-direction: column; gap: 16px;
   padding: 32px;
@@ -1094,7 +1094,7 @@ Acceptance criteria:
   font-size: 32px; font-weight: 800; text-transform: uppercase;
   letter-spacing: 1px; white-space: nowrap;
 }
-`;let ae=null,oe=null,ne=null,Ee=0;const Ze=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function et(e,t,i){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${i}`;const a=e.querySelector(".preview-hl-btn__label");a&&(i==="correct"?a.textContent="Correct!":i==="wrong"?a.textContent="Incorrect!":a.textContent=t==="up"?"Higher":"Lower")}function tt(e,t,i){return`
+`;let ne=null,se=null,le=null,He=0;const ot=[{higher:"locked",lower:"idle",resolved:!1},{higher:"correct",lower:"idle",resolved:!0},{higher:"idle",lower:"locked",resolved:!1},{higher:"idle",lower:"wrong",resolved:!0}];function at(e,t,i){if(!e)return;e.className=`preview-hl-btn preview-hl-btn--${t==="up"?"higher":"lower"} preview-hl-btn--${i}`;const o=e.querySelector(".preview-hl-btn__label");o&&(i==="correct"?o.textContent="Correct!":i==="wrong"?o.textContent="Incorrect!":o.textContent=t==="up"?"Higher":"Lower")}function rt(e,t,i){return`
     <div style="
       width:100%;height:30px;
       background:${{idle:"#202228",locked:"linear-gradient(90deg,#0090ff 0%,#0022ab 100%)",correct:"linear-gradient(180deg,#008e11 0%,#053800 100%)",wrong:"linear-gradient(180deg,#8e0000 0%,#380000 100%)"}[t]};
@@ -1105,14 +1105,14 @@ Acceptance criteria:
       text-transform:uppercase;letter-spacing:0.5px;
       opacity:${i?.35:1};
     ">${e}</div>
-  `}function ge(e,t,i){e.innerHTML=`
+  `}function we(e,t,i){e.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:6px;width:100%;
                 background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);
                 border-radius:6px;padding:8px;box-sizing:border-box;">
-      ${tt(t.label,t.state,t.dim)}
-      ${tt(i.label,i.state,i.dim)}
+      ${rt(t.label,t.state,t.dim)}
+      ${rt(i.label,i.state,i.dim)}
     </div>
-  `}const Ht={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>ge(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>ge(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>ge(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>ge(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return m("css-cs-controller",Bt),Ee=0,e.innerHTML=`
+  `}const Ut={id:"cs-controller",title:"Controller with Feedback",game:"Card Sharks",description:'Higher / Lower picker buttons. The player locks one option (blue gradient), then on reveal the correct option turns green ("Correct!") and the wrong pick turns red ("Incorrect!"). The unpicked option dims to 35 % once the round resolves.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"no pick yet · both neutral",render:e=>we(e,{state:"idle",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Locked",sublabel:"player picked Higher · blue",render:e=>we(e,{state:"locked",label:"Higher",dim:!1},{state:"idle",label:"Lower",dim:!1})},{label:"Correct",sublabel:"reveal · pick was right",render:e=>we(e,{state:"correct",label:"Correct!",dim:!1},{state:"idle",label:"Lower",dim:!0})},{label:"Wrong",sublabel:"reveal · pick was wrong",render:e=>we(e,{state:"idle",label:"Higher",dim:!0},{state:"wrong",label:"Incorrect!",dim:!1})}],render(e){return h("css-cs-controller",Wt),He=0,e.innerHTML=`
       <div class="preview-hl">
         <button class="preview-hl-btn preview-hl-btn--higher preview-hl-btn--idle">
           <span class="preview-hl-key"><span class="preview-hl-key__arrow"></span></span>
@@ -1123,7 +1123,7 @@ Acceptance criteria:
           <span class="preview-hl-btn__label">Lower</span>
         </button>
       </div>
-    `,ae=e.querySelector(".preview-hl"),[oe,ne]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",ae=oe=ne=null}},play({duration:e}){if(!ae)return;const t=Ze[Ee%Ze.length];Ee++,ae.style.setProperty("--hl-duration",`${e}ms`),ae.classList.toggle("is-resolved",t.resolved),oe&&(oe.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),ne&&(ne.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),et(oe,"up",t.higher),et(ne,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
+    `,ne=e.querySelector(".preview-hl"),[se,le]=Array.from(e.querySelectorAll(".preview-hl-btn")),()=>{e.innerHTML="",ne=se=le=null}},play({duration:e}){if(!ne)return;const t=ot[He%ot.length];He++,ne.style.setProperty("--hl-duration",`${e}ms`),ne.classList.toggle("is-resolved",t.resolved),se&&(se.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),le&&(le.style.transition=`background ${e}ms ease, border-color ${e}ms ease, opacity ${e}ms ease`),at(se,"up",t.higher),at(le,"down",t.lower)},snippets({duration:e}){const t=(e/1e3).toFixed(2);return{web:`/* HigherLowerButtons.css */
 .hl-btn {
   background: #202228;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1309,7 +1309,7 @@ Behavior:
 Acceptance criteria:
   · Label text changes are instant; only the colour + opacity crossfade.
   · A button cannot be focused/highlighted independently — D-pad navigation just moves the focus visual outside the button.
-  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Nt=`
+  · The same component is reused in Match Game match-up rounds with different labels — visuals and timings must match exactly.`}},Yt=`
 .preview-hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 32px 36px;
@@ -1351,16 +1351,16 @@ Acceptance criteria:
   0%   { opacity: 0; transform: translate(-30px, -16px) scale(0.96); }
   100% { opacity: 1; transform: translate(0, 0) scale(1); }
 }
-`;let R=null;function it(e,t,i,a,r){e.innerHTML=`
+`;let B=null;function nt(e,t,i,o,a){e.innerHTML=`
     <div style="
       background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.15);
       border-radius:6px;padding:8px 10px;
       font-family:'Rubik', 'Helvetica Neue', Arial, sans-serif;color:#fff;font-size:11px;line-height:1.4;
-      transform:translate(${t}px, ${i}px) scale(${a});
-      opacity:${r};
+      transform:translate(${t}px, ${i}px) scale(${o});
+      opacity:${a};
       max-width:140px;
     ">Use ▲ / ▼ to make your selections.</div>
-  `}const qt={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>it(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>it(e,0,0,1,1)}],render(e){return m("css-cs-info-note",Nt),e.innerHTML=`
+  `}const jt={id:"cs-info-note",title:"Info Note",game:"Card Sharks",description:"Persistent D-pad helper that lives in the bottom-left of the player screen. Black-glass card with two-line text and inline white key-cap glyphs for ↑ / ↓ that mirror the Higher/Lower buttons. Slides up-and-right into place on mount and then stays static.",defaults:{duration:420,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −30,−16 · scale .96",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-position</div>'}},{label:"Mid",sublabel:"50% · translate −15,−8 · scale .98",render:e=>nt(e,-15,-8,.98,.5)},{label:"Settled",sublabel:"100% · translate 0,0 · scale 1",render:e=>nt(e,0,0,1,1)}],render(e){return h("css-cs-info-note",Yt),e.innerHTML=`
       <div class="preview-hl-note">
         <div class="preview-hl-note__line">
           <span>Use the</span>
@@ -1373,7 +1373,7 @@ Acceptance criteria:
           <span>your TV remote to make your selections.</span>
         </div>
       </div>
-    `,R=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",R=null}},play({duration:e,easing:t}){R&&(R.classList.remove("is-shown"),R.style.animation="none",R.style.opacity="0",R.offsetWidth,R.style.animation=`cs-stage-in ${e}ms ${h(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
+    `,B=e.querySelector(".preview-hl-note"),()=>{e.innerHTML="",B=null}},play({duration:e,easing:t}){B&&(B.classList.remove("is-shown"),B.style.animation="none",B.style.opacity="0",B.offsetWidth,B.style.animation=`cs-stage-in ${e}ms ${b(t.bezier)} forwards`)},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* HigherLowerNote.css + CardSharksOverlay.css */
 .hl-note {
   display: flex; flex-direction: column; gap: 8px;
   padding: 40px;
@@ -1408,14 +1408,14 @@ Acceptance criteria:
 }
 
 .hl-note {
-  animation: cs-stage-in ${e}ms ${h(t.bezier)} backwards;
+  animation: cs-stage-in ${e}ms ${b(t.bezier)} backwards;
 }`,android:`// Jetpack Compose — Android TV
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 
 @Composable
 fun HigherLowerNote(visible: Boolean) {
-    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)
+    val easing = CubicBezierEasing(${i.toFixed(2)}f, ${o.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f)
     AnimatedVisibility(
         visible = visible,
         enter = (
@@ -1465,7 +1465,7 @@ struct HigherLowerNote: View {
         .scaleEffect(visible ? 1.0 : 0.96)
         .opacity(visible ? 1.0 : 0.0)
         .animation(
-            .timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}),
+            .timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}),
             value: visible
         )
     }
@@ -1522,7 +1522,7 @@ Timings:
 Acceptance criteria:
   · Animation only plays on mount; toggling content inside the note must not re-trigger it.
   · The note persists across both the answering and result phases of Card Sharks.
-  · When dismissed, just remove from the tree — do not play an exit animation.`}},Dt=`
+  · When dismissed, just remove from the tree — do not play an exit animation.`}},Xt=`
 .preview-cs-card-stage {
   width: 334px; height: 398px;
   background: rgba(0,0,0,0.8);
@@ -1554,27 +1554,27 @@ Acceptance criteria:
   78%  { transform: translate(0, 8px)         rotate(3deg)   scale(1.04); }
   100% { transform: translate(0, 0)           rotate(0deg)   scale(1);    opacity: 1; }
 }
-`,we=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let C=null,ve=0;function Me(e,t,i,a,r,o){e.innerHTML=`
+`,xe=["♥ 7","♦ Q","♠ 3","♣ A","♥ J"];let C=null,$e=0;function Ne(e,t,i,o,a,r){e.innerHTML=`
     <div style="
       width:50px;height:72px;border-radius:6px;border:2px solid #fff;
       background:linear-gradient(135deg,#f5f5f5 0%,#e0e0e0 100%);
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       font-family:Georgia,serif;color:#b91c1c;font-weight:700;
-      transform:translate(${t}px, ${i}px) rotate(${a}deg) scale(${r});
-      opacity:${o};
+      transform:translate(${t}px, ${i}px) rotate(${o}deg) scale(${a});
+      opacity:${r};
       box-shadow:0 8px 18px rgba(0,0,0,0.45);
     ">
       <div style="font-size:24px;line-height:1;">Q</div>
       <div style="font-size:18px;line-height:1;margin-top:2px;">♦</div>
     </div>
-  `}const Gt={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>Me(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>Me(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>Me(e,0,0,0,1,1)}],render(e){return m("css-cs-card",Dt),ve=0,e.innerHTML=`
+  `}const Kt={id:"cs-card",title:"Card component",game:"Card Sharks",description:"When a new question shows up, the next playing card flies in from off-screen top-left, rotating into place with a slight overshoot. The card lands flat and stays put until the next question.",defaults:{duration:620,easingId:"back-out"},frames:[{label:"Start",sublabel:"0% · translate −60,−30 · rot −26° · scale .42",render:e=>{e.innerHTML='<div class="frame-ghost">hidden · off-screen</div>'}},{label:"Mid",sublabel:"55% · in motion · opacity reaches 1",render:e=>Ne(e,-25,-10,-12,.7,1)},{label:"Overshoot",sublabel:"78% · translate 0,+8 · rot +3° · scale 1.04",render:e=>Ne(e,0,8,3,1.04,1)},{label:"Settled",sublabel:"100% · translate 0,0 · rot 0 · scale 1",render:e=>Ne(e,0,0,0,1,1)}],render(e){return h("css-cs-card",Xt),$e=0,e.innerHTML=`
       <div class="preview-cs-card-stage">
         <div class="preview-cs-card">
-          <div class="preview-cs-card__rank">${we[0][2]}</div>
-          <div class="preview-cs-card__suit">${we[0][0]}</div>
+          <div class="preview-cs-card__rank">${xe[0][2]}</div>
+          <div class="preview-cs-card__suit">${xe[0][0]}</div>
         </div>
       </div>
-    `,C=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",C=null}},play({duration:e}){if(!C)return;ve=(ve+1)%we.length;const t=we[ve],i=C.querySelector(".preview-cs-card__rank"),a=C.querySelector(".preview-cs-card__suit");i&&(i.textContent=t[2]),a&&(a.textContent=t[0]),C.classList.remove("is-flying"),C.style.animation="none",C.offsetWidth,C.classList.add("is-flying"),C.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+    `,C=e.querySelector(".preview-cs-card"),()=>{e.innerHTML="",C=null}},play({duration:e}){if(!C)return;$e=($e+1)%xe.length;const t=xe[$e],i=C.querySelector(".preview-cs-card__rank"),o=C.querySelector(".preview-cs-card__suit");i&&(i.textContent=t[2]),o&&(o.textContent=t[0]),C.classList.remove("is-flying"),C.style.animation="none",C.offsetWidth,C.classList.add("is-flying"),C.style.animation=`cs-card-fly-in ${e}ms cubic-bezier(0.18, 0.89, 0.32, 1.18) both`},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-card-fly-in {
   0%   { transform: translate(-380px, -160px) rotate(-26deg) scale(0.42); opacity: 0; }
   55%  {                                                                   opacity: 1; }
@@ -1651,7 +1651,7 @@ struct CardFlyIn: View {
 
     func restart() {
         stage = 0
-        withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n} * 0.78)) {
+        withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n} * 0.78)) {
             stage = 1
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + ${n} * 0.78) {
@@ -1710,29 +1710,29 @@ Timings:
 Acceptance criteria:
   · Re-fires cleanly when questionNumber changes — no stale frames from the previous card.
   · The card box itself never animates separately; this is purely the card-face element flying into it.
-  · No idle motion after the animation completes.`}};function ut(e){switch(e.id){case"linear":return{name:"linear",note:""};case"ease":return{name:"inOutQuad",note:"Closest match to CSS ease."};case"ease-out":return{name:"outQuad",note:"Closest match to CSS ease-out."};case"ease-in":return{name:"inQuad",note:"Closest match to CSS ease-in."};case"ease-in-out":return{name:"inOutQuad",note:""};case"back-out":return{name:"outBack",note:"Built-in overshoot curve."};case"material":return{name:"inOutQuad",note:"Material standard ≈ inOutQuad."};case"glide":return{name:"outCubic",note:"Glide (0.3, 0.9, 0.3, 1) ≈ outCubic."};default:return{name:"inOutQuad",note:"Custom cubic-bezier — use FloatFieldInterpolator with hand-tuned key points if precision matters."}}}const p={ink:"#0c1240",gold:"#d9a80b",goldHi:"#ffc928",lav:"#7b7fd6",win:"#7bff3c",miss:"#ff2a2a",mine:"#0090ff",chipBg:"linear-gradient(180deg,#f6f9ff 0%,#e2eafb 55%,#b7cbef 100%)",font:"'Rubik', 'Helvetica Neue', Arial, sans-serif"},de=`
+  · No idle motion after the animation completes.`}};function vt(e){switch(e.id){case"linear":return{name:"linear",note:""};case"ease":return{name:"inOutQuad",note:"Closest match to CSS ease."};case"ease-out":return{name:"outQuad",note:"Closest match to CSS ease-out."};case"ease-in":return{name:"inQuad",note:"Closest match to CSS ease-in."};case"ease-in-out":return{name:"inOutQuad",note:""};case"back-out":return{name:"outBack",note:"Built-in overshoot curve."};case"material":return{name:"inOutQuad",note:"Material standard ≈ inOutQuad."};case"glide":return{name:"outCubic",note:"Glide (0.3, 0.9, 0.3, 1) ≈ outCubic."};default:return{name:"inOutQuad",note:"Custom cubic-bezier — use FloatFieldInterpolator with hand-tuned key points if precision matters."}}}const f={ink:"#0c1240",gold:"#d9a80b",goldHi:"#ffc928",lav:"#7b7fd6",win:"#7bff3c",miss:"#ff2a2a",mine:"#0090ff",chipBg:"linear-gradient(180deg,#f6f9ff 0%,#e2eafb 55%,#b7cbef 100%)",font:"'Rubik', 'Helvetica Neue', Arial, sans-serif"},ue=`
 .preview-si-board {
   position: relative;
   background: radial-gradient(120% 140% at 50% 0%, #1b2a7a 0%, #0a1033 60%, #060b24 100%);
   border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   overflow: hidden;
-  font-family: ${p.font};
+  font-family: ${f.font};
 }
 .preview-si-chip {
   position: absolute;
   box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
   border-radius: 999px;
-  background: ${p.chipBg};
+  background: ${f.chipBg};
   border: 2px solid #fff;
   box-shadow: 0 3px 6px rgba(0,0,0,0.4);
-  color: ${p.ink};
+  color: ${f.ink};
   font-weight: 600; font-size: 13px; letter-spacing: .02em; text-transform: uppercase;
   white-space: nowrap;
 }
 .preview-si-chip.is-focus {
-  border: 3px solid ${p.gold};
+  border: 3px solid ${f.gold};
   box-shadow: 0 0 12px rgba(255,200,0,0.4), 0 3px 6px rgba(0,0,0,0.4);
   z-index: 4;
 }
@@ -1742,18 +1742,18 @@ Acceptance criteria:
   border-radius: 999px;
   border: 2px dashed rgba(163,168,204,0.6);
 }
-`;function V(e,t){const i=t.focus?`3px solid ${p.gold}`:"2px solid #fff",a=t.focus?"0 0 10px rgba(255,200,0,0.45),":"";e.innerHTML=`
+`;function H(e,t){const i=t.focus?`3px solid ${f.gold}`:"2px solid #fff",o=t.focus?"0 0 10px rgba(255,200,0,0.45),":"";e.innerHTML=`
     <div style="
       width:130px;height:30px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;
-      border-radius:999px;background:${p.chipBg};border:${i};
-      box-shadow:${a}0 2px 4px rgba(0,0,0,0.4);
-      color:${p.ink};font-family:${p.font};font-weight:600;
+      border-radius:999px;background:${f.chipBg};border:${i};
+      box-shadow:${o}0 2px 4px rgba(0,0,0,0.4);
+      color:${f.ink};font-family:${f.font};font-weight:600;
       font-size:${t.fontSize??10}px;letter-spacing:.02em;text-transform:uppercase;
       transform:scale(${t.scale??1});
       ${t.extra??""}
     ">${t.text}</div>
-  `}const Ut=`
+  `}const Qt=`
 .preview-si-place { width: 520px; height: 260px; }
 .preview-si-place__slot {
   position: absolute; left: 300px; width: 196px; height: 44px;
@@ -1764,13 +1764,13 @@ Acceptance criteria:
 }
 .preview-si-place .preview-si-ghost { left: 24px; top: 104px; width: 160px; height: 40px; opacity: 0; transition: opacity 200ms; }
 .preview-si-place .preview-si-chip.is-in-slot { font-size: 14px; }
-`,mt=[20,78,136,194],rt={left:24,top:104,width:160,height:40},Pt={left:300,top:mt[0],width:196,height:44};let w=null,se=null,qe=[];function at(){qe.forEach(clearTimeout),qe=[]}function Ve(e,t){Object.assign(e.style,{left:`${t.left}px`,top:`${t.top}px`,width:`${t.width}px`,height:`${t.height}px`})}const Yt={id:"si-chip-place",title:"Answer → Slot",game:"Stack It",description:"Pressing OK on an answer chip glides it from the answer tray into the first free slot of the stack. The chip morphs to the slot size on the way, keeps the gold ring while the player chooses a slot, and a dashed ghost marks the spot it left. When five answers are placed, the sixth fills the last slot automatically after 450 ms.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked",sublabel:"0% · in tray · gold ring",render:e=>V(e,{text:"Guitar",focus:!0})},{label:"Gliding",sublabel:"~40% · ~85% of the way (glide)",render:e=>V(e,{text:"Guitar",focus:!0,extra:"width:150px;transform:translateX(10px)"})},{label:"In slot",sublabel:"100% · slot size · font 13 → 14px",render:e=>V(e,{text:"Guitar",focus:!0,fontSize:11,extra:"width:160px"})},{label:"Locked",sublabel:"OK · ring → white · 200 ms",render:e=>V(e,{text:"Guitar",fontSize:11,extra:"width:160px"})}],render(e){return m("css-si-base",de),m("css-si-chip-place",Ut),e.innerHTML=`
+`,yt=[20,78,136,194],st={left:24,top:104,width:160,height:40},Jt={left:300,top:yt[0],width:196,height:44};let w=null,ce=null,We=[];function lt(){We.forEach(clearTimeout),We=[]}function De(e,t){Object.assign(e.style,{left:`${t.left}px`,top:`${t.top}px`,width:`${t.width}px`,height:`${t.height}px`})}const Zt={id:"si-chip-place",title:"Answer → Slot",game:"Stack It",description:"Pressing OK on an answer chip glides it from the answer tray into the first free slot of the stack. The chip morphs to the slot size on the way, keeps the gold ring while the player chooses a slot, and a dashed ghost marks the spot it left. When five answers are placed, the sixth fills the last slot automatically after 450 ms.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked",sublabel:"0% · in tray · gold ring",render:e=>H(e,{text:"Guitar",focus:!0})},{label:"Gliding",sublabel:"~40% · ~85% of the way (glide)",render:e=>H(e,{text:"Guitar",focus:!0,extra:"width:150px;transform:translateX(10px)"})},{label:"In slot",sublabel:"100% · slot size · font 13 → 14px",render:e=>H(e,{text:"Guitar",focus:!0,fontSize:11,extra:"width:160px"})},{label:"Locked",sublabel:"OK · ring → white · 200 ms",render:e=>H(e,{text:"Guitar",fontSize:11,extra:"width:160px"})}],render(e){return h("css-si-base",ue),h("css-si-chip-place",Qt),e.innerHTML=`
       <div class="preview-si-board preview-si-place">
-        ${mt.map(t=>`<div class="preview-si-place__slot" style="top:${t}px"></div>`).join("")}
+        ${yt.map(t=>`<div class="preview-si-place__slot" style="top:${t}px"></div>`).join("")}
         <div class="preview-si-ghost"></div>
         <div class="preview-si-chip is-focus">Guitar</div>
       </div>
-    `,w=e.querySelector(".preview-si-chip"),se=e.querySelector(".preview-si-ghost"),w&&Ve(w,rt),()=>{at(),e.innerHTML="",w=null,se=null}},play({duration:e,easing:t}){if(!w||!se)return;at();const i=h(t.bezier);w.style.transition="none",w.classList.add("is-focus"),w.classList.remove("is-in-slot"),se.style.opacity="0",Ve(w,rt),w.offsetWidth,w.style.transition=`left ${e}ms ${i}, top ${e}ms ${i}, width ${e}ms ease, height ${e}ms ease, font-size 200ms, border-color 200ms, box-shadow 200ms`,Ve(w,Pt),w.classList.add("is-in-slot"),se.style.opacity="1",qe.push(window.setTimeout(()=>w==null?void 0:w.classList.remove("is-focus"),e+500))},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier),c=ut(t);return{web:`/* StackItOverlay.css
+    `,w=e.querySelector(".preview-si-chip"),ce=e.querySelector(".preview-si-ghost"),w&&De(w,st),()=>{lt(),e.innerHTML="",w=null,ce=null}},play({duration:e,easing:t}){if(!w||!ce)return;lt();const i=b(t.bezier);w.style.transition="none",w.classList.add("is-focus"),w.classList.remove("is-in-slot"),ce.style.opacity="0",De(w,st),w.offsetWidth,w.style.transition=`left ${e}ms ${i}, top ${e}ms ${i}, width ${e}ms ease, height ${e}ms ease, font-size 200ms, border-color 200ms, box-shadow 200ms`,De(w,Jt),w.classList.add("is-in-slot"),ce.style.opacity="1",We.push(window.setTimeout(()=>w==null?void 0:w.classList.remove("is-focus"),e+500))},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2),l=b(t.bezier),s=vt(t);return{web:`/* StackItOverlay.css
    Chips are absolutely positioned; JS writes left/top/width/height in % of
    the 16:9 stage (tray cell or slot rect). The transition does the glide. */
 .si-chip {
@@ -1780,14 +1780,14 @@ Acceptance criteria:
   border: .2cqw solid #fff;
   font-size: 1.2cqw;
   transition:
-    left   ${e}ms ${d},
-    top    ${e}ms ${d},
+    left   ${e}ms ${l},
+    top    ${e}ms ${l},
     width  ${e}ms ease,
     height ${e}ms ease,
     transform .2s, border-color .2s, box-shadow .2s, font-size .2s;
 }
 .si-chip--in-slot { font-size: 1.3cqw; }
-.si-chip--moving  { border: .32cqw solid ${p.gold}; box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006; z-index: 4; }
+.si-chip--moving  { border: .32cqw solid ${f.gold}; box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006; z-index: 4; }
 
 /* Dashed outline left behind in the tray */
 .si-ghost { border: .18cqw dashed #a3a8cc99; border-radius: 999px; transition: opacity .2s; }
@@ -1798,7 +1798,7 @@ import androidx.compose.ui.unit.*
 
 @Composable
 fun StackChip(text: String, target: DpRect, moving: Boolean) {
-    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    val glide = CubicBezierEasing(${i}f, ${o}f, ${a}f, ${r}f)
     val pos by animateDpOffsetAsState(
         targetValue = DpOffset(target.left, target.top),
         animationSpec = tween(${e}, easing = glide), label = "chipPos"
@@ -1835,7 +1835,7 @@ struct StackChip: View {
             .overlay(Capsule().stroke(moving ? Color(red: 0.85, green: 0.66, blue: 0.04) : .white,
                                       lineWidth: moving ? 4 : 3))
             .position(x: frame.midX, y: frame.midY)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: frame)
+            .animation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}), value: frame)
             .animation(.easeInOut(duration: 0.2), value: moving)
     }
 }`,roku:`<!-- Roku SceneGraph — components/StackChip.xml -->
@@ -1847,13 +1847,13 @@ struct StackChip: View {
   <children>
     <Poster id="bg" uri="pkg:/images/chip_9patch.png" />
     <Label  id="label" horizAlign="center" vertAlign="center" />
-    <Animation id="glide" duration="${n}" easeFunction="${c.name}" repeat="false">
+    <Animation id="glide" duration="${n}" easeFunction="${s.name}" repeat="false">
       <Vector2DFieldInterpolator id="move" fieldToInterp="m.top.translation" key="[ 0, 1 ]" />
     </Animation>
   </children>
 
   <script type="text/brightscript">
-    ' ${c.note||"Easing matches the catalog preset."}
+    ' ${s.note||"Easing matches the catalog preset."}
     ' Width/height morph: resize bg + label in the same frame or swap to the slot-sized 9-patch at 50%.
     sub onTargetChange()
       move = m.top.findNode("move")
@@ -1879,7 +1879,7 @@ Timings:
 Acceptance criteria:
   · Position and size animate together — no jump at the start or end.
   · Rapid ▲ ▼ presses retarget the glide from the chip's current spot (no snapping).
-  · Reduced-motion setting: chips jump instantly.`}},Wt=`
+  · Reduced-motion setting: chips jump instantly.`}},ei=`
 .preview-si-focus { width: 520px; height: 296px; }
 .preview-si-focus .preview-si-chip { left: 150px; width: 220px; height: 42px; }
 .preview-si-focus .preview-si-chip.is-big { transform: scale(1.09); font-size: 17px; z-index: 5; }
@@ -1889,10 +1889,10 @@ Acceptance criteria:
 }
 .preview-si-arrows[hidden] { display: none; }
 .preview-si-arrows i { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; }
-.preview-si-arrows i.up { border-bottom: 11px solid ${p.goldHi}; }
-.preview-si-arrows i.dn { border-top: 11px solid ${p.goldHi}; }
-.preview-si-arrows i.up.off { border-bottom-color: ${p.lav}; }
-.preview-si-arrows i.dn.off { border-top-color: ${p.lav}; }
+.preview-si-arrows i.up { border-bottom: 11px solid ${f.goldHi}; }
+.preview-si-arrows i.dn { border-top: 11px solid ${f.goldHi}; }
+.preview-si-arrows i.up.off { border-bottom-color: ${f.lav}; }
+.preview-si-arrows i.dn.off { border-top-color: ${f.lav}; }
 .preview-si-hint {
   position: absolute; left: 50%; top: 236px; height: 44px; transform: translateX(-50%);
   display: flex; align-items: center; gap: 8px; padding: 0 16px;
@@ -1904,23 +1904,23 @@ Acceptance criteria:
   width: 26px; height: 26px; border-radius: 4px; background: #fff; color: #000;
   box-shadow: inset 0 -3px 0 #c9c9d4; font-weight: 600; font-size: 12px;
 }
-`,le=[18,70,122,174],ot=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet"],Be=450,jt=300,Xt="cubic-bezier(0.3, 0.9, 0.3, 1)";let x=[],y=null,_e=null,De=[];function nt(){De.forEach(clearTimeout),De=[]}function ye(e,t){_e&&(_e.innerHTML=`<span>${e}</span><span class="preview-si-key">▲</span><span class="preview-si-key">▼</span><span>${t}</span><span class="preview-si-key">Ok</span>`)}const Kt={id:"si-focus",title:"Focus & Pick Up",game:"Stack It",description:'Remote focus on a chip. In the tray, focus is a gold ring with a soft glow. Once the stack is full, the focused block also grows to 109 % so it reads as "selectable". Pressing OK picks the block up: it shrinks back to 100 %, keeps the ring, and ▲ ▼ arrows appear next to it and travel with it. OK again drops the block: the arrows disappear and it grows back to the focused size.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"white 2px border",render:e=>V(e,{text:"Harp"})},{label:"Focus",sublabel:"tray · gold ring + glow",render:e=>V(e,{text:"Harp",focus:!0})},{label:"Focus (stack)",sublabel:"scale 1.09 · font 13 → 17px",render:e=>V(e,{text:"Harp",focus:!0,scale:1.09,fontSize:12})},{label:"Picked up",sublabel:"scale 1 · ring stays · ▲▼ shown",render:e=>V(e,{text:"Harp ▴▾",focus:!0})}],render(e){return m("css-si-base",de),m("css-si-focus",Wt),e.innerHTML=`
+`,de=[18,70,122,174],ct=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet"],Ge=450,ti=300,ii="cubic-bezier(0.3, 0.9, 0.3, 1)";let k=[],$=null,Te=null,Ue=[];function dt(){Ue.forEach(clearTimeout),Ue=[]}function ke(e,t){Te&&(Te.innerHTML=`<span>${e}</span><span class="preview-si-key">▲</span><span class="preview-si-key">▼</span><span>${t}</span><span class="preview-si-key">Ok</span>`)}const oi={id:"si-focus",title:"Focus & Pick Up",game:"Stack It",description:'Remote focus on a chip. In the tray, focus is a gold ring with a soft glow. Once the stack is full, the focused block also grows to 109 % so it reads as "selectable". Pressing OK picks the block up: it shrinks back to 100 %, keeps the ring, and ▲ ▼ arrows appear next to it and travel with it. OK again drops the block: the arrows disappear and it grows back to the focused size.',defaults:{duration:200,easingId:"ease"},frames:[{label:"Idle",sublabel:"white 2px border",render:e=>H(e,{text:"Harp"})},{label:"Focus",sublabel:"tray · gold ring + glow",render:e=>H(e,{text:"Harp",focus:!0})},{label:"Focus (stack)",sublabel:"scale 1.09 · font 13 → 17px",render:e=>H(e,{text:"Harp",focus:!0,scale:1.09,fontSize:12})},{label:"Picked up",sublabel:"scale 1 · ring stays · ▲▼ shown",render:e=>H(e,{text:"Harp ▴▾",focus:!0})}],render(e){return h("css-si-base",ue),h("css-si-focus",ei),e.innerHTML=`
       <div class="preview-si-board preview-si-focus">
-        ${ot.map((t,i)=>`<div class="preview-si-chip" style="top:${le[i]}px">${t}</div>`).join("")}
+        ${ct.map((t,i)=>`<div class="preview-si-chip" style="top:${de[i]}px">${t}</div>`).join("")}
         <div class="preview-si-arrows" hidden><i class="up"></i><i class="dn"></i></div>
         <div class="preview-si-hint"></div>
       </div>
-    `,x=Array.from(e.querySelectorAll(".preview-si-chip")),y=e.querySelector(".preview-si-arrows"),_e=e.querySelector(".preview-si-hint"),x[0].classList.add("is-focus","is-big"),ye("Choose a block","OK pick it up"),()=>{nt(),e.innerHTML="",x=[],y=null,_e=null}},play({duration:e,easing:t}){if(!x.length||!y)return;nt();const i=h(t.bezier),a=ot.map((s,u)=>u);let r=1;const o=()=>{a.forEach((s,u)=>{x[s].style.top=`${le[u]}px`}),y&&(y.style.top=`${le[r]+2}px`,y.children[0].classList.toggle("off",r<=0),y.children[1].classList.toggle("off",r>=le.length-1))};x.forEach(s=>{s.style.transition="none",s.classList.remove("is-focus","is-big")}),y.style.transition="none",x[0].classList.add("is-focus","is-big"),y.hidden=!0,o(),ye("Choose a block","OK pick it up"),x[0].offsetWidth,x.forEach(s=>{s.style.transition=[...["transform","border-color","box-shadow","font-size"].map(u=>`${u} ${e}ms ${i}`),`top ${Be}ms ${Xt}`].join(", ")}),y.style.transition=`top ${jt}ms ease`;let n=150;const d=(s,u)=>{n+=s,De.push(window.setTimeout(u,n))};d(0,()=>{x[0].classList.remove("is-focus","is-big"),x[1].classList.add("is-focus","is-big")}),d(e+700,()=>{x[a[r]].classList.remove("is-big"),o(),y&&(y.hidden=!1),ye("Move","OK drop")});const c=()=>{r>=le.length-1||([a[r],a[r+1]]=[a[r+1],a[r]],r+=1,o())};d(900,c),d(Be+350,c),d(Be+600,()=>{y&&(y.hidden=!0),x[a[r]].classList.add("is-big"),ye("Choose a block","OK pick it up")})},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier);return{web:`/* StackItOverlay.css */
+    `,k=Array.from(e.querySelectorAll(".preview-si-chip")),$=e.querySelector(".preview-si-arrows"),Te=e.querySelector(".preview-si-hint"),k[0].classList.add("is-focus","is-big"),ke("Choose a block","OK pick it up"),()=>{dt(),e.innerHTML="",k=[],$=null,Te=null}},play({duration:e,easing:t}){if(!k.length||!$)return;dt();const i=b(t.bezier),o=ct.map((d,c)=>c);let a=1;const r=()=>{o.forEach((d,c)=>{k[d].style.top=`${de[c]}px`}),$&&($.style.top=`${de[a]+2}px`,$.children[0].classList.toggle("off",a<=0),$.children[1].classList.toggle("off",a>=de.length-1))};k.forEach(d=>{d.style.transition="none",d.classList.remove("is-focus","is-big")}),$.style.transition="none",k[0].classList.add("is-focus","is-big"),$.hidden=!0,r(),ke("Choose a block","OK pick it up"),k[0].offsetWidth,k.forEach(d=>{d.style.transition=[...["transform","border-color","box-shadow","font-size"].map(c=>`${c} ${e}ms ${i}`),`top ${Ge}ms ${ii}`].join(", ")}),$.style.transition=`top ${ti}ms ease`;let n=150;const l=(d,c)=>{n+=d,Ue.push(window.setTimeout(c,n))};l(0,()=>{k[0].classList.remove("is-focus","is-big"),k[1].classList.add("is-focus","is-big")}),l(e+700,()=>{k[o[a]].classList.remove("is-big"),r(),$&&($.hidden=!1),ke("Move","OK drop")});const s=()=>{a>=de.length-1||([o[a],o[a+1]]=[o[a+1],o[a]],a+=1,r())};l(900,s),l(Ge+350,s),l(Ge+600,()=>{$&&($.hidden=!0),k[o[a]].classList.add("is-big"),ke("Choose a block","OK pick it up")})},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2),l=b(t.bezier);return{web:`/* StackItOverlay.css */
 .si-chip {
   border: .2cqw solid #fff;
-  transition: transform ${e}ms ${d}, border-color ${e}ms ${d},
-              box-shadow ${e}ms ${d}, font-size ${e}ms ${d};
+  transition: transform ${e}ms ${l}, border-color ${e}ms ${l},
+              box-shadow ${e}ms ${l}, font-size ${e}ms ${l};
 }
 
 /* Remote focus (tray) and picked-up block (stack) share the gold ring */
 .si-chip--focus,
 .si-chip--moving {
-  border: .32cqw solid ${p.gold};
+  border: .32cqw solid ${f.gold};
   box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006;
   z-index: 4;
 }
@@ -1930,13 +1930,13 @@ Acceptance criteria:
 
 /* ▲ ▼ next to the picked-up block; lavender when that direction is blocked */
 .si-arrows      { transition: top .3s; }
-.si-arrows .up  { border-bottom: 1.1cqw solid ${p.goldHi}; }
-.si-arrows .dn  { border-top:    1.1cqw solid ${p.goldHi}; }
-.si-arrows .up.off { border-bottom-color: ${p.lav}; }
-.si-arrows .dn.off { border-top-color:    ${p.lav}; }`,android:`// Jetpack Compose — Android TV
+.si-arrows .up  { border-bottom: 1.1cqw solid ${f.goldHi}; }
+.si-arrows .dn  { border-top:    1.1cqw solid ${f.goldHi}; }
+.si-arrows .up.off { border-bottom-color: ${f.lav}; }
+.si-arrows .dn.off { border-top-color:    ${f.lav}; }`,android:`// Jetpack Compose — Android TV
 @Composable
 fun StackBlock(text: String, focused: Boolean, stackFull: Boolean, pickedUp: Boolean) {
-    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    val easing = CubicBezierEasing(${i}f, ${o}f, ${a}f, ${r}f)
     val spec = tween<Float>(${e}, easing = easing)
     val ringOn = focused || pickedUp
     val scale by animateFloatAsState(if (focused && stackFull && !pickedUp) 1.09f else 1f, spec, label = "scale")
@@ -1964,8 +1964,8 @@ struct StackBlock: View {
             .overlay(Capsule().stroke(ringOn ? gold : .white, lineWidth: ringOn ? 4 : 3))
             .shadow(color: ringOn ? Color(red: 1, green: 0.78, blue: 0).opacity(0.4) : .clear, radius: 12)
             .scaleEffect(focused && stackFull && !pickedUp ? 1.09 : 1)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: focused)
-            .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: pickedUp)
+            .animation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}), value: focused)
+            .animation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}), value: pickedUp)
     }
 }`,roku:`<!-- Roku SceneGraph — components/StackBlock.xml -->
 <component name="StackBlock" extends="Group">
@@ -2013,7 +2013,7 @@ Timings:
 Acceptance criteria:
   · Only one element carries the gold ring at a time.
   · Scale grows from the block centre; neighbours don't shift.
-  · Back while a block is picked up restores the stack order from before the pick-up.`}},Qt=`
+  · Back while a block is picked up restores the stack order from before the pick-up.`}},ai=`
 .preview-si-reorder { width: 520px; height: 236px; }
 .preview-si-reorder .preview-si-chip { left: 150px; width: 220px; height: 42px; }
 .preview-si-reorder .preview-si-arrows {
@@ -2021,40 +2021,40 @@ Acceptance criteria:
   display: flex; flex-direction: column; justify-content: space-between; align-items: center;
 }
 .preview-si-reorder .preview-si-arrows i { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; }
-.preview-si-reorder .preview-si-arrows i.up { border-bottom: 11px solid ${p.goldHi}; }
-.preview-si-reorder .preview-si-arrows i.dn { border-top: 11px solid ${p.goldHi}; }
-.preview-si-reorder .preview-si-arrows i.up.off { border-bottom-color: ${p.lav}; }
-.preview-si-reorder .preview-si-arrows i.dn.off { border-top-color: ${p.lav}; }
-`,Se=[20,72,124,176],He=["Harp","Guitar","Trumpet","Bagpipes"],st=300/450;let P=[],F=null,B=[],T=0,Ge=[];function lt(){Ge.forEach(clearTimeout),Ge=[]}function Ue(){B.forEach((e,t)=>{P[e].style.top=`${Se[t]}px`}),P.forEach((e,t)=>e.classList.toggle("is-focus",t===B[T])),F&&(F.style.top=`${Se[T]+2}px`,F.children[0].classList.toggle("off",T<=0),F.children[1].classList.toggle("off",T>=Se.length-1))}function Jt(e){const t=T+e;t<0||t>=Se.length||([B[T],B[t]]=[B[t],B[T]],T=t,Ue())}function Ne(e,t,i){const a=(r,o,n)=>`
+.preview-si-reorder .preview-si-arrows i.up { border-bottom: 11px solid ${f.goldHi}; }
+.preview-si-reorder .preview-si-arrows i.dn { border-top: 11px solid ${f.goldHi}; }
+.preview-si-reorder .preview-si-arrows i.up.off { border-bottom-color: ${f.lav}; }
+.preview-si-reorder .preview-si-arrows i.dn.off { border-top-color: ${f.lav}; }
+`,Ce=[20,72,124,176],Pe=["Harp","Guitar","Trumpet","Bagpipes"],pt=300/450;let U=[],T=null,N=[],I=0,Ye=[];function ft(){Ye.forEach(clearTimeout),Ye=[]}function je(){N.forEach((e,t)=>{U[e].style.top=`${Ce[t]}px`}),U.forEach((e,t)=>e.classList.toggle("is-focus",t===N[I])),T&&(T.style.top=`${Ce[I]+2}px`,T.children[0].classList.toggle("off",I<=0),T.children[1].classList.toggle("off",I>=Ce.length-1))}function ri(e){const t=I+e;t<0||t>=Ce.length||([N[I],N[t]]=[N[t],N[I]],I=t,je())}function qe(e,t,i){const o=(a,r,n)=>`
     <div style="
-      position:absolute;left:10px;top:${o}px;width:120px;height:24px;box-sizing:border-box;
+      position:absolute;left:10px;top:${r}px;width:120px;height:24px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;border-radius:999px;
-      background:${p.chipBg};border:${n?`2.5px solid ${p.gold}`:"1.5px solid #fff"};
+      background:${f.chipBg};border:${n?`2.5px solid ${f.gold}`:"1.5px solid #fff"};
       box-shadow:${n?"0 0 8px rgba(255,200,0,0.45),":""}0 2px 4px rgba(0,0,0,0.4);
-      color:${p.ink};font-family:${p.font};font-weight:600;font-size:9px;text-transform:uppercase;
+      color:${f.ink};font-family:${f.font};font-weight:600;font-size:9px;text-transform:uppercase;
       z-index:${n?2:1};
-    ">${r}</div>`;e.innerHTML=`
+    ">${a}</div>`;e.innerHTML=`
     <div style="position:relative;width:160px;height:58px;">
-      ${a("Guitar",t[1],!1)}
-      ${a("Harp",t[0],!0)}
-      <div style="position:absolute;left:138px;top:${i}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:7px solid ${p.goldHi};"></div>
-      <div style="position:absolute;left:138px;top:${i+15}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid ${p.goldHi};"></div>
-    </div>`}const Zt={id:"si-reorder",title:"Block Swap",game:"Stack It",description:"While the timer runs, the player can pick up a block and move it with ▲ ▼. Each press swaps the block with its neighbour: both blocks glide past each other at the same time, and the ▲ ▼ arrows follow a bit faster. An arrow turns lavender at the top or bottom of the stack.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked up",sublabel:"slot 1 · gold ring · ▲▼",render:e=>Ne(e,[4,32],6)},{label:"Crossing",sublabel:"~40% · blocks pass each other",render:e=>Ne(e,[26,10],26)},{label:"Swapped",sublabel:"100% · slot 2 · arrows land at 67%",render:e=>Ne(e,[32,4],34)}],render(e){return m("css-si-base",de),m("css-si-reorder",Qt),e.innerHTML=`
+      ${o("Guitar",t[1],!1)}
+      ${o("Harp",t[0],!0)}
+      <div style="position:absolute;left:138px;top:${i}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:7px solid ${f.goldHi};"></div>
+      <div style="position:absolute;left:138px;top:${i+15}px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid ${f.goldHi};"></div>
+    </div>`}const ni={id:"si-reorder",title:"Block Swap",game:"Stack It",description:"While the timer runs, the player can pick up a block and move it with ▲ ▼. Each press swaps the block with its neighbour: both blocks glide past each other at the same time, and the ▲ ▼ arrows follow a bit faster. An arrow turns lavender at the top or bottom of the stack.",defaults:{duration:450,easingId:"glide"},frames:[{label:"Picked up",sublabel:"slot 1 · gold ring · ▲▼",render:e=>qe(e,[4,32],6)},{label:"Crossing",sublabel:"~40% · blocks pass each other",render:e=>qe(e,[26,10],26)},{label:"Swapped",sublabel:"100% · slot 2 · arrows land at 67%",render:e=>qe(e,[32,4],34)}],render(e){return h("css-si-base",ue),h("css-si-reorder",ai),e.innerHTML=`
       <div class="preview-si-board preview-si-reorder">
-        ${He.map(t=>`<div class="preview-si-chip">${t}</div>`).join("")}
+        ${Pe.map(t=>`<div class="preview-si-chip">${t}</div>`).join("")}
         <div class="preview-si-arrows"><i class="up"></i><i class="dn"></i></div>
       </div>
-    `,P=Array.from(e.querySelectorAll(".preview-si-chip")),F=e.querySelector(".preview-si-arrows"),B=He.map((t,i)=>i),T=0,Ue(),()=>{lt(),e.innerHTML="",P=[],F=null}},play({duration:e,easing:t}){if(!P.length||!F)return;lt();const i=h(t.bezier);P.forEach(r=>{r.style.transition="none"}),F.style.transition="none",B=He.map((r,o)=>o),T=0,Ue(),F.offsetWidth,P.forEach(r=>{r.style.transition=`top ${e}ms ${i}, border-color 200ms, box-shadow 200ms`}),F.style.transition=`top ${Math.round(e*st)}ms ease`;const a=e+350;[1,1,-1].forEach((r,o)=>{Ge.push(window.setTimeout(()=>Jt(r),150+o*a))})},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=Math.round(e*st),c=h(t.bezier),s=ut(t);return{web:`/* StackItOverlay.css
+    `,U=Array.from(e.querySelectorAll(".preview-si-chip")),T=e.querySelector(".preview-si-arrows"),N=Pe.map((t,i)=>i),I=0,je(),()=>{ft(),e.innerHTML="",U=[],T=null}},play({duration:e,easing:t}){if(!U.length||!T)return;ft();const i=b(t.bezier);U.forEach(a=>{a.style.transition="none"}),T.style.transition="none",N=Pe.map((a,r)=>r),I=0,je(),T.offsetWidth,U.forEach(a=>{a.style.transition=`top ${e}ms ${i}, border-color 200ms, box-shadow 200ms`}),T.style.transition=`top ${Math.round(e*pt)}ms ease`;const o=e+350;[1,1,-1].forEach((a,r)=>{Ye.push(window.setTimeout(()=>ri(a),150+r*o))})},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2),l=Math.round(e*pt),s=b(t.bezier),d=vt(t);return{web:`/* StackItOverlay.css
    Swap = exchange the two blocks' slot indices and re-write their "top".
    Both blocks transition at once, so they glide past each other. */
 .si-chip {
   position: absolute;
-  transition: top ${e}ms ${c}, left ${e}ms ${c},
+  transition: top ${e}ms ${s}, left ${e}ms ${s},
               border-color .2s, box-shadow .2s;
 }
 .si-chip--moving { z-index: 4; } /* picked-up block passes over its neighbour */
 
-.si-arrows { position: absolute; transition: top ${d}ms ease; }
+.si-arrows { position: absolute; transition: top ${l}ms ease; }
 
 // StackIt.ts
 function moveBlock(dir: -1 | 1) {
@@ -2066,7 +2066,7 @@ function moveBlock(dir: -1 | 1) {
 }`,android:`// Jetpack Compose — Android TV
 @Composable
 fun StackColumn(order: List<String>, picked: Int, slotTops: List<Dp>) {
-    val glide = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    val glide = CubicBezierEasing(${i}f, ${o}f, ${a}f, ${r}f)
     Box {
         order.forEachIndexed { slot, answer ->
             key(answer) {   // stable key → each block animates to its new slot
@@ -2077,7 +2077,7 @@ fun StackColumn(order: List<String>, picked: Int, slotTops: List<Dp>) {
                 )
             }
         }
-        val arrowY by animateDpAsState(slotTops[picked], tween(${d}), label = "arrows")
+        val arrowY by animateDpAsState(slotTops[picked], tween(${l}), label = "arrows")
         MoveArrows(Modifier.offset(y = arrowY), upEnabled = picked > 0, downEnabled = picked < 5)
     }
 }`,ios:`// SwiftUI — tvOS
@@ -2095,9 +2095,9 @@ struct StackColumn: View {
             }
             MoveArrows(upEnabled: picked > 0, downEnabled: picked < 5)
                 .offset(y: slotTops[picked])
-                .animation(.easeInOut(duration: ${(d/1e3).toFixed(2)}), value: picked)
+                .animation(.easeInOut(duration: ${(l/1e3).toFixed(2)}), value: picked)
         }
-        .animation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}), value: order)
+        .animation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}), value: order)
     }
 }`,roku:`' Roku SceneGraph — StackColumn.brs
 ' One Animation with two interpolators: picked block and its neighbour swap Y.
@@ -2109,14 +2109,14 @@ sub moveBlock(dir as integer)
 
   anim = createObject("roSGNode", "Animation")
   anim.duration = ${n}
-  anim.easeFunction = "${s.name}"   ' ${s.note||"matches catalog preset"}
+  anim.easeFunction = "${d.name}"   ' ${d.note||"matches catalog preset"}
   anim.appendChild(slideTo(a, m.slotY[toSlot]))
   anim.appendChild(slideTo(b, m.slotY[m.sel]))
   m.top.appendChild(anim)
   anim.control = "start"
 
   m.sel = toSlot
-  m.arrowAnim.duration = ${(d/1e3).toFixed(2)}
+  m.arrowAnim.duration = ${(l/1e3).toFixed(2)}
   m.arrowMove.keyValue = [ m.arrows.translation, [m.arrows.translation[0], m.slotY[toSlot]] ]
   m.arrowAnim.control = "start"
 end sub
@@ -2145,7 +2145,7 @@ Timings:
 Acceptance criteria:
   · Holding ▼ retargets smoothly — no block snaps to a slot mid-move.
   · Only the two swapped blocks move; the rest of the stack stays still.
-  · When the timer hits 0:00 during a move, the current order is what gets scored.`}},ei=`
+  · When the timer hits 0:00 during a move, the current order is what gets scored.`}},si=`
 .preview-si-results { width: 600px; height: 330px; }
 .preview-si-results__screen { position: absolute; inset: 0; opacity: 0; }
 .preview-si-results__show { position: absolute; left: 0; top: 0; width: 396px; height: 290px; opacity: .55; }
@@ -2162,53 +2162,53 @@ Acceptance criteria:
 }
 .preview-si-results__cell.su,
 .preview-si-results__cell.key { background: rgba(30,44,140,0.75); }
-.preview-si-results__cell.mine { background: ${p.mine}; border: 4px solid #fff; }
+.preview-si-results__cell.mine { background: ${f.mine}; border: 4px solid #fff; }
 .preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(20px); }
-.preview-si-results__cell.mine.match { border-color: ${p.win}; box-shadow: 0 0 10px #7bff3c66; }
-.preview-si-results__cell.mine.miss  { border-color: ${p.miss}; box-shadow: 0 0 10px #ff2a2a66; }
+.preview-si-results__cell.mine.match { border-color: ${f.win}; box-shadow: 0 0 10px #7bff3c66; }
+.preview-si-results__cell.mine.miss  { border-color: ${f.miss}; box-shadow: 0 0 10px #ff2a2a66; }
 .preview-si-results__count {
   position: absolute; left: 50%; top: 298px; transform: translateX(-50%);
   font-weight: 700; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; color: #fff;
   white-space: nowrap; opacity: 0;
 }
 .preview-si-results__count b { color: #f2c230; }
-`,Ce=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet","Harp","Bagpipes"],ht=["Piano/Keyboard","Guitar","Violin/Fiddle","Trumpet","Bagpipes","Harp"],Fe=["Guitar","Piano/Keyboard","Trumpet","Violin/Fiddle","Harp","Bagpipes"],X={su:16,key:210,mine:404},ti=e=>44+e*41,f={screenFade:500,mineStart:700,stagger:350,step:350,countFade:400};let O=null,K=[],E=null,Te=[];function ct(){Te.forEach(clearTimeout),Te=[]}function xe(e,t){const i=(r,o,n,d="")=>`
-    <div style="height:12px;border-radius:999px;background:${r};border:${o};box-sizing:border-box;
-      font:600 6px ${p.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${d}">${n}</div>`,a=[0,1,2].map(r=>{const o=r<t.mine,n=o?`1.5px solid ${Fe[r]===Ce[r]?p.win:p.miss}`:"1.5px solid #fff";return`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
-      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",ht[r],"opacity:.45;")}
-      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",Ce[r],"opacity:.45;")}
-      ${i(p.mine,n,Fe[r],o?"":"opacity:0;transform:translateX(6px);")}
+`,Ae=["Guitar","Piano/Keyboard","Violin/Fiddle","Trumpet","Harp","Bagpipes"],wt=["Piano/Keyboard","Guitar","Violin/Fiddle","Trumpet","Bagpipes","Harp"],Ie=["Guitar","Piano/Keyboard","Trumpet","Violin/Fiddle","Harp","Bagpipes"],K={su:16,key:210,mine:404},li=e=>44+e*41,u={screenFade:500,mineStart:700,stagger:350,step:350,countFade:400};let O=null,Q=[],M=null,ze=[];function ut(){ze.forEach(clearTimeout),ze=[]}function Se(e,t){const i=(a,r,n,l="")=>`
+    <div style="height:12px;border-radius:999px;background:${a};border:${r};box-sizing:border-box;
+      font:600 6px ${f.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${l}">${n}</div>`,o=[0,1,2].map(a=>{const r=a<t.mine,n=r?`1.5px solid ${Ie[a]===Ae[a]?f.win:f.miss}`:"1.5px solid #fff";return`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",wt[a],"opacity:.45;")}
+      ${i("rgba(30,44,140,0.75)","1.5px solid transparent",Ae[a],"opacity:.45;")}
+      ${i(f.mine,n,Ie[a],r?"":"opacity:0;transform:translateX(6px);")}
     </div>`}).join("");e.innerHTML=`
     <div style="width:170px;display:flex;flex-direction:column;gap:3px;opacity:${t.screen};">
-      ${a}
-      <div style="font:700 7px ${p.font};color:#fff;text-align:center;text-transform:uppercase;opacity:${t.count?1:0};">
+      ${o}
+      <div style="font:700 7px ${f.font};color:#fff;text-align:center;text-transform:uppercase;opacity:${t.count?1:0};">
         <b style="color:#f2c230">4 of 6</b> in the right spot</div>
-    </div>`}const ii={id:"si-results-reveal",title:"Results Reveal",game:"Stack It",description:'At 0:00 the results screen fades in. Su’s stack and the correct stack are part of the show video (the show rings Su’s answers green / red itself), so only YOUR STACK is ours: row by row, top to bottom, the player’s blocks slide in from the right with a green (right slot) or red (wrong slot) ring. The "N of 6 in the right spot" line fades in last.',defaults:{duration:350,easingId:"ease"},slowFactor:3,frames:[{label:"Fade in",sublabel:"0–500 ms · screen opacity 0 → 1",render:e=>xe(e,{screen:.5,mine:0,count:!1})},{label:"Row 1",sublabel:"700 ms · slide in + ring",render:e=>xe(e,{screen:1,mine:1,count:!1})},{label:"Cascade",sublabel:"+350 ms per row",render:e=>xe(e,{screen:1,mine:2,count:!1})},{label:"Count",sublabel:"2800 ms · score line fades in",render:e=>xe(e,{screen:1,mine:3,count:!0})}],render(e){m("css-si-base",de),m("css-si-results",ei);const t=(i,a,r)=>r.map((o,n)=>`<div class="preview-si-results__cell ${i}" style="left:${a}px;top:${ti(n)}px">${o}</div>`).join("");return e.innerHTML=`
+    </div>`}const ci={id:"si-results-reveal",title:"Results Reveal",game:"Stack It",description:'At 0:00 the results screen fades in. Su’s stack and the correct stack are part of the show video (the show rings Su’s answers green / red itself), so only YOUR STACK is ours: row by row, top to bottom, the player’s blocks slide in from the right with a green (right slot) or red (wrong slot) ring. The "N of 6 in the right spot" line fades in last.',defaults:{duration:350,easingId:"ease"},slowFactor:3,frames:[{label:"Fade in",sublabel:"0–500 ms · screen opacity 0 → 1",render:e=>Se(e,{screen:.5,mine:0,count:!1})},{label:"Row 1",sublabel:"700 ms · slide in + ring",render:e=>Se(e,{screen:1,mine:1,count:!1})},{label:"Cascade",sublabel:"+350 ms per row",render:e=>Se(e,{screen:1,mine:2,count:!1})},{label:"Count",sublabel:"2800 ms · score line fades in",render:e=>Se(e,{screen:1,mine:3,count:!0})}],render(e){h("css-si-base",ue),h("css-si-results",si);const t=(i,o,a)=>a.map((r,n)=>`<div class="preview-si-results__cell ${i}" style="left:${o}px;top:${li(n)}px">${r}</div>`).join("");return e.innerHTML=`
       <div class="preview-si-board preview-si-results">
         <div class="preview-si-results__screen">
           <div class="preview-si-results__show">
-            <div class="preview-si-results__head" style="left:${X.su}px">SU’S STACK</div>
-            <div class="preview-si-results__head" style="left:${X.key}px">CORRECT STACK</div>
-            ${t("su",X.su,ht)}
-            ${t("key",X.key,Ce)}
+            <div class="preview-si-results__head" style="left:${K.su}px">SU’S STACK</div>
+            <div class="preview-si-results__head" style="left:${K.key}px">CORRECT STACK</div>
+            ${t("su",K.su,wt)}
+            ${t("key",K.key,Ae)}
           </div>
-          <div class="preview-si-results__head" style="left:${X.mine}px">YOUR STACK</div>
-          ${t("mine hide",X.mine,Fe)}
+          <div class="preview-si-results__head" style="left:${K.mine}px">YOUR STACK</div>
+          ${t("mine hide",K.mine,Ie)}
           <div class="preview-si-results__count"><b>4 of 6</b> in the right spot</div>
         </div>
       </div>
-    `,O=e.querySelector(".preview-si-results__screen"),K=Array.from(e.querySelectorAll(".preview-si-results__cell.mine")),E=e.querySelector(".preview-si-results__count"),()=>{ct(),e.innerHTML="",O=null,K=[],E=null}},play({duration:e,easing:t}){if(!O||!E)return;ct();const i=h(t.bezier),a=e/f.step,r=o=>Math.round(o*a);[O,E,...K].forEach(o=>{o.style.transition="none"}),O.style.opacity="0",E.style.opacity="0",K.forEach(o=>{o.classList.remove("match","miss"),o.classList.add("hide")}),O.offsetWidth,O.style.transition=`opacity ${r(f.screenFade)}ms ${i}`,E.style.transition=`opacity ${r(f.countFade)}ms ${i}`,K.forEach(o=>{o.style.transition=["opacity","transform","border-color","box-shadow"].map(n=>`${n} ${e}ms ${i}`).join(", ")}),O.style.opacity="1",K.forEach((o,n)=>Te.push(window.setTimeout(()=>{o.classList.remove("hide"),o.classList.add(Fe[n]===Ce[n]?"match":"miss")},r(f.mineStart+n*f.stagger)))),Te.push(window.setTimeout(()=>{E&&(E.style.opacity="1")},r(f.mineStart+6*f.stagger)))},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=h(t.bezier),d=e/f.step,c=u=>Math.round(u*d),s=u=>(c(u)/1e3).toFixed(2);return{web:`/* StackItResults.css — only YOUR STACK is ours; Su's column comes from the show video. */
-.si-screen        { opacity: 0; transition: opacity ${c(f.screenFade)}ms ${n}; pointer-events: none; }
+    `,O=e.querySelector(".preview-si-results__screen"),Q=Array.from(e.querySelectorAll(".preview-si-results__cell.mine")),M=e.querySelector(".preview-si-results__count"),()=>{ut(),e.innerHTML="",O=null,Q=[],M=null}},play({duration:e,easing:t}){if(!O||!M)return;ut();const i=b(t.bezier),o=e/u.step,a=r=>Math.round(r*o);[O,M,...Q].forEach(r=>{r.style.transition="none"}),O.style.opacity="0",M.style.opacity="0",Q.forEach(r=>{r.classList.remove("match","miss"),r.classList.add("hide")}),O.offsetWidth,O.style.transition=`opacity ${a(u.screenFade)}ms ${i}`,M.style.transition=`opacity ${a(u.countFade)}ms ${i}`,Q.forEach(r=>{r.style.transition=["opacity","transform","border-color","box-shadow"].map(n=>`${n} ${e}ms ${i}`).join(", ")}),O.style.opacity="1",Q.forEach((r,n)=>ze.push(window.setTimeout(()=>{r.classList.remove("hide"),r.classList.add(Ie[n]===Ae[n]?"match":"miss")},a(u.mineStart+n*u.stagger)))),ze.push(window.setTimeout(()=>{M&&(M.style.opacity="1")},a(u.mineStart+6*u.stagger)))},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=b(t.bezier),l=e/u.step,s=c=>Math.round(c*l),d=c=>(s(c)/1e3).toFixed(2);return{web:`/* StackItResults.css — only YOUR STACK is ours; Su's column comes from the show video. */
+.si-screen        { opacity: 0; transition: opacity ${s(u.screenFade)}ms ${n}; pointer-events: none; }
 .si-screen--show  { opacity: 1; pointer-events: auto; }
 
-.si-mine          { background: ${p.mine}; border: .63cqw solid #fff; border-radius: 999px;
+.si-mine          { background: ${f.mine}; border: .63cqw solid #fff; border-radius: 999px;
                     transition: opacity ${e}ms ${n}, transform ${e}ms ${n},
                                 border-color ${e}ms ${n}, box-shadow ${e}ms ${n}; }
 .si-mine--hide    { opacity: 0; transform: translateX(2cqw); }
-.si-mine--match   { border-color: ${p.win};  box-shadow: 0 0 1cqw #7bff3c66; }
-.si-mine--miss    { border-color: ${p.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
+.si-mine--match   { border-color: ${f.win};  box-shadow: 0 0 1cqw #7bff3c66; }
+.si-mine--miss    { border-color: ${f.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
 
-.si-count         { opacity: 0; transition: opacity ${c(f.countFade)}ms ${n}; }
+.si-count         { opacity: 0; transition: opacity ${s(u.countFade)}ms ${n}; }
 .si-count--on     { opacity: 1; }
 
 // StackItResults.ts — staggered reveal (synced to the show ringing Su's rows)
@@ -2217,25 +2217,25 @@ for (let r = 0; r < 6; r++) {
   later(() => {
     mine[r].classList.remove('si-mine--hide');
     if (yours[r]) mine[r].classList.add(yours[r] === key[r] ? 'si-mine--match' : 'si-mine--miss');
-  }, ${c(f.mineStart)} + r * ${c(f.stagger)});
+  }, ${s(u.mineStart)} + r * ${s(u.stagger)});
 }
-later(() => count.classList.add('si-count--on'), ${c(f.mineStart+6*f.stagger)});
-later(showRoundComplete, ${c(f.mineStart+6*f.stagger)} + 3000);`,android:`// Jetpack Compose — Android TV
+later(() => count.classList.add('si-count--on'), ${s(u.mineStart+6*u.stagger)});
+later(showRoundComplete, ${s(u.mineStart+6*u.stagger)} + 3000);`,android:`// Jetpack Compose — Android TV
 @Composable
 fun YourStackReveal(key: List<String>, yours: List<String?>, onDone: () -> Unit) {
-    val ez = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
+    val ez = CubicBezierEasing(${i}f, ${o}f, ${a}f, ${r}f)
     var elapsed by remember { mutableIntStateOf(-1) }
     LaunchedEffect(Unit) {
         val start = withFrameMillis { it }
         while (true) {
             elapsed = (withFrameMillis { it } - start).toInt()
-            if (elapsed > ${c(f.mineStart+6*f.stagger)} + 3000) { onDone(); break }
+            if (elapsed > ${s(u.mineStart+6*u.stagger)} + 3000) { onDone(); break }
         }
     }
-    val screenAlpha by animateFloatAsState(if (elapsed >= 0) 1f else 0f, tween(${c(f.screenFade)}, easing = ez), label = "screen")
+    val screenAlpha by animateFloatAsState(if (elapsed >= 0) 1f else 0f, tween(${s(u.screenFade)}, easing = ez), label = "screen")
     Column(Modifier.alpha(screenAlpha)) {
         repeat(6) { r ->
-            val on = elapsed >= ${c(f.mineStart)} + r * ${c(f.stagger)}
+            val on = elapsed >= ${s(u.mineStart)} + r * ${s(u.stagger)}
             val alpha by animateFloatAsState(if (on) 1f else 0f, tween(${e}, easing = ez), label = "a$r")
             val dx by animateDpAsState(if (on) 0.dp else 24.dp, tween(${e}, easing = ez), label = "x$r")
             val ring by animateColorAsState(
@@ -2244,7 +2244,7 @@ fun YourStackReveal(key: List<String>, yours: List<String?>, onDone: () -> Unit)
             YourBlock(yours[r] ?: "—", ring, Modifier.alpha(alpha).offset(x = dx))
         }
         val countAlpha by animateFloatAsState(
-            if (elapsed >= ${c(f.mineStart+6*f.stagger)}) 1f else 0f, tween(${c(f.countFade)}), label = "count")
+            if (elapsed >= ${s(u.mineStart+6*u.stagger)}) 1f else 0f, tween(${s(u.countFade)}), label = "count")
         CountLine(Modifier.alpha(countAlpha))
     }
 }`,ios:`// SwiftUI — tvOS
@@ -2253,7 +2253,7 @@ struct YourStackReveal: View {
     @State private var shown = false
     @State private var rows = 0
     @State private var countOn = false
-    private let curve = Animation.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${s(f.step)})
+    private let curve = Animation.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${d(u.step)})
 
     var body: some View {
         VStack {
@@ -2267,11 +2267,11 @@ struct YourStackReveal: View {
         }
         .opacity(shown ? 1 : 0)
         .task {
-            withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${s(f.screenFade)})) { shown = true }
+            withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${d(u.screenFade)})) { shown = true }
             for r in 0..<6 {
-                after(${s(f.mineStart)} + Double(r) * ${s(f.stagger)}) { withAnimation(curve) { rows = r + 1 } }
+                after(${d(u.mineStart)} + Double(r) * ${d(u.stagger)}) { withAnimation(curve) { rows = r + 1 } }
             }
-            after(${s(f.mineStart+6*f.stagger)}) { withAnimation(.easeInOut(duration: ${s(f.countFade)})) { countOn = true } }
+            after(${d(u.mineStart+6*u.stagger)}) { withAnimation(.easeInOut(duration: ${d(u.countFade)})) { countOn = true } }
         }
     }
     private func after(_ s: Double, _ f: @escaping () -> Void) {
@@ -2280,16 +2280,16 @@ struct YourStackReveal: View {
 }`,roku:`' Roku SceneGraph — StackItResults.brs
 ' Only YOUR STACK is animated; Su's column is in the show video.
 sub revealResults()
-  m.top.findNode("screenFade").control = "start"     ' opacity 0 → 1, ${s(f.screenFade)} s
+  m.top.findNode("screenFade").control = "start"     ' opacity 0 → 1, ${d(u.screenFade)} s
   for r = 0 to 5
     mine = m.mineRows[r]
     if m.yours[r] <> invalid then mine.findNode("ring").blendColor = ringColor(m.yours[r] = m.key[r])
-    anim = slideFadeAnim(mine, 24, ${s(f.step)})   ' translation x +24 → 0, opacity 0 → 1
-    anim.delay = ${s(f.mineStart)} + r * ${s(f.stagger)}
+    anim = slideFadeAnim(mine, 24, ${d(u.step)})   ' translation x +24 → 0, opacity 0 → 1
+    anim.delay = ${d(u.mineStart)} + r * ${d(u.stagger)}
     anim.control = "start"
   end for
-  countAnim = fadeAnim(m.top.findNode("count"), ${s(f.countFade)})
-  countAnim.delay = ${s(f.mineStart+6*f.stagger)}
+  countAnim = fadeAnim(m.top.findNode("count"), ${d(u.countFade)})
+  countAnim.delay = ${d(u.mineStart+6*u.stagger)}
   countAnim.control = "start"
 end sub
 
@@ -2320,7 +2320,7 @@ Acceptance criteria:
   · Our rows stay in sync with the show’s Su rings (start from the same 0:00 cue).
   · Scoring is final before the reveal starts — animation is presentational only.
   · OK during the reveal jumps straight to Round Complete.
-  · Reduced-motion setting: all rows appear at once with their rings.`}},Ye="linear-gradient(90deg,#030308 0%,#030308 26%,#121a78 40%,#2a33dc 50%,#121a78 60%,#030308 74%,#030308 100%)",We="linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%)",D=500,v=200,U=300,M=1100,Q=2600,ri=`
+  · Reduced-motion setting: all rows appear at once with their rings.`}},Ke="linear-gradient(90deg,#030308 0%,#030308 26%,#121a78 40%,#2a33dc 50%,#121a78 60%,#030308 74%,#030308 100%)",Qe="linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(170,210,255,0.55) 50%,rgba(255,255,255,0) 100%)",P=500,x=200,W=300,V=1100,J=2600,di=`
 .preview-si-round { width: 600px; height: 280px; }
 .preview-si-round__under {
   position: absolute; inset: 0;
@@ -2336,7 +2336,7 @@ Acceptance criteria:
   border-radius: 8px; box-sizing: border-box; padding: 0 22px; overflow: hidden;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif; color: #fff;
-  background: ${Ye};
+  background: ${Ke};
   opacity: 0;
 }
 .preview-si-round__side { font-weight: 600; font-size: 14px; letter-spacing: .03em; text-transform: uppercase; }
@@ -2346,10 +2346,10 @@ Acceptance criteria:
 .preview-si-round__sweep { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .preview-si-round__sweep::after {
   content: ''; position: absolute; top: 0; bottom: 0; left: -45%; width: 45%;
-  background: ${We};
+  background: ${Qe};
 }
 .preview-si-round__sweep.is-on::after {
-  animation: si-round-sweep ${M}ms cubic-bezier(0.4, 0, 0.2, 1) var(--sweep-delay, ${U}ms) both;
+  animation: si-round-sweep ${V}ms cubic-bezier(0.4, 0, 0.2, 1) var(--sweep-delay, ${W}ms) both;
 }
 @keyframes si-round-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
@@ -2363,20 +2363,20 @@ Acceptance criteria:
   0%, 100% { filter: brightness(1); }
   50%      { filter: brightness(1.3); }
 }
-`;let G=null,J=null,Z=null;function ce(e,t){const{mid:i="Round Complete!",round:a="1/3",score:r=4}=t;e.innerHTML=`
+`;let q=null,Z=null,ee=null;function pe(e,t){const{mid:i="Round Complete!",round:o="1/3",score:a=4}=t;e.innerHTML=`
     <div style="
       position:relative;overflow:hidden;
       width:170px;height:30px;border-radius:4px;box-sizing:border-box;padding:0 6px;
       display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
       font-family:'Roboto Condensed','Arial Narrow',sans-serif;color:#fff;
-      background:${Ye};
+      background:${Ke};
       transform:translateY(${t.y}px) scale(${t.scale});opacity:${t.opacity};
     ">
-      <span style="font-size:7px;font-weight:600;text-transform:uppercase;">Round <b style="color:#f2c230">${a}</b></span>
+      <span style="font-size:7px;font-weight:600;text-transform:uppercase;">Round <b style="color:#f2c230">${o}</b></span>
       <span style="font-size:10px;font-weight:500;">${i}</span>
-      <span style="font-size:7px;font-weight:600;text-transform:uppercase;text-align:right;">Score <b style="color:#f2c230">${r}</b></span>
-      ${t.sweep!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${t.sweep}%;background:${We};"></div>`:""}
-    </div>`}const ai={id:"si-round-complete",title:"Round Complete",game:"Stack It",description:'Three seconds after the results count appears, the Round Complete background fades over the results and the score bar drops in from above with a soft overshoot — the same banner motion as Family Feud. A light band sweeps across the bar once, then the bar keeps a slow brightness pulse. After the final round the centre reads "Game Complete!". The next round starts automatically after 6 s; OK skips ahead.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"bg fade 500 ms · bar hidden",render:e=>ce(e,{y:-14,scale:.94,opacity:.15,sweep:null})},{label:"Drop-in",sublabel:"+200 ms · translateY −40 → 0 · .94 → 1",render:e=>ce(e,{y:-6,scale:.97,opacity:.6,sweep:null})},{label:"Sweep",sublabel:"+300 ms · light band 1100 ms",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:30})},{label:"Idle",sublabel:"brightness pulse 2.6 s loop",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:null})},{label:"Final",sublabel:"round 3 · no auto-advance",render:e=>ce(e,{y:0,scale:1,opacity:1,sweep:null,mid:"Game Complete!",round:"3/3",score:39})}],render(e){return m("css-si-base",de),m("css-si-round",ri),e.innerHTML=`
+      <span style="font-size:7px;font-weight:600;text-transform:uppercase;text-align:right;">Score <b style="color:#f2c230">${a}</b></span>
+      ${t.sweep!==null?`<div style="position:absolute;top:0;bottom:0;width:45%;left:${t.sweep}%;background:${Qe};"></div>`:""}
+    </div>`}const pi={id:"si-round-complete",title:"Round Complete",game:"Stack It",description:'Three seconds after the results count appears, the Round Complete background fades over the results and the score bar drops in from above with a soft overshoot — the same banner motion as Family Feud. A light band sweeps across the bar once, then the bar keeps a slow brightness pulse. After the final round the centre reads "Game Complete!". The next round starts automatically after 6 s; OK skips ahead.',defaults:{duration:620,easingId:"ease-out"},frames:[{label:"Start",sublabel:"bg fade 500 ms · bar hidden",render:e=>pe(e,{y:-14,scale:.94,opacity:.15,sweep:null})},{label:"Drop-in",sublabel:"+200 ms · translateY −40 → 0 · .94 → 1",render:e=>pe(e,{y:-6,scale:.97,opacity:.6,sweep:null})},{label:"Sweep",sublabel:"+300 ms · light band 1100 ms",render:e=>pe(e,{y:0,scale:1,opacity:1,sweep:30})},{label:"Idle",sublabel:"brightness pulse 2.6 s loop",render:e=>pe(e,{y:0,scale:1,opacity:1,sweep:null})},{label:"Final",sublabel:"round 3 · no auto-advance",render:e=>pe(e,{y:0,scale:1,opacity:1,sweep:null,mid:"Game Complete!",round:"3/3",score:39})}],render(e){return h("css-si-base",ue),h("css-si-round",di),e.innerHTML=`
       <div class="preview-si-board preview-si-round">
         <div class="preview-si-round__under">results screen (mocked)</div>
         <div class="preview-si-round__screen">
@@ -2388,11 +2388,11 @@ Acceptance criteria:
           </div>
         </div>
       </div>
-    `,G=e.querySelector(".preview-si-round__screen"),J=e.querySelector(".preview-si-round__bar"),Z=e.querySelector(".preview-si-round__sweep"),()=>{e.innerHTML="",G=null,J=null,Z=null}},play({duration:e,easing:t}){if(!G||!J||!Z)return;const i=h(t.bezier);G.style.transition="none",G.style.opacity="0",J.style.animation="none",Z.classList.remove("is-on"),J.offsetWidth,G.style.transition=`opacity ${D}ms ease`,G.style.opacity="1",J.style.animation=`si-round-in ${e}ms ${i} ${v}ms both, si-round-pulse ${Q}ms ease-in-out ${v+e+M}ms infinite`,Z.style.setProperty("--sweep-delay",`${v+U}ms`),Z.classList.add("is-on")},snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2),d=h(t.bezier),c=v+e+M;return{web:`/* StackItOverlay.css — Round Complete screen (banner motion shared with Family Feud) */
+    `,q=e.querySelector(".preview-si-round__screen"),Z=e.querySelector(".preview-si-round__bar"),ee=e.querySelector(".preview-si-round__sweep"),()=>{e.innerHTML="",q=null,Z=null,ee=null}},play({duration:e,easing:t}){if(!q||!Z||!ee)return;const i=b(t.bezier);q.style.transition="none",q.style.opacity="0",Z.style.animation="none",ee.classList.remove("is-on"),Z.offsetWidth,q.style.transition=`opacity ${P}ms ease`,q.style.opacity="1",Z.style.animation=`si-round-in ${e}ms ${i} ${x}ms both, si-round-pulse ${J}ms ease-in-out ${x+e+V}ms infinite`,ee.style.setProperty("--sweep-delay",`${x+W}ms`),ee.classList.add("is-on")},snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2),l=b(t.bezier),s=x+e+V;return{web:`/* StackItOverlay.css — Round Complete screen (banner motion shared with Family Feud) */
 .si-screen {
   position: absolute; inset: 0; z-index: 10;
   opacity: 0; pointer-events: none;
-  transition: opacity ${D}ms;
+  transition: opacity ${P}ms;
 }
 .si-screen--show { opacity: 1; pointer-events: auto; }
 
@@ -2401,12 +2401,12 @@ Acceptance criteria:
   border-radius: .9cqw; padding: 0 2.4cqw; overflow: hidden;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   font-family: "Roboto Condensed", "Arial Narrow", sans-serif; color: #fff;
-  background: ${Ye};
+  background: ${Ke};
 }
 .si-screen--show .si-round-bar {
   animation:
-    si-round-in    ${e}ms ${d} ${v}ms both,
-    si-round-pulse ${Q}ms ease-in-out ${c}ms infinite;
+    si-round-in    ${e}ms ${l} ${x}ms both,
+    si-round-pulse ${J}ms ease-in-out ${s}ms infinite;
 }
 @keyframes si-round-in {
   from { opacity: 0; transform: translateY(-40px) scale(0.94); }
@@ -2420,10 +2420,10 @@ Acceptance criteria:
 /* One-shot light band across the bar */
 .si-round-bar::after {
   content: ''; position: absolute; top: 0; bottom: 0; left: -45%; width: 45%;
-  background: ${We};
+  background: ${Qe};
 }
 .si-screen--show .si-round-bar::after {
-  animation: si-round-sweep ${M}ms cubic-bezier(0.4, 0, 0.2, 1) ${v+U}ms both;
+  animation: si-round-sweep ${V}ms cubic-bezier(0.4, 0, 0.2, 1) ${x+W}ms both;
 }
 @keyframes si-round-sweep { from { left: -45%; } to { left: 100%; } }
 
@@ -2436,18 +2436,18 @@ roundScreen.classList.add('si-screen--show');
 if (!isLastRound) later(nextRound, 6000);`,android:`// Jetpack Compose — Android TV
 @Composable
 fun RoundCompleteScreen(visible: Boolean, round: Int, total: Int, score: Int, onNextRound: () -> Unit) {
-    val easing = CubicBezierEasing(${i}f, ${a}f, ${r}f, ${o}f)
-    AnimatedVisibility(visible, enter = fadeIn(tween(${D})), exit = fadeOut(tween(${D}))) {
+    val easing = CubicBezierEasing(${i}f, ${o}f, ${a}f, ${r}f)
+    AnimatedVisibility(visible, enter = fadeIn(tween(${P})), exit = fadeOut(tween(${P}))) {
         Box(Modifier.fillMaxSize().paint(painterResource(R.drawable.si_round_bg), contentScale = ContentScale.FillBounds)) {
             val shown = remember { MutableTransitionState(false) }.apply { targetState = true }
             AnimatedVisibility(
                 visibleState = shown,
-                enter = slideInVertically(tween(${e}, ${v}, easing)) { -40 } +
-                        scaleIn(tween(${e}, ${v}, easing), initialScale = 0.94f) +
-                        fadeIn(tween(${e}, ${v}, easing))
+                enter = slideInVertically(tween(${e}, ${x}, easing)) { -40 } +
+                        scaleIn(tween(${e}, ${x}, easing), initialScale = 0.94f) +
+                        fadeIn(tween(${e}, ${x}, easing))
             ) {
-                // Sweep: gradient strip x −45% → 100%, ${M} ms, delay ${v+U} ms.
-                // Pulse: brightness 1 → 1.3 → 1, ${Q} ms loop, starts at ${c} ms.
+                // Sweep: gradient strip x −45% → 100%, ${V} ms, delay ${x+W} ms.
+                // Pulse: brightness 1 → 1.3 → 1, ${J} ms loop, starts at ${s} ms.
                 RoundBar(
                     left = "ROUND $round/$total",
                     mid = if (round == total) "Game Complete!" else "Round Complete!",
@@ -2476,11 +2476,11 @@ struct RoundCompleteScreen: View {
                 .scaleEffect(barIn ? 1 : 0.94)
                 .opacity(barIn ? 1 : 0)
         }
-        .transition(.opacity.animation(.easeInOut(duration: ${(D/1e3).toFixed(2)})))
+        .transition(.opacity.animation(.easeInOut(duration: ${(P/1e3).toFixed(2)})))
         .onAppear {
-            withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n}).delay(${(v/1e3).toFixed(2)})) { barIn = true }
-            withAnimation(.timingCurve(0.4, 0, 0.2, 1, duration: ${(M/1e3).toFixed(2)}).delay(${((v+U)/1e3).toFixed(2)})) { sweep = 1 }
-            withAnimation(.easeInOut(duration: ${(Q/2e3).toFixed(2)}).repeatForever(autoreverses: true).delay(${(c/1e3).toFixed(2)})) { pulse = 1.3 }
+            withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n}).delay(${(x/1e3).toFixed(2)})) { barIn = true }
+            withAnimation(.timingCurve(0.4, 0, 0.2, 1, duration: ${(V/1e3).toFixed(2)}).delay(${((x+W)/1e3).toFixed(2)})) { sweep = 1 }
+            withAnimation(.easeInOut(duration: ${(J/2e3).toFixed(2)}).repeatForever(autoreverses: true).delay(${(s/1e3).toFixed(2)})) { pulse = 1.3 }
         }
     }
 }`,roku:`<!-- Roku SceneGraph — components/RoundComplete.xml -->
@@ -2494,18 +2494,18 @@ struct RoundCompleteScreen: View {
       <Poster uri="pkg:/images/si_round_bar.png" />
       <Poster id="sweepStrip" uri="pkg:/images/sweep_band.png" translation="[-780, 0]" />
     </Group>
-    <Animation id="fade" duration="${(D/1e3).toFixed(2)}" easeFunction="inOutQuad">
+    <Animation id="fade" duration="${(P/1e3).toFixed(2)}" easeFunction="inOutQuad">
       <FloatFieldInterpolator fieldToInterp="bg.opacity" key="[0, 1]" keyValue="[0, 1]" />
     </Animation>
-    <Animation id="dropIn" duration="${n}" delay="${(v/1e3).toFixed(2)}" easeFunction="outBack">
+    <Animation id="dropIn" duration="${n}" delay="${(x/1e3).toFixed(2)}" easeFunction="outBack">
       <Vector2DFieldInterpolator fieldToInterp="bar.translation" key="[0, 1]" keyValue="[[91, 435], [91, 475]]" />
       <Vector2DFieldInterpolator fieldToInterp="bar.scale" key="[0, 1]" keyValue="[[0.94, 0.94], [1, 1]]" />
       <FloatFieldInterpolator   fieldToInterp="bar.opacity" key="[0, 1]" keyValue="[0, 1]" />
     </Animation>
-    <Animation id="sweep" duration="${(M/1e3).toFixed(2)}" delay="${((v+U)/1e3).toFixed(2)}" easeFunction="inOutQuad">
+    <Animation id="sweep" duration="${(V/1e3).toFixed(2)}" delay="${((x+W)/1e3).toFixed(2)}" easeFunction="inOutQuad">
       <Vector2DFieldInterpolator fieldToInterp="sweepStrip.translation" key="[0, 1]" keyValue="[[-780, 0], [1730, 0]]" />
     </Animation>
-    <Animation id="pulse" duration="${(Q/1e3).toFixed(1)}" delay="${(c/1e3).toFixed(2)}" easeFunction="inOutQuad" repeat="true">
+    <Animation id="pulse" duration="${(J/1e3).toFixed(1)}" delay="${(s/1e3).toFixed(2)}" easeFunction="inOutQuad" repeat="true">
       <FloatFieldInterpolator fieldToInterp="bar.opacity" key="[0, 0.5, 1]" keyValue="[1.0, 0.85, 1.0]" />
     </Animation>
     <Timer id="advance" duration="6" repeat="false" />
@@ -2532,17 +2532,17 @@ Visual behavior:
   · Rounds 1–2: the next round starts automatically after 6 s; OK skips immediately.
 
 Timings:
-  · Background fade: ${D} ms.
-  · Bar drop-in: 620 ms, ease-out, starts ${v} ms after the fade begins.
-  · Sweep: ${M} ms, cubic-bezier(0.4, 0, 0.2, 1), ${U} ms after the drop-in starts.
-  · Pulse: ${Q/1e3} s ease-in-out loop (brightness 1 → 1.3 → 1), after the sweep.
+  · Background fade: ${P} ms.
+  · Bar drop-in: 620 ms, ease-out, starts ${x} ms after the fade begins.
+  · Sweep: ${V} ms, cubic-bezier(0.4, 0, 0.2, 1), ${W} ms after the drop-in starts.
+  · Pulse: ${J/1e3} s ease-in-out loop (brightness 1 → 1.3 → 1), after the sweep.
   · Auto-advance: 6000 ms after the screen appears.
 
 Acceptance criteria:
   · Score shown is the running total including the round just finished.
   · Sweep plays exactly once per screen; pulse loops.
   · Pressing OK during the entrance advances right away — no double transitions.
-  · Reduced-motion setting: plain fade, no drop / sweep / pulse.`}},oi=`
+  · Reduced-motion setting: plain fade, no drop / sweep / pulse.`}},fi=`
 .preview-cs-flash-stage {
   position: relative;
   width: 100%; height: 220px;
@@ -2569,12 +2569,12 @@ Acceptance criteria:
   0%   { opacity: 1; }
   100% { opacity: 0; }
 }
-`;let ee=null;const ni={id:"wl-wrong-flash",title:"Wrong Flash",game:"Win/Lose",description:"Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.",defaults:{duration:600,easingId:"ease-out"},render(e){return m("css-wl-wrong-flash",oi),e.innerHTML=`
+`;let te=null;const ui={id:"wl-wrong-flash",title:"Wrong Flash",game:"Win/Lose",description:"Full-screen red flash that briefly washes over the player view when the user picks the wrong answer. Single one-shot opacity ramp from 1 → 0, no movement.",defaults:{duration:600,easingId:"ease-out"},render(e){return h("css-wl-wrong-flash",fi),e.innerHTML=`
       <div class="preview-cs-flash-stage">
         <div class="preview-cs-flash-stage__label">player view (mocked)</div>
         <div class="preview-cs-flash"></div>
       </div>
-    `,ee=e.querySelector(".preview-cs-flash"),()=>{e.innerHTML="",ee=null}},play({duration:e,easing:t}){ee&&(ee.style.animation="none",ee.offsetWidth,ee.style.animation=`cs-flash ${e}ms ${h(t.bezier)} forwards`)},frames:[{label:"Idle",sublabel:"no overlay",render:e=>{e.innerHTML=`
+    `,te=e.querySelector(".preview-cs-flash"),()=>{e.innerHTML="",te=null}},play({duration:e,easing:t}){te&&(te.style.animation="none",te.offsetWidth,te.style.animation=`cs-flash ${e}ms ${b(t.bezier)} forwards`)},frames:[{label:"Idle",sublabel:"no overlay",render:e=>{e.innerHTML=`
           <div style="
             width:100%;height:64px;
             background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);
@@ -2593,7 +2593,7 @@ Acceptance criteria:
             background:rgba(220,30,30,0.2);
             border-radius:6px;
           "></div>
-        `}},{label:"Settled",sublabel:"100% · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">overlay invisible</div>'}}],snippets({duration:e,easing:t}){const[i,a,r,o]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
+        `}},{label:"Settled",sublabel:"100% · opacity 0",render:e=>{e.innerHTML='<div class="frame-ghost">overlay invisible</div>'}}],snippets({duration:e,easing:t}){const[i,o,a,r]=t.bezier,n=(e/1e3).toFixed(2);return{web:`/* CardSharksOverlay.css */
 @keyframes cs-flash {
   0%   { opacity: 1; }
   100% { opacity: 0; }
@@ -2603,7 +2603,7 @@ Acceptance criteria:
   position: absolute;
   inset: 0;
   background: rgba(220, 30, 30, 0.4);
-  animation: cs-flash ${e}ms ${h(t.bezier)} forwards;
+  animation: cs-flash ${e}ms ${b(t.bezier)} forwards;
   z-index: 51;
   pointer-events: none;
 }
@@ -2626,7 +2626,7 @@ fun WrongFlash(trigger: Int) {
         if (trigger == 0) return@LaunchedEffect
         alpha = 1f
         val anim = Animatable(1f)
-        anim.animateTo(0f, tween(${e}, easing = CubicBezierEasing(${i.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f, ${o.toFixed(2)}f)))
+        anim.animateTo(0f, tween(${e}, easing = CubicBezierEasing(${i.toFixed(2)}f, ${o.toFixed(2)}f, ${a.toFixed(2)}f, ${r.toFixed(2)}f)))
         alpha = anim.value
     }
     Box(
@@ -2646,7 +2646,7 @@ struct WrongFlash: View {
             .allowsHitTesting(false)
             .onChange(of: trigger) { _ in
                 alpha = 1
-                withAnimation(.timingCurve(${i}, ${a}, ${r}, ${o}, duration: ${n})) {
+                withAnimation(.timingCurve(${i}, ${o}, ${a}, ${r}, duration: ${n})) {
                     alpha = 0
                 }
             }
@@ -2688,10 +2688,10 @@ Timings:
 Acceptance criteria:
   · Animation replays on every distinct wrong answer (remount node by key).
   · The flash must not block touches / D-pad presses.
-  · Tonally subdued — strong enough to register peripherally, not aggressive.`}},si=40,dt=["#facc15","#22c55e","#3b82f6","#ec4899","#f97316","#a855f7","#06b6d4","#fb7185"],Ae=260,bt=5e-4,pt=1800,gt="cubic-bezier(0.33, 0.67, 0.67, 1)",wt="cubic-bezier(0.33, 0, 0.67, 0.33)",vt="cubic-bezier(0.2, 0.6, 0.4, 1)",li=`
+  · Tonally subdued — strong enough to register peripherally, not aggressive.`}},mi=40,mt=["#facc15","#22c55e","#3b82f6","#ec4899","#f97316","#a855f7","#06b6d4","#fb7185"],Le=260,xt=5e-4,ht=1800,$t="cubic-bezier(0.33, 0.67, 0.67, 1)",kt="cubic-bezier(0.33, 0, 0.67, 0.33)",St="cubic-bezier(0.2, 0.6, 0.4, 1)",hi=`
 .preview-confetti-stage {
   position: relative;
-  width: 100%; height: ${Ae}px;
+  width: 100%; height: ${Le}px;
   background: linear-gradient(135deg, #1a1f2e 0%, #06080d 100%);
   border-radius: 12px;
   overflow: hidden;
@@ -2715,13 +2715,13 @@ Acceptance criteria:
    outer = horizontal drift, middle = rise + gravity fall, inner = tumble. */
 .preview-confetti__p {
   position: absolute;
-  animation: pc-drift calc(var(--tu) + var(--td)) ${vt} var(--delay) both;
+  animation: pc-drift calc(var(--tu) + var(--td)) ${St} var(--delay) both;
 }
 .preview-confetti__y {
   display: block;
   animation:
-    pc-rise var(--tu) ${gt}   var(--delay) both,
-    pc-fall var(--td) ${wt} calc(var(--delay) + var(--tu)) forwards;
+    pc-rise var(--tu) ${$t}   var(--delay) both,
+    pc-fall var(--td) ${kt} calc(var(--delay) + var(--tu)) forwards;
 }
 .preview-confetti__s {
   display: block;
@@ -2739,7 +2739,7 @@ Acceptance criteria:
   from { transform: rotate(var(--r0)) rotateX(0deg); }
   to   { transform: rotate(calc(var(--r0) + 360deg * var(--dir))) rotateX(360deg); }
 }
-`;function ci(e){const t=bt/(e*e),i=[];for(let a=0;a<si;a++){const r=4+Math.random()*92,o=2+Math.random()*12,n=o/100*Ae,d=110+Math.random()*120,c=-Math.min(d,Ae-n-12),s=n+24,u=Math.sqrt(2*-c/t),H=Math.sqrt(2*(-c+s)/t),k=(r-50)*1.4+(Math.random()-.5)*90,g=5+Math.random()*4,te=a%3===0?"streamer":a%2===0?"rect":"square";i.push({left:r,bottom:o,delay:Math.random()*300*e,dx:k,peak:c,drop:s,tu:u,td:H,spin:(500+Math.random()*700)*e,dir:Math.random()<.5?1:-1,r0:Math.round(Math.random()*360),w:g,h:te==="rect"?g*1.6:te==="streamer"?g*2.4:g,color:dt[a%dt.length]})}return i}let ke=null;function di(e,t){e.innerHTML=ci(t).map(i=>`
+`;function bi(e){const t=xt/(e*e),i=[];for(let o=0;o<mi;o++){const a=4+Math.random()*92,r=2+Math.random()*12,n=r/100*Le,l=110+Math.random()*120,s=-Math.min(l,Le-n-12),d=n+24,c=Math.sqrt(2*-s/t),m=Math.sqrt(2*(-s+d)/t),v=(a-50)*1.4+(Math.random()-.5)*90,y=5+Math.random()*4,oe=o%3===0?"streamer":o%2===0?"rect":"square";i.push({left:a,bottom:r,delay:Math.random()*300*e,dx:v,peak:s,drop:d,tu:c,td:m,spin:(500+Math.random()*700)*e,dir:Math.random()<.5?1:-1,r0:Math.round(Math.random()*360),w:y,h:oe==="rect"?y*1.6:oe==="streamer"?y*2.4:y,color:mt[o%mt.length]})}return i}let _e=null;function gi(e,t){e.innerHTML=bi(t).map(i=>`
     <span class="preview-confetti__p" style="
       left:${i.left}%; bottom:${i.bottom}%;
       --dx:${i.dx.toFixed(1)}px; --peak:${i.peak.toFixed(1)}px; --drop:${i.drop.toFixed(1)}px;
@@ -2747,16 +2747,16 @@ Acceptance criteria:
       --spin:${Math.round(i.spin)}ms; --dir:${i.dir}; --r0:${i.r0}deg;
     "><span class="preview-confetti__y"><span class="preview-confetti__s" style="
       width:${i.w.toFixed(1)}px; height:${i.h.toFixed(1)}px; background:${i.color};
-    "></span></span></span>`).join("")}function $e(e,t){e.innerHTML=`
+    "></span></span></span>`).join("")}function Fe(e,t){e.innerHTML=`
     <div style="position:relative;width:100%;height:64px;background:linear-gradient(135deg,#1a1f2e 0%,#06080d 100%);border-radius:6px;overflow:hidden;">
       ${t.map(i=>`<span style="position:absolute;left:${i.l}%;bottom:${i.b}%;width:6px;height:10px;background:${i.c};border-radius:1px;transform:rotate(${i.r}deg);"></span>`).join("")}
     </div>
-  `}const pi={id:"wl-confetti-burst",title:"Confetti Burst",game:"Win/Lose",description:"Celebratory confetti fired from the bottom of the screen on a correct answer. Each piece is tossed up, slows to a stop at its apex, then falls back down under gravity and leaves through the bottom edge while tumbling. Higher tosses hang in the air longer — rise and fall times follow t = √(2h / g).",defaults:{duration:1800,easingId:"ease-out"},slowFactor:2,render(e){return m("css-wl-confetti",li),e.innerHTML=`
+  `}const vi={id:"wl-confetti-burst",title:"Confetti Burst",game:"Win/Lose",description:"Celebratory confetti fired from the bottom of the screen on a correct answer. Each piece is tossed up, slows to a stop at its apex, then falls back down under gravity and leaves through the bottom edge while tumbling. Higher tosses hang in the air longer — rise and fall times follow t = √(2h / g).",defaults:{duration:1800,easingId:"ease-out"},slowFactor:2,render(e){return h("css-wl-confetti",hi),e.innerHTML=`
       <div class="preview-confetti-stage">
         <div class="preview-confetti-stage__label">player view (mocked)</div>
         <div class="preview-confetti"></div>
       </div>
-    `,ke=e.querySelector(".preview-confetti"),()=>{e.innerHTML="",ke=null}},play({duration:e}){ke&&di(ke,e/pt)},frames:[{label:"Spawn",sublabel:"0 ms · bottom edge · opacity 0 → 1",render:e=>$e(e,[{l:18,b:6,c:"#facc15",r:10},{l:34,b:10,c:"#22c55e",r:-20},{l:50,b:4,c:"#3b82f6",r:40},{l:66,b:8,c:"#ec4899",r:-60},{l:82,b:5,c:"#f97316",r:15}])},{label:"Rise",sublabel:"ease-out-quad · slowing down",render:e=>$e(e,[{l:14,b:48,c:"#facc15",r:90},{l:31,b:58,c:"#22c55e",r:-30},{l:50,b:40,c:"#3b82f6",r:180},{l:69,b:62,c:"#ec4899",r:-120},{l:86,b:44,c:"#f97316",r:60},{l:40,b:30,c:"#a855f7",r:-90}])},{label:"Apex",sublabel:"~45% · vertical speed 0",render:e=>$e(e,[{l:10,b:78,c:"#facc15",r:200},{l:28,b:86,c:"#22c55e",r:-150},{l:48,b:70,c:"#3b82f6",r:300},{l:72,b:88,c:"#ec4899",r:-260},{l:90,b:74,c:"#f97316",r:160},{l:38,b:64,c:"#a855f7",r:-210}])},{label:"Fall",sublabel:"ease-in-quad · gravity · exits bottom",render:e=>$e(e,[{l:6,b:34,c:"#facc15",r:320},{l:24,b:18,c:"#22c55e",r:-280},{l:46,b:4,c:"#3b82f6",r:420},{l:76,b:26,c:"#ec4899",r:-380},{l:94,b:10,c:"#f97316",r:300},{l:36,b:42,c:"#a855f7",r:-330}])}],snippets({duration:e}){const t=e/pt,i=bt*1080/Ae/(t*t),a=Math.round(i*1e6);return{web:`/* ConfettiBurst.css
+    `,_e=e.querySelector(".preview-confetti"),()=>{e.innerHTML="",_e=null}},play({duration:e}){_e&&gi(_e,e/ht)},frames:[{label:"Spawn",sublabel:"0 ms · bottom edge · opacity 0 → 1",render:e=>Fe(e,[{l:18,b:6,c:"#facc15",r:10},{l:34,b:10,c:"#22c55e",r:-20},{l:50,b:4,c:"#3b82f6",r:40},{l:66,b:8,c:"#ec4899",r:-60},{l:82,b:5,c:"#f97316",r:15}])},{label:"Rise",sublabel:"ease-out-quad · slowing down",render:e=>Fe(e,[{l:14,b:48,c:"#facc15",r:90},{l:31,b:58,c:"#22c55e",r:-30},{l:50,b:40,c:"#3b82f6",r:180},{l:69,b:62,c:"#ec4899",r:-120},{l:86,b:44,c:"#f97316",r:60},{l:40,b:30,c:"#a855f7",r:-90}])},{label:"Apex",sublabel:"~45% · vertical speed 0",render:e=>Fe(e,[{l:10,b:78,c:"#facc15",r:200},{l:28,b:86,c:"#22c55e",r:-150},{l:48,b:70,c:"#3b82f6",r:300},{l:72,b:88,c:"#ec4899",r:-260},{l:90,b:74,c:"#f97316",r:160},{l:38,b:64,c:"#a855f7",r:-210}])},{label:"Fall",sublabel:"ease-in-quad · gravity · exits bottom",render:e=>Fe(e,[{l:6,b:34,c:"#facc15",r:320},{l:24,b:18,c:"#22c55e",r:-280},{l:46,b:4,c:"#3b82f6",r:420},{l:76,b:26,c:"#ec4899",r:-380},{l:94,b:10,c:"#f97316",r:300},{l:36,b:42,c:"#a855f7",r:-330}])}],snippets({duration:e}){const t=e/ht,i=xt*1080/Le/(t*t),o=Math.round(i*1e6);return{web:`/* ConfettiBurst.css
    Three nested spans so each axis has its own curve:
      .cf       — horizontal drift (ease-out, air drag)
      .cf__y    — rise (ease-out-quad) then gravity fall (ease-in-quad)
@@ -2766,13 +2766,13 @@ Acceptance criteria:
 
 .cf {
   position: absolute;
-  animation: cf-drift calc(var(--tu) + var(--td)) ${vt} var(--delay) both;
+  animation: cf-drift calc(var(--tu) + var(--td)) ${St} var(--delay) both;
 }
 .cf__y {
   display: block;
   animation:
-    cf-rise var(--tu) ${gt}   var(--delay) both,
-    cf-fall var(--td) ${wt} calc(var(--delay) + var(--tu)) forwards;
+    cf-rise var(--tu) ${$t}   var(--delay) both,
+    cf-fall var(--td) ${kt} calc(var(--delay) + var(--tu)) forwards;
 }
 .cf__spin {
   display: block; border-radius: 2px;
@@ -2789,7 +2789,7 @@ Acceptance criteria:
 }
 
 // ConfettiBurst.ts — seed one particle (1080p stage)
-const G = ${i.toFixed(5)};                      // px/ms² (~${a} px/s²)
+const G = ${i.toFixed(5)};                      // px/ms² (~${o} px/s²)
 const rise  = 450 + Math.random() * 450;           // apex height, px
 const drop  = spawnY + 80;                          // fall past the bottom edge
 const tu    = Math.sqrt(2 * rise / G);              // time to apex
@@ -2806,7 +2806,7 @@ fun ConfettiBurst(trigger: Int) {
         Color(0xFFFACC15), Color(0xFF22C55E), Color(0xFF3B82F6), Color(0xFFEC4899),
         Color(0xFFF97316), Color(0xFFA855F7), Color(0xFF06B6D4), Color(0xFFFB7185),
     )
-    val g = ${a}f                                    // px/s²
+    val g = ${o}f                                    // px/s²
     val particles = remember(trigger) {
         List(90) {
             val rise = 450f + Random.nextFloat() * 450f    // apex height, px
@@ -2842,7 +2842,7 @@ data class Confetto(val color: Color, val x0: Float, val v0: Float, val vx: Floa
 // Same ballistic model: y(t) = v0·t − g·t²/2, x with drag.
 struct ConfettiBurst: View {
     let trigger: Int
-    private let g: Double = ${a}                       // pt/s²
+    private let g: Double = ${o}                       // pt/s²
     @State private var start = Date()
     @State private var pieces: [Confetto] = []
 
@@ -2877,7 +2877,7 @@ struct ConfettiBurst: View {
 ' Bake each piece's parabola into a Vector2DFieldInterpolator (9 samples is plenty
 ' at TV distance) and run it with a LINEAR ease — the curve is in the key points.
 sub fire()
-  g = ${a}                                   ' px/s²
+  g = ${o}                                   ' px/s²
   for each p in m.pool                           ' ~60 Poster nodes
     rise = 450 + Rnd(0) * 450
     v0 = Sqr(2 * g * rise)
@@ -2921,22 +2921,28 @@ Timings:
 Acceptance criteria:
   · No piece "fades out" mid-air — every piece visibly falls out of frame.
   · Re-spawns on every correct answer (remount the layer by key).
-  · No layout reflow; the layer does not block input.`}},Pe=[Ft,At,zt,Rt,Et,Vt,Ht,qt,Gt,Yt,Kt,Zt,ii,ai,ni,pi],yt="sidebar:collapsed";function fi(){try{return new Set(JSON.parse(localStorage.getItem(yt)??"[]"))}catch{return new Set}}function ui(e){try{localStorage.setItem(yt,JSON.stringify([...e]))}catch{}}function mi(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
-    <div class="sidebar__brand">
-      <p class="sidebar__title">PlayAlong TV</p>
-      <p class="sidebar__subtitle">Animation Catalog</p>
-    </div>
-  `;const i=fi(),a=[];function r(d,c,s,u){c.classList.toggle("is-collapsed",u),s.setAttribute("aria-expanded",String(!u)),u?i.add(d):i.delete(d),ui(i)}const o=["Family Feud","Card Sharks","Stack It","Common","Win/Lose"];for(const d of o){const c=Pe.filter(k=>k.game===d);if(c.length===0)continue;const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`
-      <button type="button" class="sidebar__group-title" aria-expanded="true">
-        <span class="sidebar__chevron" aria-hidden="true"></span>
-        <span class="sidebar__group-name">${d}</span>
-        <span class="sidebar__group-count">${c.length}</span>
-      </button>
-      <div class="sidebar__group-body"><div class="sidebar__group-items"></div></div>
-    `;const u=s.querySelector(".sidebar__group-title"),H=s.querySelector(".sidebar__group-items");u.addEventListener("click",()=>{r(d,s,u,!s.classList.contains("is-collapsed"))}),i.has(d)&&(s.classList.add("is-collapsed"),u.setAttribute("aria-expanded","false")),a.push({game:d,el:s,toggle:u});for(const k of c){const g=document.createElement("div");g.className="sidebar__item",g.dataset.id=k.id,g.innerHTML=`
-        <span>${k.title}</span>
-        ${k.tbd?'<span class="sidebar__badge is-tbd">TBD</span>':'<span class="sidebar__badge">Ready</span>'}
-      `,g.addEventListener("click",()=>e(k.id)),H.appendChild(g)}t.appendChild(s)}function n(d){t.querySelectorAll(".sidebar__item").forEach(u=>{u.classList.toggle("is-active",u.dataset.id===d)});const c=t.querySelector(".sidebar__item.is-active"),s=a.find(u=>u.el.contains(c));s&&s.el.classList.contains("is-collapsed")&&r(s.game,s.el,s.toggle,!1)}return{root:t,setActive:n}}async function ft(e,t,i){try{await navigator.clipboard.writeText(e)}catch{const a=document.createElement("textarea");a.value=e,a.style.position="fixed",a.style.opacity="0",document.body.appendChild(a),a.select(),document.execCommand("copy"),document.body.removeChild(a)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=i},1400)}const hi=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function bi(e){const t=Y.find(l=>l.id===e.defaults.easingId)??Y[0],i={duration:e.defaults.duration,easing:t};let a="web";const r=document.createElement("div");r.innerHTML=`
+  · No layout reflow; the layer does not block input.`}},yi=[Et,Ot,Vt,Nt,Gt,qt,Ut,jt,Kt,Zt,oi,ni,ci,pi,ui,vi],wi=[{id:"demo-stack-it",title:"Stack It — full overlay",section:"Demos",src:"demos/stack-it.html",description:"The whole game loop, playable: answer selection, the timed stacking phase, results and Round Complete. Self-contained build, no backend.",controls:[{keys:"↑ ↓ ← →",does:"Choose an answer; move a placed answer between free slots"},{keys:"OK / Enter",does:"Place into the first free slot from the top; in the timed phase, pick up and drop"},{keys:"Back / Esc",does:"Return an answer to the list"}],notes:["Scoring is 1 point per correct slot in round 1, 2 in round 2, 5 in the final — 10 / 20 / 50 for all six.","After the fifth answer the sixth fills the last slot on its own.","The contestant's stack is placeholder data.","It already loads <strong>Rubik and Roboto Condensed</strong> — our two families, split the way we split them.","Its colours are its own and do not match the palette yet: <code>#030308</code> where ours is <code>#040810</code>, <code>#FF2A2A</code> where ours is <code>#FF0000</code>. That gap is the point of having it here."]},{id:"demo-tv-game-poc",title:"TV Game PoC — Family Feud, Card Sharks, Match Game",section:"Demos",src:"demos/tv-game-poc/index.html",description:"The original proof of concept: full episodes with video, the answer board, strikes and Fast Money. Most of the motion in this catalog was measured from here.",controls:[{keys:"↑ ↓ ← →",does:"Navigate"},{keys:"Enter",does:"Select"},{keys:"Backspace",does:"Back"}],settings:[{key:"audio.videoVolume",label:"Video volume",min:0,max:1,step:.1,fallback:1,format:e=>`${Math.round(e*100)}%`},{key:"audio.sfxVolume",label:"Sound effects",min:0,max:1,step:.1,fallback:.5,format:e=>`${Math.round(e*100)}%`},{key:"playback.roundLeadInSeconds",label:"Round lead-in",min:0,max:15,step:1,fallback:10,format:e=>`${e}s`}],notes:["Built from <code>tv-game-poc</code> into this repository — <code>npm run demo:tv-game-poc</code>. Its own source is untouched.","It was built for a domain root, so it is rebuilt here with a base path; without that every asset 404s under a sub-path.","Video came through <strong>Vercel rewrites</strong> proxying CloudFront, which GitHub Pages cannot do. The six stream prefixes now point straight at CloudFront, which already answers cross-origin.","Three of those six are renamed on CloudFront — <code>/fastmoney/</code> is <code>/fast-money/</code>, <code>/matchgame/</code> is <code>/match-game/</code>, <code>/matchgameep2/</code> is <code>/match-game-andy/</code>. A prefix rule would have 404d.","It carries 49 MB of images, audio and episode content.","Opens on a 2 s splash with a loader, then the catalogue. The TV-simulation panel is dropped; its settings are the sliders here — they apply live. Sign In is web, not TV, and is shown separately — see <strong>Web — Sign In</strong>."]},{id:"demo-web-sign-in",title:"Web — Sign In",section:"Demos",src:"demos/tv-game-poc/index.html?view=web",description:"The web side of PlayAlong: Sign In and Reset Password. Separate from the TV app — this is where profiles are managed and a TV gets linked.",notes:["Same build as the TV Game PoC, opened with <code>?view=web</code>, which renders only the web screens.","There is no backend: Sign In accepts any non-empty pair and stays on the page. Forgot Password opens Reset Password; Back returns."]}],xi="PlayAlong design tokens, exported from the Figma file OTT-TV Design (Gd6wyiODkYk46DjaeyqU9o) on 2026-10-12. PlayAlong's own format -- DTCG-shaped ($type/$value and {dot.path} aliases) but deliberately NOT DTCG-conformant; the format is specified in docs/design-tokens.md. Owner: Viachaslau Kulbitski (design).",$i={color:{Black:{"20%":{$type:"color",$value:"#00000033"},"25%":{$type:"color",$value:"#00000040"},"40%":{$type:"color",$value:"#00000066"},"50%":{$type:"color",$value:"#00000080"},"70%":{$type:"color",$value:"#000000B2"},"80%":{$type:"color",$value:"#000000CC"},"90%":{$type:"color",$value:"#000000E5"},Base:{$type:"color",$value:"#000000"}},Blue:{500:{$type:"color",$value:"#0090FF"},900:{$type:"color",$value:"#000CB8"}},Green:{300:{$type:"color",$value:"#8CFF4F"},500:{$type:"color",$value:"#00C441"},700:{$type:"color",$value:"#008E11"}},Grey:{200:{$type:"color",$value:"#D1D5DB"},400:{$type:"color",$value:"#94A3B8"},600:{$type:"color",$value:"#5C5E65"},800:{$type:"color",$value:"#202228"},900:{$type:"color",$value:"#040810"}},Plum:{900:{$type:"color",$value:"#57053C"}},Red:{500:{$type:"color",$value:"#FF0000"},700:{$type:"color",$value:"#8E0000"},"500 6%":{$type:"color",$value:"#FF00000F"},"600 50%":{$type:"color",$value:"#AA262680"}},Sand:{500:{$type:"color",$value:"#D9A671"}},White:{"10%":{$type:"color",$value:"#FFFFFF1A"},"20%":{$type:"color",$value:"#FFFFFF33"},"25%":{$type:"color",$value:"#FFFFFF40"},"6%":{$type:"color",$value:"#FFFFFF0F"},Base:{$type:"color",$value:"#FFFFFF"}},Yellow:{500:{$type:"color",$value:"#CAA512"}}},font:{family:{Game:{$type:"fontFamily",$value:"Roboto Condensed"},Product:{$type:"fontFamily",$value:"Rubik"}},lineHeight:{16:{$type:"dimension",$value:"16px"},20:{$type:"dimension",$value:"20px"},24:{$type:"dimension",$value:"24px"},28:{$type:"dimension",$value:"28px"},36:{$type:"dimension",$value:"36px"},38:{$type:"dimension",$value:"38px"},39:{$type:"dimension",$value:"39px"},48:{$type:"dimension",$value:"48px"},88:{$type:"dimension",$value:"88px"}},size:{14:{$type:"dimension",$value:"14px"},18:{$type:"dimension",$value:"18px"},20:{$type:"dimension",$value:"20px"},24:{$type:"dimension",$value:"24px"},32:{$type:"dimension",$value:"32px"},36:{$type:"dimension",$value:"36px"},40:{$type:"dimension",$value:"40px"},48:{$type:"dimension",$value:"48px"},64:{$type:"dimension",$value:"64px"},96:{$type:"dimension",$value:"96px"}},weight:{ExtraBold:{$type:"fontWeight",$value:"ExtraBold"},Medium:{$type:"fontWeight",$value:"Medium"},Regular:{$type:"fontWeight",$value:"Regular"},SemiBold:{$type:"fontWeight",$value:"SemiBold"}}}},ki={TV:{Base:{Black:{$type:"color",$value:"{primitives.color.Black.Base}"},Dark:{$type:"color",$value:"{primitives.color.Grey.900}"},Light:{$type:"color",$value:"{primitives.color.White.Base}"},Neutral:{$type:"color",$value:"{primitives.color.Grey.800}"}},Border:{"White 20":{$type:"color",$value:"{primitives.color.White.20%}"}},Button:{"Primary Solid":{$type:"color",$value:"{primitives.color.Blue.500}"},Secondary:{$type:"color",$value:"{primitives.color.White.10%}"}},Focus:{"Ring Color":{$type:"color",$value:"{primitives.color.Blue.500}"},"Ring Radius":{$type:"dimension",$value:"12px"},"Ring Width":{$type:"dimension",$value:"6px"}},"Game UI":{"Green 1":{$type:"color",$value:"{primitives.color.Green.500}"},"Red 1":{$type:"color",$value:"{primitives.color.Red.500}"},"Red 2":{$type:"color",$value:"{primitives.color.Red.700}"},Sand:{$type:"color",$value:"{primitives.color.Sand.500}"},Yellow:{$type:"color",$value:"{primitives.color.Yellow.500}"}},Progress:{Track:{$type:"color",$value:"{primitives.color.Grey.600}"}},Tags:{Primary:{$type:"color",$value:"{primitives.color.Blue.900}"},Secondary:{$type:"color",$value:"{primitives.color.Plum.900}"}},Text:{Gain:{$type:"color",$value:"{primitives.color.Green.300}"},Muted:{$type:"color",$value:"{primitives.color.Grey.400}"},Primary:{$type:"color",$value:"{primitives.color.Grey.200}"},Success:{$type:"color",$value:"{primitives.color.Green.700}"}},Transparent:{"Dark 20":{$type:"color",$value:"{primitives.color.Black.20%}"},"Dark 25":{$type:"color",$value:"{primitives.color.Black.25%}"},"Dark 40":{$type:"color",$value:"{primitives.color.Black.40%}"},"Dark 50":{$type:"color",$value:"{primitives.color.Black.50%}"},"Dark 70":{$type:"color",$value:"{primitives.color.Black.70%}"},"Dark 80":{$type:"color",$value:"{primitives.color.Black.80%}"},"Dark 90":{$type:"color",$value:"{primitives.color.Black.90%}"},"Red 50":{$type:"color",$value:"{primitives.color.Red.600 50%}"},"White 10":{$type:"color",$value:"{primitives.color.White.10%}"},"White 25":{$type:"color",$value:"{primitives.color.White.25%}"},"White 6":{$type:"color",$value:"{primitives.color.White.6%}"}}},Web:{Base:{Black:{$type:"color",$value:"{primitives.color.Black.Base}"},Dark:{$type:"color",$value:"{primitives.color.Grey.900}"},Light:{$type:"color",$value:"{primitives.color.White.Base}"}},Border:{"White 20":{$type:"color",$value:"{primitives.color.White.20%}"}},Button:{"Primary Solid":{$type:"color",$value:"{primitives.color.Blue.500}"}},Status:{Red:{$type:"color",$value:"{primitives.color.Red.500}"}},Text:{Primary:{$type:"color",$value:"{primitives.color.White.Base}"}},Transparent:{"Red 6":{$type:"color",$value:"{primitives.color.Red.500 6%}"},"White 25":{$type:"color",$value:"{primitives.color.White.25%}"},"White 6":{$type:"color",$value:"{primitives.color.White.6%}"}}}},Si={TV:{Background:{Stacked:{$type:"gradient",$value:{type:"linear",stops:[{color:"#EDF3FE",position:0},{color:"#ACCAEB",position:1}]}}},Button:{Primary:{$type:"gradient",$value:{type:"linear",stops:[{color:"#0090FF",position:0},{color:"#0022AB",position:1}]}}},"Game UI":{Gold:{$type:"gradient",$value:{type:"linear",stops:[{color:"#F2D383",position:0},{color:"#49391E",position:.053},{color:"#BB7424",position:.174},{color:"#F4CB82",position:.36},{color:"#FCF9A6",position:.63},{color:"#BC9E53",position:.75},{color:"#806F1A",position:.889},{color:"#E6CD77",position:1}]}}},Loader:{Spin:{$type:"gradient",$value:{type:"angular",stops:[{color:"#FFFFFF",position:0},{color:"#FFFFFF",position:.176},{color:"#FFFFFF00",position:1}]}}},Placeholder:{Grey:{$type:"gradient",$value:{type:"linear",stops:[{color:"#FBFBFB",position:0},{color:"#666666",position:1}]}},Light:{$type:"gradient",$value:{type:"linear",stops:[{color:"#FFFFFF",position:0},{color:"#999999",position:1}]}}},Scrim:{Card:{$type:"gradient",$value:{type:"linear",stops:[{color:"#04081000",position:0},{color:"#040810",position:.808},{color:"#040810",position:1}]}},Menu:{$type:"gradient",$value:{type:"linear",stops:[{color:"#040810",position:0},{color:"#040810",position:.178},{color:"#04081000",position:.447},{color:"#04081000",position:1}]}}},Status:{Failure:{$type:"gradient",$value:{type:"linear",stops:[{color:"#8E0000",position:0},{color:"#380000",position:1}]}},Purple:{$type:"gradient",$value:{type:"linear",stops:[{color:"#422DFF",position:0},{color:"#ACACAC",position:1}]}},"Round Complete":{$type:"gradient",$value:{type:"linear",stops:[{color:"#002FFF00",position:0},{color:"#002FFF",position:.505},{color:"#002FFF00",position:1}]}},Success:{$type:"gradient",$value:{type:"linear",stops:[{color:"#008E11",position:0},{color:"#053800",position:1}]}},Wait:{$type:"gradient",$value:{type:"linear",stops:[{color:"#0056C6",position:0},{color:"#001462",position:1}]}},"You Lose!":{$type:"gradient",$value:{type:"linear",stops:[{color:"#8E000000",position:0},{color:"#8E0000",position:.505},{color:"#8E000000",position:1}]}},"You Win!":{$type:"gradient",$value:{type:"linear",stops:[{color:"#008E0E00",position:0},{color:"#008E0E",position:.505},{color:"#008E0E00",position:1}]}}}},Web:{Button:{Primary:{$type:"gradient",$value:{type:"linear",stops:[{color:"#0090FF",position:0},{color:"#0022AB",position:1}]}}}}},_i={Body:{L:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.24}",lineHeight:"{primitives.font.lineHeight.39}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},"L Tight":{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.24}",lineHeight:"{primitives.font.lineHeight.24}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},M:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.20}",lineHeight:"{primitives.font.lineHeight.24}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}}},Diagram:{Mono:{$type:"typography",$value:{fontFamily:"JetBrains Mono",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.32}",lineHeight:"{primitives.font.lineHeight.36}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}}},Display:{L:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.64}",lineHeight:"{primitives.font.lineHeight.88}",letterSpacing:{unit:"percent",value:-4},textCase:"ORIGINAL"}},"L Bold":{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"Bold",fontSize:"{primitives.font.size.64}",lineHeight:"56px",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},M:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.48}",lineHeight:"{primitives.font.lineHeight.48}",letterSpacing:{unit:"percent",value:2},textCase:"ORIGINAL"}},XL:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.SemiBold}",fontSize:"{primitives.font.size.96}",lineHeight:"{primitives.font.lineHeight.88}",letterSpacing:{unit:"percent",value:-4},textCase:"ORIGINAL"}}},Game:{L:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Game}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.48}",lineHeight:"{primitives.font.lineHeight.48}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},M:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Game}",fontWeight:"{primitives.font.weight.ExtraBold}",fontSize:"{primitives.font.size.40}",lineHeight:"{primitives.font.lineHeight.38}",letterSpacing:{unit:"percent",value:0},textCase:"UPPER"}},S:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Game}",fontWeight:"{primitives.font.weight.SemiBold}",fontSize:"{primitives.font.size.32}",lineHeight:"{primitives.font.lineHeight.38}",letterSpacing:{unit:"percent",value:0},textCase:"UPPER"}}},Heading:{L:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.36}",lineHeight:"{primitives.font.lineHeight.38}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},M:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.32}",lineHeight:"{primitives.font.lineHeight.36}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}},S:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.24}",lineHeight:"{primitives.font.lineHeight.28}",letterSpacing:{unit:"percent",value:0},textCase:"ORIGINAL"}}},Label:{M:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Medium}",fontSize:"{primitives.font.size.18}",lineHeight:"{primitives.font.lineHeight.20}",letterSpacing:{unit:"pixels",value:0},textCase:"UPPER"}},S:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"{primitives.font.weight.Regular}",fontSize:"{primitives.font.size.14}",lineHeight:"{primitives.font.lineHeight.16}",letterSpacing:{unit:"pixels",value:.3},textCase:"UPPER"}}},Web:{Label:{Primary:{$type:"typography",$value:{fontFamily:"{primitives.font.family.Product}",fontWeight:"Bold",fontSize:"{primitives.font.size.14}",lineHeight:"17px",letterSpacing:{unit:"percent",value:0},textCase:"UPPER"},$description:"Line height is AUTO in Figma, so the style carries no number. This value is measured from rendered text, not read off the style and not guessed."}}}},fe={$description:xi,primitives:$i,semantic:ki,gradient:Si,typography:_i};function*Re(e,t=[]){if(!(!e||typeof e!="object")){if("$value"in e){yield[t,e];return}for(const[i,o]of Object.entries(e))i.startsWith("$")||(yield*Re(o,[...t,i]))}}function ie(e,t=0){if(typeof e!="string"||!e.startsWith("{")||t>10)return String(e);let i=fe;for(const o of e.slice(1,-1).split("."))i=i==null?void 0:i[o];return ie(i==null?void 0:i.$value,t+1)}const A=e=>e.replace(/&/g,"&amp;").replace(/</g,"&lt;");function _t(e,t,i){const o=document.createElement("section");return o.className="card",o.innerHTML=`
+    <header class="card__head"><div>
+      <h1 class="card__title">${e}</h1>
+      <p class="card__desc">Rendered from <code>external/playalong-hub/design-tokens.json</code> — the same file the CSS variables are generated from.</p>
+    </div></header>
+    <p class="foundation__note">${t}</p>
+    ${i}`,o}function Fi(){const e=(i,o,a)=>{const r=[...Re(o)].filter(([,n])=>n.$type==="color").map(([n,l])=>{const s=ie(l.$value),d=a&&typeof l.$value=="string"&&l.$value.startsWith("{")?`<div class="swatch__alias">→ ${A(l.$value.slice(1,-1).split(".").slice(-2).join("/"))}</div>`:"";return`<div class="swatch">
+          <div class="swatch__chip" style="background:${s}"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">${A(n.join("/"))}</div>
+            <div class="swatch__value">${A(s)}</div>${d}
+          </div></div>`}).join("");return r?`<h2 class="foundation__group-title">${i}</h2><div class="swatches">${r}</div>`:""},t=[...Re(fe.gradient)].map(([i,o])=>{const a=o.$value,r=a.stops.map(l=>`${l.color} ${Math.round(l.position*100)}%`).join(", ");return`<div class="swatch">
+      <div class="swatch__chip" style="background:${a.type==="angular"?`conic-gradient(from 0deg, ${r})`:`linear-gradient(180deg, ${r})`}"></div>
+      <div class="swatch__meta"><div class="swatch__name">${A(i.join("/"))}</div>
+      <div class="swatch__value">${a.stops.length} stops · ${a.type}</div></div></div>`}).join("");return _t("Colour","Semantic names are what to use. A primitive is the raw value behind one — if you are reaching for <code>Grey/200</code> rather than <code>TV/Text/Primary</code>, the semantic layer is missing a name.",e("Semantic",fe.semantic,!0)+(t?`<h2 class="foundation__group-title">Gradients</h2><div class="swatches">${t}</div>`:"")+e("Primitives",fe.primitives,!1))}function Ci(){const e=[...Re(fe.typography)].map(([t,i])=>{const o=i.$value,a=ie(o.fontFamily),r=ie(o.fontSize),n=ie(o.lineHeight),l=String(ie(o.fontWeight)),d={thin:100,extralight:200,light:300,regular:400,normal:400,medium:500,semibold:600,bold:700,extrabold:800,black:900}[l.toLowerCase().replace(/[^a-z]/g,"")]??400,c=o.letterSpacing,m=c.unit==="percent"?`${c.value/100}em`:`${c.value}px`,v=`font-family:'${a}';font-weight:${d};font-size:${r};line-height:${n};letter-spacing:${m};text-transform:${o.textCase==="UPPER"?"uppercase":"none"}`;return`<div class="specimen">
+      <div class="specimen__meta">
+        <div class="specimen__name">${A(t.join("/"))}</div>
+        ${A(a)} ${A(l)}<br>${A(r)} / ${A(n)} · ${A(m)}
+        ${i.$description?'<br><span style="color:var(--text-muted)">measured</span>':""}
+      </div>
+      <div class="specimen__sample" style="${v}">Play along. Out loud.</div>
+    </div>`}).join("");return _t("Typography","Two families, and the split is the game layer: Rubik is the product, the game screens are Roboto Condensed. Sizes below 24 are supporting text on small elements — nothing load-bearing may live in them.",`<div class="specimens">${e}</div>`)}const bt=(e,t)=>(e.innerHTML="",e.appendChild(t),()=>{}),Ti=[{id:"foundation-colour",title:"Colour",kind:"component",section:"Foundations",badge:{text:"Tokens",tone:"ready"},open:e=>bt(e,Fi())},{id:"foundation-type",title:"Typography",kind:"component",section:"Foundations",badge:{text:"Tokens",tone:"ready"},open:e=>bt(e,Ci())}];async function gt(e,t,i){try{await navigator.clipboard.writeText(e)}catch{const o=document.createElement("textarea");o.value=e,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o)}t.classList.add("btn--copied"),t.textContent="Copied!",setTimeout(()=>{t.classList.remove("btn--copied"),t.textContent=i},1400)}const Ai=[{id:"web",label:"Web · CSS (LG, Samsung)"},{id:"android",label:"Android TV · Compose"},{id:"ios",label:"iOS / tvOS · SwiftUI"},{id:"roku",label:"Roku · SceneGraph"}];function Ii(e){const t=Y.find(p=>p.id===e.defaults.easingId)??Y[0],i={duration:e.defaults.duration,easing:t};let o="web";const a=document.createElement("div");a.innerHTML=`
     <header class="page-header">
       <div class="page-header__eyebrow">${e.game}</div>
       <h1 class="page-header__title">${e.title}</h1>
@@ -2948,11 +2954,11 @@ Acceptance criteria:
 
       ${e.frames&&e.frames.length>0?`
         <div class="frames-grid" data-role="frames">
-          ${e.frames.map((l,b)=>`
+          ${e.frames.map((p,g)=>`
             <div class="frame">
-              <div class="frame__slot" data-frame-idx="${b}"></div>
-              <div class="frame__label">${l.label}</div>
-              ${l.sublabel?`<div class="frame__sublabel">${l.sublabel}</div>`:""}
+              <div class="frame__slot" data-frame-idx="${g}"></div>
+              <div class="frame__label">${p.label}</div>
+              ${p.sublabel?`<div class="frame__sublabel">${p.sublabel}</div>`:""}
             </div>
           `).join("")}
         </div>
@@ -2966,11 +2972,13 @@ Acceptance criteria:
 
       <div class="info-grid">
         <div class="info-grid__col">
-          <h3 class="section__title">Description</h3>
-          <div class="pm-block-wrap">
-            <div class="pm-block" data-role="pm-output"></div>
-            <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
-          </div>
+          <details class="disclosure">
+            <summary class="disclosure__head">Ticket description</summary>
+            <div class="pm-block-wrap">
+              <div class="pm-block" data-role="pm-output"></div>
+              <button class="btn btn--small pm-block__copy" data-role="copy-pm">Copy</button>
+            </div>
+          </details>
         </div>
         <div class="info-grid__col">
           <h3 class="section__title">Controls</h3>
@@ -2986,30 +2994,78 @@ Acceptance criteria:
             <div class="control">
               <div class="control__label">Easing preset</div>
               <select data-role="easing-preset" style="width:100%">
-                ${Y.map(l=>`<option value="${l.id}" ${l.id===i.easing.id?"selected":""}>${l.label}</option>`).join("")}
+                ${Y.map(p=>`<option value="${p.id}" ${p.id===i.easing.id?"selected":""}>${p.label}</option>`).join("")}
               </select>
             </div>
 
-            <div class="control">
-              <div class="control__label">Custom cubic-bezier</div>
+            <div class="control__hint" data-role="easing-desc">${i.easing.description}</div>
+
+            <details class="disclosure disclosure--inline">
+              <summary class="disclosure__head">Custom cubic-bezier</summary>
               <div class="bezier-inputs">
-                ${i.easing.bezier.map((l,b)=>`<input type="number" step="0.01" value="${l}" data-role="bezier-${b}" />`).join("")}
+                ${i.easing.bezier.map((p,g)=>`<input type="number" step="0.01" value="${p}" data-role="bezier-${g}" />`).join("")}
               </div>
-              <div class="control__hint" data-role="easing-desc">${i.easing.description}</div>
-            </div>
+            </details>
           </div>
         </div>
       </div>
 
+      <details class="disclosure disclosure--wide">
+        <summary class="disclosure__head">Implementation code</summary>
       <div class="tabs-row">
         <div class="tabs" role="tablist">
-          ${hi.map(l=>`
-            <button type="button" class="tab ${l.id===a?"is-active":""}" role="tab" data-platform="${l.id}">${l.label}</button>
+          ${Ai.map(p=>`
+            <button type="button" class="tab ${p.id===o?"is-active":""}" role="tab" data-platform="${p.id}">${p.label}</button>
           `).join("")}
         </div>
         <button class="btn btn--small" data-role="copy-snippet">Copy code</button>
       </div>
 
       <div class="code-block" data-role="snippet-output"></div>
+      </details>
     </div>
-  `;const o=r.querySelector("[data-role=stage]"),n=r.querySelector("[data-role=play]"),d=r.querySelector("[data-role=slow]"),c=r.querySelector("[data-role=reset]"),s=r.querySelector("[data-role=copy-snippet]"),u=r.querySelector("[data-role=copy-pm]"),H=r.querySelector("[data-role=duration]"),k=r.querySelector("[data-role=duration-value]"),g=r.querySelector("[data-role=easing-preset]"),te=r.querySelector("[data-role=easing-desc]"),Ie=[0,1,2,3].map(l=>r.querySelector(`[data-role=bezier-${l}]`)),xt=r.querySelector("[data-role=snippet-output]"),kt=r.querySelector("[data-role=pm-output]"),je=Array.from(r.querySelectorAll(".tab")),$t=e.render(o);function St(){i.easing.bezier.forEach((l,b)=>{Ie[b].value=String(l)})}function ie(){const l=e.snippets(i);xt.textContent=l[a],kt.textContent=e.pmTicket(),je.forEach(b=>{b.classList.toggle("is-active",b.dataset.platform===a)})}function Xe(l){i.easing={...l},te.textContent=l.description,St(),ie(),e.tbd||e.play(i)}function _t(){const l=Ie.map(b=>Number(b.value));if(!l.some(b=>Number.isNaN(b))){if(i.easing={id:"custom",label:`Custom (${l.join(", ")})`,bezier:l,description:`cubic-bezier(${l.join(", ")})`},!g.querySelector('option[value="custom"]')){const b=document.createElement("option");b.value="custom",b.textContent="Custom…",g.appendChild(b)}g.value="custom",te.textContent=`cubic-bezier(${l.join(", ")}) — ${h(l)}`,ie(),e.tbd||e.play(i)}}return e.frames&&e.frames.length>0&&e.frames.forEach((l,b)=>{const Ke=r.querySelector(`[data-frame-idx="${b}"]`);Ke&&l.render(Ke)}),n.addEventListener("click",()=>{e.tbd||e.play(i)}),d.addEventListener("click",()=>{if(e.tbd)return;const l=e.slowFactor??4,b={...i,duration:i.duration*l};e.play(b)}),c.addEventListener("click",()=>{const l=Y.find(b=>b.id===e.defaults.easingId)??Y[0];i.duration=e.defaults.duration,H.value=String(i.duration),k.textContent=`${i.duration} ms`,g.value=l.id,Xe(l)}),H.addEventListener("input",()=>{i.duration=Number(H.value),k.textContent=`${i.duration} ms`,ie(),e.tbd||e.play(i)}),g.addEventListener("change",()=>{const l=Y.find(b=>b.id===g.value);l&&Xe(l)}),Ie.forEach(l=>l.addEventListener("change",_t)),je.forEach(l=>{l.addEventListener("click",()=>{a=l.dataset.platform,ie()})}),s.addEventListener("click",()=>{const l=e.snippets(i)[a];ft(l,s,"Copy current snippet")}),u.addEventListener("click",()=>{ft(e.pmTicket(),u,"Copy description")}),ie(),e.tbd||requestAnimationFrame(()=>e.play(i)),r.__destroy=()=>{$t()},r}function gi(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let i=null;function a(n){const d=Pe.find(c=>c.id===n);d&&(i!=null&&i.__destroy&&i.__destroy(),t.innerHTML="",i=bi(d),t.appendChild(i),r.setActive(n),location.hash=n)}const r=mi(a);e.appendChild(r.root),e.appendChild(t);const o=location.hash.replace(/^#/,"")||Pe[0].id;a(o),window.addEventListener("hashchange",()=>{const n=location.hash.replace(/^#/,"");n&&a(n)})}gi();
+  `;const r=a.querySelector("[data-role=stage]"),n=a.querySelector("[data-role=play]"),l=a.querySelector("[data-role=slow]"),s=a.querySelector("[data-role=reset]"),d=a.querySelector("[data-role=copy-snippet]"),c=a.querySelector("[data-role=copy-pm]"),m=a.querySelector("[data-role=duration]"),v=a.querySelector("[data-role=duration-value]"),y=a.querySelector("[data-role=easing-preset]"),oe=a.querySelector("[data-role=easing-desc]"),Ee=[0,1,2,3].map(p=>a.querySelector(`[data-role=bezier-${p}]`)),Tt=a.querySelector("[data-role=snippet-output]"),At=a.querySelector("[data-role=pm-output]"),Je=Array.from(a.querySelectorAll(".tab")),It=e.render(r);function zt(){i.easing.bezier.forEach((p,g)=>{Ee[g].value=String(p)})}function ae(){const p=e.snippets(i);Tt.textContent=p[o],At.textContent=e.pmTicket(),Je.forEach(g=>{g.classList.toggle("is-active",g.dataset.platform===o)})}function Ze(p){i.easing={...p},oe.textContent=p.description,zt(),ae(),e.tbd||e.play(i)}function Lt(){const p=Ee.map(g=>Number(g.value));if(!p.some(g=>Number.isNaN(g))){if(i.easing={id:"custom",label:`Custom (${p.join(", ")})`,bezier:p,description:`cubic-bezier(${p.join(", ")})`},!y.querySelector('option[value="custom"]')){const g=document.createElement("option");g.value="custom",g.textContent="Custom…",y.appendChild(g)}y.value="custom",oe.textContent=`cubic-bezier(${p.join(", ")}) — ${b(p)}`,ae(),e.tbd||e.play(i)}}return e.frames&&e.frames.length>0&&e.frames.forEach((p,g)=>{const et=a.querySelector(`[data-frame-idx="${g}"]`);et&&p.render(et)}),n.addEventListener("click",()=>{e.tbd||e.play(i)}),l.addEventListener("click",()=>{if(e.tbd)return;const p=e.slowFactor??4,g={...i,duration:i.duration*p};e.play(g)}),s.addEventListener("click",()=>{const p=Y.find(g=>g.id===e.defaults.easingId)??Y[0];i.duration=e.defaults.duration,m.value=String(i.duration),v.textContent=`${i.duration} ms`,y.value=p.id,Ze(p)}),m.addEventListener("input",()=>{i.duration=Number(m.value),v.textContent=`${i.duration} ms`,ae(),e.tbd||e.play(i)}),y.addEventListener("change",()=>{const p=Y.find(g=>g.id===y.value);p&&Ze(p)}),Ee.forEach(p=>p.addEventListener("change",Lt)),Je.forEach(p=>{p.addEventListener("click",()=>{o=p.dataset.platform,ae()})}),d.addEventListener("click",()=>{const p=e.snippets(i)[o];gt(p,d,"Copy current snippet")}),c.addEventListener("click",()=>{gt(e.pmTicket(),c,"Copy description")}),ae(),e.tbd||requestAnimationFrame(()=>e.play(i)),a.__destroy=()=>{It()},a}function zi(e){var d;const t=document.createElement("section");t.className="card demo";const i=e.href??(e.src?`/playalong-animation-catalog/${e.src}`:null),o=i?`<div class="demo__stage">
+         <iframe class="demo__frame" title="${e.title}" src="${i}" allow="autoplay" loading="lazy"></iframe>
+       </div>`:`<div class="demo__stage demo__stage--empty"><div>
+         <p class="demo__empty-title">No address yet</p>
+         <p class="demo__empty-body">${e.hostedNote??"This demo is hosted elsewhere and its URL has not been recorded."}</p>
+       </div></div>`,a=(e.notes??[]).map(c=>`<li>${c}</li>`).join(""),r=(e.controls??[]).map(c=>`<tr><td><kbd>${c.keys}</kbd></td><td>${c.does}</td></tr>`).join(""),n=c=>{try{const m=parseFloat(localStorage.getItem(c.key)??"");return Number.isFinite(m)?Math.min(c.max,Math.max(c.min,m)):c.fallback}catch{return c.fallback}},l=(e.settings??[]).map((c,m)=>{const v=n(c);return`<label class="demo__setting">
+        <span class="demo__setting-label">${c.label}</span>
+        <input type="range" min="${c.min}" max="${c.max}" step="${c.step}" value="${v}" data-setting="${m}" />
+        <span class="demo__setting-value" data-setting-value="${m}">${c.format(v)}</span>
+      </label>`}).join("");t.innerHTML=`
+    <header class="card__head">
+      <div>
+        <h1 class="card__title">${e.title}</h1>
+        <p class="card__desc">${e.description}</p>
+      </div>
+      <div class="demo__actions">
+        ${i?'<button type="button" class="btn" data-act="reload">Restart</button>':""}
+        ${i?`<a class="btn" href="${i}" target="_blank" rel="noopener">Open full screen</a>`:""}
+      </div>
+    </header>
+
+    ${o}
+
+    <div class="demo__side">
+      ${l?`<div class="demo__block"><h2>Settings</h2><div class="demo__settings">${l}</div></div>`:""}
+      ${r?`<div class="demo__block"><h2>Controls</h2><table class="demo__keys">${r}</table></div>`:""}
+      ${a?`<div class="demo__block"><h2>Read this first</h2><ul class="demo__notes">${a}</ul></div>`:""}
+    </div>
+  `,t.querySelectorAll("[data-setting]").forEach(c=>{const m=e.settings[Number(c.dataset.setting)],v=t.querySelector(`[data-setting-value="${c.dataset.setting}"]`);c.addEventListener("input",()=>{const y=Number(c.value);v.textContent=m.format(y);try{localStorage.setItem(m.key,String(y))}catch{}})});const s=t.querySelector(".demo__frame");return s&&((d=t.querySelector('[data-act="reload"]'))==null||d.addEventListener("click",()=>{s.src=s.src}),t.__destroy=()=>{s.src="about:blank"}),t}const Ft=(e,t)=>(e.innerHTML="",e.appendChild(t),()=>{var i;return(i=t.__destroy)==null?void 0:i.call(t)}),Li=wi.map(e=>({id:e.id,title:e.title,kind:"demo",section:e.section,badge:{text:"Demo",tone:"demo"},open:t=>Ft(t,zi(e))})),Ri=yi.map(e=>({id:e.id,title:e.title,kind:"animation",section:e.game,badge:e.tbd?{text:"TBD",tone:"tbd"}:{text:"Ready",tone:"ready"},open:t=>Ft(t,Ii(e))})),Xe=[...Ti,...Li,...Ri],Ei=["Foundations","Demos","Family Feud","Card Sharks","Stack It","Common","Win/Lose"],Bi=Ei.map(e=>({name:e,items:Xe.filter(t=>t.section===e)})).filter(e=>e.items.length>0),Ct="sidebar:collapsed";function Oi(){try{return new Set(JSON.parse(localStorage.getItem(Ct)??"[]"))}catch{return new Set}}function Mi(e){try{localStorage.setItem(Ct,JSON.stringify([...e]))}catch{}}function Vi(e){const t=document.createElement("aside");t.className="sidebar",t.innerHTML=`
+    <div class="sidebar__brand">
+      <p class="sidebar__title">PlayAlong TV</p>
+      <p class="sidebar__subtitle">Catalog</p>
+    </div>
+    <input class="sidebar__search" type="search" placeholder="Filter…" aria-label="Filter the catalog" />
+  `;const i=Oi(),o=[];function a(l,s,d,c){s.classList.toggle("is-collapsed",c),d.setAttribute("aria-expanded",String(!c)),c?i.add(l):i.delete(l),Mi(i)}for(const l of Bi){const s=document.createElement("div");s.className="sidebar__group",s.innerHTML=`
+      <button type="button" class="sidebar__group-title" aria-expanded="true">
+        <span class="sidebar__chevron" aria-hidden="true"></span>
+        <span class="sidebar__group-name">${l.name}</span>
+        <span class="sidebar__group-count">${l.items.length}</span>
+      </button>
+      <div class="sidebar__group-body"><div class="sidebar__group-items"></div></div>
+    `;const d=s.querySelector(".sidebar__group-title"),c=s.querySelector(".sidebar__group-items");d.addEventListener("click",()=>{a(l.name,s,d,!s.classList.contains("is-collapsed"))}),i.has(l.name)&&(s.classList.add("is-collapsed"),d.setAttribute("aria-expanded","false")),o.push({name:l.name,el:s,toggle:d});for(const m of l.items){const v=document.createElement("div");v.className="sidebar__item",v.dataset.id=m.id,v.dataset.search=`${m.title} ${m.section}`.toLowerCase();const y=m.badge;v.innerHTML=`
+        <span class="sidebar__item-name">${m.title}</span>
+        ${y?`<span class="sidebar__badge is-${y.tone??"ready"}">${y.text}</span>`:""}
+      `,v.addEventListener("click",()=>e(m.id)),c.appendChild(v)}t.appendChild(s)}const r=t.querySelector(".sidebar__search");r.addEventListener("input",()=>{const l=r.value.trim().toLowerCase();for(const s of o){let d=0;s.el.querySelectorAll(".sidebar__item").forEach(c=>{const m=!l||(c.dataset.search??"").includes(l);c.hidden=!m,m&&d++}),s.el.hidden=d===0,l&&d>0&&s.el.classList.contains("is-collapsed")&&a(s.name,s.el,s.toggle,!1)}});function n(l){t.querySelectorAll(".sidebar__item").forEach(c=>{c.classList.toggle("is-active",c.dataset.id===l)});const s=t.querySelector(".sidebar__item.is-active"),d=o.find(c=>c.el.contains(s));d&&d.el.classList.contains("is-collapsed")&&a(d.name,d.el,d.toggle,!1)}return{root:t,setActive:n}}function Hi(){const e=document.getElementById("app");if(!e)return;e.className="app",e.innerHTML="";const t=document.createElement("main");t.className="main";let i=null;function o(r){const n=Xe.find(l=>l.id===r);n&&(i==null||i(),i=n.open(t),a.setActive(r),location.hash.replace(/^#/,"")!==r&&(location.hash=r))}const a=Vi(o);e.appendChild(a.root),e.appendChild(t),o(location.hash.replace(/^#/,"")||Xe[0].id),window.addEventListener("hashchange",()=>{const r=location.hash.replace(/^#/,"");r&&o(r)})}Hi();
