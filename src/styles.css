@@ -160,7 +160,9 @@ button { font-family: inherit; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 24px;
-  padding: 0 24px 20px;
+  /* The top padding is not optional: `.actions` above closes with a 1px rule,
+     and without it the first disclosure sits flush against that line. */
+  padding: 20px 24px;
   border-bottom: 1px solid var(--border);
   align-items: start;
 }
@@ -453,7 +455,12 @@ select:focus, input:focus { border-color: var(--accent); }
 }
 .specimen__meta { font-family: var(--mono); font-size: 11px; color: var(--text-dim); line-height: 1.7; }
 .specimen__name { font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.specimen__sample { color: var(--tv-text-primary); overflow: hidden; }
+/* Clip SIDEWAYS only. `overflow: hidden` clips both axes, and Display/XL is
+   96px on an 88px line, so its glyph box is taller than its line box and the
+   descenders of "y" and "g" were being cut off. `clip` on one axis is the only
+   pairing CSS allows with `visible` on the other. */
+.specimen__sample { color: var(--tv-text-primary); min-width: 0;
+  overflow-x: clip; overflow-y: visible; }
 
 .foundation__note {
   margin: 0 0 22px; padding: 12px 14px; border-left: 3px solid var(--accent);
