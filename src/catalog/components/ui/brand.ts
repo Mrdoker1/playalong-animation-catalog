@@ -215,3 +215,147 @@ export const AttemptsBox: ComponentModule = {
     'The list below the heading is an empty 168 × 660 frame — the attempts themselves are the <code>Attempt</code> component, which the catalog has separately.',
   ],
 };
+
+/* ------------------------------------------------- List of answer Options */
+
+injectStyle('css-c-last', `
+.c-opts { width: 656px; box-sizing: border-box; border-radius: 24px; padding: 40px;
+  background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
+  display: flex; flex-direction: column; gap: 16px; }
+.c-opt { height: 76px; box-sizing: border-box; border-radius: 12px; padding: 0 32px;
+  display: flex; align-items: center; gap: 24px; color: var(--tv-base-light);
+  font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
+  font-size: var(--type-game-m-size); }
+.c-opt--green { background: var(--gradient-tv-status-success); border: 2px solid var(--tv-game-ui-green-1); }
+.c-opt--blue  { background: var(--gradient-tv-status-wait); border: 2px solid var(--tv-button-primary-solid); }
+.c-opt__n { width: 24px; text-align: center; }
+.c-opt__rule { width: 2px; align-self: stretch; background: var(--tv-button-secondary); }
+.c-opt__text { flex: 1; font-family: var(--type-game-s-family);
+  font-weight: var(--type-game-s-weight); font-size: var(--type-game-s-size); }
+.c-opt.is-hidden .c-opt__text, .c-opt.is-hidden .c-opt__score { opacity: 0; }
+
+.c-loader { width: 100px; height: 100px; border-radius: 50%; box-sizing: border-box;
+  border: 8px solid var(--tv-button-secondary);
+  border-top-color: var(--tv-button-primary-solid);
+  animation: c-loader-spin 900ms linear infinite; }
+@keyframes c-loader-spin { to { transform: rotate(360deg); } }
+.c-loading { display: flex; flex-direction: column; align-items: center; gap: 32px;
+  color: var(--tv-base-light); font-family: var(--type-heading-l-family);
+  font-weight: var(--type-heading-l-weight); font-size: var(--type-heading-l-size); }
+
+.c-unlocked { width: 1100px; box-sizing: border-box; padding: 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 64px;
+  color: var(--tv-base-light); }
+.c-unlocked__h { font-family: var(--type-display-l-family);
+  font-weight: var(--type-display-l-weight); font-size: var(--type-display-l-size); }
+.c-unlocked__art { width: 281px; height: 281px; }
+`);
+
+const OPTS: [string, string][] = [
+  ['Sleeping', '24'], ['TV/SVU Rerun', '24'],
+  ['Sex/chase 21 Yr-olds', '24'], ['Boozing/Rum & Ensure', '24'],
+];
+
+export const AnswerOptionsList: ComponentModule = {
+  id: 'c-answer-options', title: 'List of answer Options', group: 'Game', figma: '2565:2663',
+  description: '656 × 819 — the survey board: eight rows, the found ones green and the unfound ones blue with their text hidden.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Status/Success', 'TV/Status/Wait', 'TV/Game UI/Green 1', 'TV/Button/Primary Solid', 'TV/Button/Secondary', 'TV/Base/Light'],
+    type: ['Game/M', 'Game/S'],
+  },
+  wide: true,
+  variants: [
+    { label: 'Four found, four hidden', el: () => {
+      const rows = OPTS.map(([t, s], i) =>
+        `<div class="c-opt c-opt--green"><span class="c-opt__n">${i + 1}</span>
+          <span class="c-opt__rule"></span><span class="c-opt__text">${t}</span>
+          <span class="c-opt__score">${s}</span></div>`).join('') +
+        [5, 6, 7, 8].map((n) =>
+        `<div class="c-opt c-opt--blue is-hidden"><span class="c-opt__n">${n}</span>
+          <span class="c-opt__rule"></span><span class="c-opt__text">Sleeping</span>
+          <span class="c-opt__score">33</span></div>`).join('');
+      return h(`<div class="c-opts">${rows}</div>`);
+    } },
+  ],
+  notes: [
+    '<strong>A hidden answer is still in the file, at opacity 0.</strong> Rows five to eight carry real text and a real score with their opacity set to zero, not blanked. Anything exporting this — or inspecting the DOM of a client built from it — reads the answers before the player finds them. <strong>Flag to engineering: the hidden rows must not ship their text.</strong>',
+    'Seven of the eight rows are named <code>Answerr option</code>, with two r\'s; the fourth is <code>Answer Option</code>. Eight instances, two spellings, neither matching the component.',
+    'Green is <code>TV/Status/Success</code> with a <code>Game UI/Green 1</code> edge, blue is <code>TV/Status/Wait</code> with a <code>Primary Solid</code> edge. So found and not-yet-found are the same two gradients the rest of the game layer uses for success and waiting.',
+  ],
+};
+
+export const CardSharksQuestion: ComponentModule = {
+  id: 'c-card-sharks-question', title: 'Card Sharks Question', group: 'Game', figma: '3752:30765',
+  description: '418 × 398 — the timer panel stacked on the Higher/Lower panel, which is how the question is actually posed.',
+  tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral'], type: [] },
+  variants: [
+    { label: 'Default', el: () => h(`<div style="display:flex;flex-direction:column;gap:16px;width:418px">
+        <div class="c-panel" style="height:86px;padding:24px 40px"></div>
+        <div class="c-hl">
+          <div class="c-hl__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
+          <div class="c-hl__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
+        </div></div>`) },
+  ],
+  notes: [
+    'It is <strong>an assembly, not a new drawing</strong>: a <code>Score Box</code> in its Timer variant over the <code>Higher/Lower</code> panel, on a 16 gap. Both are already in this catalog on their own.',
+    'The second variant, <code>with Card</code>, adds the playing card. Not drawn here — the card art is a separate asset this rebuild does not have.',
+  ],
+};
+
+export const GameKeyboard: ComponentModule = {
+  id: 'c-game-keyboard', title: 'Keyboard (game)', group: 'Game', figma: '2565:2733',
+  description: 'The in-game input panel, in six shapes — one per way a game can ask for an answer.',
+  tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20'], type: [] },
+  wide: true,
+  variants: ([
+    ['Letters with Digit', 1010, 384], ['Default', 848, 384], ['Voice', 780, 384],
+    ['Numeric', 700, 312], ['Coordinate Input', 700, 312], ['Multiselect', 700, 240],
+  ] as [string, number, number][]).map(([label, w, ht]) => ({
+    label, el: () => h(`<div class="c-panel" style="width:${w}px;height:${ht}px;display:flex;flex-direction:column;gap:24px">
+      ${label === 'Voice'
+        ? `<div class="c-kb__mic" style="margin:0 auto"><span class="c-kb__halo"><span><span>${icon('Mic', 44)}</span></span></span>
+           <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span></div>`
+        : `<span class="c-panel__slot" style="flex:1"></span>`}
+      <span class="c-panel__slot" style="height:72px"></span></div>`),
+  })),
+  notes: [
+    '<strong>It is a different keyboard from <code>Email Keyboard</code> entirely</strong> — dark panel at <code>Transparent/Dark 80</code> rather than the <code>Base/Neutral</code> slab, radius 24 rather than 12, and six input kinds rather than six letter layouts. Two components called keyboard, sharing nothing.',
+    'Its six types line up with the six tags in <code>Game Type Tags Row</code> — multiple choice, numeric, free text, up/down, voice, time-limited. <strong>Nearly:</strong> the keyboard has <em>Coordinate Input</em> and <em>Multiselect</em>, and no up/down or time-limited. Two lists of six that do not match.',
+    'Every type\'s key area is an <strong>empty slot frame</strong> in the file, so there are no keys to draw. The panel sizes and the 72 action row are the real measurements; the inside is not drawn.',
+    '<code>Voice</code> holds the <code>Mic</code> component, which the catalog has on its own.',
+  ],
+};
+
+export const RewardUnlockedContainer: ComponentModule = {
+  id: 'c-reward-unlocked', title: 'Container — Reward unlocked', group: 'Identity', figma: '11643:39611',
+  description: '1100 × 684 — the popup that celebrates a claimed reward: the heading, the art, and the button that dismisses it.',
+  tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid'], type: ['Display/L'] },
+  wide: true,
+  variants: [
+    { label: 'Reward unlocked!', el: () => h(`<div class="c-unlocked">
+        <span class="c-unlocked__h">Reward unlocked!</span>
+        <span class="c-unlocked__art"><span class="c-badge" style="width:281px;height:281px;background-image:url(assets/components/badges.png);background-size:843px 562px;background-position:-562px -281px"></span></span>
+        <span class="c-btn c-btn--primary is-focus" style="width:240px">Claim</span></div>`) },
+  ],
+  notes: [
+    '<strong><code>Container</code> is not a name.</strong> It is the popup that celebrates a claimed reward — the moment the whole Spotlight loop is built around — and it is called the same thing as every anonymous wrapper frame in the file. <strong>Worth renaming.</strong>',
+    'Its art slot and its button label are <strong>empty instances</strong>, so neither the reward shown nor the button\'s word is in the file. <em>Claim</em> here is this rebuild\'s, not a measurement — the glossary says a player <em>claims</em> an unlocked reward in a deliberate action, which is what this button must be.',
+    'The <code>Confetti</code> component is the other half of this moment and is a separate node; nothing in the file joins them.',
+  ],
+};
+
+export const LoadingState: ComponentModule = {
+  id: 'c-loading', title: 'Loading state', group: 'Feedback', figma: '13523:20837',
+  description: 'The spinner over "Loading your progress…", at full screen and as a 1665 × 323 band.',
+  tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary Solid', 'TV/Button/Secondary'], type: ['Heading/L'] },
+  wide: true,
+  variants: [
+    { label: '▶ Band (1665 × 323)', el: () => h(`<div class="c-loading" style="height:323px;justify-content:center">
+        <span class="c-loader"></span><span>Loading your progress...</span></div>`) },
+  ],
+  notes: [
+    '<strong>The two are the same contents in two frames</strong> — <code>Loading state - 1</code> is 1920 × 1080 and <code>Loading state - 2</code> is 1665 × 323, and the spinner and the sentence are identical in both. One component with a size would do. The full-screen one is not drawn here; it is the band in a 1080-tall box.',
+    'The spinner is an instance of <code>Loader Big</code>, which has a <code>Frame 3</code> variant and no motion defined. <strong>The rotation here is this rebuild\'s</strong> — the file carries no duration, easing or direction for it.',
+    'The sentence ends in three dots typed as full stops rather than an ellipsis.',
+  ],
+};

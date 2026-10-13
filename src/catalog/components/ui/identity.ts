@@ -155,6 +155,7 @@ export const GameTypeTag: ComponentModule = {
     el: () => h(`<span class="c-gtt${g.prime ? ' c-gtt--prime' : ''}">${icon(g.ico, 24)}${g.tx}</span>`),
   })),
   notes: [
+    '<code>1020:8114</code> is the same component: the base <code>Game Type Tag</code> that <code>5022:9521</code> varies. One drawing, two nodes.',
     '<strong>Prime Time is not like the other six.</strong> It fills with <code>TV/Game UI/Yellow</code> and prints in <code>TV/Base/Dark</code> — the only one that inverts — and it is the only one whose label is set in capitals.',
     'The copy is inconsistent in the file and is reproduced as found: <em>Multiple Choice (A-D)</em> and <em>Free Text Entry</em> are capitalised, <em>numeric input</em>, <em>voice input</em>, <em>time-limited</em> and <em>up/down select</em> are not.',
     'Every variant\'s text layer is still named <code>Multiple Choice (A-D)</code> in Figma, whatever it says — they were duplicated and retyped.',

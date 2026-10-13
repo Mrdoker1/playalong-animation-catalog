@@ -14,7 +14,8 @@ import {
 } from './ui/navigation';
 import {
   Logo, LogoWithText, Subtract, Confetti, TrophiesThumbnail, InputFieldWeb,
-  AnswerBox, AttemptsBox,
+  AnswerBox, AttemptsBox, AnswerOptionsList, CardSharksQuestion, GameKeyboard,
+  RewardUnlockedContainer, LoadingState,
 } from './ui/brand';
 import {
   Reward, AvatarTile, RewardTrack, RewardTrackFirst,
@@ -36,16 +37,17 @@ export const COMPONENTS: ComponentModule[] = [
   MenuItem, CollapsedMenu, ExpandedMenu, MenuOverlay, TabsItem, Tabs, Dots,
   // Identity
   AvatarPicture, AvatarTile, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
-  Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail,
+  Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail, RewardUnlockedContainer,
   // Content
   IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
   HorizontalRailCard, VerticalRailCard, SearchListItem, SearchListItemImage,
   SectionTrending, SectionWatchMore, Logo, LogoWithText, Subtract,
   // Feedback
-  InputMessages, Mic, NotificationMessage, Confetti,
+  InputMessages, Mic, NotificationMessage, Confetti, LoadingState,
   // Game
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, HigherLower, HigherLowerNote,
-  CardBox, AnswerOption, AnswerBox, AttemptsBox, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
+  CardBox, AnswerOption, AnswerOptionsList, AnswerBox, AttemptsBox, GameKeyboard,
+  CardSharksQuestion, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
 ];
 
 export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({

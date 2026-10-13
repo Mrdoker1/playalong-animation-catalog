@@ -91,6 +91,7 @@ export const Tag: ComponentModule = {
     { label: 'Info', el: () => h(`<span class="c-tag c-tag--info">Guest</span>`) },
   ],
   notes: [
+    '<code>12563:16830</code> is an <em>instance</em> of this, not a component of its own — it sits in the Game Type Tags Row. Nothing extra to draw.',
     '<strong>Game Type</strong> is the sixth type and is not here: in the file it is an empty wrapper around the separate <code>Game Type Tag</code> component, so it has no appearance of its own.',
     '<code>Interactive</code> uses a Material icon ligature in the file (<code>gamepad</code>, 16px) rather than the icon component; the set\'s own <code>Gamepad</code> is used here.',
   ],
