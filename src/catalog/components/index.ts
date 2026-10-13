@@ -2,11 +2,22 @@ import type { CatalogEntry } from '../types';
 import type { ComponentModule } from './types';
 import { createComponentCard } from './ComponentCard';
 import { Button, Tag, Toggle, TabsItem, Checkbox, Dots } from './ui/controls';
+import {
+  MenuItem, GameTypeTag, AvatarPicture, UserAvatar, AvatarLabel, UnlockedCounter,
+  SelectionRadio, InputMessages, StrikeBox, Attempt, RewardTypeIcon, PlayerThumbnail,
+} from './ui/identity';
 
 export const COMPONENTS: ComponentModule[] = [
-  Button, Toggle, Checkbox,      // Controls
-  TabsItem, Dots,                // Navigation
-  Tag,                           // Content
+  // Controls
+  Button, Toggle, Checkbox, SelectionRadio,
+  // Navigation
+  MenuItem, TabsItem, Dots,
+  // Identity
+  AvatarPicture, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
+  // Content
+  Tag, GameTypeTag, PlayerThumbnail,
+  // Feedback / game
+  InputMessages, Attempt, StrikeBox,
 ];
 
 export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({
