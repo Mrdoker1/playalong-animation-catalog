@@ -364,7 +364,9 @@ function elNode(e: El, focused: boolean): HTMLElement {
       wrap.innerHTML = icon(e.name, e.size);
       break;
     case 'input':
-      wrap.appendChild(input(focused ? focusState(e.state) : restState(e.state), esc(e.s), e.msg));
+      // `null` icon: the component has a leading icon at 50%, and every auth
+      // screen turns it off.
+      wrap.appendChild(input(focused ? focusState(e.state) : restState(e.state), esc(e.s), e.msg, null));
       break;
     case 'btn':
       wrap.classList.add('flow__btn');
@@ -385,7 +387,7 @@ function elNode(e: El, focused: boolean): HTMLElement {
       wrap.innerHTML = `<span class="c-check is-focusring"><span class="c-check__box"></span></span><span>${esc(e.s)}</span>`;
       break;
     case 'kb':
-      wrap.appendChild(keyboard('a'));
+      wrap.appendChild(keyboard('letters', 'a'));
       break;
     case 'qr':
       wrap.classList.add('flow__qr');
