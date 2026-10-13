@@ -10,6 +10,9 @@ import {
   SelectionRadio, InputMessages, StrikeBox, Attempt, RewardTypeIcon, PlayerThumbnail,
 } from './ui/identity';
 import {
+  CollapsedMenu, ExpandedMenu, MenuOverlay, Tabs, GameTypeTagsRow,
+} from './ui/navigation';
+import {
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox,
   AnswerOption, VideoPlayerButtons,
 } from './ui/game';
@@ -18,11 +21,11 @@ export const COMPONENTS: ComponentModule[] = [
   // Controls
   Button, Input, InputWeb, Keyboard, Toggle, Checkbox, CheckboxMessage, SelectionRadio,
   // Navigation
-  MenuItem, TabsItem, Dots,
+  MenuItem, CollapsedMenu, ExpandedMenu, MenuOverlay, TabsItem, Tabs, Dots,
   // Identity
   AvatarPicture, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
   // Content
-  IconSet, Tag, GameTypeTag, PlayerThumbnail, VideoPlayerButtons,
+  IconSet, Tag, GameTypeTag, GameTypeTagsRow, PlayerThumbnail, VideoPlayerButtons,
   // Feedback
   InputMessages, Mic,
   // Game
