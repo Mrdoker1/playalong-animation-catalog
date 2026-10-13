@@ -37,11 +37,17 @@ injectStyle('css-flow-auth', `
 .flow__logo { width: 200px; height: 45px; }
 .flow__logo img { width: 100%; height: 100%; display: block; }
 
-.flow__d-xl { ${T('display-xl')}; margin: 0; }
-.flow__d-l  { ${T('display-l')}; margin: 0; }
-.flow__h-l  { ${T('heading-l')}; margin: 0; white-space: pre-line; }
-.flow__h-m  { ${T('heading-m')}; margin: 0; color: var(--tv-base-light); }
-.flow__b-l  { ${T('body-l')}; margin: 0; color: var(--tv-base-light); }
+/* Figma positions a text node by the top of its GLYPH box; CSS positions it by
+   the top of its LINE box, and the two differ by half the leading. Without the
+   correction every heading sits lower than the file has it -- which is what put
+   the tick on "Let's Play!" above its own words instead of beside them. The
+   offset is (line-height - glyph height) / 2 and is constant per style, so it
+   holds for a wrapped block as well as a single line. */
+.flow__d-xl { ${T('display-xl')}; margin: -10.5px 0 0; }   /* 96/88, glyphs 67 */
+.flow__d-l  { ${T('display-l')};  margin: -21.5px 0 0; }   /* 64/88, glyphs 45 */
+.flow__h-l  { ${T('heading-l')};  margin: -1px 0 0; white-space: pre-line; }
+.flow__h-m  { ${T('heading-m')};  margin: -1px 0 0; color: var(--tv-base-light); }
+.flow__b-l  { ${T('body-l')};     margin: -11px 0 0; color: var(--tv-base-light); }
 
 .flow__tabs { display: flex; gap: 24px; }
 .flow__tabs .c-tab { width: 343px; }

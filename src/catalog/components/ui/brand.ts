@@ -45,12 +45,12 @@ injectStyle('css-c-brand', `
 .c-inputfield--disabled { background: rgb(255 255 255 / .16);
   box-shadow: inset 0 0 0 1px #6e7277; color: #6e7277; }
 
-.c-panel { box-sizing: border-box; border-radius: 24px; padding: 40px;
+.c-gpanel { box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
   color: var(--tv-base-light); }
-.c-panel__label { font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
+.c-gpanel__label { font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
   font-size: var(--type-game-s-size); }
-.c-panel__slot { border-radius: 8px; background: var(--tv-transparent-white-6); }
+.c-gpanel__slot { border-radius: 8px; background: var(--tv-transparent-white-6); }
 `);
 
 /* ------------------------------------------------------------------- Logo */
@@ -151,10 +151,12 @@ export const TrophiesThumbnail: ComponentModule = {
   variants: [
     { label: 'Empty', el: () => h(`<div class="c-trophies">
         ${icon('Prize Outline', 64)}
-        <span class="c-trophies__slot"></span></div>`) },
+        <span class="c-trophies__h">Your trophies will appear here</span>
+        <span class="c-trophies__p">Earn trophies by playing games and completing challenges.</span>
+      </div>`) },
   ],
   notes: [
-    '<strong>Its text frames are empty in the file.</strong> The 1072 × 75 block under the icon holds no characters, so the empty-state copy is not here — which matters, because the copy that <em>is</em> quoted elsewhere, <em>"Earn trophies by playing games and completing challenges"</em>, is the only place the word <strong>challenges</strong> appears in the whole product. Nothing defines a challenge; the nearest real thing is a Mission, which is post-MVP. <strong>Build nothing from that sentence.</strong>',
+    '<strong>This is where the word <em>challenges</em> comes from.</strong> The second line reads <em>"Earn trophies by playing games and completing challenges."</em> — the only place in the whole product that word appears. Nothing defines a challenge; the nearest real thing is a Mission, which is post-MVP. <strong>Build nothing from that sentence.</strong>',
     '1664 is the content inner width — the content block less its 96 right margin. So this fills the column exactly.',
   ],
 };
@@ -184,37 +186,60 @@ export const InputFieldWeb: ComponentModule = {
 
 export const AnswerBox: ComponentModule = {
   id: 'c-answer-box', title: 'Answer Box', group: 'Game', figma: '2565:2734',
-  description: '768 × 317 — the question over the field the player answers it in, on the dark game panel.',
-  tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light'], type: [] },
+  description: '768 × 317 — how many answers are found, then the one being given, over a blue glow.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Yellow', 'TV/Button/Primary Solid'],
+    type: ['Game/S', 'Game/M'],
+  },
   wide: true,
   variants: [
-    { label: 'Default', el: () => h(`<div class="c-panel" style="width:768px;height:317px;display:flex;flex-direction:column;gap:33px;justify-content:center">
-        <span class="c-panel__slot" style="height:38px"></span>
-        <span class="c-panel__slot" style="height:100px"></span></div>`) },
+    { label: 'Default', el: () => answerBox('Answer...', 'ph') },
+    { label: 'Typed', el: () => answerBox('ABC') },
+    { label: 'Two Lines', el: () => answerBox('ABCDEFGHIGKLMNOPQRST', 'two') },
   ],
   notes: [
-    '<strong>Its three variants are identical except for a 6px shift of one image.</strong> <code>Default</code>, <code>Typed</code> and <code>Two Lines</code> have the same frames at the same sizes; only <code>image 171</code> moves from x = 6 to x = 0 and y = 189 to 196. Whatever distinguishes them is not drawn. <strong>Needs the real states.</strong>',
-    'The question row and the answer row are <strong>empty instance slots</strong> in the file, so there is no copy to show. Drawn as the slots they are rather than filled with invented text.',
-    'The panel is <code>Transparent/Dark 80</code> — the game layer\'s standard surface, shared with Higher/Lower, the Note and Attempts Box.',
+    '<strong>The count is two sizes and two colours in one line</strong>: <em>FOUND</em> at 32 in white, <em>2/5</em> at 40 in <code>Game UI/Yellow</code>, sharing a baseline.',
+    'The answer is <strong>64px, dropping to 48 when it does not fit on one line</strong> — which is what the <code>Two Lines</code> variant is. A size change, drawn as a separate variant rather than as text that wraps.',
+    'The placeholder reads <code>Answer...</code> in three full stops rather than an ellipsis, dimmed. The same three-dot habit as the loading sentence.',
+    'The blue rule under the answer is a raster glow in the file, bound to no token. Rebuilt in CSS from <code>Primary Solid</code> so it recolours; the file\'s is a picture.',
   ],
 };
 
+/** Two found, then the misses. The file draws ten rows and repeats "drink". */
+const ATTEMPTS: [string, boolean][] = [
+  ['sleep', true], ['tv', true], ['run', false], ['walk', false], ['drink', false],
+  ['drink', false], ['drink', false], ['drink', false], ['drink', false], ['drink', false],
+];
+
 export const AttemptsBox: ComponentModule = {
   id: 'c-attempts-box', title: 'Attempts Box', group: 'Game', figma: '2565:2667',
-  description: '248 × 819 — the tall column of the player\'s tries, beside the answer options.',
-  tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light'], type: ['Game/S'] },
-  wide: true,
+  description: '248 × 819 — every answer the player has tried, the matches green and the misses dark red.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Green 1', 'TV/Game UI/Red 2'],
+    type: ['Game/S'],
+  },
   variants: [
-    { label: 'Default', el: () => h(`<div class="c-panel" style="width:248px;height:819px;display:flex;flex-direction:column;gap:24px">
-        <span class="c-panel__label">attemps</span>
-        <span class="c-panel__slot" style="flex:1"></span></div>`) },
+    { label: 'Two found, eight missed', el: () => h(`<div class="c-attempts">
+        <span class="c-game-upper" style="font-family:var(--type-game-s-family);font-weight:var(--type-game-s-weight);font-size:var(--type-game-s-size)">attemps</span>
+        <div style="display:flex;flex-direction:column">${
+          ATTEMPTS.map(([w, hit]) =>
+            `<span class="c-attempts__row c-attempts__row--${hit ? 'hit' : 'miss'}">${w}</span>`).join('')}</div>
+      </div>`) },
   ],
   notes: [
-    '<strong>The heading is spelled <code>attemps</code></strong> — the <em>t</em> is missing. It is the only visible word in the component. <strong>A file defect.</strong>',
-    'It is also lower case, bound to <code>Game/S</code> (Roboto Condensed Semibold 32), which has no case transform. Whether the game layer is lower case by design is not written down anywhere.',
-    'The list below the heading is an empty 168 × 660 frame — the attempts themselves are the <code>Attempt</code> component, which the catalog has separately.',
+    '<strong>The heading is spelled <code>attemps</code></strong> — the <em>t</em> is missing. <strong>A file defect</strong>, and it is the component\'s title on screen.',
+    '<strong>Every string here is lower case in the file and renders in capitals</strong>, because the nodes carry <code>textCase: UPPER</code>. So the game layer does transform case — through the node, not through the text style. Anything generating from the styles alone gets this wrong.',
+    'A match is <code>Game UI/Green 1</code>; a miss is <code>Game UI/Red 2</code>, the darker of the two reds. The list is ten rows deep and the file repeats <em>drink</em> six times to fill it.',
   ],
 };
+
+/** FOUND n/m over the answer, with the glow under it. */
+const answerBox = (value: string, kind?: 'ph' | 'two') =>
+  h(`<div class="c-abox">
+      <span class="c-abox__found">Found <b>2/5</b></span>
+      <span class="c-abox__value${kind === 'two' ? ' c-abox__value--two' : ''}${kind === 'ph' ? ' c-abox__value--ph' : ''}">${value}</span>
+      <span class="c-abox__rule"></span>
+    </div>`);
 
 /* ------------------------------------------------- List of answer Options */
 
@@ -230,6 +255,7 @@ injectStyle('css-c-last', `
 .c-opt--blue  { background: var(--gradient-tv-status-wait); border: 2px solid var(--tv-button-primary-solid); }
 .c-opt__n { width: 24px; text-align: center; }
 .c-opt__rule { width: 2px; align-self: stretch; background: var(--tv-button-secondary); }
+.c-opt__text, .c-opt__n, .c-opt__score { text-transform: uppercase; }
 .c-opt__text { flex: 1; font-family: var(--type-game-s-family);
   font-weight: var(--type-game-s-weight); font-size: var(--type-game-s-size); }
 .c-opt.is-hidden .c-opt__text, .c-opt.is-hidden .c-opt__score { opacity: 0; }
@@ -243,12 +269,68 @@ injectStyle('css-c-last', `
   color: var(--tv-base-light); font-family: var(--type-heading-l-family);
   font-weight: var(--type-heading-l-weight); font-size: var(--type-heading-l-size); }
 
-.c-unlocked { width: 1100px; box-sizing: border-box; padding: 40px;
+.c-rwpop { width: 1100px; box-sizing: border-box; padding: 40px;
   display: flex; flex-direction: column; align-items: center; gap: 64px;
   color: var(--tv-base-light); }
-.c-unlocked__h { font-family: var(--type-display-l-family);
+.c-rwpop__h { font-family: var(--type-display-l-family);
   font-weight: var(--type-display-l-weight); font-size: var(--type-display-l-size); }
-.c-unlocked__art { width: 281px; height: 281px; }
+.c-rwpop__art { width: 281px; height: 281px; object-fit: contain; }
+.c-rwpop { align-items: stretch; }
+.c-rwpop__h { align-self: flex-start; }
+.c-rwpop__art, .c-rwpop__name, .c-rwpop .c-btn { align-self: center; }
+.c-rwpop__name { display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--type-heading-l-family); font-weight: var(--type-heading-l-weight);
+  font-size: 36px; }
+.c-trophies__h { font-family: var(--type-heading-l-family);
+  font-weight: var(--type-heading-l-weight); font-size: 36px; }
+.c-trophies__p { font-family: var(--type-body-l-family); font-size: 24px;
+  color: var(--tv-text-primary); }
+
+/* The game layer sets textCase UPPER on its nodes, so a lower-case string in
+   Figma renders in capitals. That is why the heading reads ATTEMPS. */
+.c-game-upper { text-transform: uppercase; }
+.c-attempts { width: 248px; height: 819px; box-sizing: border-box; border-radius: 24px;
+  padding: 40px; background: var(--tv-transparent-dark-80);
+  border: 1px solid var(--tv-border-white-20);
+  display: flex; flex-direction: column; gap: 24px; }
+.c-attempts__row { height: 47px; display: flex; align-items: center;
+  font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
+  font-size: var(--type-game-s-size); text-transform: uppercase;
+  border-bottom: 1px solid var(--tv-transparent-white-10); }
+.c-attempts__row--hit  { color: var(--tv-game-ui-green-1); }
+.c-attempts__row--miss { color: var(--tv-game-ui-red-2); }
+
+.c-abox { width: 768px; height: 317px; box-sizing: border-box; border-radius: 24px;
+  padding: 40px; background: var(--tv-transparent-dark-80);
+  border: 1px solid var(--tv-border-white-20);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 33px; color: var(--tv-base-light); }
+.c-abox__found { display: flex; align-items: baseline; gap: 8px; text-transform: uppercase;
+  font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
+  font-size: 32px; }
+.c-abox__found b { font-size: 40px; color: var(--tv-game-ui-yellow); font-weight: inherit; }
+.c-abox__value { font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
+  font-size: 64px; line-height: 1.1; text-align: center; }
+.c-abox__value--two { font-size: 48px; }
+.c-abox__value--ph { color: var(--tv-text-muted); }
+/* The blue rule under the answer is an image in the file; drawn as the glow it is. */
+.c-abox__rule { width: 624px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--tv-button-primary-solid), transparent);
+  box-shadow: 0 0 24px 6px rgb(0 144 255 / .45); }
+
+.c-gkb { box-sizing: border-box; border-radius: 24px; padding: 40px;
+  background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
+  position: relative; color: var(--tv-base-light); }
+.c-gkb__k { position: absolute; box-sizing: border-box; border-radius: 8px;
+  background: var(--tv-base-neutral); display: grid; place-items: center;
+  font-family: var(--type-heading-s-family); font-size: 24px; }
+.c-gkb__k--on { background: var(--tv-base-light); color: var(--tv-base-dark); }
+.c-gkb__a { position: absolute; height: 72px; box-sizing: border-box; border-radius: 12px;
+  display: grid; place-items: center; font-family: var(--type-body-l-family); font-size: 24px; }
+.c-gkb__a--skip { background: var(--tv-button-secondary);
+  border: 1px solid var(--tv-border-white-20); }
+.c-gkb__a--go { background: var(--gradient-tv-button-primary);
+  border: 1px solid var(--tv-button-primary-solid); }
 `);
 
 const OPTS: [string, string][] = [
@@ -280,6 +362,7 @@ export const AnswerOptionsList: ComponentModule = {
   notes: [
     '<strong>A hidden answer is still in the file, at opacity 0.</strong> Rows five to eight carry real text and a real score with their opacity set to zero, not blanked. Anything exporting this — or inspecting the DOM of a client built from it — reads the answers before the player finds them. <strong>Flag to engineering: the hidden rows must not ship their text.</strong>',
     'Seven of the eight rows are named <code>Answerr option</code>, with two r\'s; the fourth is <code>Answer Option</code>. Eight instances, two spellings, neither matching the component.',
+    'Every label is <strong>lower case in the file and renders in capitals</strong> — <code>textCase: UPPER</code> on the node, not in the text style. The same trick the Attempts Box uses.',
     'Green is <code>TV/Status/Success</code> with a <code>Game UI/Green 1</code> edge, blue is <code>TV/Status/Wait</code> with a <code>Primary Solid</code> edge. So found and not-yet-found are the same two gradients the rest of the game layer uses for success and waiting.',
   ],
 };
@@ -290,10 +373,10 @@ export const CardSharksQuestion: ComponentModule = {
   tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral'], type: [] },
   variants: [
     { label: 'Default', el: () => h(`<div style="display:flex;flex-direction:column;gap:16px;width:418px">
-        <div class="c-panel" style="height:86px;padding:24px 40px"></div>
-        <div class="c-hl">
-          <div class="c-hl__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
-          <div class="c-hl__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
+        <div class="c-gpanel" style="height:86px;padding:24px 40px"></div>
+        <div class="c-hlpanel">
+          <div class="c-hlpanel__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
+          <div class="c-hlpanel__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
         </div></div>`) },
   ],
   notes: [
@@ -302,27 +385,78 @@ export const CardSharksQuestion: ComponentModule = {
   ],
 };
 
+/**
+ * The six in-game layouts, keyed off the measured positions rather than a grid:
+ * the file does not align them to one another, and the gaps differ per layout.
+ */
+type GKey = [x: number, y: number, w: number, h: number, label: string, on?: 1];
+const GKB: Record<string, { w: number; h: number; keys: GKey[]; acts: GKey[] }> = {
+  'Default': { w: 848, h: 384, keys: [
+    ...[...'QWERTYUIOP'].map((c, i) => [68 + i * 72, 40, 64, 64, c] as GKey),
+    ...[...'ASDFGHJKLZ'].map((c, i) => [68 + i * 72, 112, 64, 64, c] as GKey),
+    ...[...'XCVBNM'].map((c, i) => [104 + i * 72, 184, 64, 64, c] as GKey),
+  ], acts: [[74, 272, 278, 72, 'Skip'], [496, 272, 278, 72, 'Submit Answer', 1]] },
+
+  'Letters with Digit': { w: 1010, h: 384, keys: [
+    ...[...'QWERTYUIOP'].map((c, i) => [40 + i * 72, 40, 64, 64, c] as GKey),
+    ...[...'123'].map((c, i) => [763 + i * 71, 40, 64, 64, c] as GKey),
+    ...[...'ASDFGHJKLZ'].map((c, i) => [41 + i * 72, 112, 64, 64, c] as GKey),
+    ...[...'456'].map((c, i) => [762 + i * 72, 112, 64, 64, c] as GKey),
+    ...[...'XCVBNM'].map((c, i) => [76 + i * 72, 184, 64, 64, c] as GKey),
+    ...[...'978'].map((c, i) => [762 + i * 72, 184, 64, 64, c] as GKey),
+  ], acts: [[155, 272, 278, 72, 'Skip'], [577, 272, 278, 72, 'Submit Answer', 1]] },
+
+  'Numeric': { w: 700, h: 312, keys: [
+    ...[...'12345'].map((c, i) => [92 + i * 105, 40, 97, 64, c] as GKey),
+    ...[...'67890'].map((c, i) => [40 + i * 105, 112, 97, 64, c] as GKey),
+  ], acts: [[40, 200, 298, 72, 'Skip Question'], [362, 200, 298, 72, 'Submit Answer', 1]] },
+
+  'Multiselect': { w: 700, h: 240, keys: [
+    ['A', 0], ['B', 1], ['C', 2], ['D', 3],
+  ].map(([c, i]) => [40 + (i as number) * 157, 40, 149, 64, c as string, (i === 2 ? 1 : undefined)] as GKey),
+    acts: [[40, 128, 298, 72, 'Skip'], [362, 128, 298, 72, 'Submit Answer']] },
+
+  'Coordinate Input': { w: 700, h: 312, keys: [
+    ...[...'ABCD'].map((c, i) => [40 + i * 157, 40, 149, 64, c] as GKey),
+    ...[...'1234'].map((c, i) => [40 + i * 157, 112, 149, 64, c] as GKey),
+  ], acts: [[40, 200, 298, 72, 'Skip Question'], [362, 200, 298, 72, 'Submit Answer', 1]] },
+
+  'Voice': { w: 780, h: 384, keys: [],
+    acts: [[40, 272, 278, 72, 'Skip'], [462, 272, 278, 72, 'Submit Answer']] },
+};
+
+const gameKeyboard = (type: keyof typeof GKB) => {
+  const L = GKB[type];
+  const key = ([x, y, w, ht, label, on]: GKey, cls: string) =>
+    `<span class="${cls}${on ? (cls === 'c-gkb__a' ? ' c-gkb__a--go' : ' c-gkb__k--on') : (cls === 'c-gkb__a' ? ' c-gkb__a--skip' : '')}"
+       style="left:${x}px;top:${y}px;width:${w}px;height:${ht}px">${label}</span>`;
+  return h(`<div class="c-gkb" style="width:${L.w}px;height:${L.h}px">
+      ${L.keys.map((k) => key(k, 'c-gkb__k')).join('')}
+      ${L.acts.map((k) => key(k, 'c-gkb__a')).join('')}
+      ${type === 'Voice'
+        ? `<div class="c-kb__mic" style="position:absolute;left:309px;top:40px">
+             <span class="c-kb__halo"><span><span>${icon('Mic', 44)}</span></span></span>
+             <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span></div>`
+        : ''}
+    </div>`);
+};
+
 export const GameKeyboard: ComponentModule = {
   id: 'c-game-keyboard', title: 'Keyboard (game)', group: 'Game', figma: '2565:2733',
-  description: 'The in-game input panel, in six shapes — one per way a game can ask for an answer.',
-  tokens: { colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20'], type: [] },
+  description: 'The in-game input panel, in six shapes — one per way a game can ask for an answer. Every layout ends in Skip and Submit Answer.',
+  tokens: {
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Neutral', 'TV/Base/Light', 'TV/Button/Secondary', 'TV/Button/Primary'],
+    type: ['Heading/S', 'Body/L'],
+  },
   wide: true,
-  variants: ([
-    ['Letters with Digit', 1010, 384], ['Default', 848, 384], ['Voice', 780, 384],
-    ['Numeric', 700, 312], ['Coordinate Input', 700, 312], ['Multiselect', 700, 240],
-  ] as [string, number, number][]).map(([label, w, ht]) => ({
-    label, el: () => h(`<div class="c-panel" style="width:${w}px;height:${ht}px;display:flex;flex-direction:column;gap:24px">
-      ${label === 'Voice'
-        ? `<div class="c-kb__mic" style="margin:0 auto"><span class="c-kb__halo"><span><span>${icon('Mic', 44)}</span></span></span>
-           <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span></div>`
-        : `<span class="c-panel__slot" style="flex:1"></span>`}
-      <span class="c-panel__slot" style="height:72px"></span></div>`),
-  })),
+  variants: (['Default', 'Letters with Digit', 'Numeric', 'Multiselect', 'Coordinate Input', 'Voice'] as const)
+    .map((t) => ({ label: t, el: () => gameKeyboard(t) })),
   notes: [
-    '<strong>It is a different keyboard from <code>Email Keyboard</code> entirely</strong> — dark panel at <code>Transparent/Dark 80</code> rather than the <code>Base/Neutral</code> slab, radius 24 rather than 12, and six input kinds rather than six letter layouts. Two components called keyboard, sharing nothing.',
-    'Its six types line up with the six tags in <code>Game Type Tags Row</code> — multiple choice, numeric, free text, up/down, voice, time-limited. <strong>Nearly:</strong> the keyboard has <em>Coordinate Input</em> and <em>Multiselect</em>, and no up/down or time-limited. Two lists of six that do not match.',
-    'Every type\'s key area is an <strong>empty slot frame</strong> in the file, so there are no keys to draw. The panel sizes and the 72 action row are the real measurements; the inside is not drawn.',
-    '<code>Voice</code> holds the <code>Mic</code> component, which the catalog has on its own.',
+    '<strong>It is a different keyboard from <code>Email Keyboard</code> entirely</strong> — a dark panel at <code>Transparent/Dark 80</code> radius 24 with 64 × 64 keys at radius 8, against the <code>Base/Neutral</code> slab with 95 × 90 square keys. Two components called keyboard, sharing nothing.',
+    'Its letters are <strong>QWERTY</strong> while the Email Keyboard is <strong>alphabetical</strong>. Same product, two orders.',
+    '<strong>The rows do not align to one grid.</strong> <code>Default</code> starts its top row at x = 68 and <code>Letters with Digit</code> at 40; the second row of the latter starts at 41, one pixel off its own first row. Measured positions, kept as they are.',
+    'Its six kinds nearly match the six <code>Game Type Tags</code> — but the keyboard has <em>Coordinate Input</em> and <em>Multiselect</em> and no up/down or time-limited. Two lists of six that do not match.',
+    '<code>Submit Answer</code> is the primary gradient on four layouts and a plain white button on <code>Multiselect</code> and <code>Voice</code>. <strong>Worth reconciling.</strong>',
   ],
 };
 
@@ -332,14 +466,19 @@ export const RewardUnlockedContainer: ComponentModule = {
   tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid'], type: ['Display/L'] },
   wide: true,
   variants: [
-    { label: 'Reward unlocked!', el: () => h(`<div class="c-unlocked">
-        <span class="c-unlocked__h">Reward unlocked!</span>
-        <span class="c-unlocked__art"><span class="c-badge" style="width:281px;height:281px;background-image:url(assets/components/badges.png);background-size:843px 562px;background-position:-562px -281px"></span></span>
-        <span class="c-btn c-btn--primary is-focus" style="width:240px">Claim</span></div>`) },
+    { label: 'Reward unlocked!', el: () => h(`<div class="c-rwpop">
+        <span class="c-rwpop__h">Reward unlocked!</span>
+        <img class="c-rwpop__art" src="assets/components/frame-gold.png" alt="" width="281" height="281">
+        <span class="c-rwpop__name">
+          <img src="assets/components/star-gold.png" alt="" width="44" height="44">
+          Gold Wings
+          <img src="assets/components/star-gold.png" alt="" width="44" height="44"></span>
+        <span class="c-btn c-btn--primary is-focus" style="width:240px">Awesome!</span></div>`) },
   ],
   notes: [
     '<strong><code>Container</code> is not a name.</strong> It is the popup that celebrates a claimed reward — the moment the whole Spotlight loop is built around — and it is called the same thing as every anonymous wrapper frame in the file. <strong>Worth renaming.</strong>',
-    'Its art slot and its button label are <strong>empty instances</strong>, so neither the reward shown nor the button\'s word is in the file. <em>Claim</em> here is this rebuild\'s, not a measurement — the glossary says a player <em>claims</em> an unlocked reward in a deliberate action, which is what this button must be.',
+    'The button says <strong><em>Awesome!</em></strong>, not <em>Claim</em>. Worth noting against the glossary, which has the player <em>claim</em> an unlocked reward in a deliberate action — the word the product uses for the act is not the word on the button that performs it.',
+    'The heading is <strong>left-aligned at 40/40</strong> while everything under it is centred. The art is the Gold Wings frame at 281, and the reward\'s name sits between two gold stars.',
     'The <code>Confetti</code> component is the other half of this moment and is a separate node; nothing in the file joins them.',
   ],
 };

@@ -505,7 +505,13 @@ select:focus, input:focus { border-color: var(--accent); }
    size, so without this a 1704-wide component simply widens its own column and
    nothing ever looks too big to fit. */
 .variant { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; min-width: 0; }
-.variant__slot { display: flex; align-items: center; min-height: 72px; }
+/* The padding is not decoration: Figma strokes focus rings OUTSIDE the box, so
+   a ring sits beyond the element's border-box and anything that clips -- the
+   `overflow-x: auto` below, or the `overflow: hidden` fit() sets on a scaled
+   slot -- cuts it off. 10 clears the widest ring in the set (Avatar Tile, 9).
+   The negative margin keeps the layout where it was. */
+.variant__slot { display: flex; align-items: center; min-height: 72px;
+  padding: 10px; margin: -10px; }
 .variant__label { font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
 
 .comp__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 22px; }
@@ -520,9 +526,12 @@ select:focus, input:focus { border-color: var(--accent); }
 .token-chip--type { border-left: 3px solid #2da66b; }
 .token-chip--none { opacity: .5; }
 .variants--wide { grid-template-columns: 1fr; }
-.variants--wide .variant__slot { display: block; overflow-x: auto; max-width: 100%; padding-bottom: 6px; }
+.variants--wide .variant__slot { display: block; overflow-x: auto; max-width: 100%;
+  padding-bottom: 16px; }
 .variants--wide .variant { width: 100%; align-items: stretch; }
-.variants--wide .variant__slot > * { width: 100%; }
+/* NOT `width: 100%` on the child. A component has a real width -- the Input is
+   710, the rail card 400 -- and stretching it to the card is how a 710-wide
+   field came to look full-bleed with its ring cut off. */
 
 /* A token arrived at from a component's chip */
 .swatch.is-hit, .specimen.is-hit {

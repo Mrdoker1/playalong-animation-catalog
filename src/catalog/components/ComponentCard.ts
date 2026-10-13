@@ -74,8 +74,22 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
   // NOT a ResizeObserver on `host`: fit() changes sizes inside host, which
   // re-triggers the observer, which the browser then aborts as a loop -- and it
   // aborts it right after fit() has reset the transforms, so nothing is scaled.
-  requestAnimationFrame(() => fit(host));
-  const onResize = () => requestAnimationFrame(() => fit(host));
+  const refit = () => requestAnimationFrame(() => fit(host));
+  refit();
+
+  // Fit once more when the things that change a measurement have actually
+  // arrived. A first fit runs against fallback metrics: web fonts are still
+  // loading, so a Roboto Condensed label measures short, and an <img> with no
+  // intrinsic size measures zero. fit() then writes those wrong numbers into
+  // `slot.style.height` with `overflow: hidden`, and the component is clipped
+  // for good -- which is exactly how the reward popup came to be a thin strip
+  // with its heading hanging out.
+  if (document.fonts && document.fonts.ready) void document.fonts.ready.then(refit);
+  for (const img of root.querySelectorAll('img')) {
+    if (!img.complete) img.addEventListener('load', refit, { once: true });
+  }
+
+  const onResize = () => refit();
   window.addEventListener('resize', onResize);
   (root as HTMLElement & { __destroy?: () => void }).__destroy =
     () => window.removeEventListener('resize', onResize);

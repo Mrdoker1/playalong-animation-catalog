@@ -52,6 +52,13 @@ injectStyle('css-c-menu', `
 .c-overlay__label.is-on { opacity: 1; }
 .c-overlay__ring { position: absolute; left: 47px; top: 246px; width: 250px; height: 64px;
   border-radius: 12px; box-shadow: inset 0 0 0 6px var(--tv-focus-ring-color); }
+/* Collapsed until it has focus. The ramp and the labels fade in; the rail does
+   not move, which is the whole point of PTV-858. */
+.c-overlay--live { outline: none; cursor: pointer; }
+.c-overlay--live .c-overlay__ramp { opacity: 0; transition: opacity 180ms ease; }
+.c-overlay--live.is-open .c-overlay__ramp { opacity: 1; }
+.c-overlay--live .c-overlay__label { transition: opacity 180ms ease; }
+.c-overlay--live:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 `);
 
 /** Home, Search, Legal, Progression, Trophies — then Sign In, pinned to the bottom. */
@@ -80,74 +87,99 @@ const LOGO_MARK = `<img src="assets/flows/mark.svg" alt="PlayAlong" style="width
 /** The full wordmark, 224 x 50, as the expanded menu carries it. */
 const LOGO_WORDMARK = `<img src="assets/flows/logo.svg" alt="PlayAlong" style="width:224px;height:50px;display:block">`;
 
-export const CollapsedMenu: ComponentModule = {
-  id: 'c-menu-collapsed', title: 'Collapsed Menu', group: 'Navigation', figma: '772:7012',
-  description: '160 × 1080, 96 top and bottom. The mark, then five 96 × 64 items on a 24 gap, and Sign In at the foot.',
+/**
+ * One component, not three. `Collapsed Menu`, `Expanded Menu` and `Overlay` are
+ * three nodes in Figma describing one thing on screen, and the only way to see
+ * whether the rule holds -- the rail never widens, the content never shifts --
+ * is to drive it.
+ */
+export const Menu: ComponentModule = {
+  id: 'c-menu', title: 'Menu', group: 'Navigation', figma: '11561:15402',
+  description: 'The rail at 160, the labels that appear beside it, and the ramp that dims the content. Three Figma nodes, one behaviour.',
   tokens: {
-    colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid'],
-    type: [],
-  },
-  wide: true,
-  variants: [{ label: 'Home selected', el: () => menu(false, 0) }],
-  notes: [
-    '<strong>The unselected items sit at 50% opacity and radius 80; the selected one at full strength and radius 12.</strong> So selecting an item changes its corner from a pill to a rounded rectangle — the same unintended corner move the <code>Tabs Item</code> has.',
-    'The rail is the <strong>same 160 wide in both states</strong>, which is the whole point of PTV-858 and why the content never shifts.',
-    'The Sign In item is <strong>104 wide in the collapsed menu against 96 for the other five</strong>. An 8px difference on an item whose label is hidden. <strong>Probably a stray.</strong>',
-    'The mark here is drawn from the <code>Subtract</code> vector rather than exported, because the exported file carries its own backdrop. The expanded menu uses the real wordmark SVG.',
-  ],
-};
-
-export const ExpandedMenu: ComponentModule = {
-  id: 'c-menu-expanded', title: 'Expanded Menu', group: 'Navigation', figma: '772:6986',
-  description: '340 × 1080. The same five items at 276 wide, with their labels showing, and the full wordmark above them.',
-  tokens: {
-    colour: ['TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid'],
-    type: ['Body/L'],
-  },
-  wide: true,
-  variants: [{ label: 'Home selected', el: () => menu(true, 0) }],
-  notes: [
-    '<strong>340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is this menu plus its dimming ramp — see the next component. A screen that reserves 792 for the menu has read the wrong node.',
-    'The <code>Home</code> label is the one of the six that <strong>binds no text style</strong>; the other five bind <code>Body/L</code>. All six are 24px, so it looks right and exports differently.',
-    'Each item is 276 wide whatever its label, so <code>Legal</code> carries as much box as <code>Progression</code>. That is the same "one size from the longest label" rule the focus ring follows.',
-  ],
-};
-
-export const MenuOverlay: ComponentModule = {
-  id: 'c-menu-overlay', title: 'Menu Overlay', group: 'Navigation', figma: '11561:15402',
-  description: '792 × 1080 — the collapsed rail, the labels floating beside it, the focus ring, and the ramp that dims the content behind all of it.',
-  tokens: {
-    colour: ['TV/Base/Dark', 'TV/Base/Light', 'TV/Focus/Ring Color'],
+    colour: ['TV/Base/Dark', 'TV/Base/Light', 'TV/Button/Primary', 'TV/Button/Primary Solid', 'TV/Focus/Ring Color'],
     type: ['Body/L'],
   },
   wide: true,
   variants: [
-    { label: 'Trophies focused', el: () => {
-      const el = h(`<div class="c-overlay"><div class="c-overlay__behind"></div><div class="c-overlay__ramp"></div></div>`);
-      el.appendChild(menu(false, NaN));
-      const labels: [string, number][] = [
-        ['Home', 270], ['Search', 355], ['Legal', 446],
-        ['Progression', 534], ['Trophies', 621], ['Sign In', 943],
-      ];
-      for (const [t, y] of labels) {
-        const s = h(`<span class="c-overlay__label${t === 'Trophies' ? ' is-on' : ''}">${t}</span>`);
-        s.style.top = `${y - 7}px`;
-        el.appendChild(s);
-      }
-      const ring = h(`<span class="c-overlay__ring"></span>`);
-      ring.style.top = '246px';
-      el.appendChild(ring);
-      return el;
-    } },
+    { label: '▶ Live — click the rail, then ↑ ↓ and Esc', el: liveMenu },
+    { label: 'Collapsed Menu — 772:7012', el: () => menu(false, 0) },
+    { label: 'Expanded Menu — 772:6986', el: () => menu(true, 0) },
+    { label: 'Overlay — 11561:15402', el: drawnOverlay },
   ],
   notes: [
-    '<strong>This is what the expanded menu actually is on screen</strong>: the <em>collapsed</em> rail, with the six labels as loose text beside it rather than inside the items, over a 792-wide ramp. The <code>Expanded Menu</code> component is not what the frame uses.',
+    '<strong><code>Expanded Menu</code> is 340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is the <em>collapsed</em> rail with the six labels as loose text beside it over the dimming ramp. The expanded component is not what the screen uses, so anything reserving 792 for the menu has read the wrong node.',
+    'The rail is the <strong>same 160 wide open or shut</strong> — that is the whole of PTV-858, and why the content never shifts. The live variant is the only way to see it: watch the striped band behind the ramp stay put.',
     'The ramp is a horizontal gradient, not a flat panel: opaque <code>#040810</code>, <code>rgb(2,5,9)</code> at 80% at 43% of its width, fully transparent at the end. Measured on a device during PTV-858 — content keeps 39.9% of its luminance at x = 450 and 100% from x = 792.',
     'The focus ring is a single 250 × 64 rectangle at x = 47, <strong>one size for every item</strong>, taken from the longest label (<code>Progression</code>, 134 wide). It does not hug its own text — a ring that resized per item would flicker as focus moved, and on a D-pad the moving ring is the only feedback there is.',
-    'The striped band behind the ramp is this rebuild\'s, not the file\'s — it stands in for the content the ramp dims, which on a dark card would otherwise show nothing at all.',
-    'In this frame the <strong>ring is on Home but the full-strength label is Trophies</strong> — the labels carry their own opacity and two of them disagree about where focus is. <strong>A file defect.</strong> Drawn as the file has it.',
+    'In the drawn <code>Overlay</code> frame the <strong>ring is on Home but the full-strength label is Trophies</strong> — the labels carry their own opacity and two of them disagree about where focus is. <strong>A file defect</strong>, kept in the drawn variant and corrected in the live one, which has a single focus.',
+    'The unselected items sit at <strong>50% opacity and radius 80</strong>; the selected one at full strength and radius 12 — so selecting an item turns its corner from a pill into a rounded rectangle. The same unintended corner move the <code>Tabs Item</code> has.',
+    'In the collapsed rail the Sign In item is <strong>104 wide where the other five are 96</strong>. An 8px difference on an item whose label is hidden.',
+    'The striped band behind the ramp is this rebuild\'s, standing in for the content the ramp dims — on a dark card the gradient would otherwise show nothing at all.',
   ],
 };
+
+/** The six labels as the Overlay frame positions them, with its own focus bug. */
+const OVERLAY_LABELS: [string, number][] = [
+  ['Home', 270], ['Search', 355], ['Legal', 446],
+  ['Progression', 534], ['Trophies', 621], ['Sign In', 943],
+];
+
+function drawnOverlay(): HTMLElement {
+  const el = h(`<div class="c-overlay"><div class="c-overlay__behind"></div>
+      <div class="c-overlay__ramp"></div></div>`);
+  el.appendChild(menu(false, NaN));
+  for (const [t, y] of OVERLAY_LABELS) {
+    const sEl = h(`<span class="c-overlay__label${t === 'Trophies' ? ' is-on' : ''}">${t}</span>`);
+    sEl.style.top = `${y - 7}px`;
+    el.appendChild(sEl);
+  }
+  const ring = h(`<span class="c-overlay__ring"></span>`);
+  ring.style.top = '246px';
+  el.appendChild(ring);
+  return el;
+}
+
+/** Collapsed until it has focus; then the labels and the ramp come in. */
+function liveMenu(): HTMLElement {
+  const el = h(`<div class="c-overlay c-overlay--live" tabindex="0" role="navigation"
+      aria-label="Menu"><div class="c-overlay__behind"></div>
+      <div class="c-overlay__ramp"></div></div>`);
+  let open = false;
+  let at = 0;
+  const ITEMS = [...MENU, MENU_FOOT];
+
+  const draw = () => {
+    el.querySelectorAll('.c-menu, .c-overlay__label, .c-overlay__ring').forEach((n) => n.remove());
+    el.classList.toggle('is-open', open);
+    el.appendChild(menu(false, open ? -1 : 0));
+    if (!open) return;
+    ITEMS.forEach((m, i) => {
+      const lab = h(`<span class="c-overlay__label${i === at ? ' is-on' : ''}">${m.label}</span>`);
+      lab.style.top = `${(i === ITEMS.length - 1 ? 943 : 270 + i * 88) - 7}px`;
+      el.appendChild(lab);
+    });
+    const ring = h(`<span class="c-overlay__ring"></span>`);
+    ring.style.top = `${at === ITEMS.length - 1 ? 920 : 246 + at * 88}px`;
+    el.appendChild(ring);
+  };
+
+  const key = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === 'Enter') { open = true; }
+    else if (e.key === 'Escape' || e.key === 'ArrowLeft') { open = false; }
+    else if (e.key === 'ArrowDown') { open = true; at = (at + 1) % ITEMS.length; }
+    else if (e.key === 'ArrowUp') { open = true; at = (at - 1 + ITEMS.length) % ITEMS.length; }
+    else return;
+    e.preventDefault();
+    draw();
+  };
+  el.addEventListener('keydown', key);
+  el.addEventListener('focus', () => { open = true; draw(); });
+  el.addEventListener('blur', () => { open = false; draw(); });
+  el.addEventListener('click', () => el.focus());
+  draw();
+  return el;
+}
 
 /* -------------------------------------------------------------------- Tabs */
 

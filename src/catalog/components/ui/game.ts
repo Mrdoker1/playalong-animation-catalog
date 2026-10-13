@@ -256,14 +256,15 @@ export const VideoPlayerButtons: ComponentModule = {
 injectStyle('css-c-game2', `
 .c-stacked { width: 496px; height: 116px; box-sizing: border-box; border-radius: 48px;
   background: var(--tv-button-primary-solid); display: grid; place-items: center;
-  font-family: var(--type-game-m-family); font-size: 28px; color: var(--tv-base-light); }
+  font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
+  font-size: 28px; color: var(--tv-base-light); text-transform: uppercase; }
 .c-stacked--default { border: 12px solid var(--tv-game-ui-red-1); }
 .c-stacked--success { border: 12px solid var(--tv-text-gain); }
 
 .c-note { box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
   display: flex; flex-direction: column; gap: 8px; color: var(--tv-base-light); }
-.c-note__line { display: flex; align-items: center; gap: 16px;
+.c-note__line { display: flex; align-items: center; gap: 16px; white-space: nowrap;
   font-family: var(--type-heading-l-family); font-weight: var(--type-heading-l-weight);
   font-size: var(--type-heading-l-size); line-height: var(--type-heading-l-line); }
 .c-dkey { width: 64px; height: 64px; border-radius: 8px; background: var(--tv-base-light);
@@ -271,10 +272,11 @@ injectStyle('css-c-game2', `
 .c-dkey--up > svg { transform: rotate(-90deg); }
 .c-dkey--down > svg { transform: rotate(90deg); }
 
-.c-hl { width: 418px; box-sizing: border-box; border-radius: 24px; padding: 40px;
+/* NOT .c-hl -- that name already belongs to the Higher/Lower BUTTON above. */
+.c-hlpanel { width: 418px; box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
   display: flex; flex-direction: column; gap: 16px; }
-.c-hl__btn { height: 100px; box-sizing: border-box; border-radius: 12px;
+.c-hlpanel__btn { text-transform: uppercase; height: 100px; box-sizing: border-box; border-radius: 12px;
   background: var(--tv-base-neutral); border: 1px solid var(--tv-border-white-20);
   display: flex; align-items: center; gap: 24px; padding: 20px 32px;
   font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
@@ -312,7 +314,7 @@ export const StackedAnswer: ComponentModule = {
   notes: [
     '<strong>Both variant names are misspelled in the file</strong>: <code>Type=Defau;t</code> — with a semicolon — and <code>Type=Sucess</code>. The same <em>Sucess</em> slip was fixed in the paint styles on 2026-10-12 and survives here. <strong>Worth fixing.</strong>',
     '<strong>The "default" is red.</strong> A 12px <code>Game UI/Red 1</code> edge is a wrong answer, not a resting state — so this set has two verdicts and no neutral. Either the name is wrong or a third variant is missing. <strong>Needs a decision.</strong>',
-    'The label binds <strong>no text style</strong>: a loose 28px. Neither the Rubik scale nor the Game scale has a 28.',
+    'The label binds <strong>no text style</strong>: a loose 28px. Neither the Rubik scale nor the Game scale has a 28. It renders in capitals through <code>textCase: UPPER</code> on the node.',
   ],
 };
 
@@ -347,13 +349,13 @@ export const HigherLower: ComponentModule = {
     type: ['Game/M'],
   },
   variants: [
-    { label: 'Default', el: () => h(`<div class="c-hl">
-        <div class="c-hl__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
-        <div class="c-hl__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
+    { label: 'Default', el: () => h(`<div class="c-hlpanel">
+        <div class="c-hlpanel__btn"><span class="c-dkey c-dkey--up">${icon('Play', 44)}</span><span>Higher</span></div>
+        <div class="c-hlpanel__btn"><span class="c-dkey c-dkey--down">${icon('Play', 44)}</span><span>lower</span></div>
       </div>`) },
   ],
   notes: [
-    '<strong>The two labels disagree about case</strong>: <em>Higher</em> and <em>lower</em>. Both bind <code>Game/M</code>, which is Roboto Condensed ExtraBold 40 — a style with no case transform, so the file renders exactly that. <strong>A file defect.</strong>',
+    '<strong>The two strings disagree about case</strong> — <em>Higher</em> and <em>lower</em> — and it does not show, because both nodes carry <code>textCase: UPPER</code> and render HIGHER and LOWER. A latent defect: anything reading the characters rather than the render gets one of them wrong.',
     'The set has <strong>one variant</strong>, <code>Type=Default</code>, so there is no focused state for the pair although the buttons inside have one. Focus on this panel is undefined.',
     'This is the game layer, so it is Roboto Condensed rather than Rubik — the deliberate second family, not drift.',
   ],
@@ -372,7 +374,7 @@ export const ScoreTableRow: ComponentModule = {
         <span class="c-scorerow__rank">#1</span>
         <img class="c-scorerow__av" src="assets/components/avatar-sample.png" alt="">
         <span class="c-scorerow__name">QuizMaster99</span>
-        <span class="c-pill c-pill--new" style="position:static">NEW</span>
+        <span class="c-pill c-pill--new" style="position:static">PRO</span>
         <span class="c-scorerow__n">25,521</span>
         <span class="c-scorerow__n">900</span>
         <span class="c-scorerow__n">28</span>

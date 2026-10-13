@@ -10,7 +10,7 @@ import {
   SelectionRadio, InputMessages, StrikeBox, Attempt, RewardTypeIcon, PlayerThumbnail,
 } from './ui/identity';
 import {
-  CollapsedMenu, ExpandedMenu, MenuOverlay, Tabs, GameTypeTagsRow,
+  Menu, Tabs, GameTypeTagsRow,
 } from './ui/navigation';
 import {
   Logo, LogoWithText, Subtract, Confetti, TrophiesThumbnail, InputFieldWeb,
@@ -34,7 +34,7 @@ export const COMPONENTS: ComponentModule[] = [
   // Controls
   Button, Input, InputWeb, InputFieldWeb, Keyboard, Toggle, Checkbox, CheckboxMessage, SelectionRadio,
   // Navigation
-  MenuItem, CollapsedMenu, ExpandedMenu, MenuOverlay, TabsItem, Tabs, Dots,
+  MenuItem, Menu, TabsItem, Tabs, Dots,
   // Identity
   AvatarPicture, AvatarTile, UserAvatar, AvatarLabel, RewardTypeIcon, UnlockedCounter,
   Reward, RewardTrackFirst, RewardTrack, TrophiesThumbnail, RewardUnlockedContainer,

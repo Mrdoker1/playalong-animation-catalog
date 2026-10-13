@@ -38,6 +38,10 @@ injectStyle('css-c-rail', `
   background: var(--tv-button-secondary); }
 .c-card__bar > i { display: block; height: 100%; background: var(--tv-button-primary-solid); }
 .c-card__ghost { height: 24px; border-radius: 4px; background: var(--tv-button-secondary); }
+/* The placeholder tile is not a missing image: it is the brand mark on the
+   neutral ground, which is what the file draws while the still loads. */
+.c-card__ph { position: absolute; inset: 0; display: grid; place-items: center;
+  background: var(--tv-base-neutral); }
 
 .c-pill { position: absolute; display: inline-flex; align-items: center; gap: 6px;
   height: 24px; box-sizing: border-box; padding: 4px 8px; border-radius: 4px;
@@ -66,7 +70,8 @@ injectStyle('css-c-rail', `
 .c-sli__sub { ${T('body-l')}; color: var(--tv-text-primary); }
 
 .c-section { display: flex; flex-direction: column; gap: 24px; }
-.c-section__head { ${T('heading-l')}; color: var(--tv-base-light); }
+.c-section__head { font-family: var(--type-heading-l-family);
+  font-weight: var(--type-heading-l-weight); font-size: 32px; color: var(--tv-base-light); }
 .c-section__rail { display: flex; gap: 24px; }
 `);
 
@@ -75,7 +80,8 @@ const PILL_PRIME = `<span class="c-pill c-pill--prime">${icon('Crown', 16)}PRIME
 const PILL_PLAYED = `<span class="c-pill c-pill--played">${icon('Done', 16)}PLAYED</span>`;
 const PILL_INTER = `<span class="c-pill c-pill--inter">${icon('Gamepad', 16)}Interactive</span>`;
 
-type CardState = 'default' | 'focus' | 'prime' | 'prime-focus' | 'seen' | 'played' | 'skeleton';
+type CardState = 'default' | 'focus' | 'prime' | 'prime-focus' | 'seen' | 'played'
+  | 'placeholder' | 'skeleton';
 
 const card = (w: number, artH: number, state: CardState, extraPill = '') => {
   const focus = state === 'focus' || state === 'prime-focus';
@@ -84,7 +90,10 @@ const card = (w: number, artH: number, state: CardState, extraPill = '') => {
     state === 'skeleton' && 'is-skeleton'].filter(Boolean).join(' ');
   const el = h(`<div class="${cls}" style="width:${w}px">
       <div class="c-card__art" style="height:${artH}px">
-        ${state === 'skeleton' ? '' : `<img src="${THUMB}" alt="">`}
+        ${state === 'skeleton' ? ''
+          : state === 'placeholder'
+            ? `<span class="c-card__ph"><img src="assets/flows/mark.svg" alt="" width="48" height="50"></span>`
+            : `<img src="${THUMB}" alt="">`}
         ${state === 'skeleton' ? '' : prime ? PILL_PRIME : ''}
         ${state === 'skeleton' ? '' : extraPill}
         ${state === 'skeleton' ? '' : state === 'played' ? PILL_PLAYED : PILL_NEW}
@@ -114,10 +123,11 @@ export const HorizontalRailCard: ComponentModule = {
     { label: 'Prime Time · Focus', el: () => card(400, 225, 'prime-focus') },
     { label: 'Seen', el: () => card(400, 225, 'seen') },
     { label: 'Played', el: () => card(400, 225, 'played') },
+    { label: 'Placeholder', el: () => card(400, 225, 'placeholder') },
     { label: 'Skeleton', el: () => card(400, 225, 'skeleton') },
   ],
   notes: [
-    '<strong><code>Placeholder</code> is byte-identical to <code>Default</code></strong> — same fills, same image, same NEW tag, same copy. Two variants for one appearance. Not drawn separately here. <strong>Either it is unfinished or it should go.</strong>',
+    '<strong><code>Placeholder</code> has the same structure as <code>Default</code></strong> — same frames, same NEW tag, same copy — and differs only in which picture fills the still: the brand mark on the neutral ground instead of the show. It is what a card looks like before its art arrives, and it is <strong>not</strong> the <code>Skeleton</code>, which has no card at all, only grey bars.',
     '<strong>Prime Time is marked twice over</strong>: a yellow crown pill at 13/13 <em>and</em> the card\'s border changing from <code>Border/White 20</code> to <code>Game UI/Yellow</code>. Focus then replaces that border with the 6px blue ring, so <strong>a focused Prime Time card loses its yellow edge</strong> and only the pill is left.',
     '<code>Seen</code> adds an 8px progress bar across the bottom of the still — <code>Button/Secondary</code> track, <code>Primary Solid</code> fill, drawn at 46 of 400. <code>Played</code> instead swaps the NEW pill for a dark PLAYED one with a tick.',
     'The title and the episode line <strong>bind no text style</strong> — loose 24 and 20. Only the pills bind one (<code>Label/S</code>).',
@@ -136,6 +146,7 @@ export const VerticalRailCard: ComponentModule = {
   variants: [
     { label: 'Default', el: () => card(300, 400, 'default', PILL_INTER) },
     { label: 'Focus', el: () => card(300, 400, 'focus', PILL_INTER) },
+    { label: 'Placeholder', el: () => card(300, 400, 'placeholder', PILL_INTER) },
     { label: 'Skeleton', el: () => card(300, 400, 'skeleton') },
   ],
   notes: [
@@ -195,7 +206,7 @@ const section = (title: string, cards: HTMLElement[]) => {
 export const SectionTrending: ComponentModule = {
   id: 'c-section-trending', title: 'Section — Trending', group: 'Content', figma: '629:4537',
   description: '1756 × 365 — a heading over a row of horizontal rail cards, the first focused.',
-  tokens: { colour: ['TV/Base/Light'], type: ['Heading/L'] },
+  tokens: { colour: ['TV/Base/Light'], type: [] },
   wide: true,
   variants: [
     { label: 'Trending Interactive Shows', el: () => section('Trending Interactive Shows',
@@ -203,7 +214,8 @@ export const SectionTrending: ComponentModule = {
   ],
   notes: [
     'The section is <strong>1756 wide inside a 1760 content block</strong>, so the fourth card is cut by the screen edge — which is how a rail says there is more to the right. Nothing here scrolls; that is the client\'s.',
-    'The heading is the only thing the section adds. Everything else is the card.',
+    'The heading is <strong>32px and binds no text style</strong> — between <code>Heading/L</code> (36) and <code>Heading/S</code> (24), matching neither.',
+    'The file fills the rail with <strong>five different shows</strong> — Family Feud, Match Game, Plinko, Classic Concentration, Guess The Word — each with its own still. One card is repeated here; only the artwork differs.',
   ],
 };
 

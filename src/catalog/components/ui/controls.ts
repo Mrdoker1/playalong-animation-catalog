@@ -165,7 +165,7 @@ export const Toggle: ComponentModule = {
 /* --------------------------------------------------------------- Tabs Item */
 
 injectStyle('css-c-tabsitem', `
-.c-tab { height: 56px; box-sizing: border-box; display: inline-flex; align-items: center;
+.c-tab { white-space: nowrap; height: 56px; box-sizing: border-box; display: inline-flex; align-items: center;
   justify-content: center; padding: 12px 24px; border-radius: 12px;
   border: 1px solid transparent; font-family: var(--type-heading-m-family);
   font-size: 24px; line-height: 32px; color: var(--tv-text-primary); }
@@ -461,9 +461,10 @@ export const Input: ComponentModule = {
 
 injectStyle('css-c-chkmsg', `
 .c-chkmsg { display: inline-flex; align-items: center; gap: 12px; box-sizing: border-box;
-  ${T('label-m')}; color: var(--tv-base-light); text-transform: none; }
+  ${T('label-m')}; color: var(--tv-base-light); text-transform: none; white-space: nowrap; }
 .c-chkmsg.is-focus { padding: 4px; border-radius: 8px;
   box-shadow: 0 0 0 4px var(--tv-button-primary-solid); }
+.c-chkmsg .c-check { width: 32px; height: 32px; }
 `);
 
 export const checkboxMessage = (selected: boolean, focus: boolean, label = 'Show Password') =>
