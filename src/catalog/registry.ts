@@ -2,6 +2,7 @@ import type { CatalogEntry } from './types';
 import { ANIMATIONS } from '../animations';
 import { DEMOS } from './demos';
 import { FOUNDATIONS } from './foundations';
+import { COMPONENT_ENTRIES } from './components';
 import { createAnimationCard } from '../components/AnimationCard';
 import { createDemoCard } from './DemoCard';
 
@@ -31,11 +32,12 @@ const fromAnimations: CatalogEntry[] = ANIMATIONS.map((a) => ({
   open: (host) => mount(host, createAnimationCard(a) as WithDestroy),
 }));
 
-export const ENTRIES: CatalogEntry[] = [...FOUNDATIONS, ...fromDemos, ...fromAnimations];
+export const ENTRIES: CatalogEntry[] = [...FOUNDATIONS, ...COMPONENT_ENTRIES, ...fromDemos, ...fromAnimations];
 
 /** Sidebar order. A section with no entries is skipped by the sidebar. */
 export const SECTION_ORDER = [
   'Foundations',
+  'Components',
   'Demos',
   'Family Feud',
   'Card Sharks',
