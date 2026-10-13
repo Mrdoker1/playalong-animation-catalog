@@ -122,12 +122,14 @@ export const Menu: ComponentModule = {
   wide: true,
   variants: [
     { label: '▶ Live — click the rail, then ↑ ↓ and Esc', el: liveMenu },
-    { label: 'Collapsed Menu — 772:7012', el: () => onScreen(menu(false, 0)) },
-    { label: 'Expanded Menu — 772:6986', el: () => onScreen(menu(true, 0)) },
-    { label: 'Overlay — 11561:15402', el: drawnOverlay },
+    { label: 'Collapsed Menu — 772:7012 · no ramp, this node has none', el: () => onScreen(menu(false, 0)) },
+    { label: 'Expanded Menu — 772:6986 · no ramp, this node has none', el: () => onScreen(menu(true, 0)) },
+    { label: 'Overlay — 11561:15402 · the ramp lives here', el: drawnOverlay },
   ],
   notes: [
-    '<strong><code>Expanded Menu</code> is 340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is the <em>collapsed</em> rail with the six labels as loose text beside it over the dimming ramp. The expanded component is not what the screen uses, so anything reserving 792 for the menu has read the wrong node.',
+    '<strong><code>Expanded Menu</code> is 340 wide, not 792.</strong> The 792 belongs to <code>Overlay</code>, which is the <em>collapsed</em> rail with the six labels as loose text beside it over the dimming ramp — so anything reserving 792 for the menu has read the wrong node.',
+    '<strong>Only <code>Overlay</code> carries the ramp</strong>, which is why the first two variants above are drawn without one. They are shown on the home screen anyway, because a menu drawn on nothing tells you nothing.',
+    '<strong>Both are used, and an earlier note here said otherwise.</strong> It claimed the expanded component "is not what the screen uses". Counted from the file: <code>Expanded Menu</code> is on <strong>14</strong> frames and <code>Overlay</code> on <strong>2</strong>. Two nodes describing one open menu, with the frames split between them. <strong>Worth reconciling in Figma.</strong>',
     'The rail is the <strong>same 160 wide open or shut</strong> — that is the whole of PTV-858, and why the content never shifts. The live variant is the only way to see it: watch the Home screen behind the ramp stay put.',
     'The ramp is a horizontal gradient, not a flat panel: opaque <code>#040810</code>, <code>rgb(2,5,9)</code> at 80% at 43% of its width, fully transparent at the end. Measured on a device during PTV-858 — content keeps 39.9% of its luminance at x = 450 and 100% from x = 792.',
     'The focus ring is a single 250 × 64 rectangle at x = 47, <strong>one size for every item</strong>, taken from the longest label (<code>Progression</code>, 134 wide). It does not hug its own text — a ring that resized per item would flicker as focus moved, and on a D-pad the moving ring is the only feedback there is.',
