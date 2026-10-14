@@ -20,8 +20,12 @@ const CSS = `
 }
 .preview-si-results__cell.su,
 .preview-si-results__cell.key { background: rgba(30,44,140,0.75); }
+/* Su's matches are ringed green -- outline only, no fill: the block itself is
+   in the show video and we draw over it. Figma 14010:45827, Frame 12636. */
+.preview-si-results__cell.su.match {
+  border: 4px solid ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
 .preview-si-results__cell.mine { background: ${SI.mine}; border: 4px solid #fff; }
-.preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(20px); }
+.preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(-20px); }
 .preview-si-results__cell.mine.match { border-color: ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
 .preview-si-results__cell.mine.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #ff2a2a66; }
 .preview-si-results__count {
@@ -35,7 +39,12 @@ const CSS = `
 const KEY  = ['Guitar', 'Piano/Keyboard', 'Violin/Fiddle', 'Trumpet', 'Harp', 'Bagpipes'];
 const SU   = ['Piano/Keyboard', 'Guitar', 'Violin/Fiddle', 'Trumpet', 'Bagpipes', 'Harp'];
 const MINE = ['Guitar', 'Piano/Keyboard', 'Trumpet', 'Violin/Fiddle', 'Harp', 'Bagpipes'];
-const COLS = { su: 16, key: 210, mine: 404 };
+// Figma 14010:45827 (Stacked - Final - 1), read 2026-10-14. YOUR STACK is at
+// x = 113 of 1920 -- the LEFT column -- and Su's is on the right. It used to be
+// the other way round.
+const COLS = { mine: 16, key: 210, su: 404 };
+/** Su's rows that match the correct stack: the design rings those green too. */
+const SU_MATCH = SU.map((v, r) => v === KEY[r]);
 const rowTop = (r: number) => 44 + r * 41;
 
 // Base timings from the prototype (ms). Everything scales with Duration / 350.
@@ -56,10 +65,11 @@ function frameRows(slot: HTMLElement, opts: { screen: number; mine: number; coun
   const rows = [0, 1, 2].map((r) => {
     const shown = r < opts.mine;
     const mineBorder = shown ? `1.5px solid ${MINE[r] === KEY[r] ? SI.win : SI.miss}` : '1.5px solid #fff';
+    const suBorder = SU_MATCH[r] ? `1.5px solid ${SI.win}` : '1.5px solid transparent';
     return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
-      ${pill('rgba(30,44,140,0.75)', '1.5px solid transparent', SU[r], 'opacity:.45;')}
+      ${pill(SI.mine, mineBorder, MINE[r], shown ? '' : 'opacity:0;transform:translateX(-6px);')}
       ${pill('rgba(30,44,140,0.75)', '1.5px solid transparent', KEY[r], 'opacity:.45;')}
-      ${pill(SI.mine, mineBorder, MINE[r], shown ? '' : 'opacity:0;transform:translateX(6px);')}
+      ${pill('rgba(30,44,140,0.75)', suBorder, SU[r], 'opacity:.45;')}
     </div>`;
   }).join('');
   slot.innerHTML = `
@@ -75,7 +85,7 @@ export const ResultsReveal: AnimationModule = {
   title: 'Results Reveal',
   game: 'Stack It',
   description:
-    'At 0:00 the results screen fades in. Su’s stack and the correct stack are part of the show video (the show rings Su’s answers green / red itself), so only YOUR STACK is ours: row by row, top to bottom, the player’s blocks slide in from the right with a green (right slot) or red (wrong slot) ring. The "N of 6 in the right spot" line fades in last.',
+    'At 0:00 the results screen fades in. YOUR STACK is the LEFT column — it moved there from the right (Figma 14010:45827, read 2026-10-14). Row by row, top to bottom, the player’s blocks slide in from the left with a green (right slot) or red (wrong slot) ring. The correct stack and Su’s blocks come from the show video, but the green rings on Su’s matching rows are ours, drawn over it as an outline with no fill. The "N of 6 in the right spot" line fades in last.',
   defaults: { duration: 350, easingId: 'ease' },
   slowFactor: 3,
   frames: [
@@ -88,15 +98,15 @@ export const ResultsReveal: AnimationModule = {
   render(stage) {
     injectStyle('css-si-base', SI_BASE_CSS);
     injectStyle('css-si-results', CSS);
-    const cells = (cls: string, x: number, data: string[]) =>
-      data.map((t, r) => `<div class="preview-si-results__cell ${cls}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
+    const cells = (cls: string, x: number, data: string[], ring?: boolean[]) =>
+      data.map((t, r) => `<div class="preview-si-results__cell ${cls}${ring?.[r] ? ' match' : ''}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
     stage.innerHTML = `
       <div class="preview-si-board preview-si-results">
         <div class="preview-si-results__screen">
           <div class="preview-si-results__show">
             <div class="preview-si-results__head" style="left:${COLS.su}px">SU’S STACK</div>
             <div class="preview-si-results__head" style="left:${COLS.key}px">CORRECT STACK</div>
-            ${cells('su', COLS.su, SU)}
+            ${cells('su', COLS.su, SU, SU_MATCH)}
             ${cells('key', COLS.key, KEY)}
           </div>
           <div class="preview-si-results__head" style="left:${COLS.mine}px">YOUR STACK</div>
@@ -145,16 +155,20 @@ export const ResultsReveal: AnimationModule = {
     const ms = (v: number) => Math.round(v * k);
     const sec = (v: number) => (ms(v) / 1000).toFixed(2);
     return {
-      web: `/* StackItResults.css — only YOUR STACK is ours; Su's column comes from the show video. */
+      web: `/* StackItResults.css — YOUR STACK is ours and sits LEFT; Su's blocks come from
+   the show video, but the green rings on her matching rows are ours. */
 .si-screen        { opacity: 0; transition: opacity ${ms(T.screenFade)}ms ${ez}; pointer-events: none; }
 .si-screen--show  { opacity: 1; pointer-events: auto; }
 
 .si-mine          { background: ${SI.mine}; border: .63cqw solid #fff; border-radius: 999px;
                     transition: opacity ${duration}ms ${ez}, transform ${duration}ms ${ez},
                                 border-color ${duration}ms ${ez}, box-shadow ${duration}ms ${ez}; }
-.si-mine--hide    { opacity: 0; transform: translateX(2cqw); }
+.si-mine--hide    { opacity: 0; transform: translateX(-2cqw); }
 .si-mine--match   { border-color: ${SI.win};  box-shadow: 0 0 1cqw #7bff3c66; }
 .si-mine--miss    { border-color: ${SI.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
+
+.si-su--match     { border: .63cqw solid ${SI.win}; border-radius: 999px;
+                    box-shadow: 0 0 1cqw #7bff3c66; background: none; }
 
 .si-count         { opacity: 0; transition: opacity ${ms(T.countFade)}ms ${ez}; }
 .si-count--on     { opacity: 1; }
@@ -186,7 +200,7 @@ fun YourStackReveal(key: List<String>, yours: List<String?>, onDone: () -> Unit)
         repeat(6) { r ->
             val on = elapsed >= ${ms(T.mineStart)} + r * ${ms(T.stagger)}
             val alpha by animateFloatAsState(if (on) 1f else 0f, tween(${duration}, easing = ez), label = "a$r")
-            val dx by animateDpAsState(if (on) 0.dp else 24.dp, tween(${duration}, easing = ez), label = "x$r")
+            val dx by animateDpAsState(if (on) 0.dp else (-24).dp, tween(${duration}, easing = ez), label = "x$r")
             val ring by animateColorAsState(
                 when { !on || yours[r] == null -> Color.White; yours[r] == key[r] -> Color(0xFF7BFF3C); else -> Color(0xFFFF2A2A) },
                 tween(${duration}, easing = ez), label = "r$r")
