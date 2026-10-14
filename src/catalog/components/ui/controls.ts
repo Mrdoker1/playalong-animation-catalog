@@ -103,9 +103,15 @@ injectStyle('css-c-toggle', `
 .c-toggle { width: 280px; height: 72px; border-radius: 12px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 19px 16px; background: var(--tv-button-secondary);
-  border: 1px solid var(--tv-border-white-20); ${T('body-l')}; color: var(--tv-base-light);
+  /* The edge and the focus ring are inset shadows, not borders. In Figma a stroke
+     takes no layout space, and the room left for the label is exactly what
+     "PlayAlong OFF" needs: 280 - 16 - 16 - 70 - 16 = 162. A CSS border ate 1px a
+     side (6 on focus), OFF no longer fit, and the switch jumped every toggle. */
+  box-shadow: inset 0 0 0 1px var(--tv-border-white-20); ${T('body-l')}; color: var(--tv-base-light);
   white-space: nowrap; cursor: default; }
-.c-toggle.is-focus { border: var(--tv-focus-ring-width) solid var(--tv-focus-ring-color); }
+/* And the label can never push the switch: it takes the room it is given. */
+.c-toggle > span:first-child { flex: 1 1 auto; min-width: 0; }
+.c-toggle.is-focus { box-shadow: inset 0 0 0 var(--tv-focus-ring-width) var(--tv-focus-ring-color); }
 .c-toggle__track { width: 70px; height: 35px; border-radius: 8px; flex: none; box-sizing: border-box;
   border: 2px solid var(--tv-base-light); display: flex; align-items: center; padding: 2px; }
 .c-toggle__knob { width: 36px; height: 100%; border-radius: 5px; background: var(--tv-base-light);
@@ -516,6 +522,14 @@ injectStyle('css-c-kb', `
 /* The focus ring is 6px OUTSIDE and bound to TV/Focus/Ring Color, so it covers
    the neighbours' gap rather than shrinking its own key. A border would do
    neither. */
+/* The four OUTER corners are radius 12, the keyboard's own: first key top-left,
+   end of the first row top-right, Clear bottom-left, the last key bottom-right
+   (Done, white). The focus ring is an outside box-shadow, so it follows its
+   key's corner -- 12 inside, 18 at its outer edge, as the file's 6px ring is. */
+.c-kb > .c-kb__k:first-child { border-top-left-radius: 12px; }
+.c-kb--6 > .c-kb__k:nth-child(6), .c-kb--5 > .c-kb__k:nth-child(5) { border-top-right-radius: 12px; }
+.c-kb > .c-kb__k:nth-last-child(3) { border-bottom-left-radius: 12px; }
+.c-kb > .c-kb__k:last-child { border-bottom-right-radius: 12px; }
 .c-kb__k.is-focus { position: relative; z-index: 1;
   box-shadow: 0 0 0 var(--tv-focus-ring-width) var(--tv-focus-ring-color); }
 .c-kb__listen { width: 582px; height: 640px; display: grid; place-items: center; }
@@ -610,7 +624,7 @@ export const keyboard = (state: KbState = 'letters', focusKey = 'a') => {
     : state === 'mic' ? `${wide('~')}${wide('abc')}${mic}${wide('Clear')}${mic}${wide('Done', ' c-kb__k--done')}`
     : `${del}${wide(state === 'caps' ? 'abc' : '?123')}${mic}${wide('Clear')}${wide('.com')}${wide('Done', ' c-kb__k--done')}`;
 
-  return h(`<div class="c-kb">${grid}${tail}</div>`);
+  return h(`<div class="c-kb c-kb--${col}">${grid}${tail}</div>`);
 };
 
 export const Keyboard: ComponentModule = {
@@ -635,6 +649,7 @@ export const Keyboard: ComponentModule = {
     'The <code>Done</code> key is the only filled one: <code>TV/Base/Light</code> with dark text.',
     'The icon keys are blank 44 × 44 frames in the file — no icon, no name. <code>Delete</code> and <code>Mic</code> are this rebuild\'s reading of their positions, not a measurement. <strong>Needs the real icons in the file.</strong>',
     '<strong>The keys have no fill.</strong> The keyboard\'s own <code>Base/Neutral</code> shows through them, and each key carries a 2px <code>Base/Dark</code> stroke drawn <code>OUTSIDE</code>. Neighbours sit 2 apart, so their two strokes land on <em>exactly the same 2px</em> and read as <strong>one dark line</strong> — not two edges with a lighter strip between, which is what a CSS border plus a gap produces and what this was. Rebuilt as an outside <code>box-shadow</code>, which overlaps the same way.',
+    '<strong>The outer corners are radius 12</strong> — top-left key, end of the first row, <code>Clear</code>, and the last key (<code>Done</code>, so the white key is rounded at its outer corner) — and the focus ring rounds with its key. <strong>Two file defects</strong>: in <code>Letters</code> and <code>Caps</code> the <code>a</code> key itself is square, only the ring over it is rounded; in <code>Digit</code> and <code>With Mic</code> the <code>4</code>, mid-row, carries a top-right 12 as if it were the corner. Drawn here by position, not copied.',
     'The focus ring is <strong>6px <code>TV/Focus/Ring Color</code>, also <code>OUTSIDE</code></strong>, and it is a separate overlay frame sitting on the first key rather than a state of that key. <strong>The component does not clip</strong> (<code>clipsContent: false</code>), so on the corner key the ring hangs off the keyboard — reproduced here rather than tidied, because tidying it would mean the ring covers its own key instead of its neighbours.',
     '<code>Listening</code> replaces the whole grid with the <code>Mic</code> component and keeps only the last row. Its haloes are the focus blue at 30% and 50% node opacity — one token, three strengths.',
   ],
