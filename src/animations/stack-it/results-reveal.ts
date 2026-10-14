@@ -19,12 +19,28 @@ const CSS = `
   text-shadow: 0 1px 2px rgba(0,0,0,0.45);
 }
 .preview-si-results__cell.su,
-.preview-si-results__cell.key { background: rgba(30,44,140,0.75); }
+.preview-si-results__cell.key {
+  border: 2px solid rgba(255,255,255,0.55);
+  background: rgba(30,44,140,0.75);
+}
+/* The show's own blocks lighten row by row. Six steps, so the column reads as
+   a ladder -- flat tiles were the other half of "doesn't look like it". */
+.preview-si-results__cell[data-row="0"] { background: #16205e; }
+.preview-si-results__cell[data-row="1"] { background: #1d348f; }
+.preview-si-results__cell[data-row="2"] { background: #2a56c8; }
+.preview-si-results__cell[data-row="3"] { background: #3a74e0; }
+.preview-si-results__cell[data-row="4"] { background: #5b96ec; }
+.preview-si-results__cell[data-row="5"] { background: #7fb4f3; }
+.preview-si-results__cell.mine[data-row] { background: var(--gradient-tv-background-stacked); }
 /* Su's matches are ringed green -- outline only, no fill: the block itself is
    in the show video and we draw over it. Figma 14010:45827, Frame 12636. */
 .preview-si-results__cell.su.match {
   border: 4px solid ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
-.preview-si-results__cell.mine { background: ${SI.mine}; border: 4px solid #fff; }
+/* Our blocks are TV/Background/Stacked -- a light gradient with DARK text --
+   not a flat blue. Figma fills every Stacked - Answer with it. */
+.preview-si-results__cell.mine {
+  background: var(--gradient-tv-background-stacked);
+  color: ${SI.ink}; text-shadow: none; border: 4px solid #fff; }
 .preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(-20px); }
 .preview-si-results__cell.mine.match { border-color: ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
 .preview-si-results__cell.mine.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #ff2a2a66; }
@@ -36,9 +52,13 @@ const CSS = `
 .preview-si-results__count b { color: #f2c230; }
 `;
 
-const KEY  = ['Guitar', 'Piano/Keyboard', 'Violin/Fiddle', 'Trumpet', 'Harp', 'Bagpipes'];
-const SU   = ['Piano/Keyboard', 'Guitar', 'Violin/Fiddle', 'Trumpet', 'Bagpipes', 'Harp'];
-const MINE = ['Guitar', 'Piano/Keyboard', 'Trumpet', 'Violin/Fiddle', 'Harp', 'Bagpipes'];
+// Verbatim from Figma 14010:45827, so the preview is the frame rather than a
+// paraphrase of it -- and so the count below comes out at the frame's 1 of 6.
+const KEY  = ['Bagpipes', 'Harp', 'Trumpet', 'Violin/Fiddle', 'Piano/Keyboard', 'Guitar'];
+const SU   = ['Harp', 'Bagpipes', 'Trumpet', 'Violin/Fiddle', 'Guitar', 'Piano/Keyboard'];
+const MINE = ['Bagpipes', 'Piano/Keyboard', 'Harp', 'Guitar', 'Trumpet', 'Violin/Fiddle'];
+/** Never typed in: the line has read the wrong number before. */
+const RIGHT = MINE.filter((v, r) => v === KEY[r]).length;
 // Figma 14010:45827 (Stacked - Final - 1), read 2026-10-14. YOUR STACK is at
 // x = 113 of 1920 -- the LEFT column -- and Su's is on the right. It used to be
 // the other way round.
@@ -76,7 +96,7 @@ function frameRows(slot: HTMLElement, opts: { screen: number; mine: number; coun
     <div style="width:170px;display:flex;flex-direction:column;gap:3px;opacity:${opts.screen};">
       ${rows}
       <div style="font:700 7px ${SI.font};color:#fff;text-align:center;text-transform:uppercase;opacity:${opts.count ? 1 : 0};">
-        <b style="color:#f2c230">4 of 6</b> in the right spot</div>
+        <b style="color:#f2c230">${RIGHT} of 6</b> in the right spot</div>
     </div>`;
 }
 
@@ -99,7 +119,7 @@ export const ResultsReveal: AnimationModule = {
     injectStyle('css-si-base', SI_BASE_CSS);
     injectStyle('css-si-results', CSS);
     const cells = (cls: string, x: number, data: string[], ring?: boolean[]) =>
-      data.map((t, r) => `<div class="preview-si-results__cell ${cls}${ring?.[r] ? ' match' : ''}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
+      data.map((t, r) => `<div class="preview-si-results__cell ${cls}${ring?.[r] ? ' match' : ''}" data-row="${r}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
     stage.innerHTML = `
       <div class="preview-si-board preview-si-results">
         <div class="preview-si-results__screen">
@@ -111,7 +131,7 @@ export const ResultsReveal: AnimationModule = {
           </div>
           <div class="preview-si-results__head" style="left:${COLS.mine}px">YOUR STACK</div>
           ${cells('mine hide', COLS.mine, MINE)}
-          <div class="preview-si-results__count"><b>4 of 6</b> in the right spot</div>
+          <div class="preview-si-results__count"><b>${RIGHT} of 6</b> in the right spot</div>
         </div>
       </div>
     `;
