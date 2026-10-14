@@ -34,9 +34,15 @@ injectStyle('css-c-rail', `
 .c-card__sub { font-family: var(--type-body-m-family); font-size: 20px; line-height: 24px;
   color: var(--tv-text-primary); }
 .c-card__meta { display: flex; flex-direction: column; gap: 4px; }
-.c-card__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
-  background: var(--tv-button-secondary); }
-.c-card__bar > i { display: block; height: 100%; background: var(--tv-button-primary-solid); }
+/* The counter that replaced the progress bar on Seen (Figma 629:4401, read
+   2026-10-14). It is a Tag at a LARGER padding than the others -- 16/8 against
+   NEW's 8/4, so 40 tall against 24 -- and it carries no icon. */
+.c-pill--count { left: 13px; bottom: 13px; right: auto; top: auto;
+  height: 40px; padding: 8px 16px; border-radius: 4px;
+  background: var(--tv-base-dark); color: var(--tv-base-light);
+  font-family: var(--type-body-m-family); font-weight: var(--type-body-m-weight);
+  font-size: var(--type-body-m-size); line-height: var(--type-body-m-line);
+  letter-spacing: normal; text-transform: none; }
 .c-card__ghost { height: 24px; border-radius: 4px; background: var(--tv-button-secondary); }
 /* The placeholder tile is not a missing image: it is the brand mark on the
    neutral ground, which is what the file draws while the still loads. */
@@ -97,7 +103,7 @@ const card = (w: number, artH: number, state: CardState, extraPill = '') => {
         ${state === 'skeleton' ? '' : prime ? PILL_PRIME : ''}
         ${state === 'skeleton' ? '' : extraPill}
         ${state === 'skeleton' ? '' : state === 'played' ? PILL_PLAYED : PILL_NEW}
-        ${state === 'seen' ? '<span class="c-card__bar"><i style="width:11.5%"></i></span>' : ''}
+        ${state === 'seen' ? '<span class="c-pill c-pill--count">3/5</span>' : ''}
       </div>
       <div class="c-card__meta">${
         state === 'skeleton'
@@ -129,7 +135,9 @@ export const HorizontalRailCard: ComponentModule = {
   notes: [
     '<strong><code>Placeholder</code> has the same structure as <code>Default</code></strong> — same frames, same NEW tag, same copy — and differs only in which picture fills the still: the brand mark on the neutral ground instead of the show. It is what a card looks like before its art arrives, and it is <strong>not</strong> the <code>Skeleton</code>, which has no card at all, only grey bars.',
     '<strong>Prime Time is marked twice over</strong>: a yellow crown pill at 13/13 <em>and</em> the card\'s border changing from <code>Border/White 20</code> to <code>Game UI/Yellow</code>. Focus then replaces that border with the 6px blue ring, so <strong>a focused Prime Time card loses its yellow edge</strong> and only the pill is left.',
-    '<code>Seen</code> adds an 8px progress bar across the bottom of the still — <code>Button/Secondary</code> track, <code>Primary Solid</code> fill, drawn at 46 of 400. <code>Played</code> instead swaps the NEW pill for a dark PLAYED one with a tick.',
+    '<strong><code>Seen</code> is a counter now, not a bar</strong> (Figma, 2026-10-14). It used to be an 8px progress bar across the bottom of the still; it is a <code>Base/Dark</code> tag reading <code>3/5</code> at 13 from the left and 13 from the bottom. Both focus states carry it.',
+    'That counter tag is <strong>40 high where every other pill is 24</strong> — padding 16/8 against NEW\'s 8/4 — and it carries <strong>no icon</strong>, although the proposal\'s mock showed one. Figma is what is built here.',
+    '<code>Played</code> is unchanged: it swaps the NEW pill for a dark PLAYED one with a tick.',
     'The title and the episode line <strong>bind no text style</strong> — loose 24 and 20. Only the pills bind one (<code>Label/S</code>).',
     'Focus is a <strong>6px</strong> ring where the idle border is 1px, both drawn OUTSIDE, so the card does not move when it takes focus.',
   ],
