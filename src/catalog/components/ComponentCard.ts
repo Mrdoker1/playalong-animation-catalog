@@ -1,8 +1,34 @@
 import type { ComponentModule } from './types';
 import { USAGE } from './usage';
+import { LIBRARY } from './library';
 
 const FILE = 'Gd6wyiODkYk46DjaeyqU9o';
 
+
+const node = (id: string) =>
+  `https://www.figma.com/design/${FILE}/OTT-TV-Design?node-id=${id.replace(':', '-')}`;
+
+/**
+ * Two links, because they answer different questions.
+ *
+ * `Component` is the definition on the `❖ Components` page -- a bare variant
+ * set on a grey canvas, which is where it is edited. `Library` is the same
+ * thing on the `▣ Library` sheet, grouped by section and sitting next to its
+ * neighbours, which is where the team reads it.
+ *
+ * Three components are on no Library sheet at all and get one link; seven
+ * appear there only inside another instance, and the link goes to that
+ * container with its name on the hover, because an override id cannot be
+ * addressed from a URL.
+ */
+function figmaLinks(c: ComponentModule): string {
+  const lib = LIBRARY[c.figma];
+  const libLink = lib
+    ? `<a class="btn" target="_blank" rel="noopener" href="${node(lib.node)}"
+         title="${lib.section}${lib.inside ? ` — inside ${lib.inside}` : ''}">Library${lib.inside ? ' ↗' : ''}</a>`
+    : '';
+  return `${libLink}<a class="btn" target="_blank" rel="noopener" href="${node(c.figma)}">Component</a>`;
+}
 
 /**
  * Where the component is used, counted from the file rather than assumed.
@@ -44,8 +70,7 @@ export function createComponentCard(c: ComponentModule): HTMLElement {
         <h1 class="card__title">${c.title}</h1>
         <p class="card__desc">${c.description}</p>
       </div>
-      <a class="btn" target="_blank" rel="noopener"
-         href="https://www.figma.com/design/${FILE}/OTT-TV-Design?node-id=${c.figma.replace(':', '-')}">Open in Figma</a>
+      <span class="card__links">${figmaLinks(c)}</span>
     </header>
 
     <div class="variants variants--${c.ground ?? 'dark'}${c.wide ? ' variants--wide' : ''}" data-role="variants"></div>

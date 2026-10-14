@@ -110,6 +110,11 @@ function homePage(): HTMLElement {
       <li><strong>A number next to a component is its real size in Figma</strong>, and anything wider
         than the column is scaled with the factor written beside it — so a shrunken thing is never
         read as its own size.</li>
+      <li><strong>Two links into Figma</strong> on every component. <em>Library</em> opens it on the
+        <code>▣ Library</code> sheet, grouped with its neighbours, which is where the team reads it;
+        <em>Component</em> opens the definition on <code>❖ Components</code>, which is where it is
+        edited. A <em>Library ↗</em> means the sheet shows it only inside another component, and the
+        hover says which. Three components are on no sheet at all and carry one link.</li>
     </ul>
 
     <h2 class="home__h2">What is not here</h2>

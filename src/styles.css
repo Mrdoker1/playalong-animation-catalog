@@ -413,6 +413,7 @@ select:focus, input:focus { border-color: var(--accent); }
 /* ===== Catalog card shell (demos, foundations) ===== */
 .card { padding: 28px 32px 40px; max-width: 1180px; }
 .card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+.card__links { display: flex; gap: 8px; flex: none; }
 .card__title { font-size: 22px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
 .card__desc { margin: 0; color: var(--text-dim); max-width: 70ch; }
 
