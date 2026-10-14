@@ -515,11 +515,26 @@ injectStyle('css-c-kb', `
 .c-kb__halo { position: relative; width: 124px; height: 124px; display: grid;
   place-items: center; }
 .c-kb__halo::before, .c-kb__halo::after { content: ''; position: absolute;
-  border-radius: 9999px; background: var(--tv-button-primary-solid); }
-.c-kb__halo::before { width: 124px; height: 124px; opacity: .3; }
+  border-radius: 9999px; background: var(--tv-button-primary-solid);
+  animation: c-kb-pulse 1.8s ease-in-out infinite; }
+.c-kb__halo::before { width: 124px; height: 124px; opacity: .3; animation-delay: -.9s; }
 .c-kb__halo::after  { width: 106px; height: 106px; opacity: .5; }
+/* The core and the glyph do NOT move. Scaling the whole group reads as a button
+   being pressed; only the two haloes breathe, which is what an open microphone
+   looks like. Figma has no animation here -- the frame is one still -- so the
+   timing is a decision, not a measurement. */
+@keyframes c-kb-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c-kb__halo::before, .c-kb__halo::after { animation: none; transform: none; }
+}
+/* The glyph is TV/Base/Light. It was inheriting the card's text colour, which
+   is Text/Primary -- the grey-blue it rendered as. */
 .c-kb__halo > span { position: relative; width: 88px; height: 88px; border-radius: 9999px;
   box-sizing: border-box; display: grid; place-items: center;
+  color: var(--tv-base-light);
   background: var(--tv-button-primary-solid); border: 2px solid var(--tv-button-primary-solid); }
 .c-kb__halo > span > span { display: contents; }
 .c-kb__lt { display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -551,7 +566,7 @@ export const keyboard = (state: KbState = 'letters', focusKey = 'a') => {
   if (state === 'listening') {
     return h(`<div class="c-kb">
       <div class="c-kb__listen"><div class="c-kb__mic">
-        <span class="c-kb__halo"><span><span>${icon('Mic', 44)}</span></span></span>
+        <span class="c-kb__halo"><span><span>${icon('Mic', 56)}</span></span></span>
         <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span>
       </div></div>
       ${wide('Clear')}${mic}${wide('Done', ' c-kb__k--done')}</div>`);
@@ -608,13 +623,13 @@ export const Mic: ComponentModule = {
   tokens: { colour: ['TV/Base/Light', 'TV/Text/Primary', 'TV/Button/Primary Solid'], type: ['Heading/M', 'Body/M'] },
   variants: [
     { label: 'Default', el: () => h(`<div class="c-kb__mic">
-        <span class="c-kb__halo"><span><span>${icon('Mic', 44)}</span></span></span>
+        <span class="c-kb__halo"><span><span>${icon('Mic', 56)}</span></span></span>
         <span class="c-kb__lt"><b>Listening...</b><i>Speak now</i></span></div>`) },
   ],
   notes: [
     '<strong>Fully tokenised, and I said otherwise before.</strong> The halo, the ring and the core are <em>one</em> colour — <code>#0090FF</code> bound to <code>TV/Button/Primary Solid</code> — at node opacities 30%, 50% and 100%. An earlier note here claimed three hardcoded blues; that was a misreading, corrected 2026-10-13.',
-    'The centre is a 44 icon in an 88 circle at radius 100 — a radius larger than the shape, which is how the file writes a pill.',
-    'Static here. It is the one component in the set that obviously wants an animation: the haloes should pulse while the microphone is open.',
+    'The centre is a <strong>56</strong> icon in an 88 circle at radius 9999 — a radius far larger than the shape, which is how the file writes a pill. It was drawn at 44 here, and in <code>Base/Light</code>: the glyph binds <code>TV/Base/Light</code> and is white, where this was letting it inherit <code>Text/Primary</code> and rendering grey-blue.',
+    '<strong>The pulse is ours, not the file\'s.</strong> Figma holds one still, so nothing here is measured from it: the two haloes scale between 1 and 1.1 over 1.8s, the outer one half a cycle behind the inner, never below 1 so the still the file holds is the resting state, and <strong>the core and the glyph do not move</strong> — scaling the whole group reads as a button being pressed rather than a microphone that is open. It stops under <code>prefers-reduced-motion</code>.',
   ],
 };
 
