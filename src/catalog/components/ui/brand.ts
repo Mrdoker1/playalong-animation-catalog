@@ -265,11 +265,20 @@ injectStyle('css-c-last', `
   font-weight: var(--type-game-s-weight); font-size: var(--type-game-s-size); }
 .c-opt.is-hidden .c-opt__text, .c-opt.is-hidden .c-opt__score { opacity: 0; }
 
+/* Loader Big (Figma 557:3037, on Splash Screen - 2): a 100 ring 14 thick, filled
+   with the TV/Loader/Spin ANGULAR gradient -- white held for the first 17.6% of
+   the turn, then fading to nothing, with the hard cut at six o'clock. It was a
+   bordered circle with one blue side here, which is a generic CSS spinner and
+   not the product's. The conic gradient is the fill; the hole is a mask, because
+   a border cannot carry a gradient. */
 .c-loader { width: 100px; height: 100px; border-radius: 50%; box-sizing: border-box;
-  border: 8px solid var(--tv-button-secondary);
-  border-top-color: var(--tv-button-primary-solid);
+  background: conic-gradient(from 180deg,
+    var(--tv-base-light) 0deg, var(--tv-base-light) 63.2deg, rgb(255 255 255 / 0) 360deg);
+  -webkit-mask: radial-gradient(closest-side, #0000 calc(100% - 14px), #000 calc(100% - 14px));
+          mask: radial-gradient(closest-side, #0000 calc(100% - 14px), #000 calc(100% - 14px));
   animation: c-loader-spin 900ms linear infinite; }
 @keyframes c-loader-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .c-loader { animation: none; } }
 .c-loading { display: flex; flex-direction: column; align-items: center; gap: 32px;
   color: var(--tv-base-light); font-family: var(--type-heading-l-family);
   font-weight: var(--type-heading-l-weight); font-size: var(--type-heading-l-size); }
@@ -507,7 +516,7 @@ export const RewardUnlockedContainer: ComponentModule = {
 export const LoadingState: ComponentModule = {
   id: 'c-loading', title: 'Loading state', group: 'Feedback', figma: '13523:20837',
   description: 'The spinner over \u201cLoading your progress\u2026\u201d, at full screen and as a 1665 \u00d7 323 band.',
-  tokens: { colour: ['TV/Base/Light', 'TV/Button/Primary Solid', 'TV/Button/Secondary'], type: ['Heading/L'] },
+  tokens: { colour: ['TV/Base/Light', 'TV/Loader/Spin'], type: ['Heading/L'] },
   wide: true,
   variants: [
     { label: '▶ Band (1665 × 323)', el: () => h(`<div class="c-loading" style="height:323px;justify-content:center">
@@ -515,7 +524,8 @@ export const LoadingState: ComponentModule = {
   ],
   notes: [
     '<strong>The two are the same contents in two frames</strong> — <code>Loading state - 1</code> is 1920 × 1080 and <code>Loading state - 2</code> is 1665 × 323, and the spinner and the sentence are identical in both. One component with a size would do. The full-screen one is not drawn here; it is the band in a 1080-tall box.',
-    'The spinner is an instance of <code>Loader Big</code>, which has a <code>Frame 3</code> variant and no motion defined. <strong>The rotation here is this rebuild\'s</strong> — the file carries no duration, easing or direction for it.',
+    'The spinner is an instance of <code>Loader Big</code> — <strong>the same one the splash screen uses</strong> — a 100 ring 14 thick filled with the <code>TV/Loader/Spin</code> angular gradient: white held for the first 17.6% of the turn, then fading to nothing, with the hard cut at six o\'clock. It was drawn here as a bordered circle with one blue side, which is a generic CSS spinner and not this product\'s. The conic gradient is a fill and the hole is a mask, because a CSS border cannot carry a gradient.',
+    '<strong>The rotation is this rebuild\'s</strong> — <code>Loader Big</code> has a <code>Frame 3</code> variant and no motion at all, so the file carries no duration, easing or direction. 900ms linear, clockwise, and it stops under <code>prefers-reduced-motion</code>.',
     'The sentence ends in three dots typed as full stops rather than an ellipsis.',
   ],
 };

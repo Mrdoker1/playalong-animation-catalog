@@ -144,7 +144,17 @@ function fit(host: HTMLElement) {
     const el = natural[i];
     const slot = scalers[i].parentElement as HTMLElement;
     const w = el.offsetWidth, h = el.offsetHeight;
-    const available = slot.clientWidth;
+    // The slot carries 10px of padding on every side -- the room a Figma focus
+    // ring needs, since those are stroked OUTSIDE the box. clientWidth is the
+    // PADDING box, and the scaler is laid out in the CONTENT box, so scaling to
+    // clientWidth made every wide component 20 too wide and, with box-sizing
+    // border-box, 20 too tall: it ran off the right and the bottom and the
+    // slot's own overflow:hidden cut it. Scale to the content box, and give the
+    // slot back the padding in its height.
+    const cs = getComputedStyle(slot);
+    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    const available = slot.clientWidth - padX;
     if (!w || !h) continue;
     const factor = available > 0 && w > available ? available / w : 1;
     if (factor < 1) {
@@ -152,7 +162,7 @@ function fit(host: HTMLElement) {
       // A transform does not change layout, so the slot has to be told.
       scalers[i].style.width = `${w}px`;
       scalers[i].style.height = `${h}px`;
-      slot.style.height = `${Math.ceil(h * factor)}px`;
+      slot.style.height = `${Math.ceil(h * factor + padY)}px`;
       // Only a scaled slot clips: a transform leaves its old box behind, and
       // without this the next variant is pushed sideways. An unscaled slot must
       // NOT clip — several components deliberately overhang, like the avatar's
