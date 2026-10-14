@@ -84,15 +84,15 @@ let timers: number[] = [];
 function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
 function frameRows(slot: HTMLElement, opts: { screen: number; mine: number; count: boolean }) {
-  const pill = (bg: string, border: string, text: string, extra = '') => `
+  const pill = (bg: string, border: string, text: string, extra = '', ink = '#fff') => `
     <div style="height:12px;border-radius:5px;background:${bg};border:${border};box-sizing:border-box;
-      font:600 6px ${SI.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${extra}">${text}</div>`;
+      font:600 6px ${SI.font};color:${ink};display:flex;align-items:center;justify-content:center;text-transform:uppercase;${extra}">${text}</div>`;
   const rows = [0, 1, 2].map((r) => {
     const shown = r < opts.mine;
     const mineBorder = shown ? `1.5px solid ${MINE[r] === KEY[r] ? SI.win : SI.miss}` : '1.5px solid #fff';
     const suBorder = `1.5px solid ${SU_MATCH[r] ? SI.win : SI.miss}`;
     return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
-      ${pill(SI.mine, mineBorder, MINE[r], shown ? '' : 'opacity:0;transform:translateX(-6px);')}
+      ${pill(SI.chipBg, mineBorder, MINE[r], shown ? '' : 'opacity:0;transform:translateX(-6px);', SI.ink)}
       ${pill('rgba(30,44,140,0.75)', '1.5px solid transparent', KEY[r], 'opacity:.45;')}
       ${pill('rgba(30,44,140,0.75)', suBorder, SU[r], 'opacity:.45;')}
     </div>`;
@@ -185,7 +185,8 @@ export const ResultsReveal: AnimationModule = {
 .si-screen        { opacity: 0; transition: opacity ${ms(T.screenFade)}ms ${ez}; pointer-events: none; }
 .si-screen--show  { opacity: 1; pointer-events: auto; }
 
-.si-mine          { background: ${SI.mine}; border: .63cqw solid #fff; border-radius: 2.5cqw;
+.si-mine          { background: ${SI.chipBg}; color: ${SI.ink}; text-shadow: none;
+                    border: .63cqw solid #fff; border-radius: 2.5cqw;
                     transition: opacity ${duration}ms ${ez}, transform ${duration}ms ${ez},
                                 border-color ${duration}ms ${ez}, box-shadow ${duration}ms ${ez}; }
 .si-mine--hide    { opacity: 0; transform: translateX(-2cqw); }
