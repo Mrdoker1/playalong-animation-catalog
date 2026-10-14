@@ -254,12 +254,22 @@ export const VideoPlayerButtons: ComponentModule = {
 /* ------------------------------------------------- Stacked - Answer ------- */
 
 injectStyle('css-c-game2', `
+/* Re-read from 14010:45824 on 2026-10-14. The component is the LIGHT cell --
+   the TV/Background/Stacked gradient style with the label in Base/Dark Rubik,
+   not Primary Solid blue with white Roboto Condensed, which is what stood here
+   before. The gradient runs DARK at the top to light at the bottom (0deg, not
+   180): measured off the Figma render, #B9D2EF at the top edge against #E1ECFB
+   at the bottom. The 12px stroke is INSIDE, so border-box is the right box. */
 .c-stacked { width: 496px; height: 116px; box-sizing: border-box; border-radius: 48px;
-  background: var(--tv-button-primary-solid); display: grid; place-items: center;
-  font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
-  font-size: 28px; color: var(--tv-base-light); text-transform: uppercase; }
+  background: var(--gradient-tv-background-stacked);
+  display: grid; place-items: center;
+  font-family: var(--type-heading-s-family); font-weight: 600;
+  font-size: 28px; line-height: 36px; color: var(--tv-base-dark); text-transform: uppercase; }
 .c-stacked--default { border: 12px solid var(--tv-game-ui-red-1); }
 .c-stacked--success { border: 12px solid var(--tv-text-gain); }
+/* Su's column takes the same ring over the show video, with no fill of its own. */
+.c-stacked--novideo { background: none; color: var(--tv-base-light);
+  text-shadow: 0 2px 6px rgba(0,0,0,.6); }
 
 .c-note { box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
@@ -301,20 +311,25 @@ injectStyle('css-c-game2', `
 
 export const StackedAnswer: ComponentModule = {
   id: 'c-stacked-answer', title: 'Stacked — Answer', group: 'Game', figma: '14010:45824',
-  description: '496 × 116 — an answer the player gave, on Primary Solid blue with a 12px edge that carries the verdict.',
+  description: '496 × 116 — an answer block on the Stacked results board, on the light stack gradient with a 12px edge that carries the verdict.',
   tokens: {
-    colour: ['TV/Button/Primary Solid', 'TV/Game UI/Red 1', 'TV/Text/Gain', 'TV/Base/Light'],
+    colour: ['TV/Background/Stacked', 'TV/Game UI/Red 1', 'TV/Text/Gain', 'TV/Base/Dark', 'TV/Base/Light'],
     type: [],
   },
   wide: true,
   variants: [
     { label: 'Default', el: () => h(`<div class="c-stacked c-stacked--default">violin/fiddle</div>`) },
     { label: 'Success', el: () => h(`<div class="c-stacked c-stacked--success">violin/fiddle</div>`) },
+    { label: 'Success · over video', el: () => h(`<div class="c-stacked c-stacked--success c-stacked--novideo">violin/fiddle</div>`) },
   ],
   notes: [
-    '<strong>Both variant names are misspelled in the file</strong>: <code>Type=Defau;t</code> — with a semicolon — and <code>Type=Sucess</code>. The same <em>Sucess</em> slip was fixed in the paint styles on 2026-10-12 and survives here. <strong>Worth fixing.</strong>',
+    '<strong>The fill is the <code>TV/Background/Stacked</code> gradient style</strong> — <code>#ACCAEB</code> at the top to <code>#EDF3FE</code> at the bottom — and the label is <strong>Rubik SemiBold 28/36 in <code>Base/Dark</code></strong>. It was built here as Primary Solid blue with white Roboto Condensed; re-read on 2026-10-14, that was wrong. Both strokes bind styles too, so every colour on this component is a token.',
+    '<strong>Su\'s column uses the same component with its fill removed</strong>, so the show video reads through and only the ring is ours. On <code>Stacked - Final</code> six instances carry the gradient (YOUR STACK, 501 wide) and six carry no fill at all (SU\'S STACK, 496). The third variant above is that second case.',
+    '<strong>The variant is decorative — every instance overrides the stroke by hand.</strong> On <code>Stacked - Final</code> four <code>Type=Sucess</code> instances carry the red stroke and one <code>Type=Defau;t</code> carries green. Nothing reads the variant, so the set does not control what it looks like. <strong>Needs fixing before a client builds from it.</strong>',
+    '<strong>Both variant names are misspelled in the file</strong>: <code>Type=Defau;t</code> — with a semicolon — and <code>Type=Sucess</code>. The same <em>Sucess</em> slip was fixed in the paint styles on 2026-10-12 and survives here. <strong>Worth fixing</strong>, and the line above is the reason it is safe to: nothing depends on the names.',
     '<strong>The "default" is red.</strong> A 12px <code>Game UI/Red 1</code> edge is a wrong answer, not a resting state — so this set has two verdicts and no neutral. Either the name is wrong or a third variant is missing. <strong>Needs a decision.</strong>',
-    'The label binds <strong>no text style</strong>: a loose 28px. Neither the Rubik scale nor the Game scale has a 28. It renders in capitals through <code>textCase: UPPER</code> on the node.',
+    'The label binds <strong>no text style</strong>: a loose 28/36. Neither the Rubik scale nor the Game scale has a 28. It renders in capitals through <code>textCase: UPPER</code> on the node.',
+    '<strong>Radius 48 is this component\'s alone.</strong> The library radius scale is 4, 8, 12, 24 and Full; 48 appears on nothing else in the file, and at 116 tall it is not Full either (that would be 58). Left as a number.',
   ],
 };
 

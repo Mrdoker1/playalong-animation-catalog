@@ -1,5 +1,5 @@
 {
-  "$description": "PlayAlong design tokens, exported from the Figma file OTT-TV Design (Gd6wyiODkYk46DjaeyqU9o) on 2026-10-13. PlayAlong's own format -- DTCG-shaped ($type/$value and {dot.path} aliases) but deliberately NOT DTCG-conformant; the format is specified in docs/design-tokens.md. Owner: Viachaslau Kulbitski (design).",
+  "$description": "PlayAlong design tokens, exported from the Figma file OTT-TV Design (Gd6wyiODkYk46DjaeyqU9o) on 2026-10-14. PlayAlong's own format -- DTCG-shaped ($type/$value and {dot.path} aliases) but deliberately NOT DTCG-conformant; the format is specified in docs/design-tokens.md. Owner: Viachaslau Kulbitski (design).",
   "primitives": {
     "color": {
       "Black": {
@@ -295,7 +295,7 @@
         },
         "Ring Radius": {
           "$type": "dimension",
-          "$value": "12px"
+          "$value": "{semantic.TV.Radius.M}"
         },
         "Ring Width": {
           "$type": "dimension",
@@ -334,6 +334,22 @@
         "Full": {
           "$type": "dimension",
           "$value": "9999px"
+        },
+        "L": {
+          "$type": "dimension",
+          "$value": "24px"
+        },
+        "M": {
+          "$type": "dimension",
+          "$value": "12px"
+        },
+        "S": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "XS": {
+          "$type": "dimension",
+          "$value": "4px"
         }
       },
       "Surface": {
@@ -351,7 +367,7 @@
         },
         "Game Panel Radius": {
           "$type": "dimension",
-          "$value": "24px"
+          "$value": "{semantic.TV.Radius.L}"
         }
       },
       "Tags": {

@@ -32,10 +32,11 @@ const CSS = `
 .preview-si-results__cell[data-row="4"] { background: #5b96ec; }
 .preview-si-results__cell[data-row="5"] { background: #7fb4f3; }
 .preview-si-results__cell.mine[data-row] { background: var(--gradient-tv-background-stacked); }
-/* Su's matches are ringed green -- outline only, no fill: the block itself is
-   in the show video and we draw over it. Figma 14010:45827, Frame 12636. */
-.preview-si-results__cell.su.match {
-  border: 4px solid ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
+/* Su's rows are ringed too -- outline only, no fill, because the block itself
+   is in the show video and we draw over it. Green on a match, red on a miss,
+   the same rule our own column follows. */
+.preview-si-results__cell.su.match { border-color: ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
+.preview-si-results__cell.su.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #ff2a2a66; }
 /* Our blocks are TV/Background/Stacked -- a light gradient with DARK text --
    not a flat blue. Figma fills every Stacked - Answer with it. */
 .preview-si-results__cell.mine {
@@ -63,7 +64,9 @@ const RIGHT = MINE.filter((v, r) => v === KEY[r]).length;
 // x = 113 of 1920 -- the LEFT column -- and Su's is on the right. It used to be
 // the other way round.
 const COLS = { mine: 16, key: 210, su: 404 };
-/** Su's rows that match the correct stack: the design rings those green too. */
+/** Every one of Su's rows is ringed too -- green where she matched the correct
+ *  stack, red where she did not. The frame carries all six (14010:45827, read
+ *  2026-10-14); an earlier read of it had only the two green ones. */
 const SU_MATCH = SU.map((v, r) => v === KEY[r]);
 const rowTop = (r: number) => 44 + r * 41;
 
@@ -85,7 +88,7 @@ function frameRows(slot: HTMLElement, opts: { screen: number; mine: number; coun
   const rows = [0, 1, 2].map((r) => {
     const shown = r < opts.mine;
     const mineBorder = shown ? `1.5px solid ${MINE[r] === KEY[r] ? SI.win : SI.miss}` : '1.5px solid #fff';
-    const suBorder = SU_MATCH[r] ? `1.5px solid ${SI.win}` : '1.5px solid transparent';
+    const suBorder = `1.5px solid ${SU_MATCH[r] ? SI.win : SI.miss}`;
     return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
       ${pill(SI.mine, mineBorder, MINE[r], shown ? '' : 'opacity:0;transform:translateX(-6px);')}
       ${pill('rgba(30,44,140,0.75)', '1.5px solid transparent', KEY[r], 'opacity:.45;')}
@@ -105,7 +108,7 @@ export const ResultsReveal: AnimationModule = {
   title: 'Results Reveal',
   game: 'Stack It',
   description:
-    'At 0:00 the results screen fades in. YOUR STACK is the LEFT column — it moved there from the right (Figma 14010:45827, read 2026-10-14). Row by row, top to bottom, the player’s blocks slide in from the left with a green (right slot) or red (wrong slot) ring. The correct stack and Su’s blocks come from the show video, but the green rings on Su’s matching rows are ours, drawn over it as an outline with no fill. The "N of 6 in the right spot" line fades in last.',
+    'At 0:00 the results screen fades in. YOUR STACK is the LEFT column — it moved there from the right (Figma 14010:45827, read 2026-10-14). Row by row, top to bottom, the player’s blocks slide in from the left with a green (right slot) or red (wrong slot) ring. The correct stack and Su’s blocks come from the show video, but ALL SIX rings on Su’s column are ours — green on a match, red on a miss — drawn over it as an outline with no fill. The "N of 6 in the right spot" line fades in last.',
   defaults: { duration: 350, easingId: 'ease' },
   slowFactor: 3,
   frames: [
@@ -119,7 +122,7 @@ export const ResultsReveal: AnimationModule = {
     injectStyle('css-si-base', SI_BASE_CSS);
     injectStyle('css-si-results', CSS);
     const cells = (cls: string, x: number, data: string[], ring?: boolean[]) =>
-      data.map((t, r) => `<div class="preview-si-results__cell ${cls}${ring?.[r] ? ' match' : ''}" data-row="${r}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
+      data.map((t, r) => `<div class="preview-si-results__cell ${cls}${ring ? (ring[r] ? ' match' : ' miss') : ''}" data-row="${r}" style="left:${x}px;top:${rowTop(r)}px">${t}</div>`).join('');
     stage.innerHTML = `
       <div class="preview-si-board preview-si-results">
         <div class="preview-si-results__screen">

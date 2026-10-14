@@ -175,9 +175,20 @@ function geometryPage(): HTMLElement {
       </div>
     </div>`;
 
+  const scale = `
+    <h2 class="foundation__group-title">The radius scale</h2>
+    <p class="foundation__note">Four numbers and Full, and they are not a guess:
+      counted across the component library on 2026-10-14, <strong>8 carries 145
+      nodes, 12 carries 139, 4 carries 74 and 24 carries 39</strong>, with Full
+      already bound on 53. Everything else is one component's own number —
+      the Toggle knob at 5, the Reward Track bar at 20, the Strike Box at 10,
+      the Stacked answer at 48 — or an avatar circle that should be Full.
+      <strong><code>Focus/Ring Radius</code> and <code>Game Panel Radius</code>
+      are names on this scale now</strong>, not second copies of 12 and 24.</p>`;
+
   return page('Geometry',
     'Radius, focus and the one named surface. These are the tokens that are not a colour and not a type style — and the ones a client is most likely to hardcode, because a number looks like a detail.',
-    `<div class="geoms">${rows}</div>${panel}`);
+    `<div class="geoms">${rows}</div>${scale}${panel}`);
 }
 
 export const FOUNDATIONS: CatalogEntry[] = [

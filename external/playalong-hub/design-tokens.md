@@ -20,20 +20,24 @@
 ## The machine-readable copy
 
 [`design-tokens.json`](design-tokens.json) — the values, re-exported from Figma
-on **2026-10-13**. **136 tokens: 55 primitives, 48 semantic, 16 gradients, 17
+on **2026-10-14**. **140 tokens: 55 primitives, 52 semantic, 16 gradients, 17
 type styles.** All alias references resolve, and `check` reports *in sync*.
 
-> The five added on 2026-10-13 are the four `TV/Surface/Game Panel` tokens and
-> `TV/Radius/Full` — see [the token pass](#the-token-pass-of-2026-10-13).
+> The four added on 2026-10-14 are the radius scale, `TV/Radius/XS · S · M · L`
+> — see [Corner radius is a scale now](#corner-radius-is-a-scale-now).
+> The five added on 2026-10-13 before them are the four `TV/Surface/Game Panel`
+> tokens and `TV/Radius/Full` — see [the token pass](#the-token-pass-of-2026-10-13).
 
 **It is PlayAlong's own format, not DTCG** (design, 2026-10-12). It is
 *DTCG-shaped* — `$type` / `$value`, `{dot.path}` aliases — because that shape is
 familiar and most tooling can be pointed at it. It is deliberately not
 conformant, and the format is specified below so nobody has to guess.
 
-The 43 semantic are 40 colours plus the three focus tokens below — the first
-non-colour semantic tokens, and the reason the exporter now understands a
-semantic value that is a number rather than a colour alias.
+The 52 semantic are 40 colours plus twelve numbers: the three focus tokens
+below, the game panel's radius and padding, and the five-step radius scale.
+The first of those numbers is why the exporter understands a semantic value
+that is not a colour alias at all; the radius scale is why it now understands
+one semantic variable aliasing another.
 
 This file is the prose — what a token is for, why it exists, what was decided
 and when. The JSON is the values, and it is what a generator or a client reads.
@@ -432,15 +436,60 @@ Measured from the PTV-858 menu frames. This is the one surface whose geometry ha
 been read node by node, so it is the only one recorded in the table below.
 
 **The rest of the scale was swept on 2026-10-12** — every node on `❖ Components`,
-counting what each number is actually used for. None of it is tokenised yet; it
-is recorded so the next person does not re-derive it, and so the decision is
-about a measurement rather than a taste.
+counting what each number is actually used for. **Corner radius became tokens on
+2026-10-14** (below); the other two are recorded so the next person does not
+re-derive them, and so the decision is about a measurement rather than a taste.
 
-| Scale | Values that carry it | Uses |
-| --- | --- | --- |
-| Corner radius | 4 · 8 · 12 · 24 | 395 of ~500 |
-| Stroke width | 1 · 2 · 4 · 6 | 486 |
-| Icon size | 16 · 24 · 32 · 40 · 64 | 438 |
+| Scale | Values that carry it | Uses | Tokenised |
+| --- | --- | --- | --- |
+| Corner radius | 4 · 8 · 12 · 24 | 395 of ~500 | **yes, 2026-10-14** |
+| Stroke width | 1 · 2 · 4 · 6 | 486 | no |
+| Icon size | 16 · 24 · 32 · 40 · 64 | 438 | no |
+
+### Corner radius is a scale now
+
+Counted again on 2026-10-14, inside the component library only, because that is
+the source and the screens are instances of it:
+
+| Token | Value | Nodes carrying it | Where |
+| --- | --- | --- | --- |
+| `TV/Radius/S` | 8 | 145 | Toggle, Tabs, Tabs Item, Keyboard, Answer Box, Player Thumbnail, Higher/Lower |
+| `TV/Radius/M` | 12 | 139 | Button, both Rail Cards, Menu Item, both menus, Tabs, the Section headers |
+| `TV/Radius/XS` | 4 | 74 | every Tag, the rail cards' pills, Score Table Row, Search List Item |
+| `TV/Radius/L` | 24 | 39 | every game panel — Status Box, Score Box, Card Box, Attempts Box, Notification Message, Higher/Lower Note |
+| `TV/Radius/Full` | 9999 | 53 | already bound since 2026-10-12 |
+
+**118 nodes were bound at the source.** 256 more carry one of these numbers
+inside an instance and were left alone — they inherit from the main component,
+so binding them would only create overrides. 23 were already bound.
+
+**`TV/Focus/Ring Radius` and `TV/Surface/Game Panel Radius` are now names on the
+scale**, aliasing `M` and `L`, rather than second copies of 12 and 24. Nothing
+moves: both held exactly those values already.
+
+**Everything outside the scale stays a number, and each one is one component's
+own:** the Toggle knob at 5, the Reward Track bar at 20, the Strike Box at 10,
+the Stacked answer block at 48. None of them recurs anywhere else, so a token
+would name a single use.
+
+> **Decision: the radius scale lives in `Semantic` with literal values, and has
+> no `Primitives` layer.** Every other semantic variable aliases down into
+> Primitives, so this breaks the file's shape, and the alternative was four
+> `Radius/*` primitives mirroring `Font/Size/*`. It was not taken because the
+> semantic names *are* the scale — `XS · S · M · L` carry no meaning a
+> primitive could hold — and because `TV/Radius/Full` was already a Semantic
+> literal, so a primitive layer would have had to migrate it as well.
+> **The cost is real and is paid in `scripts/tokens.py`:** `prim_ref` now has to
+> recognise a sideways alias — a target already named in `Semantic` resolves to
+> `{semantic.…}` rather than `{primitives.color.…}`. Before that patch the drift
+> check reported both re-pointed variables as broken aliases, which is the right
+> behaviour for the assumption it was written under.
+
+> **The avatar circles are still wrong and were not touched.** `User Avatar` and
+> `Avatar Picture` carry radius 140, `Container` carries 200 — all of them
+> already round, so they belong on `Full`. Changing them moves nothing visible
+> but it is three components' geometry, so it is named here rather than done
+> quietly.
 
 **A square of 44 appears 53 times**, which is exactly the ≥ 44px focus-target
 floor stated above. The rule is being followed; it is simply not written down as

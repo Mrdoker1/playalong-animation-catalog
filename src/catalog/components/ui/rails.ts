@@ -36,8 +36,13 @@ injectStyle('css-c-rail', `
 .c-card__meta { display: flex; flex-direction: column; gap: 4px; }
 /* The counter that replaced the progress bar on Seen (Figma 629:4401, read
    2026-10-14). It is a Tag at a LARGER padding than the others -- 16/8 against
-   NEW's 8/4, so 40 tall against 24 -- and it carries no icon. */
-.c-pill--count { left: 13px; bottom: 13px; right: auto; top: auto;
+   NEW's 8/4, so 40 tall against 24 -- and it carries no icon.
+   It sits in the SAME corner as NEW and PLAYED, bottom right, because the three
+   are one slot that changes with the card's state: NEW -> 3/5 -> PLAYED.
+   Re-read from 629:4401 on 2026-10-14: the tag is at x 321 y 172, 66 x 40, so
+   13 from the right and 13 from the bottom; Seen carries no NEW pill, and the
+   ProgressBar slot underneath is still there but hidden. */
+.c-pill--count { right: 13px; bottom: 13px; left: auto; top: auto;
   height: 40px; padding: 8px 16px; border-radius: 4px;
   background: var(--tv-base-dark); color: var(--tv-base-light);
   font-family: var(--type-body-m-family); font-weight: var(--type-body-m-weight);
@@ -102,8 +107,9 @@ const card = (w: number, artH: number, state: CardState, extraPill = '') => {
             : `<img src="${THUMB}" alt="">`}
         ${state === 'skeleton' ? '' : prime ? PILL_PRIME : ''}
         ${state === 'skeleton' ? '' : extraPill}
-        ${state === 'skeleton' ? '' : state === 'played' ? PILL_PLAYED : PILL_NEW}
-        ${state === 'seen' ? '<span class="c-pill c-pill--count">3/5</span>' : ''}
+        ${state === 'skeleton' ? ''
+          : state === 'seen' ? '<span class="c-pill c-pill--count">3/5</span>'
+          : state === 'played' ? PILL_PLAYED : PILL_NEW}
       </div>
       <div class="c-card__meta">${
         state === 'skeleton'
@@ -135,8 +141,10 @@ export const HorizontalRailCard: ComponentModule = {
   notes: [
     '<strong><code>Placeholder</code> has the same structure as <code>Default</code></strong> — same frames, same NEW tag, same copy — and differs only in which picture fills the still: the brand mark on the neutral ground instead of the show. It is what a card looks like before its art arrives, and it is <strong>not</strong> the <code>Skeleton</code>, which has no card at all, only grey bars.',
     '<strong>Prime Time is marked twice over</strong>: a yellow crown pill at 13/13 <em>and</em> the card\'s border changing from <code>Border/White 20</code> to <code>Game UI/Yellow</code>. Focus then replaces that border with the 6px blue ring, so <strong>a focused Prime Time card loses its yellow edge</strong> and only the pill is left.',
-    '<strong><code>Seen</code> is a counter now, not a bar</strong> (Figma, 2026-10-14). It used to be an 8px progress bar across the bottom of the still; it is a <code>Base/Dark</code> tag reading <code>3/5</code> at 13 from the left and 13 from the bottom. Both focus states carry it.',
-    'That counter tag is <strong>40 high where every other pill is 24</strong> — padding 16/8 against NEW\'s 8/4 — and it carries <strong>no icon</strong>, although the proposal\'s mock showed one. Figma is what is built here.',
+    '<strong><code>Seen</code> is a counter now, not a bar</strong> (Figma, 2026-10-14). It used to be an 8px progress bar across the bottom of the still; it is a <code>Base/Dark</code> tag reading <code>3/5</code>. Both focus states carry it.',
+    '<strong>NEW, <code>3/5</code> and PLAYED are one slot, bottom right</strong> — 13 from the right, 13 from the bottom — and they replace one another as the card is played: <code>NEW → 3/5 → PLAYED</code>. A card never shows two of them, and <code>Seen</code> carries no NEW pill. <em>Figma 629:4401 agrees, re-read 2026-10-14; an earlier note here said it sat bottom left, which it does not.</em>',
+    'The <code>ProgressBar</code> slot is <strong>still in the Figma component and still hidden</strong>. It is the bar the counter replaced, left in place rather than deleted — nothing draws it, here or there.',
+    'That counter tag is <strong>40 high where every other pill is 24</strong> — padding 16/8 against NEW\'s 8/4 — and it carries <strong>no icon</strong>, although the proposal\'s mock showed one.',
     '<code>Played</code> is unchanged: it swaps the NEW pill for a dark PLAYED one with a tick.',
     'The title and the episode line <strong>bind no text style</strong> — loose 24 and 20. Only the pills bind one (<code>Label/S</code>).',
     'Focus is a <strong>6px</strong> ring where the idle border is 1px, both drawn OUTSIDE, so the card does not move when it takes focus.',

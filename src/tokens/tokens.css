@@ -53,6 +53,10 @@
   --tv-game-ui-yellow: #CAA512;
   --tv-progress-track: #5C5E65;
   --tv-radius-full: 9999px;
+  --tv-radius-l: 24px;
+  --tv-radius-m: 12px;
+  --tv-radius-s: 8px;
+  --tv-radius-xs: 4px;
   --tv-surface-game-panel: #000000CC;
   --tv-surface-game-panel-border: #FFFFFF33;
   --tv-surface-game-panel-padding: 40px;
