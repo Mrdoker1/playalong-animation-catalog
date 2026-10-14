@@ -53,8 +53,8 @@ function frameStack(slot: HTMLElement, tops: [number, number], arrowTop: number)
     <div style="
       position:absolute;left:10px;top:${top}px;width:120px;height:24px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;border-radius:11px;
-      background:${SI.chipBg};border:${focus ? `2.5px solid ${SI.gold}` : '1.5px solid #fff'};
-      box-shadow:${focus ? '0 0 8px rgba(255,200,0,0.45),' : ''}0 2px 4px rgba(0,0,0,0.4);
+      background:${SI.chipBg};
+      box-shadow:${focus ? `0 0 0 2.5px ${SI.gold},0 0 6px 2.5px rgba(255,246,0,0.55),` : '0 0 0 1.5px #fff,'}0 2px 4px rgba(0,0,0,0.4);
       color:${SI.ink};font-family:${SI.font};font-weight:600;font-size:9px;text-transform:uppercase;
       z-index:${focus ? 2 : 1};
     ">${text}</div>`;

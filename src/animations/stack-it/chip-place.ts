@@ -96,17 +96,19 @@ export const ChipPlace: AnimationModule = {
   position: absolute;
   border-radius: 1.667cqw;
   background: linear-gradient(0deg, #EDF3FE 0%, #ACCAEB 100%);
-  border: .21cqw solid #fff;
+  /* Both strokes are OUTSIDE in Stacked - option: white 4 at rest, yellow 8 on
+     focus. Outer shadows -- a border would draw them inside the chip. */
+  box-shadow: 0 0 0 .21cqw #fff, 0 .25cqw .5cqw #0006;
   font-size: 1.2cqw;
   transition:
     left   ${duration}ms ${ez},
     top    ${duration}ms ${ez},
     width  ${duration}ms ease,
     height ${duration}ms ease,
-    transform .2s, border-color .2s, box-shadow .2s, font-size .2s;
+    transform .2s, box-shadow .2s, font-size .2s;
 }
 .si-chip--in-slot { font-size: 1.3cqw; }
-.si-chip--moving  { border: .42cqw solid ${SI.gold}; box-shadow: 0 0 .94cqw #fff60099, 0 .25cqw .5cqw #0006; z-index: 4; }
+.si-chip--moving  { box-shadow: 0 0 0 .42cqw ${SI.gold}, 0 0 .94cqw .42cqw #fff60099, 0 .25cqw .5cqw #0006; z-index: 4; }
 
 /* Dashed outline left behind in the tray */
 .si-ghost { border: .21cqw dashed #a3a8cc99; border-radius: 1.667cqw; transition: opacity .2s; }

@@ -153,16 +153,15 @@ export const Focus: AnimationModule = {
     return {
       web: `/* StackItOverlay.css */
 .si-chip {
-  border: .2cqw solid #fff;
-  transition: transform ${duration}ms ${ez}, border-color ${duration}ms ${ez},
-              box-shadow ${duration}ms ${ez}, font-size ${duration}ms ${ez};
+  /* Strokes are OUTSIDE in Stacked - option: white 4, yellow 8 on focus. */
+  box-shadow: 0 0 0 .21cqw #fff, 0 .25cqw .5cqw #0006;
+  transition: transform ${duration}ms ${ez}, box-shadow ${duration}ms ${ez}, font-size ${duration}ms ${ez};
 }
 
 /* Remote focus (tray) and picked-up block (stack) share the gold ring */
 .si-chip--focus,
 .si-chip--moving {
-  border: .32cqw solid ${SI.gold};
-  box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006;
+  box-shadow: 0 0 0 .42cqw ${SI.gold}, 0 0 .94cqw .42cqw #fff60099, 0 .25cqw .5cqw #0006;
   z-index: 4;
 }
 

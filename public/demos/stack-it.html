@@ -37,13 +37,15 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-tv)}
 .chip{position:absolute;box-sizing:border-box;display:flex;align-items:center;justify-content:center;text-align:center;
   border-radius:1.667cqw;font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:1.2cqw;color:var(--ink);
   background:linear-gradient(0deg,#EDF3FE 0%,#ACCAEB 100%);
-  border:.2cqw solid #fff;box-shadow:0 .25cqw .5cqw #0006;
+  box-shadow:0 0 0 .21cqw #fff,0 .25cqw .5cqw #0006;
   transition:left .45s cubic-bezier(.3,.9,.3,1),top .45s cubic-bezier(.3,.9,.3,1),width .45s,height .45s,transform .2s,border-color .2s,box-shadow .2s,font-size .2s;
   user-select:none;cursor:pointer;z-index:2}
 .chip.in-slot{font-size:1.3cqw}
-/* Focus: stroke 8 = .42cqw, and the glow is #FFF600 at 60% radius 18 -- a
-   yellow that is NOT Game UI/Yellow and binds no token. */
-.chip.focus,.chip.moving{border:.42cqw solid var(--gold);box-shadow:0 0 .94cqw #fff60099,0 .25cqw .5cqw #0006;z-index:4}
+/* Both strokes are OUTSIDE in the file -- white 4 (.21cqw) at rest, Game
+   UI/Yellow 8 (.42cqw) on focus -- so they are outer shadows here, not borders,
+   which drew them inside the chip. The glow is #FFF600 at 60% radius 18 (a
+   yellow that binds no token) and starts at the stroke's outer edge. */
+.chip.focus,.chip.moving{box-shadow:0 0 0 .42cqw var(--gold),0 0 .94cqw .42cqw #fff60099,0 .25cqw .5cqw #0006;z-index:4}
 .chip.big{transform:scale(1.09);font-size:1.55cqw;z-index:5}
 .ghost{position:absolute;box-sizing:border-box;border-radius:1.667cqw;border:.21cqw dashed #a3a8cc99;z-index:1;transition:opacity .2s}
 .arrows{position:absolute;z-index:6;display:flex;flex-direction:column;justify-content:space-between;align-items:center;pointer-events:none;transition:top .3s}

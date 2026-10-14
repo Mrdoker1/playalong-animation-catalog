@@ -40,15 +40,16 @@ export const SI_BASE_CSS = `
   display: flex; align-items: center; justify-content: center;
   border-radius: 20px;
   background: ${SI.chipBg};
-  border: 2px solid #fff;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+  /* Strokes are OUTSIDE in Stacked - option: white 4 at rest, yellow 8 on focus
+     (here at the preview's scale, 2 and 4). Outer shadows, not borders, which
+     would draw them inside the chip. */
+  box-shadow: 0 0 0 2px #fff, 0 3px 6px rgba(0,0,0,0.4);
   color: ${SI.ink};
   font-weight: 600; font-size: 13px; letter-spacing: .02em; text-transform: uppercase;
   white-space: nowrap;
 }
 .preview-si-chip.is-focus {
-  border: 3px solid ${SI.gold};
-  box-shadow: 0 0 12px rgba(255,200,0,0.4), 0 3px 6px rgba(0,0,0,0.4);
+  box-shadow: 0 0 0 4px ${SI.gold}, 0 0 10px 4px rgba(255,246,0,0.6), 0 3px 6px rgba(0,0,0,0.4);
   z-index: 4;
 }
 .preview-si-ghost {
@@ -67,14 +68,13 @@ export function frameChip(slot: HTMLElement, opts: {
   fontSize?: number;
   extra?: string;
 }) {
-  const border = opts.focus ? `3px solid ${SI.gold}` : '2px solid #fff';
-  const glow = opts.focus ? '0 0 10px rgba(255,200,0,0.45),' : '';
+  const ring = opts.focus ? `0 0 0 3px ${SI.gold},0 0 8px 3px rgba(255,246,0,0.55),` : '0 0 0 1.5px #fff,';
   slot.innerHTML = `
     <div style="
       width:130px;height:30px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;
-      border-radius:20px;background:${SI.chipBg};border:${border};
-      box-shadow:${glow}0 2px 4px rgba(0,0,0,0.4);
+      border-radius:20px;background:${SI.chipBg};
+      box-shadow:${ring}0 2px 4px rgba(0,0,0,0.4);
       color:${SI.ink};font-family:${SI.font};font-weight:600;
       font-size:${opts.fontSize ?? 10}px;letter-spacing:.02em;text-transform:uppercase;
       transform:scale(${opts.scale ?? 1});
