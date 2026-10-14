@@ -494,18 +494,30 @@ export const CheckboxMessage: ComponentModule = {
 /* ----------------------------------------------------------------- Keyboard */
 
 injectStyle('css-c-kb', `
-.c-kb { width: 582px; box-sizing: border-box; border-radius: 12px; overflow: hidden;
+/* The keys have NO fill in the file -- the keyboard's own Base/Neutral shows
+   through them -- and each carries a 2px Base/Dark stroke drawn OUTSIDE. Two
+   neighbours sit 2 apart, so their two strokes land on exactly the SAME 2px and
+   read as one dark line. A CSS border is inside the box, so border + gap drew
+   two thin edges with a lighter strip between them; an outside box-shadow
+   reproduces the overlap, and the gap becomes one dark field.
+   The component does NOT clip (clipsContent: false), which is what lets the
+   focus ring hang off the top-left corner -- so no overflow hidden here. */
+.c-kb { width: 582px; box-sizing: border-box; border-radius: 12px;
   background: var(--tv-base-neutral); display: flex; flex-wrap: wrap; gap: 2px;
   align-content: flex-start; }
 .c-kb__k { height: 90px; box-sizing: border-box; flex: none;
-  border: 2px solid var(--tv-base-dark); display: grid; place-items: center;
+  box-shadow: 0 0 0 2px var(--tv-base-dark); display: grid; place-items: center;
   font-family: var(--type-heading-m-family); font-weight: var(--type-heading-m-weight);
   font-size: var(--type-heading-m-size); color: var(--tv-base-light); }
 .c-kb__k--6 { width: 95px; }
 .c-kb__k--5 { width: 114px; }
 .c-kb__k--w { width: 192px; }
 .c-kb__k--done { background: var(--tv-base-light); color: var(--tv-base-dark); }
-.c-kb__k.is-focus { border: 6px solid var(--tv-button-primary-solid); }
+/* The focus ring is 6px OUTSIDE and bound to TV/Focus/Ring Color, so it covers
+   the neighbours' gap rather than shrinking its own key. A border would do
+   neither. */
+.c-kb__k.is-focus { position: relative; z-index: 1;
+  box-shadow: 0 0 0 var(--tv-focus-ring-width) var(--tv-focus-ring-color); }
 .c-kb__listen { width: 582px; height: 640px; display: grid; place-items: center; }
 .c-kb__mic { display: flex; flex-direction: column; align-items: center; gap: 12px;
   padding: 4px 0; width: 163px; }
@@ -517,22 +529,34 @@ injectStyle('css-c-kb', `
 .c-kb__halo::before, .c-kb__halo::after { content: ''; position: absolute;
   border-radius: 9999px; background: var(--tv-button-primary-solid);
   animation: c-kb-pulse 1.8s ease-in-out infinite; }
-.c-kb__halo::before { width: 124px; height: 124px; opacity: .3; animation-delay: -.9s; }
-.c-kb__halo::after  { width: 106px; height: 106px; opacity: .5; }
+/* ::before is the 124 ring, ::after the 106 one. The INNER one leads and the
+   outer follows a fifth of a cycle later, so the motion travels outward from
+   the core. They used to be half a cycle apart, which is not a wave -- it is
+   two circles in opposition, one growing while the other shrinks. */
+.c-kb__halo::before { --halo-o: .3; width: 124px; height: 124px; opacity: .3;
+  animation-delay: .2s; }
+.c-kb__halo::after  { --halo-o: .5; width: 106px; height: 106px; opacity: .5;
+  animation-delay: 0s; }
 /* The core and the glyph do NOT move. Scaling the whole group reads as a button
    being pressed; only the two haloes breathe, which is what an open microphone
    looks like. Figma has no animation here -- the frame is one still -- so the
-   timing is a decision, not a measurement. */
+   timing is a decision, not a measurement. Rest is scale 1 at the file's own
+   opacity, so the still is one frame of this. */
 @keyframes c-kb-pulse {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.1); }
+  0%, 100% { transform: scale(1);    opacity: var(--halo-o); }
+  50%      { transform: scale(1.12); opacity: calc(var(--halo-o) * .45); }
 }
 @media (prefers-reduced-motion: reduce) {
   .c-kb__halo::before, .c-kb__halo::after { animation: none; transform: none; }
 }
 /* The glyph is TV/Base/Light. It was inheriting the card's text colour, which
    is Text/Primary -- the grey-blue it rendered as. */
-.c-kb__halo > span { position: relative; width: 88px; height: 88px; border-radius: 9999px;
+/* z-index is the whole reason the glyph looked pale. ::after is the LAST child
+   of the halo, so with everything at z-index auto it painted OVER the core --
+   a 50% blue veil across a white glyph, which is exactly the colour it came out
+   as. The core has to sit above both rings. */
+.c-kb__halo > span { position: relative; z-index: 1;
+  width: 88px; height: 88px; border-radius: 9999px;
   box-sizing: border-box; display: grid; place-items: center;
   color: var(--tv-base-light);
   background: var(--tv-button-primary-solid); border: 2px solid var(--tv-button-primary-solid); }
@@ -610,7 +634,8 @@ export const Keyboard: ComponentModule = {
     '<code>Search</code> is <strong>642 high rather than 734</strong> — it drops the <code>?123</code> row, and its tail is <code>Clear</code> plus two icons with no <code>.com</code> and no <code>Done</code>. A keyboard with no way to finish. <strong>Worth checking.</strong>',
     'The <code>Done</code> key is the only filled one: <code>TV/Base/Light</code> with dark text.',
     'The icon keys are blank 44 × 44 frames in the file — no icon, no name. <code>Delete</code> and <code>Mic</code> are this rebuild\'s reading of their positions, not a measurement. <strong>Needs the real icons in the file.</strong>',
-    'Keys carry a 2px <code>TV/Base/Dark</code> border each and sit on a 2px gap, so adjacent keys show a 6px seam. The focus ring is a <strong>6px</strong> <code>Primary Solid</code> border, drawn as a separate overlay frame on the first key.',
+    '<strong>The keys have no fill.</strong> The keyboard\'s own <code>Base/Neutral</code> shows through them, and each key carries a 2px <code>Base/Dark</code> stroke drawn <code>OUTSIDE</code>. Neighbours sit 2 apart, so their two strokes land on <em>exactly the same 2px</em> and read as <strong>one dark line</strong> — not two edges with a lighter strip between, which is what a CSS border plus a gap produces and what this was. Rebuilt as an outside <code>box-shadow</code>, which overlaps the same way.',
+    'The focus ring is <strong>6px <code>TV/Focus/Ring Color</code>, also <code>OUTSIDE</code></strong>, and it is a separate overlay frame sitting on the first key rather than a state of that key. <strong>The component does not clip</strong> (<code>clipsContent: false</code>), so on the corner key the ring hangs off the keyboard — reproduced here rather than tidied, because tidying it would mean the ring covers its own key instead of its neighbours.',
     '<code>Listening</code> replaces the whole grid with the <code>Mic</code> component and keeps only the last row. Its haloes are the focus blue at 30% and 50% node opacity — one token, three strengths.',
   ],
 };
@@ -629,7 +654,8 @@ export const Mic: ComponentModule = {
   notes: [
     '<strong>Fully tokenised, and I said otherwise before.</strong> The halo, the ring and the core are <em>one</em> colour — <code>#0090FF</code> bound to <code>TV/Button/Primary Solid</code> — at node opacities 30%, 50% and 100%. An earlier note here claimed three hardcoded blues; that was a misreading, corrected 2026-10-13.',
     'The centre is a <strong>56</strong> icon in an 88 circle at radius 9999 — a radius far larger than the shape, which is how the file writes a pill. It was drawn at 44 here, and in <code>Base/Light</code>: the glyph binds <code>TV/Base/Light</code> and is white, where this was letting it inherit <code>Text/Primary</code> and rendering grey-blue.',
-    '<strong>The pulse is ours, not the file\'s.</strong> Figma holds one still, so nothing here is measured from it: the two haloes scale between 1 and 1.1 over 1.8s, the outer one half a cycle behind the inner, never below 1 so the still the file holds is the resting state, and <strong>the core and the glyph do not move</strong> — scaling the whole group reads as a button being pressed rather than a microphone that is open. It stops under <code>prefers-reduced-motion</code>.',
+    '<strong>The pulse is ours, not the file\'s.</strong> Figma holds one still, so nothing here is measured from it: the two haloes scale between 1 and 1.12 over 1.8s and fade as they grow, <strong>the inner leading and the outer a fifth of a cycle behind</strong>, so the motion travels outward from the core. Never below 1, so the still the file holds is one frame of it, and <strong>the core and the glyph do not move</strong> — scaling the whole group reads as a button being pressed rather than a microphone that is open. It stops under <code>prefers-reduced-motion</code>.',
+    'Two things were wrong here first and are worth the warning. The rings were <strong>half a cycle apart</strong>, which is not a wave — it is one growing while the other shrinks. And the glyph rendered pale blue although it was set to <code>Base/Light</code>: <code>::after</code> is the halo\'s last child, so at <code>z-index: auto</code> it painted <em>over</em> the core, laying 50% blue across a white glyph. <strong>The core needs an explicit <code>z-index</code></strong> — a sibling pseudo-element is not behind its sibling just because it looks like a background.',
   ],
 };
 
