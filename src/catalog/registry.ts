@@ -4,6 +4,7 @@ import { DEMOS } from './demos';
 import { FOUNDATIONS } from './foundations';
 import { COMPONENT_ENTRIES } from './components';
 import { FLOWS } from './flows/auth';
+import { HOME } from './home';
 import { createAnimationCard } from '../components/AnimationCard';
 import { createDemoCard } from './DemoCard';
 
@@ -44,10 +45,13 @@ const fromAnimations: CatalogEntry[] = ANIMATIONS.map((a) => ({
   open: (host) => mount(host, createAnimationCard(a) as WithDestroy),
 }));
 
-export const ENTRIES: CatalogEntry[] = [...FOUNDATIONS, ...COMPONENT_ENTRIES, ...FLOWS, ...fromDemos, ...fromAnimations];
+// HOME is first so the root URL, which has no hash, opens on it rather than
+// on the colour swatches -- which told a first-time reader nothing.
+export const ENTRIES: CatalogEntry[] = [...HOME, ...FOUNDATIONS, ...COMPONENT_ENTRIES, ...FLOWS, ...fromDemos, ...fromAnimations];
 
 /** Sidebar order. A section with no entries is skipped by the sidebar. */
 export const SECTION_ORDER = [
+  'Overview',
   'Foundations',
   'Components',
   'Animations',
