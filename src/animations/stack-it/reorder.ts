@@ -52,7 +52,7 @@ function frameStack(slot: HTMLElement, tops: [number, number], arrowTop: number)
   const chip = (text: string, top: number, focus: boolean) => `
     <div style="
       position:absolute;left:10px;top:${top}px;width:120px;height:24px;box-sizing:border-box;
-      display:flex;align-items:center;justify-content:center;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;border-radius:11px;
       background:${SI.chipBg};border:${focus ? `2.5px solid ${SI.gold}` : '1.5px solid #fff'};
       box-shadow:${focus ? '0 0 8px rgba(255,200,0,0.45),' : ''}0 2px 4px rgba(0,0,0,0.4);
       color:${SI.ink};font-family:${SI.font};font-weight:600;font-size:9px;text-transform:uppercase;

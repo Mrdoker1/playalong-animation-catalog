@@ -8,7 +8,7 @@ const CSS = `
 .preview-si-place { width: 520px; height: 260px; }
 .preview-si-place__slot {
   position: absolute; left: 300px; width: 196px; height: 44px;
-  border-radius: 999px;
+  border-radius: 21px;
   background: rgba(10,16,60,0.55);
   border: 1.5px solid rgba(123,127,214,0.45);
   box-sizing: border-box;
@@ -94,9 +94,9 @@ export const ChipPlace: AnimationModule = {
    the 16:9 stage (tray cell or slot rect). The transition does the glide. */
 .si-chip {
   position: absolute;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #f6f9ff 0%, #e2eafb 55%, #b7cbef 100%);
-  border: .2cqw solid #fff;
+  border-radius: 1.667cqw;
+  background: linear-gradient(0deg, #EDF3FE 0%, #ACCAEB 100%);
+  border: .21cqw solid #fff;
   font-size: 1.2cqw;
   transition:
     left   ${duration}ms ${ez},
@@ -106,10 +106,10 @@ export const ChipPlace: AnimationModule = {
     transform .2s, border-color .2s, box-shadow .2s, font-size .2s;
 }
 .si-chip--in-slot { font-size: 1.3cqw; }
-.si-chip--moving  { border: .32cqw solid ${SI.gold}; box-shadow: 0 0 1.2cqw #ffc80066, 0 .25cqw .5cqw #0006; z-index: 4; }
+.si-chip--moving  { border: .42cqw solid ${SI.gold}; box-shadow: 0 0 .94cqw #fff60099, 0 .25cqw .5cqw #0006; z-index: 4; }
 
 /* Dashed outline left behind in the tray */
-.si-ghost { border: .18cqw dashed #a3a8cc99; border-radius: 999px; transition: opacity .2s; }
+.si-ghost { border: .21cqw dashed #a3a8cc99; border-radius: 1.667cqw; transition: opacity .2s; }
 
 @media (prefers-reduced-motion: reduce) { .si-chip { transition: none; } }`,
       android: `// Jetpack Compose — Android TV

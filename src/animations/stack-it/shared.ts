@@ -5,13 +5,20 @@
 
 export const SI = {
   ink:    '#0c1240',
-  gold:   '#d9a80b',
+  // Game UI/Yellow, the colour the Stacked - option focus stroke binds. It was
+  // #d9a80b, a near miss nothing in the file uses.
+  gold:   '#CAA512',
   goldHi: '#ffc928',
   lav:    '#7b7fd6',
-  win:    '#7bff3c',
-  miss:   '#ff2a2a',
+  // TV/Text/Gain and TV/Game UI/Red 1 -- the two colours the Stacked - Answer
+  // strokes actually bind. They were #7bff3c and #ff2a2a, neither of them in
+  // the file.
+  win:    '#8CFF4F',
+  miss:   '#FF0000',
   mine:   '#0090ff',
-  chipBg: 'linear-gradient(180deg,#f6f9ff 0%,#e2eafb 55%,#b7cbef 100%)',
+  // TV/Background/Stacked: DARK at the top, light at the bottom. It ran the
+  // other way here, three stops of its own.
+  chipBg: 'linear-gradient(0deg,#EDF3FE 0%,#ACCAEB 100%)',
   font:   "'Rubik', 'Helvetica Neue', Arial, sans-serif",
 };
 
@@ -24,11 +31,14 @@ export const SI_BASE_CSS = `
   overflow: hidden;
   font-family: ${SI.font};
 }
+/* Stacked - option, 14283:40589: radius 32 on a 1920 board, which is 1.67% of
+   the width -- not a pill, which is what 999px made it. The preview boards are
+   drawn at a fixed pixel width, so this is that fraction of it. */
 .preview-si-chip {
   position: absolute;
   box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 999px;
+  border-radius: 20px;
   background: ${SI.chipBg};
   border: 2px solid #fff;
   box-shadow: 0 3px 6px rgba(0,0,0,0.4);
@@ -44,7 +54,7 @@ export const SI_BASE_CSS = `
 .preview-si-ghost {
   position: absolute;
   box-sizing: border-box;
-  border-radius: 999px;
+  border-radius: 20px;
   border: 2px dashed rgba(163,168,204,0.6);
 }
 `;
@@ -63,7 +73,7 @@ export function frameChip(slot: HTMLElement, opts: {
     <div style="
       width:130px;height:30px;box-sizing:border-box;
       display:flex;align-items:center;justify-content:center;
-      border-radius:999px;background:${SI.chipBg};border:${border};
+      border-radius:20px;background:${SI.chipBg};border:${border};
       box-shadow:${glow}0 2px 4px rgba(0,0,0,0.4);
       color:${SI.ink};font-family:${SI.font};font-weight:600;
       font-size:${opts.fontSize ?? 10}px;letter-spacing:.02em;text-transform:uppercase;

@@ -27,7 +27,7 @@ import {
 import {
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, CardBox,
   AnswerOption, VideoPlayerButtons,
-  StackedAnswer, HigherLowerNote, HigherLower, ScoreTableRow, NotificationMessage,
+  StackedAnswer, StackedOption, HigherLowerNote, HigherLower, ScoreTableRow, NotificationMessage,
 } from './ui/game';
 
 export const COMPONENTS: ComponentModule[] = [
@@ -51,7 +51,7 @@ export const COMPONENTS: ComponentModule[] = [
   // Game
   BoxContent, ScoreBox, StatusBox, Keys, HigherLowerButton, HigherLower, HigherLowerNote,
   CardBox, AnswerOption, AnswerOptionsList, AnswerBox, AttemptsBox, GameKeyboard,
-  CardSharksQuestion, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
+  CardSharksQuestion, StackedOption, StackedAnswer, Attempt, StrikeBox, ScoreTableRow,
 ];
 
 export const COMPONENT_ENTRIES: CatalogEntry[] = COMPONENTS.map((c) => ({

@@ -271,6 +271,30 @@ injectStyle('css-c-game2', `
 .c-stacked--novideo { background: none; color: var(--tv-base-light);
   text-shadow: 0 2px 6px rgba(0,0,0,.6); }
 
+/* Stacked - Option, 14283:40589. The answer chip on the play screen. Radius is
+   32 in every state and it is NOT a pill: at 68 tall a pill would be 34, at 76
+   it would be 38. Strokes are OUTSIDE, so they are box-shadows -- a border
+   would eat the box. */
+.c-sopt { width: 340px; height: 68px; box-sizing: border-box; border-radius: 32px;
+  display: grid; place-items: center;
+  background: var(--gradient-tv-background-stacked);
+  box-shadow: 0 0 0 4px var(--tv-base-light), 0 0 40px rgba(0,0,0,.6);
+  font-family: var(--type-heading-s-family); font-weight: 600; font-size: 24px;
+  line-height: 36px; text-transform: uppercase; color: var(--tv-base-dark); }
+.c-sopt--empty { background: none; box-shadow: none;
+  border: 4px dashed var(--tv-border-white-20); }
+.c-sopt--focus { width: 360px; height: 76px;
+  box-shadow: 0 0 0 8px var(--tv-game-ui-yellow), 0 0 18px rgba(255,246,0,.6); }
+/* The arrows sit beside the chip, not on it: 37 x 72 at 24 apiece, which leaves
+   24 of air between them. */
+.c-sopt-sel { display: flex; align-items: center; gap: 24px; }
+.c-sopt-sel__arrows { width: 37px; height: 72px; display: flex; flex-direction: column;
+  justify-content: space-between; }
+.c-sopt-sel__arrows i { width: 0; height: 0; border-left: 18.5px solid transparent;
+  border-right: 18.5px solid transparent; }
+.c-sopt-sel__arrows i.up { border-bottom: 24px solid var(--tv-transparent-white-25); }
+.c-sopt-sel__arrows i.down { border-top: 24px solid var(--tv-game-ui-yellow); }
+
 .c-note { box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
   display: flex; flex-direction: column; gap: 8px; color: var(--tv-base-light); }
@@ -330,6 +354,33 @@ export const StackedAnswer: ComponentModule = {
     '<strong>The "default" is red.</strong> A 12px <code>Game UI/Red 1</code> edge is a wrong answer, not a resting state — so this set has two verdicts and no neutral. Either the name is wrong or a third variant is missing. <strong>Needs a decision.</strong>',
     'The label binds <strong>no text style</strong>: a loose 28/36. Neither the Rubik scale nor the Game scale has a 28. It renders in capitals through <code>textCase: UPPER</code> on the node.',
     '<strong>Radius 48 is this component\'s alone.</strong> The library radius scale is 4, 8, 12, 24 and Full; 48 appears on nothing else in the file, and at 116 tall it is not Full either (that would be 58). Left as a number.',
+  ],
+};
+
+export const StackedOption: ComponentModule = {
+  id: 'c-stacked-option', title: 'Stacked — Option', group: 'Game', figma: '14283:40589',
+  description: '340 × 68 — the answer chip on the Stacked play screen, and the empty slot it drops into.',
+  tokens: {
+    colour: ['TV/Background/Stacked', 'TV/Base/Light', 'TV/Border/White 20', 'TV/Game UI/Yellow', 'TV/Base/Dark'],
+    type: [],
+  },
+  wide: true,
+  variants: [
+    { label: 'Default', el: () => h(`<div class="c-sopt">Piano/keyboard</div>`) },
+    { label: 'Empty', el: () => h(`<div class="c-sopt c-sopt--empty"></div>`) },
+    { label: 'Focus', el: () => h(`<div class="c-sopt c-sopt--focus">bagpipes</div>`) },
+    { label: 'Focus while selecting', el: () => h(`<div class="c-sopt-sel">
+        <div class="c-sopt c-sopt--focus">bagpipes</div>
+        <span class="c-sopt-sel__arrows"><i class="up"></i><i class="down"></i></span>
+      </div>`) },
+  ],
+  notes: [
+    '<strong>The radius is 32 in every state, and it is not a pill.</strong> At 68 tall a pill would be 34 and at 76 it would be 38, so the chip is a hair squarer than fully round — close enough to read as a pill and different enough to measure. It is the one radius in the file that is neither on the scale nor obviously its own number.',
+    '<strong><code>Focus</code> grows the chip</strong>, from 340 × 68 to 360 × 76, and doubles the stroke from 4 to 8. Both strokes are <code>OUTSIDE</code>, so the chip does not shrink its own content when it takes focus — but the 20 × 8 growth does move everything around it.',
+    '<strong><code>Empty</code> is a slot, not a disabled chip</strong>: no fill, and the white-20 stroke is <strong>dashed 8/8</strong>. It is the only dashed stroke in the component library.',
+    'Two glows, both <code>DROP_SHADOW</code> at offset 0: black at radius 40 on the resting chip, and <strong><code>#FFF600</code> at 60% and radius 18 on focus</strong> — a yellow that is not <code>Game UI/Yellow</code> (<code>#CAA512</code>, which the stroke uses) and binds no token.',
+    '<strong><code>Focus while selecting</code> is the focused chip plus the arrows</strong>, 37 × 72 at its right with 24 of gap: up at <code>White 20</code>, down at <code>Game UI/Yellow</code>. They say which way the remote will move the block, and they are the only thing that distinguishes the two focus states.',
+    'The label is <strong>Rubik SemiBold 24</strong> in <code>Base/Dark</code>, upper case through <code>textCase</code> on the node — the file stores it as <em>Piano/keyboard</em>. It binds no text style; the Rubik scale has no SemiBold 24.',
   ],
 };
 

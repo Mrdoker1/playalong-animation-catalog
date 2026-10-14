@@ -14,7 +14,9 @@ const CSS = `
 .preview-si-results__cell {
   position: absolute; width: 180px; height: 32px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 999px;
+  /* Stacked - Answer is radius 48 on a 116-tall cell -- 0.41 of its height, not
+     a pill. These preview cells are 32 tall, so 13. */
+  border-radius: 13px;
   font-weight: 600; font-size: 11px; letter-spacing: .02em; text-transform: uppercase; color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.45);
 }
@@ -35,16 +37,16 @@ const CSS = `
 /* Su's rows are ringed too -- outline only, no fill, because the block itself
    is in the show video and we draw over it. Green on a match, red on a miss,
    the same rule our own column follows. */
-.preview-si-results__cell.su.match { border-color: ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
-.preview-si-results__cell.su.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #ff2a2a66; }
+.preview-si-results__cell.su.match { border-color: ${SI.win}; box-shadow: 0 0 10px #8CFF4F66; }
+.preview-si-results__cell.su.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #FF000066; }
 /* Our blocks are TV/Background/Stacked -- a light gradient with DARK text --
    not a flat blue. Figma fills every Stacked - Answer with it. */
 .preview-si-results__cell.mine {
   background: var(--gradient-tv-background-stacked);
   color: ${SI.ink}; text-shadow: none; border: 4px solid #fff; }
 .preview-si-results__cell.mine.hide  { opacity: 0; transform: translateX(-20px); }
-.preview-si-results__cell.mine.match { border-color: ${SI.win}; box-shadow: 0 0 10px #7bff3c66; }
-.preview-si-results__cell.mine.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #ff2a2a66; }
+.preview-si-results__cell.mine.match { border-color: ${SI.win}; box-shadow: 0 0 10px #8CFF4F66; }
+.preview-si-results__cell.mine.miss  { border-color: ${SI.miss}; box-shadow: 0 0 10px #FF000066; }
 .preview-si-results__count {
   position: absolute; left: 50%; top: 298px; transform: translateX(-50%);
   font-weight: 700; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; color: #fff;
@@ -83,7 +85,7 @@ function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
 function frameRows(slot: HTMLElement, opts: { screen: number; mine: number; count: boolean }) {
   const pill = (bg: string, border: string, text: string, extra = '') => `
-    <div style="height:12px;border-radius:999px;background:${bg};border:${border};box-sizing:border-box;
+    <div style="height:12px;border-radius:5px;background:${bg};border:${border};box-sizing:border-box;
       font:600 6px ${SI.font};color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;${extra}">${text}</div>`;
   const rows = [0, 1, 2].map((r) => {
     const shown = r < opts.mine;
@@ -183,15 +185,15 @@ export const ResultsReveal: AnimationModule = {
 .si-screen        { opacity: 0; transition: opacity ${ms(T.screenFade)}ms ${ez}; pointer-events: none; }
 .si-screen--show  { opacity: 1; pointer-events: auto; }
 
-.si-mine          { background: ${SI.mine}; border: .63cqw solid #fff; border-radius: 999px;
+.si-mine          { background: ${SI.mine}; border: .63cqw solid #fff; border-radius: 2.5cqw;
                     transition: opacity ${duration}ms ${ez}, transform ${duration}ms ${ez},
                                 border-color ${duration}ms ${ez}, box-shadow ${duration}ms ${ez}; }
 .si-mine--hide    { opacity: 0; transform: translateX(-2cqw); }
-.si-mine--match   { border-color: ${SI.win};  box-shadow: 0 0 1cqw #7bff3c66; }
-.si-mine--miss    { border-color: ${SI.miss}; box-shadow: 0 0 1cqw #ff2a2a66; }
+.si-mine--match   { border-color: ${SI.win};  box-shadow: 0 0 1cqw #8CFF4F66; }
+.si-mine--miss    { border-color: ${SI.miss}; box-shadow: 0 0 1cqw #FF000066; }
 
-.si-su--match     { border: .63cqw solid ${SI.win}; border-radius: 999px;
-                    box-shadow: 0 0 1cqw #7bff3c66; background: none; }
+.si-su--match     { border: .63cqw solid ${SI.win}; border-radius: 2.5cqw;
+                    box-shadow: 0 0 1cqw #8CFF4F66; background: none; }
 
 .si-count         { opacity: 0; transition: opacity ${ms(T.countFade)}ms ${ez}; }
 .si-count--on     { opacity: 1; }
