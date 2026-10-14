@@ -188,8 +188,8 @@ export const AnswerBox: ComponentModule = {
   id: 'c-answer-box', title: 'Answer Box', group: 'Game', figma: '2565:2734',
   description: '768 × 317 — how many answers are found, then the one being given. The 1% Club, Match Game and Family Feud all post questions through it.',
   tokens: {
-    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Yellow', 'TV/Button/Primary Solid'],
-    type: ['Game/S', 'Game/M'],
+    colour: ['TV/Transparent/Dark 80', 'TV/Border/White 20', 'TV/Base/Light', 'TV/Game UI/Yellow'],
+    type: ['Game/S', 'Game/M', 'Display/L', 'Display/M'],
   },
   wide: true,
   variants: [
@@ -199,9 +199,13 @@ export const AnswerBox: ComponentModule = {
   ],
   notes: [
     '<strong>The count is two sizes and two colours in one line</strong>: <em>FOUND</em> at 32 in white, <em>2/5</em> at 40 in <code>Game UI/Yellow</code>, sharing a baseline.',
-    'The answer is <strong>64px, dropping to 48 when it does not fit on one line</strong> — which is what the <code>Two Lines</code> variant is. A size change, drawn as a separate variant rather than as text that wraps.',
+    '<strong>The answer is Rubik, not the game font</strong> — <code>Display/L</code> at 64, dropping to <code>Display/M</code> at 48 when it does not fit on one line, which is what the <code>Two Lines</code> variant is. A size change drawn as a separate variant rather than as text that wraps. It was built here in Roboto Condensed; re-read 2026-10-14, that was wrong, and it makes this the one game panel whose content is in the product typeface.',
+    '<code>Display/L</code> is 64<strong>/88</strong> but the node is 45 tall, so the style\'s leading is not what the frame lays out on. Rebuilt on the measured box, not the style — on the style the glow below sits 43px too low.',
+    '<strong><code>Two Lines</code> may render on one here.</strong> The text box is the file\'s 624 and the string is the file\'s, but Figma breaks it after <em>…OPQ</em> and a browser decides on its own metrics. The break is <strong>not</strong> forced, because forcing it would hide the real question — whether 20 characters at 48 fit — behind a hard-coded newline.',
     'The placeholder reads <code>Answer...</code> in three full stops rather than an ellipsis, dimmed. The same three-dot habit as the loading sentence.',
-    'The blue rule under the answer is a raster glow in the file, bound to no token. Rebuilt in CSS from <code>Primary Solid</code> so it recolours; the file\'s is a picture.',
+    '<strong>The rule under the answer is a picture</strong>: <code>image 171</code>, a 756 × 110 PNG absolutely positioned over the panel — an ellipse of light behind a hairline, widest at the centre. It was rebuilt here as a CSS gradient with a box-shadow, which did not read like the frame; the export is used now. It binds no token and cannot recolour.',
+    '<strong>The picture is not centred, and it is not centred differently in each variant</strong>: 756 wide in a 768 box, at x 0 on <code>Typed</code> and <code>Two Lines</code> and x 6 on <code>Default</code>. Drawn at x 0 here. <strong>A file slip</strong> — 6 on each side is what it looks like it wants.',
+    'A <code>BACKGROUND_BLUR: 20</code> sits on the frame holding the answer. Nothing is behind it inside the component, so it only does anything over the video — which is where this panel lives.',
   ],
 };
 
@@ -308,23 +312,32 @@ injectStyle('css-c-last', `
 .c-attempts__row--hit  { color: var(--tv-game-ui-green-1); }
 .c-attempts__row--miss { color: var(--tv-game-ui-red-2); }
 
-.c-abox { width: 768px; height: 317px; box-sizing: border-box; border-radius: 24px;
-  padding: 40px; background: var(--tv-transparent-dark-80);
+.c-abox { position: relative; width: 768px; height: 317px; box-sizing: border-box;
+  border-radius: 24px; padding: 40px; background: var(--tv-transparent-dark-80);
   border: 1px solid var(--tv-border-white-20);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 33px; color: var(--tv-base-light); }
 .c-abox__found { display: flex; align-items: baseline; gap: 8px; text-transform: uppercase;
   font-family: var(--type-game-s-family); font-weight: var(--type-game-s-weight);
-  font-size: 32px; }
+  font-size: 32px; height: 38px; }
 .c-abox__found b { font-size: 40px; color: var(--tv-game-ui-yellow); font-weight: inherit; }
-.c-abox__value { font-family: var(--type-game-m-family); font-weight: var(--type-game-m-weight);
-  font-size: 64px; line-height: 1.1; text-align: center; }
-.c-abox__value--two { font-size: 48px; }
+/* The answer is Rubik, not the game font. It binds Display/L -- 64/88 -- but the
+   node is 45 tall, so the style's leading is not what the frame lays out on.
+   Set to the measured box height instead, or the glow below lands 43px low. */
+.c-abox__value { display: flex; align-items: center; justify-content: center;
+  width: 688px; height: 100px; box-sizing: border-box; padding: 0 32px;
+  font-family: var(--type-display-l-family); font-weight: var(--type-display-l-weight);
+  font-size: 64px; line-height: 45px; text-align: center; }
+.c-abox__value--two { font-size: 48px; line-height: 41px; }
 .c-abox__value--ph { color: var(--tv-text-muted); }
-/* The blue rule under the answer is an image in the file; drawn as the glow it is. */
-.c-abox__rule { width: 624px; height: 2px; border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--tv-button-primary-solid), transparent);
-  box-shadow: 0 0 24px 6px rgb(0 144 255 / .45); }
+/* The rule under the answer is a RASTER in the file -- image 171, a 756 x 110
+   PNG absolutely positioned over the panel, not a line with a shadow. It was
+   drawn here as a CSS gradient and did not read like the frame: the file's glow
+   is an ellipse of light behind a hairline, widest at the centre. Exported from
+   Figma at 2x and placed at the file's coordinates. */
+.c-abox__rule { position: absolute; left: 0; top: 196px; width: 756px; height: 110px;
+  background: url('assets/components/answer-glow.png') center/100% 100% no-repeat;
+  pointer-events: none; }
 
 .c-gkb { box-sizing: border-box; border-radius: 24px; padding: 40px;
   background: var(--tv-transparent-dark-80); border: 1px solid var(--tv-border-white-20);
